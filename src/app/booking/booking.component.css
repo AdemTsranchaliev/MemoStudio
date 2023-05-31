@@ -1,0 +1,26 @@
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  ::ng-deep .mat-form-field-underline {
+    display: none;
+  }
+  .not-active-tab{
+    color: #6f42c1 !important;
+    cursor: pointer  !important;
+  }
+  .primary-background{
+    background-color: #dddddd !important;
+  }
+  .cdk-overlay-pane {
+    min-width: 200px !important;
+  }
+    .mat-select-panel {
+        min-width: auto !important;
+    }
+    

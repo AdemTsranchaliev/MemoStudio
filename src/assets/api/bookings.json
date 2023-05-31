@@ -1,0 +1,42 @@
+[
+    {
+        "name":"Ivna Ivanow",
+        "phone":"Iwo Andonow",
+        "year":2023,
+        "month":5,
+        "day":24,
+        "hour":10,
+        "minutes":0,
+        "cancelled": false
+    },
+    {
+        "name":"Ivna Ivanow",
+        "phone":"Iwo Andonow",
+        "year":2023,
+        "month":5,
+        "day":24,
+        "hour":11,
+        "minutes":0,
+        "cancelled": false
+    },
+    {
+        "name":"Ivna Ivanow",
+        "phone":"Iwo Andonow",
+        "year":2023,
+        "month":5,
+        "day":24,
+        "hour":12,
+        "minutes":0,
+        "cancelled": false
+    },
+    {
+        "name":"Ivna Ivanow",
+        "phone":"Iwo Andonow",
+        "year":2023,
+        "month":5,
+        "day":24,
+        "hour":13,
+        "minutes":0,
+        "cancelled": false
+    }
+]
