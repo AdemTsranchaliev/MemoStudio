@@ -1,44 +1,46 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { Booking } from '../models/booking.model';
-import { startWith, map, concatMap } from 'rxjs/operators';
-import { BookingService } from '../shared/services/booking.service';
+import { HttpClient } from "@angular/common/http";
+import { Component, OnInit } from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { Observable } from "rxjs";
+import { Booking } from "../models/booking.model";
+import { startWith, map, concatMap } from "rxjs/operators";
+import { BookingService } from "../shared/services/booking.service";
+import { User } from "../models/user.model";
+import { BookingDto } from "./booking-dto-model";
 
 declare const $: any;
 @Component({
-  selector: 'app-booking',
-  templateUrl: './booking.component.html',
-  styleUrls: ['./booking.component.css'],
+  selector: "app-booking",
+  templateUrl: "./booking.component.html",
+  styleUrls: ["./booking.component.css"],
 })
 export class BookingComponent implements OnInit {
   months: string[] = [
-    'Януари',
-    'Февруари',
-    'Март',
-    'Април',
-    'Май',
-    'Юни',
-    'Юли',
-    'Август',
-    'Септември',
-    'Октомври',
-    'Ноември',
-    'Декември',
+    "Януари",
+    "Февруари",
+    "Март",
+    "Април",
+    "Май",
+    "Юни",
+    "Юли",
+    "Август",
+    "Септември",
+    "Октомври",
+    "Ноември",
+    "Декември",
   ];
 
+  isAddClicked = false;
   selectedHour: string;
   selectedPhone: string;
-  myControl = new FormControl('');
-  options: User[] = [
-    { name: 'Атанас Андреев', phone: '0890000000' },
-    { name: 'Иван Иванов', phone: '0890000000' },
-    { name: 'Георги Георгиев', phone: '0890000000' },
-  ];
+  nameControl = new FormControl("");
+  phoneControl = new FormControl("");
+  options: User[] = [];
+  selectedUserId: number;
 
   deleteBookingId: string;
   filteredOptions: Observable<User[]>;
+  filteredPhoneOptions: Observable<User[]>;
   public error: number = -1;
   public selectedDuration: number = 1;
   public date = new Date();
@@ -58,23 +60,41 @@ export class BookingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.http.get<Booking[]>('assets/api/bookings.json').subscribe((x) => {
-      //this.bookings = x;
-    });
-
-    $('.year').html(this.date.getFullYear());
+    this.http
+      .get<User[]>("https://localhost:7190/User/getAllUsers")
+      .subscribe((x) => {
+        this.options = x;
+      });
+    $(".year").html(this.date.getFullYear());
 
     this.monthClick(this.date.getMonth());
     this.dateClick(this.date.getDate());
     this.initCalendar(this.date);
 
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
+    this.filteredOptions = this.nameControl.valueChanges.pipe(
+      startWith(""),
       map((value) => {
-        const name = typeof value === 'string' ? value : value?.name;
+        const name = typeof value === "string" ? value : value?.name;
         return name ? this._filter(name as string) : this.options.slice();
       })
     );
+
+    this.filteredPhoneOptions = this.phoneControl.valueChanges.pipe(
+      startWith(""),
+      map((value) => {
+        const phone = typeof value === "string" ? value : value?.phone;
+        return phone
+          ? this._filterPhone(phone as string)
+          : this.options.slice();
+      })
+    );
+  }
+
+  public onOptionSelected(event: any): void {
+    var selectedValue: User = event.option.value;
+    this.phoneControl.setValue(selectedValue.phone);
+    this.nameControl.setValue(selectedValue.name);
+    this.selectedUserId = parseInt(selectedValue.id);
   }
 
   public initCalendar(date: Date): void {
@@ -116,46 +136,53 @@ export class BookingComponent implements OnInit {
 
   public dateClick(day: number) {
     this.date.setDate(day);
-    this.bookingsOrigin = this.bookingService.getReservationForDate(this.date);
-    this.bookings = [...this.bookingsOrigin];
+    console.log(this.date.toDateString() )
+    console.log(this.date )
+    this.http
+      .get<Booking[]>(
+        `https://localhost:7190/Booking/${this.date.toDateString()}/get`
+      )
+      .subscribe((x) => {
+        this.bookingsOrigin = x;
+        this.bookings = x;
 
-    $('.events-container').show(250);
-    $('#dialog').hide(250);
-    $('.active-date').removeClass('active-date');
+        this.showReservations(1);
+      });
+    $(".events-container").show(250);
+    $("#dialog").hide(250);
+    $(".active-date").removeClass("active-date");
 
-    $(this).addClass('active-date');
-
-    this.showReservations(1);
+    $(this).addClass("active-date");
   }
 
   public monthClick(month: number) {
-    $('.events-container').show(250);
-    $('#dialog').hide(250);
-    $('.active-month').removeClass('active-month');
-    $('#' + month).addClass('active-month');
+    $(".events-container").show(250);
+    $("#dialog").hide(250);
+    $(".active-month").removeClass("active-month");
+    $("#" + month).addClass("active-month");
 
     this.date.setMonth(month);
     this.initCalendar(this.date);
   }
 
   public nextYear() {
-    $('#dialog').hide(250);
+    $("#dialog").hide(250);
     const newYear = this.date.getFullYear() + 1;
-    $('.year').html(newYear);
+    $(".year").html(newYear);
     this.date.setFullYear(newYear);
     this.initCalendar(this.date);
   }
 
   public prevYear() {
-    $('#dialog').hide(250);
+    $("#dialog").hide(250);
     const newYear = this.date.getFullYear() - 1;
-    $('.year').html(newYear);
+    $(".year").html(newYear);
     this.date.setFullYear(newYear);
     this.initCalendar(this.date);
   }
 
   public newEvent(preDefinedHour: string) {
-    if ($('.active-date').length === 0) {
+    if ($(".active-date").length === 0) {
       return;
     }
 
@@ -163,32 +190,39 @@ export class BookingComponent implements OnInit {
       this.selectedHour = preDefinedHour;
     }
 
-    $('input').click(function () {
-      $().removeClass('error-input');
+    $("input").click(function () {
+      $().removeClass("error-input");
     });
 
-    $('#dialog input[type=text]').val('');
-    $('#dialog input[type=number]').val('');
-    $('.events-container').hide(250);
-    $('#dialog').show(250);
+    $("#dialog input[type=text]").val("");
+    $("#dialog input[type=number]").val("");
+    $(".events-container").hide(250);
+    $("#dialog").show(250);
   }
 
   public cancelEvent() {
-    this.myControl.setValue('');
+    this.nameControl.setValue("");
+    this.phoneControl.setValue("");
     this.selectedPhone = null;
     this.selectedHour = null;
-    $('#name').removeClass('error-input');
-    $('#count').removeClass('error-input');
-    $('#dialog').hide(250);
-    $('.events-container').show(250);
+    $("#name").removeClass("error-input");
+    $("#count").removeClass("error-input");
+    $("#dialog").hide(250);
+    $(".events-container").show(250);
   }
 
   public removeBooking() {
-    this.bookingService.removeReservation(this.deleteBookingId);
+    this.http
+      .delete(`https://localhost:7190/Booking/${this.deleteBookingId}`)
+      .subscribe(x=>{
 
-    this.bookingsOrigin = this.bookingService.getReservationForDate(this.date);
-    this.bookings = [...this.bookingsOrigin];
-    this.showReservations(1);
+        this.bookingsOrigin = this.bookingService.getReservationForDate(
+          this.date,
+          this.bookingsOrigin
+        );
+        this.bookings = [...this.bookingsOrigin];
+        this.showReservations(1);
+      });
   }
 
   public openRemoveBookingConfirmation(id: string) {
@@ -197,11 +231,12 @@ export class BookingComponent implements OnInit {
 
   public addEvent() {
     if (
-      this.myControl.value === null ||
-      this.selectedPhone === null ||
+      this.nameControl.value === null ||
+      this.phoneControl.value === null ||
+      this.selectedUserId === null ||
       this.selectedHour == null ||
-      this.myControl.value === '' ||
-      this.selectedPhone === ''
+      this.nameControl.value === "" ||
+      this.phoneControl.value === ""
     ) {
       this.raiseError = true;
       return;
@@ -210,14 +245,14 @@ export class BookingComponent implements OnInit {
     }
 
     let date = this.date;
-    let name = this.myControl.value.trim();
-    let phone = this.selectedPhone.trim();
-    let day = parseInt($('.active-date').html());
+    let name = this.nameControl.value.trim();
+    let phone = this.phoneControl.value.trim();
+    let day = parseInt($(".active-date").html());
 
-    let hour = parseInt(this.selectedHour.split(':')[0]);
-    let minutes = parseInt(this.selectedHour.split(':')[1]);
+    let hour = parseInt(this.selectedHour.split(":")[0]);
+    let minutes = parseInt(this.selectedHour.split(":")[1]);
 
-    $('#dialog').hide(250);
+    $("#dialog").hide(250);
 
     let resultOfEmptyHoursCheck = this.checkIfNextHourEmpty(
       hour,
@@ -227,12 +262,12 @@ export class BookingComponent implements OnInit {
     if (resultOfEmptyHoursCheck == 1) {
       this.error = 1;
       alert(
-        'Няма достатъчно свободни часове, моля променете продължителността или часа на резервация'
+        "Няма достатъчно свободни часове, моля променете продължителността или часа на резервация"
       );
     } else if (resultOfEmptyHoursCheck == 2) {
       this.error = 2;
       alert(
-        'Няма достатъчно свободни часове, моля променете продължителността или часа на резервация'
+        "Няма достатъчно свободни часове, моля променете продължителността или часа на резервация"
       );
     } else {
       this.error = -1;
@@ -248,9 +283,11 @@ export class BookingComponent implements OnInit {
         }
       }
 
-      this.myControl.setValue('');
+      this.nameControl.setValue("");
+      this.phoneControl.setValue("");
       this.selectedPhone = null;
       this.selectedHour = null;
+      this.selectedUserId = null;
     }
 
     date.setDate(day);
@@ -264,16 +301,17 @@ export class BookingComponent implements OnInit {
 
   public checkIfBookingExist(hour) {
     return (
-      this.bookingsOrigin.findIndex(
-        (x) => hour == this.getHour(x.hour, x.minutes)
-      ) != -1
+      this.bookingsOrigin.findIndex((x) => {
+        var ttt = hour == this.getHour(x.hour, x.minutes);
+        return ttt;
+      }) != -1
     );
   }
 
   public getHour(hour: number, minutes: number) {
-    return `${hour.toString().padStart(2, '0')}:${minutes
+    return `${hour.toString().padStart(2, "0")}:${minutes
       .toString()
-      .padStart(2, '0')}`;
+      .padStart(2, "0")}`;
   }
 
   public generateHourArray(): string[] {
@@ -282,9 +320,9 @@ export class BookingComponent implements OnInit {
     let minute: number = 0;
 
     while (hour <= 23) {
-      const timeString: string = `${hour.toString().padStart(2, '0')}:${minute
+      const timeString: string = `${hour.toString().padStart(2, "0")}:${minute
         .toString()
-        .padStart(2, '0')}`;
+        .padStart(2, "0")}`;
       hours.push(timeString);
 
       minute += 30;
@@ -299,36 +337,32 @@ export class BookingComponent implements OnInit {
   public showReservations(id: number) {
     this.listType = id;
     if (id == 1) {
-      $('#busy-res').removeClass('active');
-      $('#busy-res').addClass('not-active-tab');
-      $('#free-res').removeClass('active');
-      $('#free-res').addClass('not-active-tab');
+      $("#busy-res").removeClass("active");
+      $("#busy-res").addClass("not-active-tab");
+      $("#free-res").removeClass("active");
+      $("#free-res").addClass("not-active-tab");
 
-      $('#all-res').removeClass('not-active-tab');
-      $('#all-res').addClass('active');
+      $("#all-res").removeClass("not-active-tab");
+      $("#all-res").addClass("active");
     } else if (id == 2) {
-      $('#busy-res').removeClass('active');
-      $('#busy-res').addClass('not-active-tab');
-      $('#all-res').removeClass('active');
-      $('#all-res').addClass('not-active-tab ');
+      $("#busy-res").removeClass("active");
+      $("#busy-res").addClass("not-active-tab");
+      $("#all-res").removeClass("active");
+      $("#all-res").addClass("not-active-tab ");
 
-      $('#free-res').removeClass('not-active-tab');
-      $('#free-res').addClass('active');
+      $("#free-res").removeClass("not-active-tab");
+      $("#free-res").addClass("active");
     } else if (id == 3) {
-      $('#all-res').removeClass('active');
-      $('#all-res').addClass('not-active-tab');
-      $('#free-res').removeClass('active');
-      $('#free-res').addClass('not-active-tab');
+      $("#all-res").removeClass("active");
+      $("#all-res").addClass("not-active-tab");
+      $("#free-res").removeClass("active");
+      $("#free-res").addClass("not-active-tab");
 
-      $('#busy-res').removeClass('not-active-tab');
-      $('#busy-res').addClass('active');
+      $("#busy-res").removeClass("not-active-tab");
+      $("#busy-res").addClass("active");
     }
 
     this.bookings = this.getBookingsByBusyness(id);
-  }
-
-  displayFn(user: User): string {
-    return user && user.name ? user.name : '';
   }
 
   private getBookingsByBusyness(id: number) {
@@ -337,11 +371,11 @@ export class BookingComponent implements OnInit {
     this.generateHourArray().forEach((x) => {
       if (this.checkIfBookingExist(x) && (id == 1 || id == 3)) {
         temp.push(this.getBooking(x));
-      } else if (id == 1 || id == 2) {
+      } else if (!this.checkIfBookingExist(x) && (id == 1 || id == 2)) {
         let freeBook: Booking = {
-          id: '-1',
-          name: 'СВОБОДЕН',
-          phone: '',
+          id: "-1",
+          name: "СВОБОДЕН",
+          phone: "",
           year: this.date.getFullYear(),
           month: this.date.getMonth(),
           day: this.date.getDate(),
@@ -358,18 +392,17 @@ export class BookingComponent implements OnInit {
   }
 
   getHourByString(value: string) {
-    return parseInt(value.split(':')[0]);
+    return parseInt(value.split(":")[0]);
   }
 
   getMinutesByString(value: string) {
-    return parseInt(value.split(':')[1]);
+    return parseInt(value.split(":")[1]);
   }
 
   private getBooking(hour) {
     let index = this.bookingsOrigin.findIndex(
       (x) => hour == this.getHour(x.hour, x.minutes)
     );
-
     return this.bookingsOrigin[index];
   }
 
@@ -382,7 +415,7 @@ export class BookingComponent implements OnInit {
     }
 
     for (let i = 0; i < count; i++) {
-      if (this.bookings[index].id != '-1') {
+      if (this.bookings[index].id != "-1") {
         return 1;
       }
       index++;
@@ -412,17 +445,17 @@ export class BookingComponent implements OnInit {
       free: false,
       freeHour: null,
     };
-    let data = localStorage.getItem('myData');
-    if (!data) {
-      var bookingsArr: Booking[] = [newEvent];
-      let result = JSON.stringify(bookingsArr);
-      localStorage.setItem('myData', result);
-    } else {
-      let item: Booking[] = JSON.parse(data!);
-      item.push(newEvent);
-      let result = JSON.stringify(item);
-      localStorage.setItem('myData', result);
-    }
+    var specificDate: Date = new Date(newEvent.year, newEvent.month, day);
+    specificDate.setHours(hour);
+    specificDate.setMinutes(minutes);
+
+    var dto: BookingDto = {
+      dateTime: specificDate,
+      userId: this.selectedUserId,
+      employeeId: parseInt(localStorage.getItem("clientId")),
+    };
+
+    this.http.post("https://localhost:7190/Booking/add", dto).subscribe();
   }
 
   private _filter(name: string): User[] {
@@ -433,15 +466,23 @@ export class BookingComponent implements OnInit {
     );
   }
 
+  private _filterPhone(name: string): User[] {
+    const filterValue = name.toLowerCase();
+    var result = this.options.filter((option) =>
+      option.phone.toLowerCase().startsWith(filterValue)
+    );
+    return result;
+  }
+
   private generateGuidString(): string {
-    const hexDigits = '0123456789abcdef';
-    let guid = '';
+    const hexDigits = "0123456789abcdef";
+    let guid = "";
 
     for (let i = 0; i < 32; i++) {
       const randomIndex = Math.floor(Math.random() * hexDigits.length);
       guid += hexDigits[randomIndex];
       if (i === 7 || i === 11 || i === 15 || i === 19) {
-        guid += '-';
+        guid += "-";
       }
     }
 
@@ -453,9 +494,4 @@ export class BookingComponent implements OnInit {
     const monthEnd: Date = new Date(year, month + 1, 1);
     return (monthEnd.getTime() - monthStart.getTime()) / (1000 * 60 * 60 * 24);
   }
-}
-
-export interface User {
-  name: string;
-  phone: string;
 }

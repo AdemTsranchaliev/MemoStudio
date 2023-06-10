@@ -14,9 +14,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { AutocompleteComponent } from './shared/autocomplete/autocomplete.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BookingService } from './shared/services/booking.service';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
-  declarations: [AppComponent, BookingComponent, AutocompleteComponent],
+  declarations: [AppComponent, BookingComponent, AutocompleteComponent, LoginComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
