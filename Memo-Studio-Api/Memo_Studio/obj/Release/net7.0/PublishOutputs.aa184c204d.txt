@@ -1,0 +1,13 @@
+/Applications/XAMPP/xamppfiles/htdocs/memo/Memo_Studio
+/Applications/XAMPP/xamppfiles/htdocs/memo/appsettings.Development.json
+/Applications/XAMPP/xamppfiles/htdocs/memo/appsettings.json
+/Applications/XAMPP/xamppfiles/htdocs/memo/Memo_Studio.dll
+/Applications/XAMPP/xamppfiles/htdocs/memo/Memo_Studio.deps.json
+/Applications/XAMPP/xamppfiles/htdocs/memo/Memo_Studio.runtimeconfig.json
+/Applications/XAMPP/xamppfiles/htdocs/memo/Memo_Studio.pdb
+/Applications/XAMPP/xamppfiles/htdocs/memo/Microsoft.AspNetCore.OpenApi.dll
+/Applications/XAMPP/xamppfiles/htdocs/memo/Microsoft.OpenApi.dll
+/Applications/XAMPP/xamppfiles/htdocs/memo/Newtonsoft.Json.dll
+/Applications/XAMPP/xamppfiles/htdocs/memo/Swashbuckle.AspNetCore.Swagger.dll
+/Applications/XAMPP/xamppfiles/htdocs/memo/Swashbuckle.AspNetCore.SwaggerGen.dll
+/Applications/XAMPP/xamppfiles/htdocs/memo/Swashbuckle.AspNetCore.SwaggerUI.dll

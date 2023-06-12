@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Memo_Studio_Worker": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true
+    }
+  }
+}

@@ -1,0 +1,14 @@
+/Users/adem_tsranchaliev/Projects/Memo_Studio/Memo_Studio_Library/bin/Debug/net6.0/Memo_Studio_Library.deps.json
+/Users/adem_tsranchaliev/Projects/Memo_Studio/Memo_Studio_Library/bin/Debug/net6.0/Memo_Studio_Library.runtimeconfig.json
+/Users/adem_tsranchaliev/Projects/Memo_Studio/Memo_Studio_Library/bin/Debug/net6.0/Memo_Studio_Library.dll
+/Users/adem_tsranchaliev/Projects/Memo_Studio/Memo_Studio_Library/bin/Debug/net6.0/Memo_Studio_Library.pdb
+/Users/adem_tsranchaliev/Projects/Memo_Studio/Memo_Studio_Library/obj/Debug/net6.0/Memo_Studio_Library.csproj.AssemblyReference.cache
+/Users/adem_tsranchaliev/Projects/Memo_Studio/Memo_Studio_Library/obj/Debug/net6.0/Memo_Studio_Library.GeneratedMSBuildEditorConfig.editorconfig
+/Users/adem_tsranchaliev/Projects/Memo_Studio/Memo_Studio_Library/obj/Debug/net6.0/Memo_Studio_Library.AssemblyInfoInputs.cache
+/Users/adem_tsranchaliev/Projects/Memo_Studio/Memo_Studio_Library/obj/Debug/net6.0/Memo_Studio_Library.AssemblyInfo.cs
+/Users/adem_tsranchaliev/Projects/Memo_Studio/Memo_Studio_Library/obj/Debug/net6.0/Memo_Studio_Library.csproj.CoreCompileInputs.cache
+/Users/adem_tsranchaliev/Projects/Memo_Studio/Memo_Studio_Library/obj/Debug/net6.0/Memo_Studio_Library.dll
+/Users/adem_tsranchaliev/Projects/Memo_Studio/Memo_Studio_Library/obj/Debug/net6.0/refint/Memo_Studio_Library.dll
+/Users/adem_tsranchaliev/Projects/Memo_Studio/Memo_Studio_Library/obj/Debug/net6.0/Memo_Studio_Library.pdb
+/Users/adem_tsranchaliev/Projects/Memo_Studio/Memo_Studio_Library/obj/Debug/net6.0/Memo_Studio_Library.genruntimeconfig.cache
+/Users/adem_tsranchaliev/Projects/Memo_Studio/Memo_Studio_Library/obj/Debug/net6.0/ref/Memo_Studio_Library.dll

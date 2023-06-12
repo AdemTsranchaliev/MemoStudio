@@ -1,0 +1,13 @@
+/Users/adem_tsranchaliev/Desktop/Memo_Studio
+/Users/adem_tsranchaliev/Desktop/appsettings.Development.json
+/Users/adem_tsranchaliev/Desktop/appsettings.json
+/Users/adem_tsranchaliev/Desktop/Memo_Studio.dll
+/Users/adem_tsranchaliev/Desktop/Memo_Studio.deps.json
+/Users/adem_tsranchaliev/Desktop/Memo_Studio.runtimeconfig.json
+/Users/adem_tsranchaliev/Desktop/Memo_Studio.pdb
+/Users/adem_tsranchaliev/Desktop/Microsoft.AspNetCore.OpenApi.dll
+/Users/adem_tsranchaliev/Desktop/Microsoft.OpenApi.dll
+/Users/adem_tsranchaliev/Desktop/Newtonsoft.Json.dll
+/Users/adem_tsranchaliev/Desktop/Swashbuckle.AspNetCore.Swagger.dll
+/Users/adem_tsranchaliev/Desktop/Swashbuckle.AspNetCore.SwaggerGen.dll
+/Users/adem_tsranchaliev/Desktop/Swashbuckle.AspNetCore.SwaggerUI.dll
