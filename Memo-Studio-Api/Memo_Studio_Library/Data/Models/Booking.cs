@@ -20,6 +20,8 @@ namespace Memo_Studio_Library.Models
         public bool Canceled { get; set; }
 
 		public int EmployeeId { get; set; }
+
+		public string ReservationId { get; set; }
 	}
 }
 

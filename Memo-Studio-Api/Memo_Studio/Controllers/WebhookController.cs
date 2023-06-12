@@ -43,7 +43,8 @@ namespace YourNamespace.Controllers
 
                     if (!isUserExist)
                     {
-                        messageService.SendMessage(userViberId, "Здравейте, вие се абонирахте за канала от който ще получавате напомняния за часове. \n Моля въведете вашето име и фамилия, \nНА КИРИЛИЦА(пример \"Иван Иванов\").");
+                        var responseOne = messageService.SendMessage(userViberId, "Здравейте, вие се абонирахте за канала от който ще получавате напомняния за резервираните си часове.\nМоля въведете вашето име и фамилия,\nНА КИРИЛИЦА(пример \"Иван Иванов\").");
+                        System.Console.WriteLine($"Greeting response: {responseOne}");
                     }
 
                 }
@@ -71,13 +72,16 @@ namespace YourNamespace.Controllers
                                 model.Name = message;
                                 var isUserExist = userService.AddUser(model);
 
-                                messageService.SendMessage(userViberId, "Моля въведете вашия телефонен номер, започващ с '0', а не с '+359'(пример \"0892693877\")");
+                                var responseName = messageService.SendMessage(userViberId, "Моля въведете вашия телефонен номер, започващ с '0', а не с '+359'(пример \"0892693877\")");
+                                System.Console.WriteLine($"Name response: {responseName} - {message}");
+
                             }
                             else
                             {
-                                messageService.SendMessage(userViberId, "Грешен формат! Моля опитайте отново. (пример \"Иван Иванов\")");
+                                var responseNameError = messageService.SendMessage(userViberId, "Грешен формат! Моля опитайте отново. (пример \"Иван Иванов\")");
+                                System.Console.WriteLine($"Name response: {responseNameError} - {message}");
                             }
-                            
+
                         }
                         else if (user.Phone == null)
                         {
@@ -87,20 +91,18 @@ namespace YourNamespace.Controllers
                             {
                                 model.Phone = message;
                                 var isUserExist = userService.AddUser(model);
-                                messageService.SendMessage(userViberId, $"Благодаря Ви, {user.Name}. Успешно завършихте регистрацията си.");
-
+                                var endMessage = messageService.SendMessage(userViberId, $"Благодаря Ви, {user.Name}. Успешно завършихте регистрацията си.");
+                                System.Console.WriteLine($"Name response: {endMessage} - {message}");
                             }
                             else
                             {
-                                messageService.SendMessage(userViberId, "Грешен формат! Моля опитайте отново. (пример \"0892693877\")");
+                                var endMessageError = messageService.SendMessage(userViberId, "Грешен формат! Моля опитайте отново. (пример \"0892693877\")");
+                                System.Console.WriteLine($"Name response: {endMessageError} - {message}");
                             }
 
                         }
                     }
                 }
-                System.Console.WriteLine(data);
-
-                System.Console.WriteLine(requestBody);
             }
 
             return Ok();

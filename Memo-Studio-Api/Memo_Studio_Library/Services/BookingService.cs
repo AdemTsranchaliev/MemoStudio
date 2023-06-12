@@ -10,7 +10,7 @@ namespace Memo_Studio_Library
 		{
 		}
 
-        public async Task AddBookign(BookingViewModel booking)
+        public async Task<Booking> AddBookign(BookingViewModel booking)
         {
             using (var context = new StudioContext())
             {
@@ -19,14 +19,17 @@ namespace Memo_Studio_Library
                     CreatedOn = DateTime.Now,
                     EmployeeId = booking.EmployeeId,
                     Timestamp = booking.DateTime.ToLocalTime(),
-                    UserId = booking.UserId
+                    UserId = booking.UserId,
+                    ReservationId = booking.ReservationId
                 };
-                await context.Bookings.AddAsync(newBooking);
+                var resut = await context.Bookings.AddAsync(newBooking);
                 await context.SaveChangesAsync();
+
+                return resut.Entity;
             }
         }
 
-        public List<Booking> GetBookingsByDate(DateTime dateTime)
+        public List<Booking> GetBookingsByDate(DateTime dateTime, int clientId)
         {
             using (var context = new StudioContext())
             {
@@ -34,7 +37,7 @@ namespace Memo_Studio_Library
                 var end = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day,23,59,59);
                 return context.Bookings
                     .Include(x => x.User)
-                    .Where(x=>x.Timestamp>= start && x.Timestamp <=end && !x.Canceled).ToList();
+                    .Where(x=>x.Timestamp>= start && x.Timestamp <=end && x.EmployeeId==clientId && !x.Canceled).ToList();
             }
         }
 
@@ -57,13 +60,62 @@ namespace Memo_Studio_Library
             using (var context = new StudioContext())
             {              
                 var model = context.Bookings.FirstOrDefault(x=>x.Id==id);
-                if (model==null)
+                if (model == null)
                 {
                     return;
                 }
-                model.Canceled = true;
-                context.Bookings.Update(model);
+                var allBookings = context.Bookings.Where(x=>x.ReservationId==model.ReservationId);
+
+                await allBookings.ForEachAsync(x => x.Canceled = true);
+
+                context.Bookings.UpdateRange(allBookings);
                 await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<string> GetViberIdByBookingId(int id)
+        {
+            using (var context = new StudioContext())
+            {
+                var booking = await context.Bookings
+                     .Include(x => x.User)
+                     .FirstOrDefaultAsync(x=>x.Id==id);
+
+                if (booking == null || booking.User == null || booking.User.ViberId == null)
+                {
+                    return null;
+                }
+
+                return booking.User.ViberId;
+            }
+        }
+
+        public async Task<Booking> GetBookingByBookingId(int id)
+        {
+            using (var context = new StudioContext())
+            {
+                var booking = await context.Bookings
+                     .Include(x => x.User)
+                     .FirstOrDefaultAsync(x => x.Id == id);
+
+                if (booking == null || booking.User == null || booking.User.ViberId == null)
+                {
+                    return null;
+                }
+
+                return booking;
+            }
+        }
+
+        public async Task<List<Booking>> GetBookingByReservationId(string id)
+        {
+            using (var context = new StudioContext())
+            {
+                var bookings = await context.Bookings
+                     .Where(x => x.ReservationId == id)
+                     .ToListAsync();             
+
+                return bookings;
             }
         }
     }

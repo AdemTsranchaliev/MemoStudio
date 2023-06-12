@@ -9,23 +9,40 @@ namespace Memo_Studio.Controllers
     public class BookingController : ControllerBase
     {
         private readonly IBookingService bookingService;
+        private readonly IMessageService messageService;
 
-        public BookingController(IBookingService bookingService)
+        public BookingController(IBookingService bookingService, IMessageService messageService)
         {
             this.bookingService = bookingService;
+            this.messageService = messageService;
         }
 
         [HttpPost("add")]
         public async Task<IActionResult> AddBooking([FromBody] BookingViewModel booking)
         {
-            await bookingService.AddBookign(booking);
+            if (booking.UserId==null)
+            {
+                return BadRequest();
+            }
+            var allRelatedBookings = await bookingService.GetBookingByReservationId(booking.ReservationId);
+            var bookingModel = await bookingService.AddBookign(booking);
+            var newBooking = await bookingService.GetBookingByBookingId(bookingModel.Id);
+            if (newBooking==null||newBooking.User==null||newBooking.User.ViberId==null)
+            {
+                return BadRequest();
+            }
+
+            if (booking.Index==0)
+            {
+                await messageService.SendMessage(newBooking.User.ViberId, $"Запазихте час за \n*{bookingModel.Timestamp.ToString("yyyy-MM-dd в HH:mm часа")}*");
+            }
             return Ok();
         }
 
-        [HttpGet("{date}/get")]
-        public async Task<IActionResult> AddBooking(DateTime date)
+        [HttpGet("{date}/{userId}/get")]
+        public IActionResult GetBooking(DateTime date,int userId)
         {
-            var bookings = bookingService.GetBookingsByDate(date);
+            var bookings = bookingService.GetBookingsByDate(date,userId);
             var mapedBookings = bookings.Select(x =>
             {
                 return new BookingsResponceViewModel
@@ -47,8 +64,14 @@ namespace Memo_Studio.Controllers
         [HttpDelete("{bookingId}")]
         public async Task<IActionResult> RemoveBooking(int bookingId)
         {
+            var booking = await bookingService.GetBookingByBookingId(bookingId);
+            if (booking == null)
+            {
+                return BadRequest();
+            }
             await bookingService.RemoveBooking(bookingId);
-            
+            await messageService.SendMessage(booking.User.ViberId, $"Вашият час за \n*{booking.Timestamp.ToString("yyyy-MM-dd в HH:mm часа")}* беше отменен.");
+
             return Ok();
         }
     }

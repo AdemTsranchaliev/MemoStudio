@@ -50,7 +50,7 @@ public class Program
         });
         builder.Services.AddViberBotApi(opt =>
         {
-            opt.Token = "50f5951012e7e48f-8318392dd0b0ce5b-7c207c81f387276d";
+            opt.Token = "512bedc7fea7e251-de5bb717e76c1d0e-d34a8a161a86d483";
             opt.Webhook = "https://6e4e-149-62-209-254.ngrok-free.app/Webhook";
         });
         var app = builder.Build();
