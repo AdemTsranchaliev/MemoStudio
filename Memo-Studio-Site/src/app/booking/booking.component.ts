@@ -30,6 +30,7 @@ export class BookingComponent implements OnInit {
     "Декември",
   ];
 
+  loader: boolean = false;
   isAddClicked = false;
   selectedHour: string;
   selectedPhone: string;
@@ -136,23 +137,13 @@ export class BookingComponent implements OnInit {
 
   public dateClick(day: number) {
     this.date.setDate(day);
-    console.log(this.date.toDateString() )
-    console.log(this.date )
-    this.http
-      .get<Booking[]>(
-        `https://localhost:7190/Booking/${this.date.toDateString()}/get`
-      )
-      .subscribe((x) => {
-        this.bookingsOrigin = x;
-        this.bookings = x;
 
-        this.showReservations(1);
-      });
     $(".events-container").show(250);
     $("#dialog").hide(250);
     $(".active-date").removeClass("active-date");
 
     $(this).addClass("active-date");
+    this.showReservations(1);
   }
 
   public monthClick(month: number) {
@@ -214,8 +205,7 @@ export class BookingComponent implements OnInit {
   public removeBooking() {
     this.http
       .delete(`https://localhost:7190/Booking/${this.deleteBookingId}`)
-      .subscribe(x=>{
-
+      .subscribe((x) => {
         this.bookingsOrigin = this.bookingService.getReservationForDate(
           this.date,
           this.bookingsOrigin
@@ -274,7 +264,7 @@ export class BookingComponent implements OnInit {
       let id = this.generateGuidString();
 
       for (let i = 0; i < this.selectedDuration; i++) {
-        this.newEventJson(id, name, phone, date, day, hour, minutes);
+        this.newEventJson(id, name, phone, date, day, hour, minutes, i);
         if (minutes == 30) {
           hour++;
           minutes = 0;
@@ -362,7 +352,16 @@ export class BookingComponent implements OnInit {
       $("#busy-res").addClass("active");
     }
 
-    this.bookings = this.getBookingsByBusyness(id);
+    this.loader = true;
+    this.http
+      .get<Booking[]>(
+        `https://localhost:7190/Booking/${this.date.toDateString()}/${localStorage.getItem('clientId')}/get`
+      )
+      .subscribe((x) => {
+        this.bookingsOrigin = x;
+        this.bookings = this.getBookingsByBusyness(id);
+        this.loader = false;
+      });
   }
 
   private getBookingsByBusyness(id: number) {
@@ -431,7 +430,8 @@ export class BookingComponent implements OnInit {
     date: Date,
     day: number,
     hour: number,
-    minutes: number
+    minutes: number,
+    index: number
   ) {
     let newEvent: Booking = {
       id: id,
@@ -453,9 +453,13 @@ export class BookingComponent implements OnInit {
       dateTime: specificDate,
       userId: this.selectedUserId,
       employeeId: parseInt(localStorage.getItem("clientId")),
+      reservationId: id,
+      index: index
     };
 
-    this.http.post("https://localhost:7190/Booking/add", dto).subscribe();
+    this.http.post("https://localhost:7190/Booking/add", dto).subscribe(x=>{
+      this.showReservations(1);
+    });
   }
 
   private _filter(name: string): User[] {

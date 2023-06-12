@@ -61,7 +61,7 @@
                             <button class="button" id="add-button" (click)='newEvent(null)'>Добави час</button>
                         </div>
                     </div>
-                    <div class="events-container">
+                    <div class="events-container" *ngIf='!loader'>
                         <ul class="nav nav-tabs" style="background-color: white !important;">
                             <li class="nav-item" style="width: 33.33%;">
                                 <p class="nav-link active text-center" aria-current="page" id="all-res"
@@ -97,6 +97,12 @@
                             </div>
                         </div>
                     </div>
+                    <div class="events-container text-primary text-center mt-5" *ngIf='loader'>
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                    </div>
+      
                     <div class="dialog" id="dialog">
                         <h2 class="dialog-header mb-0 mt-0" style="color: black;"> Добави час</h2>
                         <p class="text-center mb-0 ">{{this.date.getDate()}} {{months[date.getMonth()]}}
