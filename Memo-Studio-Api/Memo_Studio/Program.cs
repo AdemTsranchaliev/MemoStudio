@@ -20,17 +20,16 @@ public class Program
         builder.Services.AddControllers();
 
         //builder.Services.AddDbContext<StudioContext>(options =>
-         //  options.UseSqlServer("Server=tcp:127.0.0.1,1433;Database=MemoStudio;MultipleActiveResultSets=true;User=sa;Password=MyPass@word;"));
+        //  options.UseSqlServer("Server=tcp:127.0.0.1,1433;Database=MemoStudio;MultipleActiveResultSets=true;User=sa;Password=MyPass@word;"));
 
         builder.Services.AddCors(options =>
         {
-            options.AddPolicy("AllowAll",
-                builder =>
-                {
-                    builder.AllowAnyOrigin()
-                           .AllowAnyMethod()
-                           .AllowAnyHeader();
-                });
+            options.AddPolicy(name: "AllowAll",
+                              policy =>
+                              {
+                                  policy.WithOrigins("http://localhost:4200",
+                                                      "https://memostudio.000webhostapp.com");
+                              });
         });
         builder.Services.AddSingleton<IUserService,UserService>();
         builder.Services.AddSingleton<IBookingService,BookingService>();

@@ -6,6 +6,6 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>C:\Users\Asus\Documents\GitHub\MemoStudio\Memo-Studio-Api\Memo_Studio\../../../Desktop/pq</_PublishTargetUrl>
-    <History>True|2023-06-13T16:29:46.4735622Z;</History>
+    <History>True|2023-06-13T17:37:45.7356696Z;True|2023-06-13T19:29:46.4735622+03:00;</History>
   </PropertyGroup>
 </Project>
