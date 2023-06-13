@@ -17,8 +17,8 @@ public class Program
                 services.AddSingleton<IMessageService, MessageService>();
                 services.AddViberBotApi(opt =>
                 {
-                    opt.Token = "512bedc7fea7e251-de5bb717e76c1d0e-d34a8a161a86d483";
-                    opt.Webhook = "https://6e4e-149-62-209-254.ngrok-free.app/Webhook";
+                    opt.Token = "512c41111627e49d-d86abfc91904aa48-2c9327d9896269e6";
+                    opt.Webhook = "https://cf12-89-215-182-166.ngrok-free.app/Webhook";
                 });
             })
             .Build();

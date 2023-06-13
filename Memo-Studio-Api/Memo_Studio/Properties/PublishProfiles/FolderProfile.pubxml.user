@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\Asus\Documents\GitHub\MemoStudio\Memo-Studio-Api\Memo_Studio\../../../Desktop</_PublishTargetUrl>
+    <History>True|2023-06-13T14:18:36.4379056Z;True|2023-06-13T17:14:11.6639263+03:00;True|2023-06-13T17:05:15.7047244+03:00;True|2023-06-13T17:03:34.8105600+03:00;True|2023-06-13T17:00:12.2907274+03:00;</History>
+  </PropertyGroup>
+</Project>
