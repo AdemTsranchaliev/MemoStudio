@@ -54,7 +54,7 @@ public class Program
             opt.Webhook = "https://0cad-89-215-182-166.ngrok-free.app/Webhook";
         });
         var app = builder.Build();
-        app.UseCors("AllowAll");
+        app.UseCors("CorsPolicy");
         // Configure the HTTP request pipeline.
 
         // Configure the HTTP request pipeline.
