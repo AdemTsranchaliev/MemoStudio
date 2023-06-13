@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/Users/adem_tsranchaliev/Projects/Memo_Studio/Memo_Studio_Library/Memo_Studio_Library.csproj": {}
+    "C:\\Users\\Asus\\Documents\\GitHub\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\Memo_Studio_Library.csproj": {}
   },
   "projects": {
-    "/Users/adem_tsranchaliev/Projects/Memo_Studio/Memo_Studio_Library/Memo_Studio_Library.csproj": {
+    "C:\\Users\\Asus\\Documents\\GitHub\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\Memo_Studio_Library.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/adem_tsranchaliev/Projects/Memo_Studio/Memo_Studio_Library/Memo_Studio_Library.csproj",
+        "projectUniqueName": "C:\\Users\\Asus\\Documents\\GitHub\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\Memo_Studio_Library.csproj",
         "projectName": "Memo_Studio_Library",
-        "projectPath": "/Users/adem_tsranchaliev/Projects/Memo_Studio/Memo_Studio_Library/Memo_Studio_Library.csproj",
-        "packagesPath": "/Users/adem_tsranchaliev/.nuget/packages/",
-        "outputPath": "/Users/adem_tsranchaliev/Projects/Memo_Studio/Memo_Studio_Library/obj/",
+        "projectPath": "C:\\Users\\Asus\\Documents\\GitHub\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\Memo_Studio_Library.csproj",
+        "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Asus\\Documents\\GitHub\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
+        ],
         "configFilePaths": [
-          "/Users/adem_tsranchaliev/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -87,8 +93,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -97,7 +102,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
