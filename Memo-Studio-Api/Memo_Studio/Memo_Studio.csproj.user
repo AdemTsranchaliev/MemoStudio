@@ -5,7 +5,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <ActiveDebugProfile>https</ActiveDebugProfile>
-    <NameOfLastUsedPublishProfile>C:\Users\Asus\Documents\GitHub\MemoStudio\Memo-Studio-Api\Memo_Studio\Properties\PublishProfiles\FolderProfile 1.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>D:\MemoStudio\Memo-Studio-Api\Memo_Studio\Properties\PublishProfiles\FolderProfile.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>

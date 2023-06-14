@@ -9,7 +9,7 @@ using Memo_Studio_Library;
 namespace YourNamespace.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class WebhookController : ControllerBase
     {
         private readonly IUserService userService;
