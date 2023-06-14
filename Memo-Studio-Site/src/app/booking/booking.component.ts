@@ -12,7 +12,9 @@ declare const $: any;
 const httpOptions = {
   headers:{
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*'
+    'Access-Control-Allow-Origin': '*',
+    'Accept': 'application/json',
+    "ngrok-skip-browser-warning": "69420"
   }
 }
 @Component({
@@ -71,6 +73,7 @@ export class BookingComponent implements OnInit {
       .get<User[]>("https://7b31-89-215-182-166.ngrok-free.app/api/User/getAllUsers",httpOptions)
       .subscribe((x) => {
         this.options = x;
+        console.log(this.options);
       });
     $(".year").html(this.date.getFullYear());
 
@@ -473,14 +476,23 @@ export class BookingComponent implements OnInit {
     const filterValue = name.toLowerCase();
 
     return this.options.filter((option) =>
-      option.name.toLowerCase().includes(filterValue)
+    {
+      if(option.name){
+      return option.name.toLowerCase().includes(filterValue)
+      }
+      return null;
+    }
     );
   }
 
   private _filterPhone(name: string): User[] {
     const filterValue = name.toLowerCase();
-    var result = this.options.filter((option) =>
-      option.phone.toLowerCase().startsWith(filterValue)
+    var result = this.options.filter((option) =>{
+      if(option.phone){
+        return option.phone.toLowerCase().startsWith(filterValue)
+      }
+      return null;
+    }
     );
     return result;
   }
