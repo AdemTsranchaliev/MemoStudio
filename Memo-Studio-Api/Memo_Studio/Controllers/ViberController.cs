@@ -5,7 +5,7 @@ using Viber.Bot.NetCore.RestApi;
 
 namespace Controller.Viber
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ViberController : ControllerBase
     {

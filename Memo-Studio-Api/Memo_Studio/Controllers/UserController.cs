@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Memo_Studio.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {

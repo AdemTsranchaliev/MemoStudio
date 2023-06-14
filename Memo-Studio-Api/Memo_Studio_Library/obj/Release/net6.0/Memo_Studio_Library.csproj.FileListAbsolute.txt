@@ -12,3 +12,17 @@ C:\Users\Asus\Documents\GitHub\MemoStudio\Memo-Studio-Api\Memo_Studio_Library\ob
 C:\Users\Asus\Documents\GitHub\MemoStudio\Memo-Studio-Api\Memo_Studio_Library\obj\Release\net6.0\ref\Memo_Studio_Library.dll
 C:\Users\Asus\Documents\GitHub\MemoStudio\Memo-Studio-Api\Memo_Studio_Library\obj\Release\net6.0\Memo_Studio_Library.pdb
 C:\Users\Asus\Documents\GitHub\MemoStudio\Memo-Studio-Api\Memo_Studio_Library\obj\Release\net6.0\Memo_Studio_Library.genruntimeconfig.cache
+D:\MemoStudio\Memo-Studio-Api\Memo_Studio_Library\bin\Release\net6.0\Memo_Studio_Library.deps.json
+D:\MemoStudio\Memo-Studio-Api\Memo_Studio_Library\bin\Release\net6.0\Memo_Studio_Library.runtimeconfig.json
+D:\MemoStudio\Memo-Studio-Api\Memo_Studio_Library\bin\Release\net6.0\Memo_Studio_Library.dll
+D:\MemoStudio\Memo-Studio-Api\Memo_Studio_Library\bin\Release\net6.0\ref\Memo_Studio_Library.dll
+D:\MemoStudio\Memo-Studio-Api\Memo_Studio_Library\bin\Release\net6.0\Memo_Studio_Library.pdb
+D:\MemoStudio\Memo-Studio-Api\Memo_Studio_Library\obj\Release\net6.0\Memo_Studio_Library.csproj.AssemblyReference.cache
+D:\MemoStudio\Memo-Studio-Api\Memo_Studio_Library\obj\Release\net6.0\Memo_Studio_Library.GeneratedMSBuildEditorConfig.editorconfig
+D:\MemoStudio\Memo-Studio-Api\Memo_Studio_Library\obj\Release\net6.0\Memo_Studio_Library.AssemblyInfoInputs.cache
+D:\MemoStudio\Memo-Studio-Api\Memo_Studio_Library\obj\Release\net6.0\Memo_Studio_Library.AssemblyInfo.cs
+D:\MemoStudio\Memo-Studio-Api\Memo_Studio_Library\obj\Release\net6.0\Memo_Studio_Library.csproj.CoreCompileInputs.cache
+D:\MemoStudio\Memo-Studio-Api\Memo_Studio_Library\obj\Release\net6.0\Memo_Studio_Library.dll
+D:\MemoStudio\Memo-Studio-Api\Memo_Studio_Library\obj\Release\net6.0\ref\Memo_Studio_Library.dll
+D:\MemoStudio\Memo-Studio-Api\Memo_Studio_Library\obj\Release\net6.0\Memo_Studio_Library.pdb
+D:\MemoStudio\Memo-Studio-Api\Memo_Studio_Library\obj\Release\net6.0\Memo_Studio_Library.genruntimeconfig.cache

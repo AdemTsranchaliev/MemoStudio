@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "86awbZ4UhEXjHx9c64SoiArc9LFwl729p5s5iImAGioiAMo7nwIvpvhEt9lZxGrSCnXUrvmXoF5NP3mqOHRimw==",
+  "dgSpecHash": "IyYxSN8eOccAFZOqK9DovU6Ra9+5lObtz+Vum2iHxkryoamX0A8+Q2lPzi/2M2xvXB4qyjt853AgPh0BehkzRA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Asus\\Documents\\GitHub\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Worker\\Memo_Studio_Worker.csproj",
+  "projectFilePath": "D:\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Worker\\Memo_Studio_Worker.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Asus\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Asus\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

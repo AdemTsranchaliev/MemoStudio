@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Memo_Studio.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class BookingController : ControllerBase
     {

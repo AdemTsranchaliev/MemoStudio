@@ -4019,11 +4019,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Asus\\Documents\\GitHub\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Worker\\Memo_Studio_Worker.csproj",
+      "projectUniqueName": "D:\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Worker\\Memo_Studio_Worker.csproj",
       "projectName": "Memo_Studio_Worker",
-      "projectPath": "C:\\Users\\Asus\\Documents\\GitHub\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Worker\\Memo_Studio_Worker.csproj",
+      "projectPath": "D:\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Worker\\Memo_Studio_Worker.csproj",
       "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Asus\\Documents\\GitHub\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Worker\\obj\\",
+      "outputPath": "D:\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Worker\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -4044,8 +4044,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\Asus\\Documents\\GitHub\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\Memo_Studio_Library.csproj": {
-              "projectPath": "C:\\Users\\Asus\\Documents\\GitHub\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\Memo_Studio_Library.csproj"
+            "D:\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\Memo_Studio_Library.csproj": {
+              "projectPath": "D:\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\Memo_Studio_Library.csproj"
             }
           }
         }

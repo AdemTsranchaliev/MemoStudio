@@ -20,7 +20,7 @@ public class Program
         builder.Services.AddControllers();
 
         //builder.Services.AddDbContext<StudioContext>(options =>
-         //  options.UseSqlServer("Server=tcp:127.0.0.1,1433;Database=MemoStudio;MultipleActiveResultSets=true;User=sa;Password=MyPass@word;"));
+        //  options.UseSqlServer("Server=tcp:127.0.0.1,1433;Database=MemoStudio;MultipleActiveResultSets=true;User=sa;Password=MyPass@word;"));
 
         builder.Services.AddCors(options =>
         {
@@ -31,15 +31,15 @@ public class Program
       .AllowAnyHeader()
       .AllowCredentials());
         });
-        builder.Services.AddSingleton<IUserService,UserService>();
-        builder.Services.AddSingleton<IBookingService,BookingService>();
+        builder.Services.AddSingleton<IUserService, UserService>();
+        builder.Services.AddSingleton<IBookingService, BookingService>();
         builder.Services.AddSingleton<INotificationService, NotificationService>();
 
         builder.Services.Configure<ForwardedHeadersOptions>(options =>
         {
             options.ForwardedHeaders = ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
         });
-        builder.Services.AddSingleton<IMessageService,MessageService>();
+        builder.Services.AddSingleton<IMessageService, MessageService>();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
@@ -54,7 +54,7 @@ public class Program
             opt.Webhook = "https://0cad-89-215-182-166.ngrok-free.app/Webhook";
         });
         var app = builder.Build();
-        app.UseCors("CorsPolicy");
+        app.UseCors(options=>options.WithOrigins("http://localhost:4200", "https://memostudio.000webhostapp.com").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
         // Configure the HTTP request pipeline.
 
         // Configure the HTTP request pipeline.
