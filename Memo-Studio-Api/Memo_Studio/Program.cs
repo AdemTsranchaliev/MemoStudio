@@ -28,8 +28,7 @@ public class Program
                 "CorsPolicy",
       builder => builder.AllowAnyOrigin()
       .AllowAnyMethod()
-      .AllowAnyHeader()
-      .AllowCredentials());
+      .AllowAnyHeader());
         });
         builder.Services.AddSingleton<IUserService, UserService>();
         builder.Services.AddSingleton<IBookingService, BookingService>();
@@ -54,7 +53,7 @@ public class Program
             opt.Webhook = "https://7b31-89-215-182-166.ngrok-free.app/Webhook";
         });
         var app = builder.Build();
-        app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+        app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
         // Configure the HTTP request pipeline.
 
         // Configure the HTTP request pipeline.
