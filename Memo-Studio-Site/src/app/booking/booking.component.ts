@@ -62,7 +62,7 @@ export class BookingComponent implements OnInit {
 
   ngOnInit() {
     this.http
-      .get<User[]>("https://localhost:7190/User/getAllUsers")
+      .get<User[]>("https://0cad-89-215-182-166.ngrok-free.app/api/User/getAllUsers")
       .subscribe((x) => {
         this.options = x;
       });
@@ -204,7 +204,7 @@ export class BookingComponent implements OnInit {
 
   public removeBooking() {
     this.http
-      .delete(`https://localhost:7190/Booking/${this.deleteBookingId}`)
+      .delete(`https://0cad-89-215-182-166.ngrok-free.app/api/Booking/${this.deleteBookingId}`)
       .subscribe((x) => {
         this.bookingsOrigin = this.bookingService.getReservationForDate(
           this.date,
@@ -355,7 +355,7 @@ export class BookingComponent implements OnInit {
     this.loader = true;
     this.http
       .get<Booking[]>(
-        `https://localhost:7190/Booking/${this.date.toDateString()}/${localStorage.getItem('clientId')}/get`
+        `https://0cad-89-215-182-166.ngrok-free.app/api/Booking/${this.date.toDateString()}/${localStorage.getItem('clientId')}/get`
       )
       .subscribe((x) => {
         this.bookingsOrigin = x;
@@ -457,7 +457,7 @@ export class BookingComponent implements OnInit {
       index: index
     };
 
-    this.http.post("https://localhost:7190/Booking/add", dto).subscribe(x=>{
+    this.http.post("https://0cad-89-215-182-166.ngrok-free.app/api/Booking/add", dto).subscribe(x=>{
       this.showReservations(1);
     });
   }
