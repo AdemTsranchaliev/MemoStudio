@@ -28,7 +28,8 @@ public class Program
                 "CorsPolicy",
       builder => builder.AllowAnyOrigin()
       .AllowAnyMethod()
-      .AllowAnyHeader());
+      .AllowAnyHeader()
+      .AllowCredentials());
         });
         builder.Services.AddSingleton<IUserService, UserService>();
         builder.Services.AddSingleton<IBookingService, BookingService>();
@@ -50,10 +51,10 @@ public class Program
         builder.Services.AddViberBotApi(opt =>
         {
             opt.Token = "512c41111627e49d-d86abfc91904aa48-2c9327d9896269e6";
-            opt.Webhook = "https://0cad-89-215-182-166.ngrok-free.app/Webhook";
+            opt.Webhook = "https://7b31-89-215-182-166.ngrok-free.app/Webhook";
         });
         var app = builder.Build();
-        app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+        app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
         // Configure the HTTP request pipeline.
 
         // Configure the HTTP request pipeline.
