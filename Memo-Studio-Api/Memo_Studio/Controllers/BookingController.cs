@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web.Http.Cors;
 using Memo_Studio_Library;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,6 +40,7 @@ namespace Memo_Studio.Controllers
             return Ok();
         }
 
+        [DisableCors]
         [HttpGet("{date}/{userId}/get")]
         public IActionResult GetBooking(DateTime date,int userId)
         {

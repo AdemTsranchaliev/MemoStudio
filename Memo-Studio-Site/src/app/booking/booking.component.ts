@@ -9,6 +9,12 @@ import { User } from "../models/user.model";
 import { BookingDto } from "./booking-dto-model";
 
 declare const $: any;
+const httpOptions = {
+  headers:{
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
+  }
+}
 @Component({
   selector: "app-booking",
   templateUrl: "./booking.component.html",
@@ -62,7 +68,7 @@ export class BookingComponent implements OnInit {
 
   ngOnInit() {
     this.http
-      .get<User[]>("https://0cad-89-215-182-166.ngrok-free.app/api/User/getAllUsers")
+      .get<User[]>("https://7b31-89-215-182-166.ngrok-free.app/api/User/getAllUsers",httpOptions)
       .subscribe((x) => {
         this.options = x;
       });
@@ -204,7 +210,7 @@ export class BookingComponent implements OnInit {
 
   public removeBooking() {
     this.http
-      .delete(`https://0cad-89-215-182-166.ngrok-free.app/api/Booking/${this.deleteBookingId}`)
+      .delete(`https://7b31-89-215-182-166.ngrok-free.app/api/Booking/${this.deleteBookingId}`,httpOptions)
       .subscribe((x) => {
         this.bookingsOrigin = this.bookingService.getReservationForDate(
           this.date,
@@ -355,7 +361,8 @@ export class BookingComponent implements OnInit {
     this.loader = true;
     this.http
       .get<Booking[]>(
-        `https://0cad-89-215-182-166.ngrok-free.app/api/Booking/${this.date.toDateString()}/${localStorage.getItem('clientId')}/get`
+        `https://7b31-89-215-182-166.ngrok-free.app/api/Booking/${this.date.toDateString()}/${localStorage.getItem('clientId')}/get`,
+        httpOptions
       )
       .subscribe((x) => {
         this.bookingsOrigin = x;
@@ -457,7 +464,7 @@ export class BookingComponent implements OnInit {
       index: index
     };
 
-    this.http.post("https://0cad-89-215-182-166.ngrok-free.app/api/Booking/add", dto).subscribe(x=>{
+    this.http.post("https://7b31-89-215-182-166.ngrok-free.app/api/Booking/add", dto).subscribe(x=>{
       this.showReservations(1);
     });
   }

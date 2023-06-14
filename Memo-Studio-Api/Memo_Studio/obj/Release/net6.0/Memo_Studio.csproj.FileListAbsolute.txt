@@ -265,3 +265,8 @@ D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\Memo_Studio.dll
 D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\ref\Memo_Studio.dll
 D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\Memo_Studio.pdb
 D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\Memo_Studio.genruntimeconfig.cache
+D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\bin\Release\net6.0\System.Web.Cors.dll
+D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\bin\Release\net6.0\System.Net.Http.Formatting.dll
+D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\bin\Release\net6.0\System.Web.Http.dll
+D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\bin\Release\net6.0\System.Web.Http.Cors.dll
+D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\bin\Release\net6.0\Newtonsoft.Json.Bson.dll

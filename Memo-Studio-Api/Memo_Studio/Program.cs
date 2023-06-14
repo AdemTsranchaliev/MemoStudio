@@ -24,11 +24,12 @@ public class Program
 
         builder.Services.AddCors(options =>
         {
-            options.AddPolicy(
-                "CorsPolicy",
-      builder => builder.AllowAnyOrigin()
-      .AllowAnyMethod()
-      .AllowAnyHeader());
+            options.AddDefaultPolicy(
+                policy =>
+                {
+                    policy.WithOrigins("http://localhost:4200",
+                                        "https://memostudio.000webhostapp.com");
+                });
         });
         builder.Services.AddSingleton<IUserService, UserService>();
         builder.Services.AddSingleton<IBookingService, BookingService>();
@@ -53,7 +54,7 @@ public class Program
             opt.Webhook = "https://7b31-89-215-182-166.ngrok-free.app/Webhook";
         });
         var app = builder.Build();
-        app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+        app.UseCors();
         // Configure the HTTP request pipeline.
 
         // Configure the HTTP request pipeline.

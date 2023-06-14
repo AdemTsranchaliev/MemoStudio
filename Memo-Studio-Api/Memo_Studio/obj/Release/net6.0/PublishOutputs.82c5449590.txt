@@ -6,6 +6,10 @@ D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\PubTmp\Out\Memo_S
 D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\PubTmp\Out\Memo_Studio.pdb
 D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\PubTmp\Out\Azure.Core.dll
 D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\PubTmp\Out\Azure.Identity.dll
+D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\PubTmp\Out\System.Web.Cors.dll
+D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\PubTmp\Out\System.Net.Http.Formatting.dll
+D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\PubTmp\Out\System.Web.Http.dll
+D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\PubTmp\Out\System.Web.Http.Cors.dll
 D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\PubTmp\Out\Microsoft.Bcl.AsyncInterfaces.dll
 D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\PubTmp\Out\Microsoft.Data.SqlClient.dll
 D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\PubTmp\Out\Microsoft.EntityFrameworkCore.dll
@@ -33,6 +37,7 @@ D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\PubTmp\Out\Micros
 D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\PubTmp\Out\Microsoft.SqlServer.Server.dll
 D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\PubTmp\Out\Microsoft.Win32.SystemEvents.dll
 D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\PubTmp\Out\Newtonsoft.Json.dll
+D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\PubTmp\Out\Newtonsoft.Json.Bson.dll
 D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\PubTmp\Out\Refit.dll
 D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\PubTmp\Out\Refit.Newtonsoft.Json.dll
 D:\0\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
