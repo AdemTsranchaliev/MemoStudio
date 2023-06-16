@@ -47,7 +47,7 @@ namespace Memo_Studio_Library
         {
             using (var context = new StudioContext())
             {
-                var users = context.Users.ToList();
+                var users = context.Users.Where(x=>x.Phone!=null&&x.Name!=null).ToList();
                 return users;
             }
         }
