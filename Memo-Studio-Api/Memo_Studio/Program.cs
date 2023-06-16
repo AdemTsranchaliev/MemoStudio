@@ -52,7 +52,7 @@ public class Program
         builder.Services.AddViberBotApi(opt =>
         {
             opt.Token = "512c41111627e49d-d86abfc91904aa48-2c9327d9896269e6";
-            opt.Webhook = "https://7b31-89-215-182-166.ngrok-free.app/Webhook";
+            opt.Webhook = "https://4434-89-215-182-166.ngrok-free.app/Webhook";
         });
         var app = builder.Build();
         app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
