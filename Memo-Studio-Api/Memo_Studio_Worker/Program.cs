@@ -1,4 +1,5 @@
 ﻿using Memo_Studio_Library;
+using Microsoft.EntityFrameworkCore;
 using Viber.Bot.NetCore.Middleware;
 
 namespace Memo_Studio_Worker;
@@ -15,6 +16,7 @@ public class Program
         IHost host = Host.CreateDefaultBuilder(args)
             .ConfigureServices(services =>
             {
+               
                 services.AddHostedService<Worker>();
                 services.AddSingleton<IBookingService, BookingService>();
                 services.AddSingleton<IUserService, UserService>();
