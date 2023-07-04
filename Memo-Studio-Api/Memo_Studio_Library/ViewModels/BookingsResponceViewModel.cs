@@ -12,6 +12,7 @@ namespace Memo_Studio_Library
 		public int Hour { get; set; }
 		public int Minutes { get; set; }
 		public bool Free { get; set; }
+		public string Note { get; set; }
 	}
 }
 

@@ -20,7 +20,8 @@ namespace Memo_Studio_Library
                     EmployeeId = booking.EmployeeId,
                     Timestamp = booking.DateTime.ToLocalTime(),
                     UserId = booking.UserId,
-                    ReservationId = booking.ReservationId
+                    ReservationId = booking.ReservationId,
+                    Note = booking.Note
                 };
                 var resut = await context.Bookings.AddAsync(newBooking);
                 await context.SaveChangesAsync();

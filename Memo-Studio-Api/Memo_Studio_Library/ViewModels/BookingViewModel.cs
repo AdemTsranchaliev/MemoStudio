@@ -13,6 +13,8 @@ namespace Memo_Studio_Library
         public string ReservationId { get; set; }
 
         public int Index { get; set; }
+
+        public string Note { get; set; }
     }
 }
 

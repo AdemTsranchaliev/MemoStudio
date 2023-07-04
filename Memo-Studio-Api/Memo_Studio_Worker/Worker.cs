@@ -1,4 +1,6 @@
-﻿using Memo_Studio_Library;
+﻿using System.Globalization;
+using Memo_Studio_Library;
+using Memo_Studio_Library.Models;
 
 namespace Memo_Studio_Worker;
 
@@ -30,10 +32,17 @@ public class Worker : BackgroundService
         {
             var currentTime = DateTime.Now;
 
-            var bookings = bookingService.GetBookingsByRange(currentTime, currentTime.AddDays(1));
+            var bookings = bookingService
+                .GetBookingsByRange(currentTime, currentTime.AddDays(1))
+                .OrderBy(x=>x.Timestamp)
+                .GroupBy(x=>x.ReservationId)
+                .ToDictionary(x=>x.Key,x=>x.ToList().FirstOrDefault());
             foreach (var booking in bookings)
             {
-                CompareHours(booking.Timestamp,currentTime, booking.User.ViberId);
+                if (booking.Value!=null)
+                {
+                    CompareHours(booking.Value.Timestamp, currentTime, booking.Value.User.ViberId, booking.Value.User.Name);
+                }
             }
             var delay = (int)GetDelayUntilNextRoundHalfHour(currentTime).TotalMilliseconds;
             await Task.Delay(delay);
@@ -71,9 +80,17 @@ public class Worker : BackgroundService
     }
 
 
-    private void CompareHours(DateTime reservationHour, DateTime currentHour, string viberId)
+    private void CompareHours(DateTime reservationHour, DateTime currentHour, string viberId, string name)
     {
-        var t = $"НАПОМНЯНЕ! \n Имате резервиран час за утре, {reservationHour.ToString("yyyy-MM-dd в HH:mm часа")}.";
+
+        CultureInfo culture = new CultureInfo("bg-BG");
+
+        // Parse the datetime string with the specified format and culture
+        string day = reservationHour.ToString("dd");
+        string month = culture.DateTimeFormat.GetMonthName(reservationHour.Month);
+        string year = reservationHour.ToString("yyyy");
+        string weekday = culture.DateTimeFormat.GetDayName(reservationHour.DayOfWeek);
+        var date = $"*{weekday}, {day} {month} {year}г.*";
         if (reservationHour.Minute == 0)
         {
             if (reservationHour.Year == currentHour.Year
@@ -82,7 +99,8 @@ public class Worker : BackgroundService
                 && reservationHour.Hour == currentHour.Hour
                 && reservationHour.Minute == currentHour.Minute)          
             {
-                messageService.SendMessage(viberId, $"НАПОМНЯНЕ! \nИмате резервиран час за утре *{reservationHour.ToString("yyyy-MM-dd в HH:mm часа")}*.");
+                Console.WriteLine($"{name} - НАПОМНЯНЕ! \nИмате резервиран час за утре {date}.");
+                messageService.SendMessage(viberId, $"НАПОМНЯНЕ! \nИмате резервиран час за утре {date}.");
             }
             else if (reservationHour.Year == currentHour.Year
                 && reservationHour.Month == currentHour.Month
@@ -90,7 +108,9 @@ public class Worker : BackgroundService
                 && reservationHour.Hour == currentHour.AddHours(2).Hour
                 && reservationHour.Minute == currentHour.Minute)          
             {
-                messageService.SendMessage(viberId, $"НАПОМНЯНЕ! \nИмате резервиран час за днес *{reservationHour.ToString("yyyy-MM-dd в HH:mm часа")}*.");
+                Console.WriteLine($"{name} - НАПОМНЯНЕ! \nИмате резервиран час за днес {date}.");
+
+                messageService.SendMessage(viberId, $"НАПОМНЯНЕ! \nИмате резервиран час за днес {date}.");
             }
         }
         else
@@ -101,7 +121,9 @@ public class Worker : BackgroundService
                 && reservationHour.Hour == currentHour.Hour
                 && reservationHour.Minute == currentHour.Minute)
             {
-                messageService.SendMessage(viberId, $"НАПОМНЯНЕ! \nИмате запазен час за утре *{reservationHour.ToString("yyyy-MM-dd в HH:mm часа")}*.");
+                Console.WriteLine($"{name} - НАПОМНЯНЕ! \nИмате резервиран час за утре {date}.");
+
+                messageService.SendMessage(viberId, $"НАПОМНЯНЕ! \nИмате запазен час за утре {date}.");
             }
             else if (reservationHour.Year == currentHour.Year
                 && reservationHour.Month == currentHour.Month
@@ -109,7 +131,9 @@ public class Worker : BackgroundService
                 && reservationHour.Hour == currentHour.AddHours(2).Hour
                 && reservationHour.Minute == currentHour.Minute)
             {
-                messageService.SendMessage(viberId, $"НАПОМНЯНЕ! \nИмате резервиран час за днес *{reservationHour.ToString("yyyy-MM-dd в HH:mm часа")}*.");
+                Console.WriteLine($"{name} - НАПОМНЯНЕ! \nИмате резервиран час за днес {date}.");
+
+                messageService.SendMessage(viberId, $"НАПОМНЯНЕ! \nИмате резервиран час за днес {date}.");
             }
         }
 

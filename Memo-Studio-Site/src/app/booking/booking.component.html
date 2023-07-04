@@ -1,3 +1,20 @@
+<nav class="navbar navbar-light bg-light justify-content-between">
+    <a class="navbar-brand" href="#">{{getNameEmployee()}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Всички потребители (ОЧАКВАЙ СКОРО)</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" (click)='logout()'>ИЗХОД</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 <section class="ftco-section mt-0 pt-0">
     <div class="container">
         <div class="row justify-content-center">
@@ -48,7 +65,7 @@
                                     <tbody class="tbody">
                                         <tr *ngFor="let row of calendarRows" class="table-row">
                                             <ng-container *ngFor="let day of row">
-                                                <td class="table-date" [class.nil]="day === -1"
+                                                <td id="day-{{day}}" class="table-date" [class.nil]="day === -1"
                                                     [class.active-date]="day === date.getDate()"
                                                     (click)="dateClick(day)">
                                                     {{ day > 0 ? day : '' }}
@@ -58,14 +75,17 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <button class="button" id="add-button" (click)='newEvent(null)'>Добави час</button>
+                            <button class="button" id="add-button2" (click)='editDay()'
+                                [disabled]='isDayPast'>Редактирай</button>
+                            <button class="button" id="add-button" (click)='newEvent(null)'
+                                [disabled]='isDayPast'>Добави час</button>
                         </div>
                     </div>
                     <div class="events-container" *ngIf='!loader'>
                         <ul class="nav nav-tabs" style="background-color: white !important;">
                             <li class="nav-item" style="width: 33.33%;">
-                                <p class="nav-link active text-center" aria-current="page" id="all-res"
-                                    (click)='showReservations(1)'>Всички</p>
+                                <p class="nav-link text-center active" id="all-res" (click)='showReservations(1)'>Всички
+                                </p>
                             </li>
                             <li class="nav-item" style="width: 33.33%;">
                                 <p class="nav-link not-active-tab text-center" id="free-res"
@@ -76,22 +96,36 @@
                                     (click)='showReservations(3)'>Заети</p>
                             </li>
                         </ul>
-                        <div class="alert alert-warning m-4" role="alert" *ngIf='bookings.length==0'>
+                        <div class="alert alert-warning m-4" role="alert" *ngIf='bookings.length==0&&!isDayPast'>
                             Все още няма заети часове за {{this.date.getDate()}} {{months[date.getMonth()]}}
                             {{date.getFullYear()}}г.
                         </div>
-
+                        <div class="alert alert-info m-4" role="alert" *ngIf='isDayPast'>
+                            Тази дата е минала и нямате право на действия.
+                        </div>
+                        <div class="alert alert-danger m-4" role="alert"
+                            *ngIf='currentDay&&!currentDay?.isWorking&&!isDayPast'>
+                            ПОЧИВЕН ДЕН
+                        </div>
                         <div class="event-card" *ngFor='let booking of bookings'
                             [ngClass]="{'primary-background': !booking.free}">
                             <div *ngIf='!booking.free'>
-                                <i class="fa ml-1" style="cursor: pointer;" data-toggle="modal"
-                                    data-target="#exampleModalCenter"
-                                    (click)='openRemoveBookingConfirmation(booking.id)'>&#xf00d;</i>
-                                <div class="event-name">({{getHour(booking.hour,booking.minutes)}}):</div>
-                                <div class="event-count">{{booking.name}}</div>
-                                <div class="event-count"><a href="tel:{{booking.phone}}">{{booking.phone}}</a></div>
+                                <div class="row">
+                                    <i class="fa ml-1 col-1" style="cursor: pointer;" data-toggle="modal"
+                                        data-target="#exampleModalCenter"
+                                        (click)='openRemoveBookingConfirmation(booking.id)'>&#xf00d;</i>
+                                    <div class="event-name col-2">({{getHour(booking.hour,booking.minutes)}}):</div>
+                                    <div class="event-count col-4">{{booking.name}}</div>
+                                    <div class="event-count col-3"><a href="tel:{{booking.phone}}">{{booking.phone}}</a>
+                                    </div>
+                                    <div class="event-count col-1" *ngIf='booking.note' style="cursor: pointer;"
+                                        (click)="showModal(booking.id)"><i class="fa fa-info-circle"
+                                            aria-hidden="true"></i>
+                                    </div>
+
+                                </div>
                             </div>
-                            <div *ngIf='booking.free' (click)="newEvent(booking.freeHour)">
+                            <div *ngIf='booking.free' (click)="newEvent(booking.freeHour)" style="cursor: pointer;">
                                 <div class="event-name">({{booking.freeHour}}):</div>
                                 <div class="event-count">СВОБОДЕН</div>
                             </div>
@@ -99,22 +133,23 @@
                     </div>
                     <div class="events-container text-primary text-center mt-5" *ngIf='loader'>
                         <div class="spinner-border" role="status">
-                            <span class="sr-only">Loading...</span>
-                          </div>
+                            <span class="sr-only">Зареждане...</span>
+                        </div>
                     </div>
-      
+
                     <div class="dialog" id="dialog">
-                        <h2 class="dialog-header mb-0 mt-0" style="color: black;"> Добави час</h2>
-                        <p class="text-center mb-0 ">{{this.date.getDate()}} {{months[date.getMonth()]}}
-                            {{date.getFullYear()}}г.</p>
+                        <p class="text-center mb-0 mt-2" style="color: black;"> Добави час - <b>{{this.date.getDate()}}
+                                {{months[date.getMonth()]}}
+                                {{date.getFullYear()}}г. </b></p>
+
                         <form class="form mb-0 mt-0 pb-0 pt-0" id="form">
                             <div class="form-container mb-0 mt-0 pb-0 pt-0" align="center">
                                 <div class="alert alert-danger pb-0 pt-0 mt-0 mb-0" *ngIf='raiseError'>
                                     Моля попълнете всички полета!
                                 </div>
-                                <form class="form-group pl-3 pr-3 mb-0 mt-0 pt-0">
+                                <form class="pl-3 pr-3 mb-0 mt-0 pt-0">
                                     <mat-form-field class="example-full-width mb-0 mt-0 pb-0 pt-0">
-                                        <label for="name">Име</label>
+                                        <label>Име</label>
                                         <input
                                             style="background-color: white !important; border-bottom-width: 0 !important;"
                                             id='name' type="text" matInput [formControl]="nameControl"
@@ -127,7 +162,7 @@
                                         </mat-autocomplete>
                                     </mat-form-field>
                                     <mat-form-field class="example-full-width mb-0 mt-0 pb-0 pt-0">
-                                        <label for="phone">Телефон</label>
+                                        <label>Телефон</label>
                                         <input
                                             style="background-color: white !important; border-bottom-width: 0 !important;"
                                             id='phone' type="text" matInput [formControl]="phoneControl"
@@ -143,20 +178,28 @@
                                 </form>
 
                                 <div class="form-group pl-3 pr-3">
-                                    <label for="selectedDuration" class="d-flex justify-content-start">Избери
-                                        продължителност</label>
+                                    <p class="text-left pb-0 mb-0">Продължителност</p>
                                     <select class="form-control" id="selectedDuration" [(ngModel)]="selectedDuration"
                                         [ngModelOptions]="{standalone: true}">
-                                        <option value=1>30 мин.</option>
-                                        <option value=2>1 час</option>
-                                        <option value=3>1:30 часа</option>
-                                        <option value=4>2 часа</option>
-
+                                        <option value=1>30 мин. - продължителност</option>
+                                        <option value=2>1 час - продължителност</option>
+                                        <option value=3>1:30 часа - продължителност</option>
+                                        <option value=4>2 часа - продължителност</option>
+                                        <option value=5>2:30 часа - продължителност</option>
+                                        <option value=6>3 часа - продължителност</option>
+                                        <option value=7>3:30 часа - продължителност</option>
+                                        <option value=8>4 часа - продължителност</option>
+                                        <option value=9>4:30 часа - продължителност</option>
+                                        <option value=10>5 часа - продължителност</option>
+                                        <option value=11>5:30 часа - продължителност</option>
+                                        <option value=12>6 часа - продължителност</option>
+                                        <option value=13>6:30 часа - продължителност</option>
+                                        <option value=14>7 часа - продължителност</option>
                                     </select>
                                 </div>
                                 <div class="form-group pl-3 pr-3">
-                                    <label for="exampleFormControlSelect1" class="d-flex justify-content-start">Избери
-                                        час</label>
+                                    <p class="text-left pb-0 mb-0">Избери
+                                        час</p>
                                     <select class="form-control" id="exampleFormControlSelect1"
                                         [(ngModel)]="selectedHour" [ngModelOptions]="{standalone: true}">
                                         <option></option>
@@ -164,10 +207,59 @@
                                             [disabled]='checkIfBookingExist(hour)'>{{hour}}</option>
                                     </select>
                                 </div>
+                                <div class="form-group pl-3 pr-3">
+                                    <p class="text-left pt-0 pb-0 mt-0 mb-0">Забележка</p>
+                                    <mat-form-field class="example-full-width mb-0 mt-0 pb-0 pt-0">
+                                        <input
+                                            style="background-color: white !important; border-bottom-width: 0 !important;"
+                                            id='note' type="text" matInput [formControl]="noteControl"
+                                            class="form-control">
+                                    </mat-form-field>
+                                </div>
                                 <input type="button" value="Отказ" class="button mr-3" id="cancel-button"
-                                    (click)='cancelEvent()'>
+                                    (click)='cancelEvent(1)'>
                                 <input type="button" value="Добави" class="button button-white" id="ok-button"
                                     (click)='addEvent()'>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="dialog" id="dialog2">
+                        <p class="text-center mb-0 mt-2" style="color: black;"> ПРОМЕНИ ДЕН - <b>{{this.date.getDate()}}
+                                {{months[date.getMonth()]}}
+                                {{date.getFullYear()}}г. </b></p>
+
+                        <form class="form mb-0 mt-0 pb-0 pt-0" id="form">
+                            <div class="form-container mb-0 mt-0 pb-0 pt-0" align="center">
+                                <div class="alert alert-danger pb-0 pt-0 mt-0 mb-0" *ngIf='workingDayAddError==1'>
+                                    Началото на работния ден, не може да бъде по-голямо от края!
+                                </div>
+
+                                <div class="form-group pl-3 pr-3">
+                                    <p class="text-left pb-0 mb-0">Работен ден - начало</p>
+                                    <select class="form-control" id="selectedStartHour" [(ngModel)]="selectedStartHour"
+                                        [ngModelOptions]="{standalone: true}">
+                                        <option value={{i}} *ngFor='let hour of timeArray; let i=index'>{{hour}}
+                                        </option>
+
+                                    </select>
+                                </div>
+                                <div class="form-group pl-3 pr-3">
+                                    <p class="text-left pb-0 mb-0">Работен ден - край</p>
+                                    <select class="form-control" id="selectedEndHour" [(ngModel)]="selectedEndHour"
+                                        [ngModelOptions]="{standalone: true}">
+                                        <option value={{i}} *ngFor='let hour of timeArray; let i=index'>{{hour}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <input type="button" value="Отказ" class="button mr-3" id="cancel-button"
+                                    (click)='cancelEvent(2)'>
+                                <input type="button" value="Редактирай" class="button button-white" id="ok-button"
+                                    (click)='addDaySpecifications()'>
+
+                                <!-- <input type="button" value="ПОЧИВЕН ДЕН" class="btn btn-danger w-75 mt-3 text-center"
+                                    id="ok-button" (click)='showHolidayDayModal()'> -->
                             </div>
                         </form>
                     </div>
@@ -196,6 +288,51 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Отказ</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal"
                     (click)='removeBooking()'>Потвърди</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalNote" tabindex="-1" role="dialog" aria-labelledby="modalNote" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalNote">Забележка - {{noteModal?.name}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>{{noteModal?.note}}</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalCancel" tabindex="-1" role="dialog" aria-labelledby="modalCancel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalNote">Почивен ден -
+                    {{date.getDate()}}.{{date.getMonth()}}.{{date.getFullYear()}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>Всички часове в този ден ще бъдат отменени.</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"
+                    (click)='cancelDay()'>ПОТВЪРДИ</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
             </div>
         </div>
     </div>

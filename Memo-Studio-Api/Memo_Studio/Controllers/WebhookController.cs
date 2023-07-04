@@ -43,7 +43,7 @@ namespace YourNamespace.Controllers
 
                     if (!isUserExist)
                     {
-                        var responseOne = messageService.SendMessage(userViberId, "Здравейте, вие се абонирахте за канала от който ще получавате напомняния за резервираните си часове.\nМоля въведете вашето име и фамилия,\nНА КИРИЛИЦА(пример \"Иван Иванов\").");
+                        var responseOne = messageService.SendMessage(userViberId, "Моля въведете вашето име и фамилия,\nНА КИРИЛИЦА(пример \"Иван Иванов\").");
                         System.Console.WriteLine($"Greeting response: {responseOne}");
                     }
 
@@ -91,7 +91,7 @@ namespace YourNamespace.Controllers
                             {
                                 model.Phone = message;
                                 var isUserExist = userService.AddUser(model);
-                                var endMessage = messageService.SendMessage(userViberId, $"Благодаря Ви, {user.Name}. Успешно завършихте регистрацията си.");
+                                var endMessage = messageService.SendMessage(userViberId, $"Благодаря Ви, {user.Name}. Успешно завършихте регистрацията си. Вие се абонирахте за канала от който ще получавате напомняния за резервираните си часове.\n");
                                 System.Console.WriteLine($"Name response: {endMessage} - {message}");
                             }
                             else

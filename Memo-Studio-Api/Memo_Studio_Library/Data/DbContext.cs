@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection.Metadata;
+using Memo_Studio_Library.Data.Models;
 using Memo_Studio_Library.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,16 +32,21 @@ public class StudioContext : DbContext
         modelBuilder.Entity<Booking>()
             .Property(b => b.Id)
             .IsRequired();
+        modelBuilder.Entity<Booking>()
+           .Property(b => b.Note)
+           .IsRequired(false);
+        modelBuilder.Entity<Day>()
+            .ToTable("Day");
 
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-
-        optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=MemoStudio;TrustServerCertificate=True;Trusted_Connection=True");
-        //optionsBuilder.UseSqlServer("Server=tcp:127.0.0.1,1433;Database=MemoStudio;MultipleActiveResultSets=true;User=sa;Password=MyPass@word;TrustServerCertificate=True;MultiSubnetFailover=True");
+        optionsBuilder.UseSqlServer("Server=tcp:127.0.0.1,1433;Database=MemoStudio;MultipleActiveResultSets=true;User=sa;Password=MyPass@word;TrustServerCertificate=True;MultiSubnetFailover=True");
+        //optionsBuilder.UseSqlServer("Server=.\\SQLSERVER;Database=MemoStudio;TrustServerCertificate=True;Trusted_Connection=True");
     }
 
     public DbSet<Booking> Bookings { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Day> Days { get; set; }
 }

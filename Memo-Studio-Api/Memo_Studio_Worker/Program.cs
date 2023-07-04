@@ -7,6 +7,11 @@ public class Program
 {
     public static void Main(string[] args)
     {
+        IConfiguration configuration = new ConfigurationBuilder()
+                .SetBasePath(AppContext.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .Build();
+
         IHost host = Host.CreateDefaultBuilder(args)
             .ConfigureServices(services =>
             {
@@ -17,8 +22,9 @@ public class Program
                 services.AddSingleton<IMessageService, MessageService>();
                 services.AddViberBotApi(opt =>
                 {
-                    opt.Token = "512c41111627e49d-d86abfc91904aa48-2c9327d9896269e6";
-                    opt.Webhook = "https://4434-89-215-182-166.ngrok-free.app/Webhook";
+
+                    opt.Token = configuration.GetValue<string>("ViberToken");
+                    opt.Webhook = configuration.GetValue<string>("Webhook");
                 });
             })
             .Build();

@@ -8,6 +8,8 @@ using System.Text;
 using Viber.Bot.NetCore.Middleware;
 using Microsoft.EntityFrameworkCore;
 using Memo_Studio_Library;
+using Microsoft.Extensions.Configuration;
+using Memo_Studio_Library.Services;
 
 namespace Memo_Studio;
 
@@ -17,6 +19,11 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        IConfiguration configuration = new ConfigurationBuilder()
+                .SetBasePath(builder.Environment.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .Build();
+
         builder.Services.AddControllers();
 
         //builder.Services.AddDbContext<StudioContext>(options =>
@@ -24,17 +31,18 @@ public class Program
 
         builder.Services.AddCors(options =>
         {
-            options.AddDefaultPolicy(
-                policy =>
+            options.AddPolicy("AllowAll",
+                builder =>
                 {
-                    policy.AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod();
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
                 });
         });
         builder.Services.AddSingleton<IUserService, UserService>();
         builder.Services.AddSingleton<IBookingService, BookingService>();
         builder.Services.AddSingleton<INotificationService, NotificationService>();
+        builder.Services.AddSingleton<IDayService, DayService>();
 
         builder.Services.Configure<ForwardedHeadersOptions>(options =>
         {
@@ -46,16 +54,14 @@ public class Program
         builder.Services.AddSwaggerGen();
         builder.Services.AddHttpsRedirection(options =>
         {
-            options.HttpsPort = 7190;
-
+            options.HttpsPort = 5001;
         });
         builder.Services.AddViberBotApi(opt =>
         {
-            opt.Token = "512c41111627e49d-d86abfc91904aa48-2c9327d9896269e6";
-            opt.Webhook = "https://4434-89-215-182-166.ngrok-free.app/Webhook";
+            opt.Token = configuration.GetValue<string>("ViberToken");
+            opt.Webhook = configuration.GetValue<string>("Webhook");
         });
         var app = builder.Build();
-        app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
         // Configure the HTTP request pipeline.
 
         // Configure the HTTP request pipeline.
@@ -66,9 +72,11 @@ public class Program
         }
         //app.UseHsts();
 
+
         app.UseHttpsRedirection();
         app.UseForwardedHeaders();
         app.UseAuthorization();
+        app.UseCors("AllowAll");
 
 
         app.MapControllers();

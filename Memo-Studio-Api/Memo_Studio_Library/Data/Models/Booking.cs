@@ -22,6 +22,7 @@ namespace Memo_Studio_Library.Models
 		public int EmployeeId { get; set; }
 
 		public string ReservationId { get; set; }
-	}
+		public string Note { get; set; }
+    }
 }
 

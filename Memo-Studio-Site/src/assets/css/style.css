@@ -8239,7 +8239,7 @@ h1, h2, h3, h4, h5,
   text-align: left; }
 
 .event-cancelled {
-  color: #cd4dcc;
+  color: #2980B9;
   text-align: right; }
 
 /*  Calendar wrapper */
@@ -8334,7 +8334,7 @@ h1, h2, h3, h4, h5,
     outline: none; }
 
 #cancel-button {
-  background: #cd4dcc; }
+  background: #2980B9; }
 
 #add-button {
   display: block;
@@ -8392,7 +8392,7 @@ h1, h2, h3, h4, h5,
   color: #000; }
 
 .month:hover {
-  color: #cd4dcc; }
+  color: #2980B9; }
 
 /*  Dates table */
 .table-date {
@@ -8412,7 +8412,7 @@ h1, h2, h3, h4, h5,
   position: relative; }
 
 .table-date:not(.nil):hover {
-  border-color: #cd4dcc; }
+  border-color: #2980B9; }
 
 .event-date {
   border-color: #7e0cf5;
@@ -8429,7 +8429,7 @@ h1, h2, h3, h4, h5,
     background: #28a745; }
 
 .active-date {
-  background: #cd4dcc;
+  background: #2980B9;
   color: #fff; }
 
 .event-date.active-date {
@@ -8483,4 +8483,4 @@ h1, h2, h3, h4, h5,
   border-color: #fff; }
 
 .error-input {
-  border-color: #cd4dcc; }
+  border-color: #2980B9; }

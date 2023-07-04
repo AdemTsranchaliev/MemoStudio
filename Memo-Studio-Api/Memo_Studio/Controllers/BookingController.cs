@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Web.Http.Cors;
 using Memo_Studio_Library;
 using Microsoft.AspNetCore.Mvc;
@@ -25,17 +26,26 @@ namespace Memo_Studio.Controllers
             {
                 return BadRequest();
             }
+
             var allRelatedBookings = await bookingService.GetBookingByReservationId(booking.ReservationId);
             var bookingModel = await bookingService.AddBookign(booking);
             var newBooking = await bookingService.GetBookingByBookingId(bookingModel.Id);
+
             if (newBooking==null||newBooking.User==null||newBooking.User.ViberId==null)
             {
                 return BadRequest();
             }
 
+            CultureInfo culture = new CultureInfo("bg-BG");
+
+            string day = booking.DateTime.ToString("dd");
+            string month = culture.DateTimeFormat.GetMonthName(booking.DateTime.Month);
+            string year = booking.DateTime.ToString("yyyy");
+            string weekday = culture.DateTimeFormat.GetDayName(booking.DateTime.DayOfWeek);
+
             if (booking.Index==0)
-            {
-                await messageService.SendMessage(newBooking.User.ViberId, $"Запазихте час за \n*{bookingModel.Timestamp.ToString("yyyy-MM-dd в HH:mm часа")}*");
+                {
+                await messageService.SendMessage(newBooking.User.ViberId, $"Запазихте час за \n*{weekday}, {day} {month} {year}г.*");
             }
             return Ok();
         }
@@ -57,7 +67,8 @@ namespace Memo_Studio.Controllers
                     Day = x.Timestamp.Day,
                     Hour = x.Timestamp.Hour,
                     Minutes = x.Timestamp.Minute,
-                    Free = false
+                    Free = false,
+                    Note = x.Note
                 };
             });
             return Ok(mapedBookings);
@@ -72,7 +83,15 @@ namespace Memo_Studio.Controllers
                 return BadRequest();
             }
             await bookingService.RemoveBooking(bookingId);
-            await messageService.SendMessage(booking.User.ViberId, $"Вашият час за \n*{booking.Timestamp.ToString("yyyy-MM-dd в HH:mm часа")}* беше отменен.");
+
+            CultureInfo culture = new CultureInfo("bg-BG");
+
+            string day = booking.Timestamp.ToString("dd");
+            string month = culture.DateTimeFormat.GetMonthName(booking.Timestamp.Month);
+            string year = booking.Timestamp.ToString("yyyy");
+            string weekday = culture.DateTimeFormat.GetDayName(booking.Timestamp.DayOfWeek);
+
+            await messageService.SendMessage(booking.User.ViberId, $"Вашият час за \n*{weekday}, {day} {month} {year}г.* беше отменен.");
 
             return Ok();
         }
