@@ -8,7 +8,7 @@ import { BookingService } from "../shared/services/booking.service";
 import { User } from "../models/user.model";
 import { BookingDto } from "./booking-dto-model";
 import { Day } from "../models/day.model";
-import { BASE_URL_DEV } from "../shared/routes";
+import { BASE_URL_PROD } from "../shared/routes";
 
 declare const $: any;
 const httpOptions = {
@@ -131,7 +131,7 @@ export class BookingComponent implements OnInit {
 
   ngOnInit() {
     this.http
-      .get<User[]>(`${BASE_URL_DEV}/User/getAllUsers`, httpOptions)
+      .get<User[]>(`${BASE_URL_PROD}/User/getAllUsers`, httpOptions)
       .subscribe((x) => {
         this.options = x;
       });
@@ -336,7 +336,7 @@ export class BookingComponent implements OnInit {
   public removeBooking() {
     this.loader = true;
     this.http
-      .delete(`${BASE_URL_DEV}/Booking/${this.deleteBookingId}`, httpOptions)
+      .delete(`${BASE_URL_PROD}/Booking/${this.deleteBookingId}`, httpOptions)
       .subscribe((x) => {
         this.bookingsOrigin = this.bookingService.getReservationForDate(
           this.date,
@@ -455,7 +455,7 @@ export class BookingComponent implements OnInit {
       };
 
       this.http
-        .post(`${BASE_URL_DEV}/day/AddDay`, this.currentDay)
+        .post(`${BASE_URL_PROD}/day/AddDay`, this.currentDay)
         .subscribe((x) => {
           $("#dialog2").hide(250);
           this.showReservations(1);
@@ -541,7 +541,7 @@ export class BookingComponent implements OnInit {
     }
 
     this.http
-      .post(`${BASE_URL_DEV}/day/holiday`, this.currentDay)
+      .post(`${BASE_URL_PROD}/day/holiday`, this.currentDay)
       .subscribe((x) => {
         $("#modalCancel").modal("hide");
         $("#dialog2").hide(250);
@@ -580,7 +580,7 @@ export class BookingComponent implements OnInit {
     this.loader = true;
     this.http
       .get<Booking[]>(
-        `${BASE_URL_DEV}/Booking/${this.date.toDateString()}/${localStorage.getItem(
+        `${BASE_URL_PROD}/Booking/${this.date.toDateString()}/${localStorage.getItem(
           "clientId"
         )}/get`,
         httpOptions
@@ -590,7 +590,7 @@ export class BookingComponent implements OnInit {
 
         this.http
           .get<Day>(
-            `${BASE_URL_DEV}/Day/${this.date.toDateString()}/${localStorage.getItem(
+            `${BASE_URL_PROD}/Day/${this.date.toDateString()}/${localStorage.getItem(
               "clientId"
             )}`,
             httpOptions
@@ -709,7 +709,7 @@ export class BookingComponent implements OnInit {
       note: note,
     };
 
-    this.http.post(`${BASE_URL_DEV}/Booking/add`, dto).subscribe((x) => {
+    this.http.post(`${BASE_URL_PROD}/Booking/add`, dto).subscribe((x) => {
       this.showReservations(1);
     });
   }
