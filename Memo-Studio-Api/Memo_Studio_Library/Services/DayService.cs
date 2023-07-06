@@ -19,6 +19,7 @@ namespace Memo_Studio_Library.Services
         {
             using (var context = new StudioContext())
             {
+                model.DayDate = model.DayDate.ToLocalTime();
                 model.DayDate = new DateTime(model.DayDate.Year, model.DayDate.Month, model.DayDate.Day);
                 var foundModel = context.Days.FirstOrDefault(x=>x.DayDate==model.DayDate&&x.EmployeeId==model.EmployeeId);
                 model.StartPeriod = model.StartPeriod.ToLocalTime();

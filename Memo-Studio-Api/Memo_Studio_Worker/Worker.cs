@@ -90,7 +90,10 @@ public class Worker : BackgroundService
         string month = culture.DateTimeFormat.GetMonthName(reservationHour.Month);
         string year = reservationHour.ToString("yyyy");
         string weekday = culture.DateTimeFormat.GetDayName(reservationHour.DayOfWeek);
-        var date = $"*{weekday}, {day} {month} {year}г.*";
+        var hour = reservationHour.Hour <= 10 ? $"0{reservationHour.Hour}" : reservationHour.Hour.ToString();
+        var minutes = reservationHour.Minute <= 10 ? $"0{reservationHour.Minute}" : reservationHour.Minute.ToString();
+
+        var date = $"*$({hour}:{minutes}ч.) - {weekday}, {day} {month} {year}г.*";
         if (reservationHour.Minute == 0)
         {
             if (reservationHour.Year == currentHour.Year
