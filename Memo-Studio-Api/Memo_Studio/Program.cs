@@ -26,9 +26,7 @@ public class Program
 
         builder.Services.AddControllers();
 
-        //builder.Services.AddDbContext<StudioContext>(options =>
-        //  options.UseSqlServer("Server=tcp:127.0.0.1,1433;Database=MemoStudio;MultipleActiveResultSets=true;User=sa;Password=MyPass@word;"));
-
+        
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowAll",

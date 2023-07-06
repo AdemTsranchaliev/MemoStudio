@@ -1,33 +1,39 @@
 {
   "format": 1,
   "restore": {
-    "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio/Memo_Studio.csproj": {}
+    "D:\\0\\MemoStudio\\Memo-Studio-Api\\Memo_Studio\\Memo_Studio.csproj": {}
   },
   "projects": {
-    "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio/Memo_Studio.csproj": {
+    "D:\\0\\MemoStudio\\Memo-Studio-Api\\Memo_Studio\\Memo_Studio.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio/Memo_Studio.csproj",
+        "projectUniqueName": "D:\\0\\MemoStudio\\Memo-Studio-Api\\Memo_Studio\\Memo_Studio.csproj",
         "projectName": "Memo_Studio",
-        "projectPath": "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio/Memo_Studio.csproj",
-        "packagesPath": "/Users/adem_tsranchaliev/.nuget/packages/",
-        "outputPath": "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio/obj/",
+        "projectPath": "D:\\0\\MemoStudio\\Memo-Studio-Api\\Memo_Studio\\Memo_Studio.csproj",
+        "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
+        "outputPath": "D:\\0\\MemoStudio\\Memo-Studio-Api\\Memo_Studio\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
+        ],
         "configFilePaths": [
-          "/Users/adem_tsranchaliev/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio_Library/Memo_Studio_Library.csproj": {
-                "projectPath": "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio_Library/Memo_Studio_Library.csproj"
+              "D:\\0\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\Memo_Studio_Library.csproj": {
+                "projectPath": "D:\\0\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\Memo_Studio_Library.csproj"
               }
             }
           }
@@ -103,8 +109,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -116,26 +121,32 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio_Library/Memo_Studio_Library.csproj": {
+    "D:\\0\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\Memo_Studio_Library.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio_Library/Memo_Studio_Library.csproj",
+        "projectUniqueName": "D:\\0\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\Memo_Studio_Library.csproj",
         "projectName": "Memo_Studio_Library",
-        "projectPath": "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio_Library/Memo_Studio_Library.csproj",
-        "packagesPath": "/Users/adem_tsranchaliev/.nuget/packages/",
-        "outputPath": "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio_Library/obj/",
+        "projectPath": "D:\\0\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\Memo_Studio_Library.csproj",
+        "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
+        "outputPath": "D:\\0\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
+        ],
         "configFilePaths": [
-          "/Users/adem_tsranchaliev/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -203,8 +214,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -213,7 +223,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

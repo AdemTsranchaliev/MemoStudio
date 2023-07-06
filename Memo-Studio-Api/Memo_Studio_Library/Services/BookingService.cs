@@ -44,16 +44,25 @@ namespace Memo_Studio_Library
 
         public List<Booking> GetBookingsByRange(DateTime periodStart, DateTime periodEnd)
         {
-            using (var context = new StudioContext())
+            try
             {
-                if (periodStart>periodEnd)
+                using (var context = new StudioContext())
                 {
-                    return new List<Booking>();
+                    if (periodStart > periodEnd)
+                    {
+                        return new List<Booking>();
+                    }
+                    return context.Bookings
+                        .Include(x => x.User)
+                        .Where(x => x.Timestamp >= periodStart && x.Timestamp <= periodEnd && !x.Canceled).ToList();
                 }
-                return context.Bookings
-                    .Include(x => x.User)
-                    .Where(x => x.Timestamp >= periodStart && x.Timestamp <= periodEnd && !x.Canceled).ToList();
             }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
         }
 
         public async Task RemoveBooking(int id)
