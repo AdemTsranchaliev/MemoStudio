@@ -45,10 +45,10 @@ namespace Memo_Studio.Controllers
             var hour = booking.DateTime.Hour <= 10 ? $"0{booking.DateTime.Hour}" : booking.DateTime.Hour.ToString();
             var minutes = booking.DateTime.Minute <= 10 ? $"0{booking.DateTime.Minute}" : booking.DateTime.Minute.ToString();
 
-            var date = $"*$({hour}:{minutes}ч.) - {weekday}, {day} {month} {year}г.*";
+            var date = $"*({hour}:{minutes}ч.) - {weekday}, {day} {month} {year}г.*";
             if (booking.Index==0)
                 {
-                await messageService.SendMessage(newBooking.User.ViberId, $"Запазихте час за \n*{weekday}, {day} {month} {year}г.*");
+                await messageService.SendMessage(newBooking.User.ViberId, $"Запазихте час за \n{date}");
             }
             return Ok();
         }
@@ -96,7 +96,7 @@ namespace Memo_Studio.Controllers
             var hour = booking.Timestamp.Hour <= 10 ? $"0{booking.Timestamp.Hour}" : booking.Timestamp.Hour.ToString();
             var minutes = booking.Timestamp.Minute <= 10 ? $"0{booking.Timestamp.Minute}" : booking.Timestamp.Minute.ToString();
 
-            var date = $"*$({hour}:{minutes}ч.) - {weekday}, {day} {month} {year}г.*";
+            var date = $"*({hour}:{minutes}ч.) - {weekday}, {day} {month} {year}г.*";
             await messageService.SendMessage(booking.User.ViberId, $"Вашият час за \n{date} беше отменен.");
 
             return Ok();
