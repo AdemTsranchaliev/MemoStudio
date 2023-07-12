@@ -37,7 +37,7 @@ namespace Memo_Studio.Controllers
             }
 
             CultureInfo culture = new CultureInfo("bg-BG");
-
+            booking.DateTime = booking.DateTime.ToLocalTime();
             string day = booking.DateTime.ToString("dd");
             string month = culture.DateTimeFormat.GetMonthName(booking.DateTime.Month);
             string year = booking.DateTime.ToString("yyyy");
