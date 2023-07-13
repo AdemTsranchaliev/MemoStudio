@@ -6,7 +6,7 @@ import { Booking } from "../models/booking.model";
 import { startWith, map, concatMap } from "rxjs/operators";
 import { BookingService } from "../shared/services/booking.service";
 import { User } from "../models/user.model";
-import { BookingDto } from "./booking-dto-model";
+import { BookingDto } from "../models/booking-dto-model";
 import { Day } from "../models/day.model";
 import { BASE_URL_PROD } from "../shared/routes";
 import { UserService } from "../shared/services/user.service";

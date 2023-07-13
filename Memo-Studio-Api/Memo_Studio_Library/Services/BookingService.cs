@@ -42,6 +42,25 @@ namespace Memo_Studio_Library
             }
         }
 
+        public List<Booking> GetBookingsByUserId(int userId)
+        {
+            try
+            {
+                using (var context = new StudioContext())
+                {
+                    return context.Bookings
+                        .Include(x=>x.User)
+                        .Where(x => x.UserId == userId).OrderByDescending(x => x.CreatedOn).ToList();
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+            
+        }
+
         public List<Booking> GetBookingsByRange(DateTime periodStart, DateTime periodEnd)
         {
             try

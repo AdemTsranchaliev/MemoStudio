@@ -13,7 +13,7 @@ namespace Memo_Studio_Library.Models
 
 		public DateTime CreatedOn { get; set; }
 
-		public User User { get; set; }
+		public User? User { get; set; }
 
 		public int UserId{ get; set; }
 

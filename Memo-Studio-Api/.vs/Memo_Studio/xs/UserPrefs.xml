@@ -1,24 +1,16 @@
-﻿<Properties StartupConfiguration="{E6FDB19A-5529-4104-8E38-08430BB88E88}|Default">
-  <MonoDevelop.Ide.ItemProperties.Memo__Studio PreferredExecutionTarget="/Applications/Brave Browser.app" />
+﻿<Properties StartupConfiguration="{3E153595-D490-4A1E-83F1-E7AC0EE5BE25}|https">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Memo_Studio_Worker/Worker.cs">
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Memo_Studio/Controllers/UserController.cs">
     <Files>
-      <File FileName="Memo_Studio/Controllers/BookingController.cs" Line="86" Column="1" />
-      <File FileName="Memo_Studio/Controllers/DayController.cs" Line="38" Column="1" />
-      <File FileName="Memo_Studio_Library/Data/Models/Day.cs" Line="7" Column="1" />
-      <File FileName="Memo_Studio_Library/Services/DayService.cs" Line="55" Column="27" />
-      <File FileName="Memo_Studio_Library/Services/IDayService.cs" Line="10" Column="20" />
-      <File FileName="Memo_Studio/Controllers/WebhookController.cs" Line="18" Column="58" />
-      <File FileName="../../../../usr/local/share/dotnet/sdk/7.0.203/Microsoft.Common.CurrentVersion.targets" Line="4862" Column="5" />
-      <File FileName="Memo_Studio/Program.cs" Line="84" Column="1" />
-      <File FileName="Memo_Studio_Library/Services/BookingService.cs" Line="1" Column="1" />
-      <File FileName="Memo_Studio_Worker/Program.cs" Line="1" Column="1" />
-      <File FileName="Memo_Studio_Worker/Worker.cs" Line="86" Column="31" />
+      <File FileName="Memo_Studio/Controllers/UserController.cs" Line="28" Column="44" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="Memo_Studio" expanded="True">
+          <Node name="Memo_Studio" expanded="True" selected="True">
             <Node name="Memo_Studio" expanded="True">
               <Node name="Controllers" expanded="True" />
               <Node name="appsettings.json" expanded="True" />
@@ -30,16 +22,14 @@
               <Node name="Services" expanded="True" />
               <Node name="ViewModels" expanded="True" />
             </Node>
-            <Node name="Memo_Studio_Worker" expanded="True">
-              <Node name="Worker.cs" selected="True" />
-            </Node>
+            <Node name="Memo_Studio_Worker" expanded="True" />
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.Memo__Studio__Worker PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.Memo__Studio PreferredExecutionTarget="/Applications/Brave Browser.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

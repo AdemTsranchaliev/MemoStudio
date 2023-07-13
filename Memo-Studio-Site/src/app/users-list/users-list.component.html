@@ -20,16 +20,16 @@
     <h3 class="text-center py-3">ВСИЧКИ ПОТРЕБИТЕЛИ</h3>
     <div class="container">
         <mat-selection-list #shoes [multiple]="false">
-            <mat-list-option *ngFor="let user of users" [value]="user.phoneNumber" [routerLink]="['/user', 1]">
+            <mat-list-option *ngFor="let user of users" [value]="user.phone" [routerLink]="['/user', user.id]">
                 <span class="pt-2 mt-2" style='font-size: large; line-height: 85%;'>
-                    {{user.fullName}}</span>
-                <span class="text-muted mb-2 pb-2" style='font-size: small;'>{{ user.phoneNumber }}</span>
+                    {{user.name}}</span>
+                <span class="text-muted mb-2 pb-2" style='font-size: small;'>{{ user.phone }}</span>
 
                 <mat-divider></mat-divider>
             </mat-list-option>
         </mat-selection-list>
     </div>
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Page navigation example mt-4">
         <ul class="pagination justify-content-center">
             <li class="page-item disabled">
                 <a class="page-link" href="#" tabindex="-1">Previous</a>

@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { BookingDto } from "src/app/booking/booking-dto-model";
+import { BookingDto } from "src/app/models/booking-dto-model";
 import { Booking } from "src/app/models/booking.model";
 import { BASE_URL_DEV } from "../routes";
 const httpOptions = {
@@ -52,6 +52,13 @@ export class BookingService {
       `${BASE_URL_DEV}/Booking/${date.toDateString()}/${localStorage.getItem(
         "clientId"
       )}/get`,
+      httpOptions
+    );
+  }
+
+  public getBookingByUserId(userId: number) {
+    return this.http.get<Booking[]>(
+      `${BASE_URL_DEV}/Booking/${userId}`,
       httpOptions
     );
   }

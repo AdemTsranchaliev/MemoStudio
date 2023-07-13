@@ -8,6 +8,7 @@ namespace Memo_Studio_Library
 		public bool AddUser(UserViewModel model);
 		public User GetUserByViberId(string viberId);
 		public List<User> GetAllUsers();
-	}
+		public User GetUserById(int id);
+    }
 }
 

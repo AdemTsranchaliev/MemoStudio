@@ -52,6 +52,15 @@ namespace Memo_Studio_Library
             }
         }
 
+        public User GetUserById(int id)
+        {
+            using (var context = new StudioContext())
+            {
+                var user = context.Users.FirstOrDefault(x => x.Id == id);
+                return user;
+            }
+        }
+
         public User GetUserByViberId(string viberId)
         {
             using (var context = new StudioContext())

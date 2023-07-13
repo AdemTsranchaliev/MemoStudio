@@ -77,6 +77,30 @@ namespace Memo_Studio.Controllers
             return Ok(mapedBookings);
         }
 
+        [DisableCors]
+        [HttpGet("{userId}")]
+        public IActionResult GetBookingsByUserId(int userId)
+        {
+            var bookings = bookingService.GetBookingsByUserId(userId);
+            var mapedBookings = bookings.Select(x =>
+            {
+                return new BookingsResponceViewModel
+                {
+                    Id = x.Id,
+                    Name = x.User.Name,
+                    Phone = x.User.Phone,
+                    Year = x.Timestamp.Year,
+                    Month = x.Timestamp.Month,
+                    Day = x.Timestamp.Day,
+                    Hour = x.Timestamp.Hour,
+                    Minutes = x.Timestamp.Minute,
+                    Free = false,
+                    Note = x.Note
+                };
+            });
+            return Ok(mapedBookings);
+        }
+
         [HttpDelete("{bookingId}")]
         public async Task<IActionResult> RemoveBooking(int bookingId)
         {

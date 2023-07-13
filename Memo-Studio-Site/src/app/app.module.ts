@@ -22,6 +22,8 @@ import { Ng2PaginationModule } from "ng2-pagination";
 import { UserDetailsComponent } from "./user-details/user-details.component";
 import { UserService } from "./shared/services/user.service";
 import { DayService } from "./shared/services/day.service";
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import { DayService } from "./shared/services/day.service";
     MatListModule,
     MatPaginatorModule,
     ReactiveFormsModule,
+    MatTabsModule,
+    MatTableModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
