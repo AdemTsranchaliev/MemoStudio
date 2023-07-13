@@ -9,6 +9,8 @@ import { User } from "../models/user.model";
 import { BookingDto } from "./booking-dto-model";
 import { Day } from "../models/day.model";
 import { BASE_URL_PROD } from "../shared/routes";
+import { UserService } from "../shared/services/user.service";
+import { DayService } from "../shared/services/day.service";
 
 declare const $: any;
 const httpOptions = {
@@ -126,15 +128,15 @@ export class BookingComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private bookingService: BookingService
+    private bookingService: BookingService,
+    private userService: UserService,
+    private dayService: DayService
   ) {}
 
   ngOnInit() {
-    this.http
-      .get<User[]>(`${BASE_URL_PROD}/User/getAllUsers`, httpOptions)
-      .subscribe((x) => {
-        this.options = x;
-      });
+    this.userService.getAllUsers().subscribe((x) => {
+      this.options = x;
+    });
     $(".year").html(this.date.getFullYear());
 
     this.monthClick(this.date.getMonth());
@@ -335,17 +337,15 @@ export class BookingComponent implements OnInit {
 
   public removeBooking() {
     this.loader = true;
-    this.http
-      .delete(`${BASE_URL_PROD}/Booking/${this.deleteBookingId}`, httpOptions)
-      .subscribe((x) => {
-        this.bookingsOrigin = this.bookingService.getReservationForDate(
-          this.date,
-          this.bookingsOrigin
-        );
-        this.bookings = [...this.bookingsOrigin];
-        this.showReservations(1);
-        this.loader = false;
-      });
+    this.bookingService.deleteBooking(this.deleteBookingId).subscribe((x) => {
+      this.bookingsOrigin = this.bookingService.getReservationForDate(
+        this.date,
+        this.bookingsOrigin
+      );
+      this.bookings = [...this.bookingsOrigin];
+      this.showReservations(1);
+      this.loader = false;
+    });
   }
 
   public openRemoveBookingConfirmation(id: string) {
@@ -454,20 +454,17 @@ export class BookingComponent implements OnInit {
         employeeId: localStorage.getItem("clientId"),
       };
 
-      this.http
-        .post(`${BASE_URL_PROD}/day/AddDay`, this.currentDay)
-        .subscribe((x) => {
-          $("#dialog2").hide(250);
-          this.showReservations(1);
-        });
+      this.dayService.addDay(this.currentDay).subscribe((x) => {
+        $("#dialog2").hide(250);
+        this.showReservations(1);
+      });
     }
   }
 
-  public getNameEmployee(){
-    if (localStorage.getItem("clientId")=="1") {
+  public getNameEmployee() {
+    if (localStorage.getItem("clientId") == "1") {
       return "Мемо";
-    }
-    else{
+    } else {
       return "Стела";
     }
   }
@@ -540,13 +537,11 @@ export class BookingComponent implements OnInit {
       };
     }
 
-    this.http
-      .post(`${BASE_URL_PROD}/day/holiday`, this.currentDay)
-      .subscribe((x) => {
-        $("#modalCancel").modal("hide");
-        $("#dialog2").hide(250);
-        this.showReservations(1);
-      });
+    this.dayService.setHoliday(this.currentDay).subscribe((x) => {
+      $("#modalCancel").modal("hide");
+      $("#dialog2").hide(250);
+      this.showReservations(1);
+    });
   }
 
   public showReservations(id: number) {
@@ -578,33 +573,19 @@ export class BookingComponent implements OnInit {
     }
 
     this.loader = true;
-    this.http
-      .get<Booking[]>(
-        `${BASE_URL_PROD}/Booking/${this.date.toDateString()}/${localStorage.getItem(
-          "clientId"
-        )}/get`,
-        httpOptions
-      )
-      .subscribe((x) => {
-        this.bookingsOrigin = x;
+    this.bookingService.getBookingsByDate(this.date).subscribe((x) => {
+      this.bookingsOrigin = x;
 
-        this.http
-          .get<Day>(
-            `${BASE_URL_PROD}/Day/${this.date.toDateString()}/${localStorage.getItem(
-              "clientId"
-            )}`,
-            httpOptions
-          )
-          .subscribe((x) => {
-            this.currentDay = x;
-            this.bookings = this.getBookingsByBusyness(id);
-            this.loader = false;
-          });
+      this.dayService.getDayByDate(this.date).subscribe((x) => {
+        this.currentDay = x;
+        this.bookings = this.getBookingsByBusyness(id);
+        this.loader = false;
       });
+    });
   }
 
-  public logout(){
-    localStorage.removeItem('clientId');
+  public logout() {
+    localStorage.removeItem("clientId");
     location.reload();
   }
 
@@ -709,7 +690,7 @@ export class BookingComponent implements OnInit {
       note: note,
     };
 
-    this.http.post(`${BASE_URL_PROD}/Booking/add`, dto).subscribe((x) => {
+    this.bookingService.addBooking(dto).subscribe((x) => {
       this.showReservations(1);
     });
   }

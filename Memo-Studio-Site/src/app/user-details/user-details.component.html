@@ -1,0 +1,25 @@
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-center align-items-center mb-3">
+                    <h4 class="text-center">ПОТРЕБИТЕЛ</h4>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">Име</label><input type="text" class="form-control"
+                            [value]="user.name"></div>
+                    <div class="col-md-12"><label class="labels">Телефон</label><input type="text" class="form-control"
+                            [value]="user.phone"></div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6"><label class="labels">Регистриран на</label><input type="text"
+                            class="form-control" placeholder="country" value="21.12.2023" disabled></div>
+                    <div class="col-md-6"><label class="labels">Брой посещения</label><input type="text"
+                            class="form-control" value="23" placeholder="state" disabled></div>
+                </div>
+                <div class="mt-5 text-center"><button class="btn btn-primary profile-button w-100" (click)='editUser()'
+                        type="button">Редактирай профил</button></div>
+            </div>
+        </div>
+    </div>
+</div>
