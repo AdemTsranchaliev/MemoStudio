@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { Booking } from "../models/booking.model";
 import { startWith, map, concatMap } from "rxjs/operators";
 import { BookingService } from "../shared/services/booking.service";
@@ -11,22 +11,165 @@ import { Day } from "../models/day.model";
 import { BASE_URL_PROD } from "../shared/routes";
 import { UserService } from "../shared/services/user.service";
 import { DayService } from "../shared/services/day.service";
-
 declare const $: any;
-const httpOptions = {
-  headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-    Accept: "application/json",
-    "ngrok-skip-browser-warning": "69420",
-  },
-};
+
+
 @Component({
   selector: "app-booking",
   templateUrl: "./booking.component.html",
   styleUrls: ["./booking.component.css"],
 })
 export class BookingComponent implements OnInit {
+  // Subscriptions
+  private subscriptions: Subscription[] = [];
+
+  // Week Days for Calendar
+  weekDays: string[] = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Нд'];
+
+  // Get Current Date
+  currentDate: Date = new Date();
+
+  // Days Colection
+  calendarDays: Date[] = [];
+
+  // Storage for Event of the Day
+  events: { [key: string]: string[] } = {};
+
+  componentToRender: number;
+
+  constructor(
+    private http: HttpClient,
+    private bookingService: BookingService,
+    private userService: UserService,
+    private dayService: DayService,
+    // private bookingViewService: BookingViewService
+  ) { }
+
+  ngOnInit() {
+    // Init Calendar
+    // this.generateCalendar();
+
+
+
+    this.userService.getAllUsers().subscribe((x) => {
+      this.options = x;
+    });
+    $(".year").html(this.date.getFullYear());
+
+    this.monthClick(this.date.getMonth());
+    this.dateClick(this.date.getDate());
+    this.initCalendar(this.date);
+
+    this.filteredOptions = this.nameControl.valueChanges.pipe(
+      startWith(""),
+      map((value) => {
+        const name = typeof value === "string" ? value : value?.name;
+        return name ? this._filter(name as string) : this.options.slice();
+      })
+    );
+
+    this.filteredPhoneOptions = this.phoneControl.valueChanges.pipe(
+      startWith(""),
+      map((value) => {
+        const phone = typeof value === "string" ? value : value?.phone;
+        return phone
+          ? this._filterPhone(phone as string)
+          : this.options.slice();
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((el) => el.unsubscribe());
+  }
+
+  /**
+   * This Method Generate the Calendar
+   */
+  generateCalendar(): void {
+    const firstDayOfMonth = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
+    const lastDayOfMonth = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0);
+    const prevMonthLastDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 0).getDate();
+
+    const startDay = firstDayOfMonth.getDay();
+
+    const endDay = lastDayOfMonth.getDate();
+    const totalDays = startDay + endDay;
+
+    for (let i = startDay - 1; i >= 0; i--) {
+      this.calendarDays.push(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1, prevMonthLastDay - i));
+    }
+
+    for (let i = 1; i <= endDay; i++) {
+      this.calendarDays.push(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), i));
+    }
+
+    const remainingDays = 42 - totalDays;
+
+    for (let i = 1; i <= remainingDays; i++) {
+      this.calendarDays.push(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, i));
+    }
+
+    this.showReservations(1);
+  }
+
+  /**
+   * This Method Check is the Clicked Day, Today
+   * @param date 
+   * @returns 
+   */
+  isToday(date: Date): boolean {
+    const today = new Date();
+    return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
+  }
+
+  /**
+   * This Method Checks if the Current Clicked Day Has ONE event, if not, Creates Event for the Day
+   * @param day 
+   * @returns 
+   */
+  hasEvent(day: Date): boolean {
+    return !!this.events[day.toISOString()]; // Return true if an event exists for the day
+  }
+
+  /**
+   * This Method Checks if we are in the Current Month
+   * @param date 
+   * @returns 
+   */
+  isCurrentMonth(date: Date): boolean {
+    return date.getMonth() === this.currentDate.getMonth() && date.getFullYear() === this.currentDate.getFullYear();
+  }
+
+  /**
+   * This Method Changes to Previous Month
+   */
+  prevMonth(): void {
+    this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1, 1);
+    this.generateCalendar();
+  }
+
+  /**
+   * This Method Changes to Next Month
+   */
+  nextMonth(): void {
+    this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 1);
+    this.generateCalendar();
+  }
+
+  // manageCalendarView() {
+  //   this.bookingViewService.getComponentToRender().subscribe((shouldRender) => {
+  //     this.componentToRender = shouldRender;
+  //   });
+  // }
+
+  // renderComponent(componentNumber: number) {
+  //   this.bookingViewService.updateComponentToRender(componentNumber);
+  // }
+
+
+  // ============================================= Old Logic =============================================
+
   months: string[] = [
     "Януари",
     "Февруари",
@@ -119,48 +262,11 @@ export class BookingComponent implements OnInit {
   public days: number[] = [];
   public dayCount: number = 0;
   public firstDay: number = 0;
-  public listType: number = 0;
   public noteModal: Booking;
   public raiseError: boolean = false;
   public isDayPast: boolean = false;
   calendarRows: number[][];
   year: number;
-
-  constructor(
-    private http: HttpClient,
-    private bookingService: BookingService,
-    private userService: UserService,
-    private dayService: DayService
-  ) {}
-
-  ngOnInit() {
-    this.userService.getAllUsers().subscribe((x) => {
-      this.options = x;
-    });
-    $(".year").html(this.date.getFullYear());
-
-    this.monthClick(this.date.getMonth());
-    this.dateClick(this.date.getDate());
-    this.initCalendar(this.date);
-
-    this.filteredOptions = this.nameControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => {
-        const name = typeof value === "string" ? value : value?.name;
-        return name ? this._filter(name as string) : this.options.slice();
-      })
-    );
-
-    this.filteredPhoneOptions = this.phoneControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => {
-        const phone = typeof value === "string" ? value : value?.phone;
-        return phone
-          ? this._filterPhone(phone as string)
-          : this.options.slice();
-      })
-    );
-  }
 
   public markPastDates() {
     var currentDate = new Date();
@@ -173,10 +279,6 @@ export class BookingComponent implements OnInit {
           this.isDayPast = true;
           continue;
         }
-
-        $(`#day-${i}`).addClass("past-date");
-        const element = document.getElementById(`day-${i}`) as HTMLElement;
-        element.classList.add("past-date");
       }
       if (currentDate.getDate() <= this.date.getDate()) {
         this.isDayPast = false;
@@ -461,14 +563,6 @@ export class BookingComponent implements OnInit {
     }
   }
 
-  public getNameEmployee() {
-    if (localStorage.getItem("clientId") == "1") {
-      return "Мемо";
-    } else {
-      return "Стела";
-    }
-  }
-
   public checkIfBookingExist(hour) {
     return (
       this.bookingsOrigin.findIndex((x) => {
@@ -524,7 +618,6 @@ export class BookingComponent implements OnInit {
   }
 
   public cancelDay() {
-    console.log(1);
     if (this.currentDay && this.currentDay.dayDate) {
       this.currentDay.isWorking = false;
     } else {
@@ -545,31 +638,42 @@ export class BookingComponent implements OnInit {
   }
 
   public showReservations(id: number) {
-    this.listType = id;
     if (id == 1) {
       $("#busy-res").removeClass("active");
+      $("#busy-res").removeClass("border-primary");
       $("#busy-res").addClass("not-active-tab");
+
       $("#free-res").removeClass("active");
+      $("#free-res").removeClass("border-primary");
       $("#free-res").addClass("not-active-tab");
 
       $("#all-res").removeClass("not-active-tab");
       $("#all-res").addClass("active");
+      $("#all-res").addClass("border-primary");
     } else if (id == 2) {
       $("#busy-res").removeClass("active");
+      $("#busy-res").removeClass("border-primary");
       $("#busy-res").addClass("not-active-tab");
+
       $("#all-res").removeClass("active");
+      $("#all-res").removeClass("border-primary");
       $("#all-res").addClass("not-active-tab");
 
       $("#free-res").removeClass("not-active-tab");
       $("#free-res").addClass("active");
+      $("#free-res").addClass("border-primary");
     } else if (id == 3) {
       $("#all-res").removeClass("active");
+      $("#all-res").removeClass("border-primary");
       $("#all-res").addClass("not-active-tab");
+
       $("#free-res").removeClass("active");
+      $("#free-res").removeClass("border-primary");
       $("#free-res").addClass("not-active-tab");
 
       $("#busy-res").removeClass("not-active-tab");
       $("#busy-res").addClass("active");
+      $("#busy-res").addClass("border-primary");
     }
 
     this.loader = true;
@@ -582,11 +686,6 @@ export class BookingComponent implements OnInit {
         this.loader = false;
       });
     });
-  }
-
-  public logout() {
-    localStorage.removeItem("clientId");
-    location.reload();
   }
 
   private getBookingsByBusyness(id: number) {

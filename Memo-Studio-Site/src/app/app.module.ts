@@ -22,6 +22,8 @@ import { Ng2PaginationModule } from "ng2-pagination";
 import { UserDetailsComponent } from "./user-details/user-details.component";
 import { UserService } from "./shared/services/user.service";
 import { DayService } from "./shared/services/day.service";
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import { DayService } from "./shared/services/day.service";
     MatListModule,
     MatPaginatorModule,
     ReactiveFormsModule,
+    MatExpansionModule,
+    MatIconModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -55,4 +59,4 @@ import { DayService } from "./shared/services/day.service";
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
