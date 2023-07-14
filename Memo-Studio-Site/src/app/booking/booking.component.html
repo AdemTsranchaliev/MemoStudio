@@ -61,7 +61,6 @@
                     [class.not-other-month]="isCurrentMonth(day)"
                     [class.other-month]="!isCurrentMonth(day)"
                     [class.has-event]="hasEvent(day)"
-                    (click)="dateClick(day)"
                   >
                     <span class="day-digit" [class.today]="isToday(day)">
                       {{ day | date : 'd' }}
@@ -144,66 +143,59 @@
             </div>
 
             <!-- Display Hours -->
-            <div
-              class="event-card"
-              *ngFor="let booking of bookings"
-              [ngClass]="{ 'primary-background': !booking.free }"
-            >
+            <div class="event-card" *ngFor="let booking of bookings">
+              <!-- Render Olny Reserved Hours -->
               <div *ngIf="!booking.free">
-                <!-- <div class="row">
-                  <i
-                    class="fa ml-1 col-1"
-                    style="cursor: pointer"
-                    data-toggle="modal"
-                    data-target="#exampleModalCenter"
-                    (click)="openRemoveBookingConfirmation(booking.id)"
-                    >&#xf00d;</i
-                  >
-                  <div class="event-name col-2">
-                    ({{ getHour(booking.hour, booking.minutes) }}):
-                  </div>
-                  <div class="event-count col-4">{{ booking.name }}</div>
-                  <div class="event-count col-3">
-                    <a href="tel:{{ booking.phone }}">{{ booking.phone }}</a>
-                  </div>
-                  <div
-                    class="event-count col-1"
-                    *ngIf="booking.note"
-                    style="cursor: pointer"
-                    (click)="showModal(booking.id)"
-                  >
-                    <i class="fa fa-info-circle" aria-hidden="true"></i>
-                  </div>
-                </div> -->
-
                 <mat-accordion>
                   <mat-expansion-panel class="event-expansion-panel" hideToggle>
                     <mat-expansion-panel-header>
-                      <mat-panel-title class="d-flex justify-content-between">
-                        {{ booking.freeHour }} ч.
+                      <mat-panel-title>
+                        {{ getHour(booking.hour, booking.minutes) }} ч.
                       </mat-panel-title>
+
+                      <mat-panel-description>
+                        <div class="d-flex justify-content-between">
+                          <span> {{ truncateText(booking.name, 6) }} </span>
+
+                          <span>
+                            <a href="tel:{{ booking.phone }}">{{
+                              booking.phone
+                            }}</a>
+                          </span>
+
+                          <span>
+                            <i
+                              class="fa ml-1 col-1"
+                              style="cursor: pointer"
+                              data-toggle="modal"
+                              data-target="#exampleModalCenter"
+                              (click)="
+                                openRemoveBookingConfirmation(booking.id)
+                              "
+                              >&#xf00d;</i
+                            >
+                          </span>
+                        </div>
+                      </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <p>This is the primary content of the panel.</p>
+                    <div>
+                      <span>Име: {{ booking.name }}</span>
+                      <span *ngIf="booking?.note"
+                        >Бележка: {{ booking?.note }}</span
+                      >
+                    </div>
                   </mat-expansion-panel>
                 </mat-accordion>
               </div>
 
+              <!-- Render Olny Free Hours -->
               <div *ngIf="booking.free" style="cursor: pointer">
-                <!-- <div class="event-name">{{ booking.freeHour }} ч.</div> -->
-
-                <mat-accordion>
-                  <mat-expansion-panel class="event-expansion-panel" hideToggle>
-                    <mat-expansion-panel-header>
-                      <mat-panel-title class="d-flex justify-content-between">
-                        {{ booking.freeHour }} ч.
-                        <mat-icon (click)="newEvent(booking.freeHour)"
-                          >date_range</mat-icon
-                        >
-                      </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <p>This is the primary content of the panel.</p>
-                  </mat-expansion-panel>
-                </mat-accordion>
+                <div
+                  class="border border-primary rounded shadow p-2 text-dark text-center"
+                  (click)="newEvent(booking.freeHour)"
+                >
+                  {{ booking.freeHour }} ч.
+                </div>
               </div>
             </div>
           </div>
@@ -236,9 +228,9 @@
             </div>
           </div>
 
-          <!-- Dialog Util -->
-          <div class="dialog" id="dialog">
-            <p class="text-center mb-0 mt-2" style="color: black">
+          <!-- Dialogs -->
+          <div class="dialog bg-white" id="dialog">
+            <p class="text-center mb-3 mt-2" style="color: black">
               Добави час -
               <b
                 >{{ this.date.getDate() }}
@@ -249,27 +241,24 @@
 
             <form class="form mb-0 mt-0 pb-0 pt-0" id="form">
               <div class="form-container mb-0 mt-0 pb-0 pt-0" align="center">
-                <div
-                  class="alert alert-danger pb-0 pt-0 mt-0 mb-0"
+                <span
+                  class="alert border-danger text-danger p-2 px-4"
                   *ngIf="raiseError"
                 >
                   Моля попълнете всички полета!
-                </div>
-                <form class="pl-3 pr-3 mb-0 mt-0 pt-0">
+                </span>
+                <form class="pl-3 pr-3 mb-0 mt-2 pt-0">
                   <mat-form-field
                     class="example-full-width mb-0 mt-0 pb-0 pt-0"
                   >
                     <label>Име</label>
                     <input
-                      style="
-                        background-color: white !important;
-                        border-bottom-width: 0 !important;
-                      "
+                      style="background-color: white !important"
                       id="name"
                       type="text"
                       matInput
                       [formControl]="nameControl"
-                      class="form-control"
+                      class="form-control border"
                       [matAutocomplete]="auto"
                     />
                     <mat-autocomplete
@@ -289,15 +278,12 @@
                   >
                     <label>Телефон</label>
                     <input
-                      style="
-                        background-color: white !important;
-                        border-bottom-width: 0 !important;
-                      "
+                      style="background-color: white !important"
                       id="phone"
                       type="text"
                       matInput
                       [formControl]="phoneControl"
-                      class="form-control"
+                      class="form-control border"
                       [matAutocomplete]="auto2"
                     />
                     <mat-autocomplete
@@ -362,29 +348,26 @@
                     class="example-full-width mb-0 mt-0 pb-0 pt-0"
                   >
                     <input
-                      style="
-                        background-color: white !important;
-                        border-bottom-width: 0 !important;
-                      "
+                      style="background-color: white !important"
                       id="note"
                       type="text"
                       matInput
                       [formControl]="noteControl"
-                      class="form-control"
+                      class="form-control border"
                     />
                   </mat-form-field>
                 </div>
                 <input
                   type="button"
                   value="Отказ"
-                  class="button mr-3"
+                  class="button bg-primary mr-3"
                   id="cancel-button"
                   (click)="cancelEvent(1)"
                 />
                 <input
                   type="button"
                   value="Добави"
-                  class="button button-white"
+                  class="button bg-primary"
                   id="ok-button"
                   (click)="addEvent()"
                 />
@@ -512,7 +495,7 @@
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal - will be removed -->
 <div
   class="modal fade"
   id="modalNote"
