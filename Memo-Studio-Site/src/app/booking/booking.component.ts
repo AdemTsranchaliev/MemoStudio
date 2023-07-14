@@ -57,7 +57,7 @@ export class BookingComponent implements OnInit {
 
   ngOnInit() {
     // Init Calendar
-    // this.generateCalendar();
+    this.generateCalendar();
 
     this.userService.getAllUsers().subscribe((x) => {
       this.options = x;
@@ -794,5 +794,10 @@ export class BookingComponent implements OnInit {
     return (monthEnd.getTime() - monthStart.getTime()) / (1000 * 60 * 60 * 24);
   }
 
-  private getCalendarDays() {}
+  truncateText(text: string, limit: number): string {
+    if (text.length > limit) {
+      return text.substring(0, limit) + '...';
+    }
+    return text;
+  }
 }

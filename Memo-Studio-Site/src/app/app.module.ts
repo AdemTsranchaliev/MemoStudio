@@ -24,6 +24,7 @@ import { UserService } from "./shared/services/user.service";
 import { DayService } from "./shared/services/day.service";
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatPaginatorModule,
     ReactiveFormsModule,
     MatExpansionModule,
-    MatIconModule
+    MatIconModule,
+    MatBadgeModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
