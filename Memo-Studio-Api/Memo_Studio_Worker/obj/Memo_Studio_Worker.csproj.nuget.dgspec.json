@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Software\\project-200-calendar\\Project\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Worker\\Memo_Studio_Worker.csproj": {}
+    "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio_Worker/Memo_Studio_Worker.csproj": {}
   },
   "projects": {
-    "D:\\Software\\project-200-calendar\\Project\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\Memo_Studio_Library.csproj": {
+    "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio_Library/Memo_Studio_Library.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Software\\project-200-calendar\\Project\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\Memo_Studio_Library.csproj",
+        "projectUniqueName": "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio_Library/Memo_Studio_Library.csproj",
         "projectName": "Memo_Studio_Library",
-        "projectPath": "D:\\Software\\project-200-calendar\\Project\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\Memo_Studio_Library.csproj",
-        "packagesPath": "C:\\Users\\Stoyko\\.nuget\\packages\\",
-        "outputPath": "D:\\Software\\project-200-calendar\\Project\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\obj\\",
+        "projectPath": "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio_Library/Memo_Studio_Library.csproj",
+        "packagesPath": "/Users/adem_tsranchaliev/.nuget/packages/",
+        "outputPath": "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio_Library/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Stoyko\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/adem_tsranchaliev/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -89,7 +87,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -98,36 +97,34 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Software\\project-200-calendar\\Project\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Worker\\Memo_Studio_Worker.csproj": {
+    "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio_Worker/Memo_Studio_Worker.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Software\\project-200-calendar\\Project\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Worker\\Memo_Studio_Worker.csproj",
+        "projectUniqueName": "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio_Worker/Memo_Studio_Worker.csproj",
         "projectName": "Memo_Studio_Worker",
-        "projectPath": "D:\\Software\\project-200-calendar\\Project\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Worker\\Memo_Studio_Worker.csproj",
-        "packagesPath": "C:\\Users\\Stoyko\\.nuget\\packages\\",
-        "outputPath": "D:\\Software\\project-200-calendar\\Project\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Worker\\obj\\",
+        "projectPath": "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio_Worker/Memo_Studio_Worker.csproj",
+        "packagesPath": "/Users/adem_tsranchaliev/.nuget/packages/",
+        "outputPath": "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio_Worker/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Stoyko\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/adem_tsranchaliev/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\Software\\project-200-calendar\\Project\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\Memo_Studio_Library.csproj": {
-                "projectPath": "D:\\Software\\project-200-calendar\\Project\\MemoStudio\\Memo-Studio-Api\\Memo_Studio_Library\\Memo_Studio_Library.csproj"
+              "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio_Library/Memo_Studio_Library.csproj": {
+                "projectPath": "/Applications/GitHub/MemoStudio/Memo-Studio-Api/Memo_Studio_Library/Memo_Studio_Library.csproj"
               }
             }
           }
@@ -157,7 +154,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -166,7 +164,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
         }
       }
     }

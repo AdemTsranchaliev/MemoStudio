@@ -31,18 +31,8 @@
               <table class="months-table w-100">
                 <tbody>
                   <tr class="months-row">
-                    <td class="month" id="0" (click)="monthClick(0)">Яну</td>
-                    <td class="month" id="1" (click)="monthClick(1)">Фев</td>
-                    <td class="month" id="2" (click)="monthClick(2)">Мар</td>
-                    <td class="month" id="3" (click)="monthClick(3)">Апр</td>
-                    <td class="month" id="4" (click)="monthClick(4)">Май</td>
-                    <td class="month" id="5" (click)="monthClick(5)">Юни</td>
-                    <td class="month" id="6" (click)="monthClick(6)">Юли</td>
-                    <td class="month" id="7" (click)="monthClick(7)">Авг</td>
-                    <td class="month" id="8" (click)="monthClick(8)">Сеп</td>
-                    <td class="month" id="9" (click)="monthClick(9)">Окт</td>
-                    <td class="month" id="10" (click)="monthClick(10)">Ное</td>
-                    <td class="month" id="11" (click)="monthClick(11)">Дек</td>
+                    <td class="month" [ngClass]="{'active-month': this.date.getMonth()==i}" *ngFor='let month of monthStrings; let i=index' id="i" (click)="monthClick(i)">{{month}}</td>
+
                   </tr>
                 </tbody>
               </table>
@@ -53,21 +43,6 @@
                     {{ day }}
                   </div>
                 </div>
-
-                <!-- <div class="row days">
-                  <div
-                    *ngFor="let day of calendarDays; index as i"
-                    class="col day text-center cursor-pointer calendar-border-rounded"
-                    [class.not-other-month]="isCurrentMonth(day)"
-                    [class.other-month]="!isCurrentMonth(day)"
-                    [class.has-event]="hasEvent(day)"
-                    (click)="dateClick(day)"
-                  >
-                    <span class="day-digit" [class.today]="isToday(day)">
-                      {{ day | date : 'd' }}
-                    </span>
-                  </div>
-                </div> -->
 
                 <div class="frame">
                   <table class="dates-table w-100">
@@ -97,8 +72,9 @@
             <ul class="nav nav-tabs" style="background-color: white !important">
               <li class="nav-item" style="width: 33.33%">
                 <p
-                  class="nav-link active text-center border-primary"
+                  class="nav-link text-center "
                   id="all-res"
+                  [ngClass]="{'active': selectedFilter==1, 'not-active-tab': selectedFilter!=1}"
                   (click)="showReservations(1)"
                 >
                   Всички
@@ -106,8 +82,9 @@
               </li>
               <li class="nav-item" style="width: 33.33%">
                 <p
-                  class="nav-link not-active-tab text-center"
+                  class="nav-link  text-center"
                   id="free-res"
+                  [ngClass]="{'active': selectedFilter==2, 'not-active-tab': selectedFilter!=2}"
                   (click)="showReservations(2)"
                 >
                   Свободни
@@ -115,7 +92,8 @@
               </li>
               <li class="nav-item" style="width: 33.33%">
                 <p
-                  class="nav-link not-active-tab text-center"
+                  class="nav-link text-center"
+                  [ngClass]="{'active': selectedFilter==3, 'not-active-tab': selectedFilter!=3}"
                   id="busy-res"
                   (click)="showReservations(3)"
                 >
@@ -130,7 +108,7 @@
               *ngIf="bookings.length == 0 && !isDayPast"
             >
               Все още няма заети часове за {{ this.date.getDate() }}
-              {{ months[date.getMonth()] }} {{ date.getFullYear() }}г.
+              {{ date.toLocaleString('bg-BG', { month: 'long' }) }} {{ date.getFullYear() }}г.
             </div>
             <div class="alert alert-info m-4" role="alert" *ngIf="isDayPast">
               Тази дата е минала и нямате право на действия.
@@ -242,7 +220,7 @@
               Добави час -
               <b
                 >{{ this.date.getDate() }}
-                {{ months[date.getMonth()] }}
+                {{ date.toLocaleString('bg-BG', { month: 'long' }) }}
                 {{ date.getFullYear() }}г.
               </b>
             </p>
@@ -386,7 +364,7 @@
                   value="Добави"
                   class="button button-white"
                   id="ok-button"
-                  (click)="addEvent()"
+                  (click)="bookHour()"
                 />
               </div>
             </form>
@@ -397,7 +375,7 @@
               ПРОМЕНИ ДЕН -
               <b
                 >{{ this.date.getDate() }}
-                {{ months[date.getMonth()] }}
+                {{ date.toLocaleString('bg-BG', { month: 'long' }) }}
                 {{ date.getFullYear() }}г.
               </b>
             </p>
@@ -421,7 +399,7 @@
                   >
                     <option
                       value="{{ i }}"
-                      *ngFor="let hour of timeArray; let i = index"
+                      *ngFor="let hour of generateHourArray(); let i = index"
                     >
                       {{ hour }}
                     </option>
@@ -437,7 +415,7 @@
                   >
                     <option
                       value="{{ i }}"
-                      *ngFor="let hour of timeArray; let i = index"
+                      *ngFor="let hour of generateHourArray(); let i = index"
                     >
                       {{ hour }}
                     </option>

@@ -13,7 +13,6 @@ import { UserService } from "../shared/services/user.service";
 import { DayService } from "../shared/services/day.service";
 declare const $: any;
 
-
 @Component({
   selector: "app-booking",
   templateUrl: "./booking.component.html",
@@ -24,8 +23,21 @@ export class BookingComponent implements OnInit {
   private subscriptions: Subscription[] = [];
 
   // Week Days for Calendar
-  weekDays: string[] = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Нд'];
-
+  weekDays: string[] = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"];
+  monthStrings: string[] = [
+    "Яну",
+    "Фев",
+    "Мар",
+    "Апр",
+    "Май",
+    "Юни",
+    "Юли",
+    "Авг",
+    "Сеп",
+    "Окт",
+    "Ное",
+    "Дек",
+  ];
   // Get Current Date
   currentDate: Date = new Date();
 
@@ -38,18 +50,14 @@ export class BookingComponent implements OnInit {
   componentToRender: number;
 
   constructor(
-    private http: HttpClient,
     private bookingService: BookingService,
     private userService: UserService,
-    private dayService: DayService,
-    // private bookingViewService: BookingViewService
-  ) { }
+    private dayService: DayService // private bookingViewService: BookingViewService
+  ) {}
 
   ngOnInit() {
     // Init Calendar
     // this.generateCalendar();
-
-
 
     this.userService.getAllUsers().subscribe((x) => {
       this.options = x;
@@ -87,9 +95,21 @@ export class BookingComponent implements OnInit {
    * This Method Generate the Calendar
    */
   generateCalendar(): void {
-    const firstDayOfMonth = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
-    const lastDayOfMonth = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0);
-    const prevMonthLastDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 0).getDate();
+    const firstDayOfMonth = new Date(
+      this.currentDate.getFullYear(),
+      this.currentDate.getMonth(),
+      1
+    );
+    const lastDayOfMonth = new Date(
+      this.currentDate.getFullYear(),
+      this.currentDate.getMonth() + 1,
+      0
+    );
+    const prevMonthLastDay = new Date(
+      this.currentDate.getFullYear(),
+      this.currentDate.getMonth(),
+      0
+    ).getDate();
 
     const startDay = firstDayOfMonth.getDay();
 
@@ -97,17 +117,31 @@ export class BookingComponent implements OnInit {
     const totalDays = startDay + endDay;
 
     for (let i = startDay - 1; i >= 0; i--) {
-      this.calendarDays.push(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1, prevMonthLastDay - i));
+      this.calendarDays.push(
+        new Date(
+          this.currentDate.getFullYear(),
+          this.currentDate.getMonth() - 1,
+          prevMonthLastDay - i
+        )
+      );
     }
 
     for (let i = 1; i <= endDay; i++) {
-      this.calendarDays.push(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), i));
+      this.calendarDays.push(
+        new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), i)
+      );
     }
 
     const remainingDays = 42 - totalDays;
 
     for (let i = 1; i <= remainingDays; i++) {
-      this.calendarDays.push(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, i));
+      this.calendarDays.push(
+        new Date(
+          this.currentDate.getFullYear(),
+          this.currentDate.getMonth() + 1,
+          i
+        )
+      );
     }
 
     this.showReservations(1);
@@ -115,18 +149,22 @@ export class BookingComponent implements OnInit {
 
   /**
    * This Method Check is the Clicked Day, Today
-   * @param date 
-   * @returns 
+   * @param date
+   * @returns
    */
   isToday(date: Date): boolean {
     const today = new Date();
-    return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
   }
 
   /**
    * This Method Checks if the Current Clicked Day Has ONE event, if not, Creates Event for the Day
-   * @param day 
-   * @returns 
+   * @param day
+   * @returns
    */
   hasEvent(day: Date): boolean {
     return !!this.events[day.toISOString()]; // Return true if an event exists for the day
@@ -134,18 +172,25 @@ export class BookingComponent implements OnInit {
 
   /**
    * This Method Checks if we are in the Current Month
-   * @param date 
-   * @returns 
+   * @param date
+   * @returns
    */
   isCurrentMonth(date: Date): boolean {
-    return date.getMonth() === this.currentDate.getMonth() && date.getFullYear() === this.currentDate.getFullYear();
+    return (
+      date.getMonth() === this.currentDate.getMonth() &&
+      date.getFullYear() === this.currentDate.getFullYear()
+    );
   }
 
   /**
    * This Method Changes to Previous Month
    */
   prevMonth(): void {
-    this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1, 1);
+    this.currentDate = new Date(
+      this.currentDate.getFullYear(),
+      this.currentDate.getMonth() - 1,
+      1
+    );
     this.generateCalendar();
   }
 
@@ -153,7 +198,11 @@ export class BookingComponent implements OnInit {
    * This Method Changes to Next Month
    */
   nextMonth(): void {
-    this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 1);
+    this.currentDate = new Date(
+      this.currentDate.getFullYear(),
+      this.currentDate.getMonth() + 1,
+      1
+    );
     this.generateCalendar();
   }
 
@@ -167,74 +216,7 @@ export class BookingComponent implements OnInit {
   //   this.bookingViewService.updateComponentToRender(componentNumber);
   // }
 
-
   // ============================================= Old Logic =============================================
-
-  months: string[] = [
-    "Януари",
-    "Февруари",
-    "Март",
-    "Април",
-    "Май",
-    "Юни",
-    "Юли",
-    "Август",
-    "Септември",
-    "Октомври",
-    "Ноември",
-    "Декември",
-  ];
-
-  timeArray: string[] = [
-    "00:00",
-    "00:30",
-    "01:00",
-    "01:30",
-    "02:00",
-    "02:30",
-    "03:00",
-    "03:30",
-    "04:00",
-    "04:30",
-    "05:00",
-    "05:30",
-    "06:00",
-    "06:30",
-    "07:00",
-    "07:30",
-    "08:00",
-    "08:30",
-    "09:00",
-    "09:30",
-    "10:00",
-    "10:30",
-    "11:00",
-    "11:30",
-    "12:00",
-    "12:30",
-    "13:00",
-    "13:30",
-    "14:00",
-    "14:30",
-    "15:00",
-    "15:30",
-    "16:00",
-    "16:30",
-    "17:00",
-    "17:30",
-    "18:00",
-    "18:30",
-    "19:00",
-    "19:30",
-    "20:00",
-    "20:30",
-    "21:00",
-    "21:30",
-    "22:00",
-    "22:30",
-    "23:00",
-    "23:30",
-  ];
 
   selectedStartHour: number = 17;
   selectedEndHour: number = 35;
@@ -249,6 +231,7 @@ export class BookingComponent implements OnInit {
   noteControl = new FormControl("");
   options: User[] = [];
   selectedUserId: number;
+  selectedFilter: number=1;
 
   deleteBookingId: string;
   filteredOptions: Observable<User[]>;
@@ -316,6 +299,7 @@ export class BookingComponent implements OnInit {
     this.dayCount = this.daysInMonth(month, this.year);
 
     date.setDate(1);
+    console.log(this.date.getDay());
     this.firstDay = date.getDay();
     this.date.setDate(tempDate);
 
@@ -341,6 +325,7 @@ export class BookingComponent implements OnInit {
     if (row.length > 0) {
       this.calendarRows.push(row);
     }
+    console.log(this.calendarRows);
     this.dateClick(this.date.getDate());
     setTimeout(() => {
       this.markPastDates();
@@ -355,24 +340,24 @@ export class BookingComponent implements OnInit {
     $(".events-container").show(250);
     $("#dialog").hide(250);
     $("#dialog2").hide(250);
-    if (!$(`#day-${day}`).hasClass("active-date")) {
-      $(`#day-${day}`).removeClass("past-date");
-      $(`#day-${previousDate}`).removeClass("active-date");
 
-      $(`#day-${day}`).addClass("active-date");
-      setTimeout(() => {
-        this.markPastDates();
-      }, 1);
-      this.showReservations(1);
-    }
+    this.showReservations(1);
+    // if (!$(`#day-${day}`).hasClass("active-date")) {
+    //   $(`#day-${day}`).removeClass("past-date");
+    //   $(`#day-${previousDate}`).removeClass("active-date");
+
+    //   $(`#day-${day}`).addClass("active-date");
+    //   setTimeout(() => {
+    //     this.markPastDates();
+    //   }, 1);
+    //   this.showReservations(1);
+    // }
   }
 
   public monthClick(month: number) {
     $(".events-container").show(250);
     $("#dialog").hide(250);
     $("#dialog2").hide(250);
-    $(".active-month").removeClass("active-month");
-    $("#" + month).addClass("active-month");
 
     this.date.setMonth(month);
     this.initCalendar(this.date);
@@ -397,9 +382,6 @@ export class BookingComponent implements OnInit {
   }
 
   public newEvent(preDefinedHour: string) {
-    if ($(".active-date").length === 0) {
-      return;
-    }
 
     if (preDefinedHour != null) {
       this.selectedHour = preDefinedHour;
@@ -454,7 +436,7 @@ export class BookingComponent implements OnInit {
     this.deleteBookingId = id;
   }
 
-  public addEvent() {
+  public bookHour() {
     if (
       this.nameControl.value === null ||
       this.phoneControl.value === null ||
@@ -473,7 +455,6 @@ export class BookingComponent implements OnInit {
     let name = this.nameControl.value.trim();
     let phone = this.phoneControl.value.trim();
     let note = this.noteControl.value.trim();
-    let day = parseInt($(".active-date").html());
 
     let hour = parseInt(this.selectedHour.split(":")[0]);
     let minutes = parseInt(this.selectedHour.split(":")[1]);
@@ -500,7 +481,17 @@ export class BookingComponent implements OnInit {
       let id = this.generateGuidString();
 
       for (let i = 0; i < this.selectedDuration; i++) {
-        this.newEventJson(id, name, phone, date, day, hour, minutes, i, note);
+        this.newEventJson(
+          id,
+          name,
+          phone,
+          date,
+          this.date.getDate(),
+          hour,
+          minutes,
+          i,
+          note
+        );
         if (minutes == 30) {
           hour++;
           minutes = 0;
@@ -517,7 +508,7 @@ export class BookingComponent implements OnInit {
       this.selectedUserId = null;
     }
 
-    date.setDate(day);
+    date.setDate(this.date.getDate());
     this.initCalendar(date);
     this.dateClick(this.date.getDate());
   }
@@ -638,43 +629,7 @@ export class BookingComponent implements OnInit {
   }
 
   public showReservations(id: number) {
-    if (id == 1) {
-      $("#busy-res").removeClass("active");
-      $("#busy-res").removeClass("border-primary");
-      $("#busy-res").addClass("not-active-tab");
-
-      $("#free-res").removeClass("active");
-      $("#free-res").removeClass("border-primary");
-      $("#free-res").addClass("not-active-tab");
-
-      $("#all-res").removeClass("not-active-tab");
-      $("#all-res").addClass("active");
-      $("#all-res").addClass("border-primary");
-    } else if (id == 2) {
-      $("#busy-res").removeClass("active");
-      $("#busy-res").removeClass("border-primary");
-      $("#busy-res").addClass("not-active-tab");
-
-      $("#all-res").removeClass("active");
-      $("#all-res").removeClass("border-primary");
-      $("#all-res").addClass("not-active-tab");
-
-      $("#free-res").removeClass("not-active-tab");
-      $("#free-res").addClass("active");
-      $("#free-res").addClass("border-primary");
-    } else if (id == 3) {
-      $("#all-res").removeClass("active");
-      $("#all-res").removeClass("border-primary");
-      $("#all-res").addClass("not-active-tab");
-
-      $("#free-res").removeClass("active");
-      $("#free-res").removeClass("border-primary");
-      $("#free-res").addClass("not-active-tab");
-
-      $("#busy-res").removeClass("not-active-tab");
-      $("#busy-res").addClass("active");
-      $("#busy-res").addClass("border-primary");
-    }
+    this.selectedFilter = id;
 
     this.loader = true;
     this.bookingService.getBookingsByDate(this.date).subscribe((x) => {
@@ -692,13 +647,15 @@ export class BookingComponent implements OnInit {
     let temp: Booking[] = [];
     if (!this.currentDay || this.currentDay?.isWorking) {
       this.generateHourArray().forEach((x) => {
+
         if (this.checkIfBookingExist(x) && (id == 1 || id == 3)) {
           temp.push(this.getBooking(x));
         } else if (
           !this.checkIfBookingExist(x) &&
           (id == 1 || id == 2) &&
           !this.isDayPast
-        ) {
+        ) 
+        {
           let freeBook: Booking = {
             id: "-1",
             name: "СВОБОДЕН",
@@ -836,4 +793,6 @@ export class BookingComponent implements OnInit {
     const monthEnd: Date = new Date(year, month + 1, 1);
     return (monthEnd.getTime() - monthStart.getTime()) / (1000 * 60 * 60 * 24);
   }
+
+  private getCalendarDays() {}
 }
