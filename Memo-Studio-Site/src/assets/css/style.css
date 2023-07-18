@@ -11976,7 +11976,7 @@ h5,
 }
 
 #cancel-button {
-  background: #2980B9;
+  background: blue;
 }
 
 #add-button {
@@ -12108,7 +12108,7 @@ h5,
 /* input dialog */
 .dialog {
   z-index: 5;
-  background: #f2f2f2;
+  background: white;
   position: absolute;
   width: 50%;
   height: 500px;

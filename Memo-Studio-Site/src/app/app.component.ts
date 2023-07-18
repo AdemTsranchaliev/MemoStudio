@@ -7,8 +7,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'MemoStudioBooking';
+  token = '';
 
-  userId = localStorage.getItem('userId');
+  checkIsUserLogged() {
+    this.token = localStorage.getItem('clientId');
+    if (Number(this.token) == 1 || Number(this.token) == 2) {
+      return true;
+    }
+
+    return false;
+  }
 
   public getNameEmployee() {
     if (localStorage.getItem("clientId") == "1") {

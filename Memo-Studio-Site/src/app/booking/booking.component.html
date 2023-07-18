@@ -31,8 +31,15 @@
               <table class="months-table w-100">
                 <tbody>
                   <tr class="months-row">
-                    <td class="month" [ngClass]="{'active-month': this.date.getMonth()==i}" *ngFor='let month of monthStrings; let i=index' id="i" (click)="monthClick(i)">{{month}}</td>
-
+                    <td
+                      class="month"
+                      [ngClass]="{ 'active-month': this.date.getMonth() == i }"
+                      *ngFor="let month of monthStrings; let i = index"
+                      id="i"
+                      (click)="monthClick(i)"
+                    >
+                      {{ month }}
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -72,9 +79,12 @@
             <ul class="nav nav-tabs" style="background-color: white !important">
               <li class="nav-item" style="width: 33.33%">
                 <p
-                  class="nav-link text-center "
+                  class="nav-link text-center"
                   id="all-res"
-                  [ngClass]="{'active': selectedFilter==1, 'not-active-tab': selectedFilter!=1}"
+                  [ngClass]="{
+                    active: selectedFilter == 1,
+                    'not-active-tab': selectedFilter != 1
+                  }"
                   (click)="showReservations(1)"
                 >
                   Всички
@@ -82,9 +92,12 @@
               </li>
               <li class="nav-item" style="width: 33.33%">
                 <p
-                  class="nav-link  text-center"
+                  class="nav-link text-center"
                   id="free-res"
-                  [ngClass]="{'active': selectedFilter==2, 'not-active-tab': selectedFilter!=2}"
+                  [ngClass]="{
+                    active: selectedFilter == 2,
+                    'not-active-tab': selectedFilter != 2
+                  }"
                   (click)="showReservations(2)"
                 >
                   Свободни
@@ -93,7 +106,10 @@
               <li class="nav-item" style="width: 33.33%">
                 <p
                   class="nav-link text-center"
-                  [ngClass]="{'active': selectedFilter==3, 'not-active-tab': selectedFilter!=3}"
+                  [ngClass]="{
+                    active: selectedFilter == 3,
+                    'not-active-tab': selectedFilter != 3
+                  }"
                   id="busy-res"
                   (click)="showReservations(3)"
                 >
@@ -108,13 +124,14 @@
               *ngIf="bookings.length == 0 && !isDayPast"
             >
               Все още няма заети часове за {{ this.date.getDate() }}
-              {{ date.toLocaleString('bg-BG', { month: 'long' }) }} {{ date.getFullYear() }}г.
+              {{ date.toLocaleString('bg-BG', { month: 'long' }) }}
+              {{ date.getFullYear() }}г.
             </div>
-            <div class="alert alert-info m-4" role="alert" *ngIf="isDayPast">
+            <div class="alert alert-warning m-4" role="alert" *ngIf="isDayPast">
               Тази дата е минала и нямате право на действия.
             </div>
             <div
-              class="alert alert-danger m-4"
+              class="alert alert-warning m-4"
               role="alert"
               *ngIf="currentDay && !currentDay?.isWorking && !isDayPast"
             >
@@ -127,19 +144,21 @@
               <div *ngIf="!booking.free">
                 <mat-accordion>
                   <mat-expansion-panel class="event-expansion-panel" hideToggle>
-                    <mat-expansion-panel-header>
+                    <mat-expansion-panel-header class="reservation-container">
                       <mat-panel-title>
                         {{ getHour(booking.hour, booking.minutes) }} ч.
                       </mat-panel-title>
 
                       <mat-panel-description>
                         <div class="d-flex justify-content-between">
-                          <span> {{ truncateText(booking.name, 6) }} </span>
+                          <span class="truncate-text margin-right">
+                            {{ truncateText(booking.name, 6) }}
+                          </span>
 
-                          <span>
-                            <a href="tel:{{ booking.phone }}">{{
-                              booking.phone
-                            }}</a>
+                          <span class="">
+                            <a href="tel:{{ booking.phone }}">
+                              {{ booking.phone }}
+                            </a>
                           </span>
 
                           <span>
@@ -156,12 +175,17 @@
                           </span>
                         </div>
                       </mat-panel-description>
+
+                      <!-- Show style if reservation have Notes -->
+                      <span class="element-notes" *ngIf="booking?.note"></span>
                     </mat-expansion-panel-header>
-                    <div>
-                      <span>Име: {{ booking.name }}</span>
-                      <span *ngIf="booking?.note"
-                        >Бележка: {{ booking?.note }}</span
-                      >
+                    <div class="row">
+                      <span class="col-12 a-start margin-b">
+                        Име: {{ booking.name }}
+                      </span>
+                      <span class="col-12 a-start" *ngIf="booking?.note">
+                        Бележка: {{ booking?.note }}
+                      </span>
                     </div>
                   </mat-expansion-panel>
                 </mat-accordion>
@@ -367,7 +391,7 @@
             <form class="form mb-0 mt-0 pb-0 pt-0" id="form">
               <div class="form-container mb-0 mt-0 pb-0 pt-0" align="center">
                 <div
-                  class="alert alert-danger pb-0 pt-0 mt-0 mb-0"
+                  class="alert alert-warning pb-0 pt-0 mt-0 mb-0"
                   *ngIf="workingDayAddError == 1"
                 >
                   Началото на работния ден, не може да бъде по-голямо от края!
@@ -416,7 +440,7 @@
                 <input
                   type="button"
                   value="Редактирай"
-                  class="button button-white"
+                  class="button"
                   id="ok-button"
                   (click)="addDaySpecifications()"
                 />

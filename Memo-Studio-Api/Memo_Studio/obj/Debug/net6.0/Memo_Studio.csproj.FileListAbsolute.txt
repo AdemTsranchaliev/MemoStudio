@@ -363,7 +363,6 @@ D:\Software\project-200-calendar\Project\MemoStudio\Memo-Studio-Api\Memo_Studio\
 D:\Software\project-200-calendar\Project\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Debug\net6.0\Memo_Studio.AssemblyInfoInputs.cache
 D:\Software\project-200-calendar\Project\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Debug\net6.0\Memo_Studio.AssemblyInfo.cs
 D:\Software\project-200-calendar\Project\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Debug\net6.0\Memo_Studio.csproj.CoreCompileInputs.cache
-D:\Software\project-200-calendar\Project\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Debug\net6.0\Memo_Studio.MvcApplicationPartsAssemblyInfo.cs
 D:\Software\project-200-calendar\Project\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Debug\net6.0\Memo_Studio.MvcApplicationPartsAssemblyInfo.cache
 D:\Software\project-200-calendar\Project\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Debug\net6.0\staticwebassets.build.json
 D:\Software\project-200-calendar\Project\MemoStudio\Memo-Studio-Api\Memo_Studio\obj\Debug\net6.0\staticwebassets.development.json

@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { AuthenticatinService } from "../shared/services/authenticatin.service";
@@ -13,17 +13,21 @@ export class LoginComponent implements OnInit {
   // Subscriptions
   private subscriptions: Subscription[] = [];
 
+  loginForm!: FormGroup;
+
   public name: string;
   public password: string;
   public error: number = null;
 
   constructor(
-    private http: HttpClient,
+    private formBuilder: FormBuilder,
     private routing: Router,
     private authService: AuthenticatinService
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    // this.initLoginForm;
+  }
 
   ngOnDestroy() {
     this.subscriptions.forEach((el) => el.unsubscribe());
@@ -43,19 +47,26 @@ export class LoginComponent implements OnInit {
 
   // =========== NEW SERVER LOGIC ===========
 
-  onSubmit() {
-    // if (this.loginForm.invalid) {
-    //   return;
-    // }
+  initLoginForm() {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(3)]]
+    });
+  }
 
-    // const loginSubscription = this.authService.login(this.loginForm.value).subscribe({
-    //   next: () => {
-    //     this.routing.navigate(['/']);
-    //   },
-    //   error: (err) => {
-    //     console.log('>>> Error', err);
-    //   }
-    // });
-    // this.subscriptions.push(loginSubscription);
+  onSubmit() {
+    if (this.loginForm.invalid) {
+      return;
+    }
+
+    const loginSubscription = this.authService.login(this.loginForm.value).subscribe({
+      next: () => {
+        this.routing.navigate(['/']);
+      },
+      error: (err) => {
+        console.log('>>> Error', err);
+      }
+    });
+    this.subscriptions.push(loginSubscription);
   }
 }

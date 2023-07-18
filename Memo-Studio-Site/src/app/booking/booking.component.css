@@ -112,12 +112,18 @@
   cursor: pointer;
 }
 
+/* Alignment */
+
 .margin-right {
   margin-right: 16px;
 }
 
 .margin-b {
   margin-bottom: 10px;
+}
+
+.a-start {
+  text-align: start;
 }
 
 .events-container {
@@ -171,6 +177,20 @@
   width: 100%;
 }
 
+/* Flag - If reservation have Notes */
+.reservation-container {
+  position: relative;
+}
+
+.element-notes {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  padding: 4px;
+  border-radius: 50%;
+  background-color: blue;
+}
+
 /* Tabs */
 .event-expansion-panel {
   border: 1px solid blue;
@@ -179,4 +199,14 @@
 
 .active-date {
   background-color: #e4e8fe;
+}
+
+/* Style truncated text */
+.truncate-text {
+  /* Set a fixed width for each item */
+  width: 60px;
+  /* Prevent text from wrapping to multiple lines */
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: left;
 }
