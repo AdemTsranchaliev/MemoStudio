@@ -1,10 +1,13 @@
 ﻿using System;
 using Memo_Studio_Library.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Memo_Studio_Library
 {
     public class UserService : IUserService
 	{
+    
         public bool AddUser(UserViewModel model)
         {
             using (var context = new StudioContext())
@@ -13,7 +16,7 @@ namespace Memo_Studio_Library
 
                 if (model.Phone != null)
                 {
-                    existingUser = context.Users.FirstOrDefault(x=>x.Phone==model.Phone);
+                    existingUser = context.Users.FirstOrDefault(x=>x.PhoneNumber == model.Phone);
                 }
                 if(model.ViberId != null)
                 {
@@ -23,7 +26,7 @@ namespace Memo_Studio_Library
                 if (existingUser!=null)
                 {
                     existingUser.Name = existingUser.Name ?? model.Name;
-                    existingUser.Phone = existingUser.Phone ?? model.Phone;
+                    existingUser.PhoneNumber = existingUser.PhoneNumber ?? model.Phone;
                     existingUser.ViberId = existingUser.ViberId ?? model.ViberId;
 
                     context.Users.Update(existingUser);
@@ -33,7 +36,7 @@ namespace Memo_Studio_Library
                 }
                 else
                 {
-                    var user = new User { Name = model.Name, Phone = model.Phone, ViberId = model.ViberId };
+                    var user = new User { Name = model.Name, PhoneNumber = model.Phone, ViberId = model.ViberId };
                     context.Users.Add(user);
                     context.SaveChanges();
 
@@ -43,12 +46,22 @@ namespace Memo_Studio_Library
             }
         }
 
-        public List<User> GetAllUsers()
+        public async Task<List<User>> GetAllUsers()
         {
             using (var context = new StudioContext())
             {
-                var users = context.Users.Where(x=>x.Phone!=null&&x.Name!=null).ToList();
+                var users = await context.Users.ToListAsync();
                 return users;
+            }
+        }
+
+        public async Task<User> GetUserByEmailAsync(string email)
+        {
+            using (var context = new StudioContext())
+            {
+                var user = await context.Users.FirstOrDefaultAsync(x=>x.Email==email);
+
+                return user;
             }
         }
 

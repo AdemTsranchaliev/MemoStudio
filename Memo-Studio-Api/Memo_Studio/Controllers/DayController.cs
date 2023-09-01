@@ -2,6 +2,7 @@
 using Memo_Studio_Library;
 using Memo_Studio_Library.Data.Models;
 using Memo_Studio_Library.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Memo_Studio.Controllers
@@ -17,6 +18,7 @@ namespace Memo_Studio.Controllers
             this.dayService = dayService;
         }
 
+        [Authorize]
         [HttpGet("{dateTime}/{clientId}")]
         public IActionResult GetDay(DateTime dateTime, int clientId)
         {
@@ -25,6 +27,7 @@ namespace Memo_Studio.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPost("AddDay")]
         public IActionResult AddDay([FromBody] Day model)
         {
@@ -32,6 +35,8 @@ namespace Memo_Studio.Controllers
 
             return Ok();
         }
+
+        [Authorize]
         [HttpPost("holiday")]
         public async Task<IActionResult> SetHoliday([FromBody] Day model)
         {

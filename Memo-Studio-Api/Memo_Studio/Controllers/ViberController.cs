@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Viber.Bot.NetCore.Infrastructure;
 using Viber.Bot.NetCore.Models;
 using Viber.Bot.NetCore.RestApi;
@@ -17,6 +18,7 @@ namespace Controller.Viber
         }
 
         // The service sets a webhook automatically, but if you want sets him manually then use this
+        [Authorize]
         [HttpGet("getData")]
         public async Task<IActionResult> Get()
         {
@@ -32,6 +34,7 @@ namespace Controller.Viber
             }
         }
 
+        [Authorize]
         [HttpPost("postData")]
         public async Task<IActionResult> Post()
         {

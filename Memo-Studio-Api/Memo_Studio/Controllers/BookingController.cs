@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Web.Http.Cors;
 using Memo_Studio_Library;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Memo_Studio.Controllers
@@ -19,6 +20,7 @@ namespace Memo_Studio.Controllers
             this.messageService = messageService;
         }
 
+        [Authorize]
         [HttpPost("add")]
         public async Task<IActionResult> AddBooking([FromBody] BookingViewModel booking)
         {
@@ -53,6 +55,7 @@ namespace Memo_Studio.Controllers
             return Ok();
         }
 
+        [Authorize]
         [DisableCors]
         [HttpGet("{date}/{userId}/get")]
         public IActionResult GetBooking(DateTime date,int userId)
@@ -64,7 +67,7 @@ namespace Memo_Studio.Controllers
                 {
                     Id = x.Id,
                     Name = x.User.Name,
-                    Phone = x.User.Phone,
+                    Phone = x.User.PhoneNumber,
                     Year = x.Timestamp.Year,
                     Month = x.Timestamp.Month,
                     Day = x.Timestamp.Day,
@@ -77,6 +80,7 @@ namespace Memo_Studio.Controllers
             return Ok(mapedBookings);
         }
 
+        [Authorize]
         [HttpDelete("{bookingId}")]
         public async Task<IActionResult> RemoveBooking(int bookingId)
         {
