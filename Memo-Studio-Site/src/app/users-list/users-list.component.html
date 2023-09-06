@@ -1,45 +1,46 @@
-<nav class="navbar navbar-light bg-light justify-content-between">
-    <!-- <a class="navbar-brand" href="#">{{getNameEmployee()}}</a> -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#">Всички потребители (ОЧАКВАЙ СКОРО)</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">ИЗХОД</a>
-            </li>
-        </ul>
+<div class="container mt-5">
+    <div class="row align-items-center w-100">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <h5 class="card-title">Всички абонирани потребители <span class="text-muted fw-normal ms-2">(834)</span>
+                </h5>
+            </div>
+        </div>
+        <div class="col-md-6">
+        </div>
     </div>
-</nav>
+    <div class="row">
 
-<div>
-    <h3 class="text-center py-3">ВСИЧКИ ПОТРЕБИТЕЛИ</h3>
-    <div class="container">
-        <mat-selection-list #shoes [multiple]="false">
-            <mat-list-option *ngFor="let user of users" [value]="user.phoneNumber" [routerLink]="['/user', 1]">
-                <span class="pt-2 mt-2" style='font-size: large; line-height: 85%;'>
-                    {{user.fullName}}</span>
-                <span class="text-muted mb-2 pb-2" style='font-size: small;'>{{ user.phoneNumber }}</span>
+        <mat-form-field>
+            <mat-label>Филтър по име</mat-label>
+            <input class="w-100" matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+        </mat-form-field>
 
-                <mat-divider></mat-divider>
-            </mat-list-option>
-        </mat-selection-list>
+        <div class="w-100">
+            <table mat-table [dataSource]="dataSource" matSort class="w-100">
+
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                    <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                    <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="phoneNumber">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone Number </th>
+                    <td mat-cell *matCellDef="let row"> {{row.phoneNumber}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="columndefs"></tr>
+                <tr mat-row *matRowDef="let row; columns: columndefs;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+        </div>
     </div>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1">Previous</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-            </li>
-        </ul>
-    </nav>
 </div>

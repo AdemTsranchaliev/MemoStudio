@@ -9,7 +9,7 @@ import { User } from "../models/user.model";
 export class UserDetailsComponent implements OnInit {
   user: User = {
     id: "",
-    phone: "0892609802",
+    phoneNumber: "0892609802",
     viberId: "",
     name: "Адем Црънчалиев",
   };

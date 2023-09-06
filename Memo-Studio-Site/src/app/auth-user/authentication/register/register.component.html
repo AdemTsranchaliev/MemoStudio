@@ -1,0 +1,84 @@
+<div class="form-block">
+
+    <div class="mb-4">
+        <h3>Регистрация в <strong>Glamgoo</strong></h3>
+        <p class="mb-4"></p>
+    </div>
+    <div class="alert alert-danger" role="alert" *ngIf="isLoginError">
+        Грешна парола или имейл
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field class="w-100 mt-2">
+            <mat-label>Име</mat-label>
+            <input matInput id="name" type="text" formControlName="name">
+            <mat-error *ngIf="loginForm.get('name').hasError('required') && loginForm.get('name').touched">
+                Това поле е задължително.
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-100 mt-2">
+            <mat-label>Фамилия</mat-label>
+            <input matInput id="surname" type="text" formControlName="surname">
+            <mat-error *ngIf="loginForm.get('surname').hasError('required') && loginForm.get('surname').touched">
+                Това поле е задължително.
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-100 mt-2">
+            <mat-label>Имейл</mat-label>
+            <input matInput id="email" type="email" formControlName="email">
+            <mat-error *ngIf="loginForm.get('email').hasError('required') && loginForm.get('email').touched">
+                Това поле е задължително.
+            </mat-error>
+            <mat-error *ngIf="loginForm.get('email').hasError('email') && loginForm.get('email').touched">
+                Моля въведете валиден имейл адрес.
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-100 mt-2">
+            <mat-label>Телефон</mat-label>
+            <input matInput id="phone" type="phone" formControlName="phone">
+            <mat-error *ngIf="loginForm.get('phone').hasError('required') && loginForm.get('phone').touched">
+                Това поле е задължително.
+            </mat-error>
+            <mat-error *ngIf="loginForm.get('phone').hasError('minlength') && loginForm.get('phone').touched">
+                Невалиден телефонен номер.
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-100 mt-2">
+            <mat-label>Парола</mat-label>
+            <input matInput id="password" type="password" formControlName="password">
+            <mat-error *ngIf="loginForm.get('password').hasError('required') && loginForm.get('password').touched">
+                Това поле е задължително.
+            </mat-error>
+            <mat-error *ngIf="loginForm.get('password').hasError('minlength') && loginForm.get('password').touched">
+                Паролата, трябва да бъде поне 3 символа.
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-100 mt-2">
+            <mat-label>Повтори парола</mat-label>
+            <input matInput id="confirmPassword" type="password" formControlName="confirmPassword">
+            <mat-error *ngIf="loginForm.get('password').hasError('required') && loginForm.get('password').touched">
+                Това поле е задължително.
+            </mat-error>
+            <mat-error *ngIf="loginForm.hasError('passwordMismatch', 'confirmPassword')">
+                Паролите не съвпадат
+            </mat-error>
+        </mat-form-field>
+        <div class="d-flex mb-5 align-items-center">
+            <mat-checkbox formControlName="rememberMe">Приемам политиките за поверителност</mat-checkbox>
+        </div>
+        <input type="submit" value="РЕГИСТРАЦИЯ" class="btn btn-pill text-white btn-block btn-primary">
+
+        <span class="d-block text-center my-4 text-muted"> или се регистрирайте с</span>
+        <div class="social-login text-center">
+            <a href="#" class="facebook mr-4">
+                <span class="mr-3"><i class="fa fa-facebook" aria-hidden="true"></i></span>
+            </a>
+            <a href="#" class="twitter mr-4">
+                <span class="icon-twitter mr-3"><i class="fa fa-apple" aria-hidden="true"></i>
+                </span>
+            </a>
+            <a href="#" class="google">
+                <span class="icon-google mr-3"><i class="fa fa-google" aria-hidden="true"></i></span>
+            </a>
+        </div>
+    </form>
+</div>

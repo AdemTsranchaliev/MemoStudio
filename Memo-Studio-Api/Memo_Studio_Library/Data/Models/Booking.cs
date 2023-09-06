@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+
 namespace Memo_Studio_Library.Models
 {
 	public class Booking
@@ -22,7 +24,25 @@ namespace Memo_Studio_Library.Models
 		public int EmployeeId { get; set; }
 
 		public string ReservationId { get; set; }
+
 		public string Note { get; set; }
+
+		public string GetDateTimeInMessageFormat()
+		{
+            CultureInfo culture = new CultureInfo("bg-BG");
+            this.Timestamp = this.Timestamp.ToLocalTime();
+
+            string day = this.Timestamp.ToString("dd");
+            string month = culture.DateTimeFormat.GetMonthName(this.Timestamp.Month);
+            string year = this.Timestamp.ToString("yyyy");
+            string weekday = culture.DateTimeFormat.GetDayName(this.Timestamp.DayOfWeek);
+            var hour = this.Timestamp.Hour <= 10 ? $"0{this.Timestamp.Hour}" : this.Timestamp.Hour.ToString();
+            var minutes = this.Timestamp.Minute <= 10 ? $"0{this.Timestamp.Minute}" : this.Timestamp.Minute.ToString();
+
+            var date = $"*({hour}:{minutes}ч.) - {weekday}, {day} {month} {year}г.*";
+
+			return date;
+        }
     }
 }
 

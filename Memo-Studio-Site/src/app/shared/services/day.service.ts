@@ -27,9 +27,7 @@ export class DayService {
 
   public getDayByDate(date: Date) {
     return this.http.get<Day>(
-      `${BASE_URL_DEV}/Day/${date.toDateString()}/${localStorage.getItem(
-        "clientId"
-      )}`,
+      `${BASE_URL_DEV}/Day/${date.toDateString()}/1`,
       httpOptions
     );
   }

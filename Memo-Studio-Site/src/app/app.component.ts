@@ -1,17 +1,17 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"],
 })
 export class AppComponent {
-  title = 'MemoStudioBooking';
-  token = '';
+  title = "MemoStudioBooking";
+  token = "";
 
   checkIsUserLogged() {
-    this.token = localStorage.getItem('clientId');
-    if (Number(this.token) == 1 || Number(this.token) == 2) {
+    this.token = localStorage.getItem("AUTH_TOKEN");
+    if (this.token) {
       return true;
     }
 

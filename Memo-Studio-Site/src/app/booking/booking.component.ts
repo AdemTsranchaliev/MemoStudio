@@ -23,8 +23,16 @@ export class BookingComponent implements OnInit {
   private subscriptions: Subscription[] = [];
 
   // Week Days for Calendar
-  weekDays: string[] = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"];
-  monthStrings: string[] = [
+  public readonly weekDays: string[] = [
+    "Нд",
+    "Пн",
+    "Вт",
+    "Ср",
+    "Чт",
+    "Пт",
+    "Сб",
+  ];
+  public readonly monthStrings: string[] = [
     "Яну",
     "Фев",
     "Мар",
@@ -38,16 +46,14 @@ export class BookingComponent implements OnInit {
     "Ное",
     "Дек",
   ];
-  // Get Current Date
-  currentDate: Date = new Date();
+  // Current Date
+  private currentDate: Date = new Date();
 
   // Days Colection
-  calendarDays: Date[] = [];
+  private calendarDays: Date[] = [];
 
   // Storage for Event of the Day
   events: { [key: string]: string[] } = {};
-
-  componentToRender: number;
 
   constructor(
     private bookingService: BookingService,
@@ -56,167 +62,19 @@ export class BookingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Init Calendar
-    this.generateCalendar();
-
     this.userService.getAllUsers().subscribe((x) => {
       this.options = x;
     });
-    $(".year").html(this.date.getFullYear());
 
     this.monthClick(this.date.getMonth());
     this.dateClick(this.date.getDate());
-    this.initCalendar(this.date);
 
-    this.filteredOptions = this.nameControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => {
-        const name = typeof value === "string" ? value : value?.name;
-        return name ? this._filter(name as string) : this.options.slice();
-      })
-    );
-
-    this.filteredPhoneOptions = this.phoneControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => {
-        const phone = typeof value === "string" ? value : value?.phone;
-        return phone
-          ? this._filterPhone(phone as string)
-          : this.options.slice();
-      })
-    );
+    this.InitDropdownFilters();
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach((el) => el.unsubscribe());
   }
-
-  /**
-   * This Method Generate the Calendar
-   */
-  generateCalendar(): void {
-    const firstDayOfMonth = new Date(
-      this.currentDate.getFullYear(),
-      this.currentDate.getMonth(),
-      1
-    );
-    const lastDayOfMonth = new Date(
-      this.currentDate.getFullYear(),
-      this.currentDate.getMonth() + 1,
-      0
-    );
-    const prevMonthLastDay = new Date(
-      this.currentDate.getFullYear(),
-      this.currentDate.getMonth(),
-      0
-    ).getDate();
-
-    const startDay = firstDayOfMonth.getDay();
-
-    const endDay = lastDayOfMonth.getDate();
-    const totalDays = startDay + endDay;
-
-    for (let i = startDay - 1; i >= 0; i--) {
-      this.calendarDays.push(
-        new Date(
-          this.currentDate.getFullYear(),
-          this.currentDate.getMonth() - 1,
-          prevMonthLastDay - i
-        )
-      );
-    }
-
-    for (let i = 1; i <= endDay; i++) {
-      this.calendarDays.push(
-        new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), i)
-      );
-    }
-
-    const remainingDays = 42 - totalDays;
-
-    for (let i = 1; i <= remainingDays; i++) {
-      this.calendarDays.push(
-        new Date(
-          this.currentDate.getFullYear(),
-          this.currentDate.getMonth() + 1,
-          i
-        )
-      );
-    }
-
-    this.showReservations(1);
-  }
-
-  /**
-   * This Method Check is the Clicked Day, Today
-   * @param date
-   * @returns
-   */
-  isToday(date: Date): boolean {
-    const today = new Date();
-    return (
-      date.getDate() === today.getDate() &&
-      date.getMonth() === today.getMonth() &&
-      date.getFullYear() === today.getFullYear()
-    );
-  }
-
-  /**
-   * This Method Checks if the Current Clicked Day Has ONE event, if not, Creates Event for the Day
-   * @param day
-   * @returns
-   */
-  hasEvent(day: Date): boolean {
-    return !!this.events[day.toISOString()]; // Return true if an event exists for the day
-  }
-
-  /**
-   * This Method Checks if we are in the Current Month
-   * @param date
-   * @returns
-   */
-  isCurrentMonth(date: Date): boolean {
-    return (
-      date.getMonth() === this.currentDate.getMonth() &&
-      date.getFullYear() === this.currentDate.getFullYear()
-    );
-  }
-
-  /**
-   * This Method Changes to Previous Month
-   */
-  prevMonth(): void {
-    this.currentDate = new Date(
-      this.currentDate.getFullYear(),
-      this.currentDate.getMonth() - 1,
-      1
-    );
-    this.generateCalendar();
-  }
-
-  /**
-   * This Method Changes to Next Month
-   */
-  nextMonth(): void {
-    this.currentDate = new Date(
-      this.currentDate.getFullYear(),
-      this.currentDate.getMonth() + 1,
-      1
-    );
-    this.generateCalendar();
-  }
-
-  // manageCalendarView() {
-  //   this.bookingViewService.getComponentToRender().subscribe((shouldRender) => {
-  //     this.componentToRender = shouldRender;
-  //   });
-  // }
-
-  // renderComponent(componentNumber: number) {
-  //   this.bookingViewService.updateComponentToRender(componentNumber);
-  // }
-
-  // ============================================= Old Logic =============================================
 
   selectedStartHour: number = 17;
   selectedEndHour: number = 35;
@@ -231,7 +89,7 @@ export class BookingComponent implements OnInit {
   noteControl = new FormControl("");
   options: User[] = [];
   selectedUserId: number;
-  selectedFilter: number=1;
+  selectedFilter: number = 1;
 
   deleteBookingId: string;
   filteredOptions: Observable<User[]>;
@@ -251,42 +109,9 @@ export class BookingComponent implements OnInit {
   calendarRows: number[][];
   year: number;
 
-  public markPastDates() {
-    var currentDate = new Date();
-    if (
-      this.date.getFullYear() == currentDate.getFullYear() &&
-      this.date.getMonth() == currentDate.getMonth()
-    ) {
-      for (let i = 1; i < currentDate.getDate(); i++) {
-        if (i == this.date.getDate()) {
-          this.isDayPast = true;
-          continue;
-        }
-      }
-      if (currentDate.getDate() <= this.date.getDate()) {
-        this.isDayPast = false;
-      }
-    } else if (
-      this.date.getFullYear() <= currentDate.getFullYear() &&
-      this.date.getMonth() < currentDate.getMonth()
-    ) {
-      this.isDayPast = true;
-      for (let i = 0; i < 35 + this.firstDay; i++) {
-        const day = i - this.firstDay + 1;
-        if (i == this.date.getDate()) continue;
-
-        $(`#day-${i}`).addClass("past-date");
-        const element = document.getElementById(`day-${i}`) as HTMLElement;
-        if (element) element.classList.add("past-date");
-      }
-    } else {
-      this.isDayPast = false;
-    }
-  }
-
   public onOptionSelected(event: any): void {
     var selectedValue: User = event.option.value;
-    this.phoneControl.setValue(selectedValue.phone);
+    this.phoneControl.setValue(selectedValue.phoneNumber);
     this.nameControl.setValue(selectedValue.name);
     this.selectedUserId = parseInt(selectedValue.id);
   }
@@ -299,7 +124,7 @@ export class BookingComponent implements OnInit {
     this.dayCount = this.daysInMonth(month, this.year);
 
     date.setDate(1);
-    console.log(this.date.getDay());
+
     this.firstDay = date.getDay();
     this.date.setDate(tempDate);
 
@@ -325,64 +150,41 @@ export class BookingComponent implements OnInit {
     if (row.length > 0) {
       this.calendarRows.push(row);
     }
-    console.log(this.calendarRows);
+
     this.dateClick(this.date.getDate());
     setTimeout(() => {
       this.markPastDates();
     }, 1);
-    this.showReservations(1);
+    this.showBookings(1);
   }
 
   public dateClick(day: number) {
-    let previousDate = this.date.getDate();
     this.date.setDate(day);
-
-    $(".events-container").show(250);
-    $("#dialog").hide(250);
-    $("#dialog2").hide(250);
-
-    this.showReservations(1);
-    // if (!$(`#day-${day}`).hasClass("active-date")) {
-    //   $(`#day-${day}`).removeClass("past-date");
-    //   $(`#day-${previousDate}`).removeClass("active-date");
-
-    //   $(`#day-${day}`).addClass("active-date");
-    //   setTimeout(() => {
-    //     this.markPastDates();
-    //   }, 1);
-    //   this.showReservations(1);
-    // }
+    this.showEventContainer();
+    this.showBookings(1);
   }
 
   public monthClick(month: number) {
-    $(".events-container").show(250);
-    $("#dialog").hide(250);
-    $("#dialog2").hide(250);
-
+    this.showEventContainer();
     this.date.setMonth(month);
     this.initCalendar(this.date);
   }
 
   public nextYear() {
-    $("#dialog").hide(250);
-    $("#dialog2").hide(250);
+    this.hideDialogs();
     const newYear = this.date.getFullYear() + 1;
-    $(".year").html(newYear);
     this.date.setFullYear(newYear);
     this.initCalendar(this.date);
   }
 
   public prevYear() {
-    $("#dialog").hide(250);
-    $("#dialog2").hide(250);
+    this.hideDialogs();
     const newYear = this.date.getFullYear() - 1;
-    $(".year").html(newYear);
     this.date.setFullYear(newYear);
     this.initCalendar(this.date);
   }
 
   public newEvent(preDefinedHour: string) {
-
     if (preDefinedHour != null) {
       this.selectedHour = preDefinedHour;
     }
@@ -427,7 +229,7 @@ export class BookingComponent implements OnInit {
         this.bookingsOrigin
       );
       this.bookings = [...this.bookingsOrigin];
-      this.showReservations(1);
+      this.showBookings(1);
       this.loader = false;
     });
   }
@@ -549,7 +351,7 @@ export class BookingComponent implements OnInit {
 
       this.dayService.addDay(this.currentDay).subscribe((x) => {
         $("#dialog2").hide(250);
-        this.showReservations(1);
+        this.showBookings(1);
       });
     }
   }
@@ -624,11 +426,11 @@ export class BookingComponent implements OnInit {
     this.dayService.setHoliday(this.currentDay).subscribe((x) => {
       $("#modalCancel").modal("hide");
       $("#dialog2").hide(250);
-      this.showReservations(1);
+      this.showBookings(1);
     });
   }
 
-  public showReservations(id: number) {
+  public showBookings(id: number) {
     this.selectedFilter = id;
 
     this.loader = true;
@@ -647,15 +449,13 @@ export class BookingComponent implements OnInit {
     let temp: Booking[] = [];
     if (!this.currentDay || this.currentDay?.isWorking) {
       this.generateHourArray().forEach((x) => {
-
         if (this.checkIfBookingExist(x) && (id == 1 || id == 3)) {
           temp.push(this.getBooking(x));
         } else if (
           !this.checkIfBookingExist(x) &&
           (id == 1 || id == 2) &&
           !this.isDayPast
-        ) 
-        {
+        ) {
           let freeBook: Booking = {
             id: "-1",
             name: "СВОБОДЕН",
@@ -747,7 +547,7 @@ export class BookingComponent implements OnInit {
     };
 
     this.bookingService.addBooking(dto).subscribe((x) => {
-      this.showReservations(1);
+      this.showBookings(1);
     });
   }
 
@@ -765,8 +565,8 @@ export class BookingComponent implements OnInit {
   private _filterPhone(name: string): User[] {
     const filterValue = name.toLowerCase();
     var result = this.options.filter((option) => {
-      if (option.phone) {
-        return option.phone.toLowerCase().startsWith(filterValue);
+      if (option.phoneNumber) {
+        return option.phoneNumber.toLowerCase().startsWith(filterValue);
       }
       return null;
     });
@@ -794,9 +594,72 @@ export class BookingComponent implements OnInit {
     return (monthEnd.getTime() - monthStart.getTime()) / (1000 * 60 * 60 * 24);
   }
 
+  private InitDropdownFilters() {
+    this.filteredOptions = this.nameControl.valueChanges.pipe(
+      startWith(""),
+      map((value) => {
+        const name = typeof value === "string" ? value : value?.name;
+        return name ? this._filter(name as string) : this.options.slice();
+      })
+    );
+
+    this.filteredPhoneOptions = this.phoneControl.valueChanges.pipe(
+      startWith(""),
+      map((value) => {
+        const phone = typeof value === "string" ? value : value?.phone;
+        return phone
+          ? this._filterPhone(phone as string)
+          : this.options.slice();
+      })
+    );
+  }
+
+  private markPastDates() {
+    var currentDate = new Date();
+    if (
+      this.date.getFullYear() == currentDate.getFullYear() &&
+      this.date.getMonth() == currentDate.getMonth()
+    ) {
+      for (let i = 1; i < currentDate.getDate(); i++) {
+        if (i == this.date.getDate()) {
+          this.isDayPast = true;
+          continue;
+        }
+      }
+      if (currentDate.getDate() <= this.date.getDate()) {
+        this.isDayPast = false;
+      }
+    } else if (
+      this.date.getFullYear() <= currentDate.getFullYear() &&
+      this.date.getMonth() < currentDate.getMonth()
+    ) {
+      this.isDayPast = true;
+      for (let i = 0; i < 35 + this.firstDay; i++) {
+        const day = i - this.firstDay + 1;
+        if (i == this.date.getDate()) continue;
+
+        $(`#day-${i}`).addClass("past-date");
+        const element = document.getElementById(`day-${i}`) as HTMLElement;
+        if (element) element.classList.add("past-date");
+      }
+    } else {
+      this.isDayPast = false;
+    }
+  }
+
+  private showEventContainer() {
+    $(".events-container").show(250);
+    this.hideDialogs();
+  }
+
+  private hideDialogs() {
+    $("#dialog").hide(250);
+    $("#dialog2").hide(250);
+  }
+
   truncateText(text: string, limit: number): string {
     if (text.length > limit) {
-      return text.substring(0, limit) + '...';
+      return text.substring(0, limit) + "...";
     }
     return text;
   }

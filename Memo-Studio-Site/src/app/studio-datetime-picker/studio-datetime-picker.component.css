@@ -1,0 +1,65 @@
+.date-item {
+    padding: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.date-item.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.date-item.active .date-number {
+    font-weight: bold;
+}
+
+.date-number {
+    font-size: 20px;
+}
+
+.day-of-week {
+    font-size: 14px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 30px;
+    height: 30px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+@media (max-width: 576px) {
+    .carousel-control-prev {
+        left: -20px;
+    }
+
+    .carousel-control-next {
+        right: -20px;
+    }
+}
+.date-item {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 1px;
+    margin: 10px;
+    width: 50%;
+}
+
+.date-number {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.day-of-week {
+    font-size: 12px;
+}
+.month{
+    font-size: 10px;
+}

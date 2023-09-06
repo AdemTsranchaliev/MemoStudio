@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    var authVert = localStorage.getItem("clientId");
+    var authVert = localStorage.getItem("AUTH_TOKEN");
     var isAuthenticated = authVert ?? null;
 
     if (isAuthenticated) {

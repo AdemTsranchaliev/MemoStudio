@@ -23,10 +23,13 @@ namespace Memo_Studio_Library
                     ReservationId = booking.ReservationId,
                     Note = booking.Note
                 };
-                var resut = await context.Bookings.AddAsync(newBooking);
+
+                var result = await context.Bookings.AddAsync(newBooking);
                 await context.SaveChangesAsync();
 
-                return resut.Entity;
+                context.Entry(result.Entity).Reference(b => b.User).Load();
+
+                return result.Entity;
             }
         }
 
@@ -36,6 +39,7 @@ namespace Memo_Studio_Library
             {
                 var start = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day,0,0,0);
                 var end = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day,23,59,59);
+
                 return context.Bookings
                     .Include(x => x.User)
                     .Where(x=>x.Timestamp>= start && x.Timestamp <=end && x.EmployeeId==clientId && !x.Canceled).ToList();
@@ -59,7 +63,6 @@ namespace Memo_Studio_Library
             }
             catch (Exception ex)
             {
-
                 throw;
             }
             
@@ -108,7 +111,7 @@ namespace Memo_Studio_Library
                      .Include(x => x.User)
                      .FirstOrDefaultAsync(x => x.Id == id);
 
-                if (booking == null || booking.User == null || booking.User.ViberId == null)
+                if (booking == null || booking.User == null || booking.Canceled)
                 {
                     return null;
                 }

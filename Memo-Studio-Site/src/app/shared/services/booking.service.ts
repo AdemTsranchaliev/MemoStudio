@@ -49,14 +49,14 @@ export class BookingService {
 
   public getBookingsByDate(date: Date) {
     return this.http.get<Booking[]>(
-      `${BASE_URL_DEV}/Booking/${date.toDateString()}/${localStorage.getItem(
-        "clientId"
-      )}/get`,
+      `${BASE_URL_DEV}/Booking/${date.toDateString()}/20/get`,
       httpOptions
     );
   }
 
   public addBooking(dto: BookingDto) {
+    console.log(dto);
+    dto.employeeId=20;
     return this.http.post(`${BASE_URL_DEV}/Booking/add`, dto);
   }
 

@@ -1,17 +1,7 @@
-<nav
-  class="navbar navbar-light bg-light justify-content-between"
-  *ngIf="checkIsUserLogged()"
->
+<!-- <nav class="navbar navbar-light bg-light justify-content-between" *ngIf="checkIsUserLogged()">
   <a class="navbar-brand" href="#">{{ getNameEmployee() }}</a>
-  <button
-    class="navbar-toggler"
-    type="button"
-    data-toggle="collapse"
-    data-target="#navbarNavDropdown"
-    aria-controls="navbarNavDropdown"
-    aria-expanded="false"
-    aria-label="Toggle navigation"
-  >
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -24,6 +14,6 @@
       </li>
     </ul>
   </div>
-</nav>
-
+</nav> -->
+<app-menu ></app-menu>
 <router-outlet></router-outlet>

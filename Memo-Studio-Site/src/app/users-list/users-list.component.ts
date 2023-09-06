@@ -1,32 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { UserService } from "../shared/services/user.service";
+import { User } from "../models/user.model";
 
 @Component({
-  selector: 'app-users-list',
-  templateUrl: './users-list.component.html',
-  styleUrls: ['./users-list.component.css']
+  selector: "app-users-list",
+  templateUrl: "./users-list.component.html",
+  styleUrls: ["./users-list.component.css"],
 })
 export class UsersListComponent implements OnInit {
+  users: User[] = [];
+  columndefs: any[] = ["id", "name", "phoneNumber"];
 
-  constructor() { }
-  
-  users: BulgarianName[] = [
-    { fullName: "Иван Петров", phoneNumber: "+359 88 1234567" },
-    { fullName: "Мария Георгиева", phoneNumber: "+359 89 2345678" },
-    { fullName: "Димитър Иванов", phoneNumber: "+359 87 3456789" },
-    { fullName: "Елена Димитрова", phoneNumber: "+359 88 4567890" },
-    { fullName: "Георги Петров", phoneNumber: "+359 89 5678901" },
-    { fullName: "Анна Стоянова", phoneNumber: "+359 87 6789012" },
-    { fullName: "Стефан Димитров", phoneNumber: "+359 88 7890123" },
-    { fullName: "Милена Петрова", phoneNumber: "+359 89 8901234" },
-    { fullName: "Николай Иванов", phoneNumber: "+359 87 9012345" },
-    { fullName: "Таня Георгиева", phoneNumber: "+359 88 0123456" },
-  ];  
   ngOnInit(): void {
+    this.userService.getAllUsers().subscribe((x) => {
+      this.users = x;
+
+      this.dataSource = new MatTableDataSource(this.users);
+
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
 
-}
+  dataSource: MatTableDataSource<User>;
 
-interface BulgarianName {
-  fullName: string;
-  phoneNumber: string;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  constructor(private userService: UserService) {}
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
 }

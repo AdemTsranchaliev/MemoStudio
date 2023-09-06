@@ -36,7 +36,8 @@ export class AuthenticatinService {
     }
 
     public login(content) {
-        return this.http.post(`${BASE_URL_DEV}/login`, content, this.configureOptions()).pipe(
+        
+        return this.http.post(`${BASE_URL_DEV}/authentication`, content, this.configureOptions()).pipe(
             tap(token => {
                 // ==== Here we receve token - all user data ====
 
