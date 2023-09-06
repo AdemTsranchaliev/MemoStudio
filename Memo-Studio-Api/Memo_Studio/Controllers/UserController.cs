@@ -43,7 +43,6 @@ namespace Memo_Studio.Controllers
             return Ok();
         }
 
-        [Authorize]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
         {

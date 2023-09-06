@@ -1,65 +1,77 @@
-.date-item {
-    padding: 15px;
-    border-radius: 5px;
-    cursor: pointer;
+/* Import Swiper styles */
+@import '~swiper/swiper-bundle.min.css';
+@import '~swiper/swiper.min.css';
+
+/* Add this CSS to hide horizontal overflow */
+.swiper-parent-container {
+    overflow-x: hidden;
+}
+
+/* Styles for the swiper container */
+.swiper-container {
+    width: 50%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
+/* Styles for the swiper slides */
+.swiper-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-sizing: border-box;
+    height: 80px;
+    cursor: pointer;
 }
 
-.date-item.active {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.date-item.active .date-number {
-    font-weight: bold;
-}
-
-.date-number {
-    font-size: 20px;
-}
-
-.day-of-week {
-    font-size: 14px;
-}
-
-.carousel-control-prev,
-.carousel-control-next {
+/* Styles for the navigation buttons (optional) */
+.swiper-button-prev {
+    align-self: flex-start;
+    transform: translateY(-50%);
     width: 30px;
     height: 30px;
-    background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
+    color: blue;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.swiper-button-next {
+    align-self: flex-end;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    color: blue;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.current-day {
+    color: blue;
+    border-color: blue;
+    cursor: pointer;
+}
+
+.past-day {
+    color: darkgray;
+    cursor: default;
 }
 
 @media (max-width: 576px) {
-    .carousel-control-prev {
-        left: -20px;
-    }
-
-    .carousel-control-next {
-        right: -20px;
+    .swiper-button-prev,
+    .swiper-button-next {
+        display: none;
     }
 }
-.date-item {
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
-    text-align: center;
-    padding: 1px;
-    margin: 10px;
-    width: 50%;
-}
 
-.date-number {
-    font-size: 18px;
+.day-item {
+    font-size: 20px;
     font-weight: bold;
-}
-
-.day-of-week {
-    font-size: 12px;
-}
-.month{
-    font-size: 10px;
 }

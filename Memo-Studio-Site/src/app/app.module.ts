@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule, LOCALE_ID } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { MatInputModule } from "@angular/material/input";
 
@@ -36,6 +36,12 @@ import {MatTableModule} from '@angular/material/table';
 import { SelfBookingComponent } from './self-booking/self-booking.component';
 import {MatButtonModule} from '@angular/material/button';
 import { StudioDatetimePickerComponent } from "./studio-datetime-picker/studio-datetime-picker.component";
+import { DatePipe } from '@angular/common';
+
+// Import BG Language - Use from Pipe
+import localeBg from '@angular/common/locales/bg';
+import { registerLocaleData } from '@angular/common';
+registerLocaleData(localeBg, 'bg');
 
 @NgModule({
   declarations: [
@@ -83,6 +89,8 @@ import { StudioDatetimePickerComponent } from "./studio-datetime-picker/studio-d
       useClass: AuthInterceptor,
       multi: true,
     },
+    { provide: LOCALE_ID, useValue: 'bg' }, // Set the locale to 'bg'
+    DatePipe,
   ],
   bootstrap: [AppComponent],
 })
