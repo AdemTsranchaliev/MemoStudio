@@ -1,0 +1,42 @@
+<div class="container light-style flex-grow-1 container-p-y">
+
+  <h4 class="font-weight-bold py-3 mb-4">
+    Account settings
+  </h4>
+
+  <div class="card overflow-hidden">
+    <div class="row no-gutters row-bordered row-border-light">
+      <div class="col-md-3 pt-0">
+        <mat-selection-list role="list">
+          <mat-divider></mat-divider>
+          <mat-list-option (click)="changeTab(1)" [ngClass]="{'active-tab-menu': activeTab==1}"
+            class="pl-3">Основни</mat-list-option>
+          <mat-divider></mat-divider>
+          <mat-list-option (click)="changeTab(2)" [ngClass]="{'active-tab-menu': activeTab==2}"
+            class="pl-3">Защита</mat-list-option>
+          <mat-divider></mat-divider>
+          <mat-list-option (click)="changeTab(3)" [ngClass]="{'active-tab-menu': activeTab==3}"
+            class="pl-3">Календар</mat-list-option>
+          <mat-divider></mat-divider>
+        </mat-selection-list>
+      </div>
+      <div class="col-md-9">
+        <app-general [ngClass]="{'unactive-tab-content': activeTab!=1}"></app-general>
+        <app-security [ngClass]="{'unactive-tab-content': activeTab!=2}"></app-security>
+        <app-calendar [ngClass]="{'unactive-tab-content': activeTab!=3}"> </app-calendar>
+       
+
+        <mat-divider></mat-divider>
+
+        <div class="text-right m-4">
+          <button mat-raised-button color="primary">Запази промени</button>
+          &nbsp;
+          <button mat-stroked-button color="primary">Отказ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>

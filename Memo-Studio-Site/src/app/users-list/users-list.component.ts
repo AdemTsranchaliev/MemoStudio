@@ -4,6 +4,8 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { UserService } from "../shared/services/user.service";
 import { User } from "../models/user.model";
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { UserDetailsComponent } from "../user-details/user-details.component";
 
 @Component({
   selector: "app-users-list",
@@ -12,7 +14,7 @@ import { User } from "../models/user.model";
 })
 export class UsersListComponent implements OnInit {
   users: User[] = [];
-  columndefs: any[] = ["id", "name", "phoneNumber"];
+  columndefs: any[] = ["id", "name", "phoneNumber", "operation"];
 
   ngOnInit(): void {
     this.userService.getAllUsers().subscribe((x) => {
@@ -30,7 +32,17 @@ export class UsersListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService,public dialog: MatDialog) {}
+
+  openDialog() {
+    const dialogRef = this.dialog.open(UserDetailsComponent, {
+      width: '100vw'}
+      );
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

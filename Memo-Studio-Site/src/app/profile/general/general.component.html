@@ -1,0 +1,48 @@
+<div>
+    <h4 class="ml-2 mt-3">Основна информация</h4>
+    <mat-divider class="ml-2 "></mat-divider>
+    <div class="card-body media align-items-center">
+        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="d-block ui-w-80">
+        <div class="media-body ml-4">
+            <label class="btn btn-outline-primary">
+                Upload new photo
+                <input type="file" class="account-settings-fileinput">
+            </label> &nbsp;
+            <button type="button" class="btn btn-default md-btn-flat">Reset</button>
+
+            <div class="text-light small mt-1">Allowed JPG, GIF or PNG. Max size of 800K</div>
+        </div>
+    </div>
+    <hr class="border-light m-0">
+
+    <div class="card-body">
+        <mat-form-field class="w-100">
+            <mat-label>Име</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <mat-form-field class="w-100">
+            <mat-label>Фамилия</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <mat-form-field class="w-100">
+            <mat-label>Телефон</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <mat-form-field class="w-100">
+            <mat-label>Имейл</mat-label>
+            <input matInput>
+            <div class="alert alert-warning mt-3">
+                Имейлът Ви не е потвърден. Моля проверете вашата пощта.<br>
+                <a href="javascript:void(0)">Повторно изпращане на потвърждение</a>
+            </div>
+        </mat-form-field>
+        <mat-form-field class="w-100">
+            <mat-label>Име на обект</mat-label>
+            <input matInput>
+            <mat-hint align="start">Името, което ще се появява, когато някой запазва час. Ако това поле е празно, ще
+                се появяват двете ви имена.</mat-hint>
+        </mat-form-field>
+
+    </div>
+
+</div>

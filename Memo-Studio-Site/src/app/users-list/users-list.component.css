@@ -1,7 +1,9 @@
 .container {
     padding: 20px;
   }
-  
+  .custom-dialog {
+    max-width: 80%; /* Adjust the width as per your requirements */
+  }
   .header {
     background-color: #007bff;
     color: white;

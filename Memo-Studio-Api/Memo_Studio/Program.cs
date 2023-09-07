@@ -25,7 +25,7 @@ public class Program
           .Build();
 
         builder.Services.AddDbContext<StudioContext>(options =>
-          options.UseSqlServer(configuration.GetValue<string>("DbConnectionString-WIN")));
+          options.UseSqlServer(configuration.GetValue<string>("DbConnectionString-MAC")));
 
         SetupAuthentication(builder.Services, configuration);
 
