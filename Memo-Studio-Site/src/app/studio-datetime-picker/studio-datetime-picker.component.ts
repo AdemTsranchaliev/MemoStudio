@@ -1,12 +1,13 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from "@angular/core";
+import { Component, OnInit, AfterViewInit, ViewChild, LOCALE_ID, Inject } from "@angular/core";
 import { DatePipe } from '@angular/common';
-import SwiperCore, { Navigation, Swiper } from "swiper";
-SwiperCore.use([Navigation]);
+import SwiperCore, { Navigation, Pagination, Swiper } from "swiper";
+SwiperCore.use([Navigation, Pagination]);
 
 export class DateModel {
   public date: Date;
   public DayOfWeek: string;
-  isDisabled: boolean;
+  public month: string;
+  public isDisabled: boolean;
 }
 
 @Component({
@@ -19,11 +20,16 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit {
   days: DateModel[] = [];
   daysOfWeek = ["ПОН", "ВТО", "СРЯ", "ЧЕТ", "ПЕТ", "СЪБ", "НЕД"];
   swiperInstance: any; // Store the Swiper instance
+  initialSlideIndex: number = 0;
 
-
-  constructor(private datePipe: DatePipe) { }
+  constructor(
+    private datePipe: DatePipe,
+    @Inject(LOCALE_ID) private locale: string
+  ) { }
 
   ngOnInit(): void {
+    this.initialSlideIndex = this.findCurrentDayIndex();
+
     this.generateDates(); // Call a function to generate date objects
     this.disablePastDates();
   }
@@ -36,9 +42,15 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit {
     this.swiperInstance = new Swiper(this.swiper.nativeElement, {
       slidesPerView: 7,
       spaceBetween: 18,
+      initialSlide: this.initialSlideIndex + 3,
       navigation: {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+        dynamicBullets: true,
       },
       breakpoints: {
         1400: {
@@ -57,7 +69,8 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit {
           slidesPerView: 3,
         },
         280: {
-          slidesPerView: 4,
+          slidesPerView: 3,
+          initialSlide: this.initialSlideIndex + 5,
         },
       },
     });
@@ -77,17 +90,26 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit {
 
   generateDates(): void {
     const today = new Date();
-    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
-    for (let day = firstDayOfMonth; day <= lastDayOfMonth; day.setDate(day.getDate() + 1)) {
-      this.days.push({
-        date: new Date(day),
-        DayOfWeek: this.daysOfWeek[day.getDay()],
-        isDisabled: false
-      });
+    // Define the number of months to generate dates for
+    const numMonthsToShow = 3; // You can adjust this as needed
+
+    for (let monthOffset = 0; monthOffset < numMonthsToShow; monthOffset++) {
+      const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth() + monthOffset, 1);
+      const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + monthOffset + 1, 0);
+
+      for (let day = firstDayOfMonth; day <= lastDayOfMonth; day.setDate(day.getDate() + 1)) {
+        const monthName = this.datePipe.transform(day, 'LLLL', this.locale);
+        this.days.push({
+          date: new Date(day),
+          DayOfWeek: this.daysOfWeek[day.getDay()],
+          month: monthName,
+          isDisabled: false,
+        });
+      }
     }
   }
+
 
   isCurrentDay(date: Date): boolean {
     const currentDate = new Date();
@@ -96,8 +118,18 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit {
 
   isPastDate(date: Date): boolean {
     const currentDate = new Date();
-    return date.getDate() < currentDate.getDate();
+    currentDate.setHours(0, 0, 0, 0); // Set time to midnight for accurate comparison
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+    const nextMonth = currentMonth === 11 ? 0 : currentMonth + 1; // Handle December
+    const nextYear = nextMonth === 0 ? currentYear + 1 : currentYear;
+
+    // Calculate the first day of the next month
+    const firstDayOfNextMonth = new Date(nextYear, nextMonth, 1);
+
+    return date < currentDate || date >= firstDayOfNextMonth;
   }
+
 
   disablePastDates(): void {
     this.days.forEach((day) => {
@@ -109,5 +141,24 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit {
     if (day.isDisabled == false) {
       console.log('>>> Load Data');
     }
+  }
+
+  findCurrentDayIndex(): number {
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0); // Set time to midnight for accurate comparison
+    const currentDateFormatted = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
+
+    for (let i = 0; i < this.days.length; i++) {
+      const day = this.days[i];
+      const dayFormatted = this.datePipe.transform(day.date, 'yyyy-MM-dd');
+
+      if (dayFormatted === currentDateFormatted) {
+        console.log('>>>', i);
+
+        return i; // Return the index of the current day
+      }
+    }
+
+    return 0; // Default to the first day if current day is not found
   }
 }
