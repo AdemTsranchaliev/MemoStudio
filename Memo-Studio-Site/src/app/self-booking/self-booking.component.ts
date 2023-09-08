@@ -1,5 +1,7 @@
 import { Component, ElementRef, HostListener, OnInit } from "@angular/core";
 import { animate, style, transition, trigger } from "@angular/animations";
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { SelfBookingModalComponent } from "../shared/self-booking-modal/self-booking-modal.component";
 
 @Component({
   selector: "app-self-booking",
@@ -27,7 +29,10 @@ export class SelfBookingComponent implements OnInit {
   maxNumber = 100;
   pageSize = 10;
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(
+    private elementRef: ElementRef,
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.scrollContainer =
@@ -74,5 +79,18 @@ export class SelfBookingComponent implements OnInit {
       }
       this.numbers.push(i + 1);
     }
+  }
+
+  openDialog() {
+    const dialogConfig: MatDialogConfig = {
+      width: '50%',
+      // data: currentElement | From data need to pass ID? 
+    };
+
+    const dialogRef = this.dialog.open(SelfBookingModalComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
   }
 }

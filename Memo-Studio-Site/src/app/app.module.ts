@@ -48,6 +48,7 @@ import { SecurityComponent } from "./profile/security/security.component";
 import { CalendarComponent } from "./profile/calendar/calendar.component";
 import { SideMenuComponent } from "./profile/side-menu/side-menu.component";
 import { BookingConfirmationListComponent } from './booking-confirmation-list/booking-confirmation-list.component';
+import { SelfBookingModalComponent } from './shared/self-booking-modal/self-booking-modal.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -70,6 +71,7 @@ registerLocaleData(localeBg, "bg");
     CalendarComponent,
     SideMenuComponent,
     BookingConfirmationListComponent,
+    SelfBookingModalComponent,
   ],
   imports: [
     BrowserModule,

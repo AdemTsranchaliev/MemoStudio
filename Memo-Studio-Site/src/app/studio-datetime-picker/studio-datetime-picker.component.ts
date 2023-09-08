@@ -28,13 +28,12 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    this.initialSlideIndex = this.findCurrentDayIndex();
-
     this.generateDates(); // Call a function to generate date objects
     this.disablePastDates();
   }
 
   ngAfterViewInit(): void {
+    this.initialSlideIndex = this.findCurrentDayIndex();
     this.initializeSwiper();
   }
 
@@ -42,7 +41,7 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit {
     this.swiperInstance = new Swiper(this.swiper.nativeElement, {
       slidesPerView: 7,
       spaceBetween: 18,
-      initialSlide: this.initialSlideIndex + 3,
+      initialSlide: this.initialSlideIndex,
       navigation: {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",
@@ -70,7 +69,7 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit {
         },
         280: {
           slidesPerView: 3,
-          initialSlide: this.initialSlideIndex + 5,
+          initialSlide: this.initialSlideIndex,
         },
       },
     });
