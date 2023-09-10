@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, AfterViewInit, ViewChild } from "@angular/core";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { UserService } from "../shared/services/user.service";
 import { User } from "../shared/models/user.model";
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { UserDetailsComponent } from "../shared/dialogs/user-details/user-details.component";
 
 @Component({
@@ -12,9 +12,18 @@ import { UserDetailsComponent } from "../shared/dialogs/user-details/user-detail
   templateUrl: "./users-list.component.html",
   styleUrls: ["./users-list.component.css"],
 })
-export class UsersListComponent implements OnInit {
-  users: User[] = [];
+export class UsersListComponent implements OnInit, AfterViewInit {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   columndefs: any[] = ["id", "name", "phoneNumber", "operation"];
+  dataSource: MatTableDataSource<User>;
+  users: User[] = [];
+
+  constructor(
+    private userService: UserService,
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.userService.getAllUsers().subscribe((x) => {
@@ -27,17 +36,16 @@ export class UsersListComponent implements OnInit {
     });
   }
 
-  dataSource: MatTableDataSource<User>;
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
-  constructor(private userService: UserService,public dialog: MatDialog) {}
+  ngAfterViewInit() {
+    // this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
+  }
 
   openDialog() {
     const dialogRef = this.dialog.open(UserDetailsComponent, {
-      width: '100vw'}
-      );
+      width: '100vw',
+    }
+    );
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);

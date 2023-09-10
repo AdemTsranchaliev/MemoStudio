@@ -20,6 +20,7 @@ import { LoginComponent } from "./auth-user/authentication/login/login.component
 import { UsersListComponent } from "./users-list/users-list.component";
 import { MatListModule } from "@angular/material/list";
 import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatSortModule } from '@angular/material/sort';
 import { UserDetailsComponent } from "./shared/dialogs/user-details/user-details.component";
 import { UserService } from "./shared/services/user.service";
 import { DayService } from "./shared/services/day.service";
@@ -96,6 +97,7 @@ registerLocaleData(localeBg, "bg");
     MatButtonModule,
     MatSelectModule,
     MatDialogModule,
+    MatSortModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -113,4 +115,4 @@ registerLocaleData(localeBg, "bg");
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
