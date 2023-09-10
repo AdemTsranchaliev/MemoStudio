@@ -1,33 +1,45 @@
 ﻿using System;
 using System.Globalization;
+using Memo_Studio_Library.Data.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Memo_Studio_Library.Models
 {
-	public class Booking
-	{
-		public Booking()
-		{
-		}
+	public class Booking : BaseModel
+    {
+        public Guid BookingId { get; set; }
 
-		public int Id { get; set; }
-
-		public DateTime Timestamp { get; set; }
+        public DateTime Timestamp { get; set; }
 
 		public DateTime CreatedOn { get; set; }
 
-		public User User { get; set; }
-
-		public int UserId{ get; set; }
-
         public bool Canceled { get; set; }
-
-		public int EmployeeId { get; set; }
 
 		public string ReservationId { get; set; }
 
-		public string Note { get; set; }
+		public string? Note { get; set; }
 
-		public string GetDateTimeInMessageFormat()
+		public string? Name { get; set; }
+
+		public string? Email { get; set; }
+
+		public string? Phone { get; set; }
+
+        public bool Confirmed { get; set; }
+
+        public bool RegisteredUser { get; set; }
+
+        public int UserId { get; set; }
+        public User User { get; set; }
+
+        public int FacilityId { get; set; }
+        public Facility Facility { get; set; }
+
+        public List<Notification> Notifications { get; set; }
+
+
+        public string GetDateTimeInMessageFormat()
 		{
             CultureInfo culture = new CultureInfo("bg-BG");
             this.Timestamp = this.Timestamp.ToLocalTime();

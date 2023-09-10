@@ -16,31 +16,14 @@ public class StudioContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>()
-            .ToTable("Users");
-        modelBuilder.Entity<User>()
-            .Property(b => b.Id)
-            .IsRequired();
-        modelBuilder.Entity<User>()
-            .Property(b => b.Name)
-            .IsRequired(false);
-        modelBuilder.Entity<User>()
-            .Property(b => b.Id)
-            .IsRequired();
-        modelBuilder.Entity<User>()
-            .Property(b => b.ViberId)
-            .IsRequired(false);
-
-        modelBuilder.Entity<Booking>()
-            .ToTable("Bookings");
-        modelBuilder.Entity<Booking>()
-            .Property(b => b.Id)
-            .IsRequired();
-        modelBuilder.Entity<Booking>()
-           .Property(b => b.Note)
-           .IsRequired(false);
-        modelBuilder.Entity<Day>()
-            .ToTable("Day");
+        modelBuilder.ApplyConfiguration(new BookingConfig());
+        modelBuilder.ApplyConfiguration(new CalendarConfigurationConfig());
+        modelBuilder.ApplyConfiguration(new DayConfig());
+        modelBuilder.ApplyConfiguration(new FacilityConfig());
+        modelBuilder.ApplyConfiguration(new FacilityRoleConfig());
+        modelBuilder.ApplyConfiguration(new NotificationConfig());
+        modelBuilder.ApplyConfiguration(new UserConfig());
+        modelBuilder.ApplyConfiguration(new UserFalicityConfig());
 
     }
 
@@ -48,12 +31,17 @@ public class StudioContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            //optionsBuilder.UseSqlServer("Server=tcp:127.0.0.1,1433;Database=MemoStudio;MultipleActiveResultSets=true;User=sa;Password=MyPass@word;TrustServerCertificate=True;MultiSubnetFailover=True");
-            optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=MemoStudio;TrustServerCertificate=True;Trusted_Connection=True");
+            optionsBuilder.UseSqlServer("Server=tcp:127.0.0.1,1433;Database=MemoStudio;MultipleActiveResultSets=true;User=sa;Password=MyPass@word;TrustServerCertificate=True;MultiSubnetFailover=True");
+            //optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=MemoStudio;TrustServerCertificate=True;Trusted_Connection=True");
         }
     }
 
     public DbSet<Booking> Bookings { get; set; }
-    public DbSet<User> Users { get; set; }
+    public DbSet<CalendarConfiguration> CalendarConfigurations { get; set; }
     public DbSet<Day> Days { get; set; }
+    public DbSet<Facility> Facilities { get; set; }
+    public DbSet<FacilityRole> FacilityRoles { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<UserFalicity> UserFalicities { get; set; }
 }

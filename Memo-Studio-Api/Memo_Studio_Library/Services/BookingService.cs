@@ -17,7 +17,7 @@ namespace Memo_Studio_Library
                 var newBooking = new Booking
                 {
                     CreatedOn = DateTime.Now,
-                    EmployeeId = booking.EmployeeId,
+                    //EmployeeId = booking.EmployeeId,
                     Timestamp = booking.DateTime.ToLocalTime(),
                     UserId = booking.UserId,
                     ReservationId = booking.ReservationId,
@@ -42,7 +42,7 @@ namespace Memo_Studio_Library
 
                 return context.Bookings
                     .Include(x => x.User)
-                    .Where(x=>x.Timestamp>= start && x.Timestamp <=end && x.EmployeeId==clientId && !x.Canceled).ToList();
+                    .Where(x=>x.Timestamp>= start && x.Timestamp <=end && !x.Canceled).ToList();
             }
         }
 

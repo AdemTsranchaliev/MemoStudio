@@ -1,20 +1,21 @@
 ﻿using System;
+using Memo_Studio_Library.Data.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Memo_Studio_Library.Models
 {
-    public class User : IdentityUser
+    public class User : IdentityUser<int>
     {
-        public User()
-        {
-        }
-
-        public int Id { get; set; }
+        public Guid UserId { get; set; }
 
         public string? Name { get; set; }
 
         public string? ViberId { get; set; }
 
-        public bool EmailConfirmed { get; set; }
+        public List<Notification> Notifications { get; set; }
+        public List<UserFalicity> UserFalicities { get; set; }
+        public List<Booking> Bookings { get; set; }
     }
 }

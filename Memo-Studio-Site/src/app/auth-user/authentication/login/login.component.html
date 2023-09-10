@@ -10,20 +10,23 @@
         <mat-form-field class="w-100 mt-4">
             <mat-label>Имейл</mat-label>
             <input matInput id="email" type="email" formControlName="email">
-            <mat-error *ngIf="loginForm.get('email').hasError('required') && loginForm.get('email').touched">
+            <mat-error
+                *ngIf="utilityService.HasError(loginForm,'email','required') && utilityService.IsTouched(loginForm,'email')">
                 Това поле е задължително.
             </mat-error>
-            <mat-error *ngIf="loginForm.get('email').hasError('email') && loginForm.get('email').touched">
+            <mat-error *ngIf="utilityService.HasError(loginForm,'email','email') && utilityService.IsTouched(loginForm,'email')">
                 Моля въведете валиден имейл адрес.
             </mat-error>
         </mat-form-field>
         <mat-form-field class="w-100 mt-3 mb-4">
             <mat-label>Парола</mat-label>
             <input matInput id="password" type="password" formControlName="password">
-            <mat-error *ngIf="loginForm.get('password').hasError('required') && loginForm.get('password').touched">
+            <mat-error
+                *ngIf="utilityService.HasError(loginForm,'password','required') && utilityService.IsTouched(loginForm,'password')">
                 Това поле е задължително.
             </mat-error>
-            <mat-error *ngIf="loginForm.get('password').hasError('minlength') && loginForm.get('password').touched">
+            <mat-error
+                *ngIf="utilityService.HasError(loginForm,'password','minLength') && utilityService.IsTouched(loginForm,'password')">
                 Паролата, трябва да бъде поне 3 символа.
             </mat-error>
         </mat-form-field>

@@ -8,6 +8,7 @@ import {
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { AuthenticatinService } from "src/app/shared/services/authenticatin.service";
+import { UtilityService } from "src/app/shared/services/utility.service";
 
 function passwordMatchValidator(control: AbstractControl) {
   const password = control.get("password").value;
@@ -26,10 +27,9 @@ function passwordMatchValidator(control: AbstractControl) {
   styleUrls: ["./register.component.css"],
 })
 export class RegisterComponent implements OnInit {
-  // Subscriptions
   private subscriptions: Subscription[] = [];
   public isLoginError: boolean = false;
-  public loginForm: FormGroup = this.formBuilder.group(
+  public registerForm: FormGroup = this.formBuilder.group(
     {
       name: ["", Validators.required],
       surname: ["", Validators.required],
@@ -37,6 +37,7 @@ export class RegisterComponent implements OnInit {
       password: ["", [Validators.required, Validators.minLength(6)]],
       confirmPassword: ["", Validators.required],
       phone: ["", Validators.required],
+      acceptPolicy: [false, Validators.required],
     },
     { validator: passwordMatchValidator }
   );
@@ -44,7 +45,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private authService: AuthenticatinService
+    private authService: AuthenticatinService,
+    public utilityService: UtilityService
   ) {}
 
   ngOnInit(): void {
@@ -58,11 +60,12 @@ export class RegisterComponent implements OnInit {
   }
 
   public onSubmit() {
-    if (this.loginForm.invalid) {
+    if (this.registerForm.invalid) {
       return;
     }
-    var model = Object.assign({}, this.loginForm.value);
-    const loginSubscription = this.authService.login(model).subscribe({
+
+    var model = Object.assign({}, this.registerForm.value);
+    const loginSubscription = this.authService.register(model).subscribe({
       next: (x: string) => {
         localStorage.setItem("AUTH_TOKEN", x);
         this.router.navigate(["/"]);

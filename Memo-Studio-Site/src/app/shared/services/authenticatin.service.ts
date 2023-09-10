@@ -49,8 +49,8 @@ export class AuthenticatinService {
         );
     }
 
-    public register(content: { username: string, password: string }) {
-        return this.http.post(`${BASE_URL_DEV}/register`, content, this.configureOptions()).pipe(
+    public register(content) {
+        return this.http.post(`${BASE_URL_DEV}/User/register`, content, this.configureOptions()).pipe(
             tap(user => {
                 // this.user = user;
                 // localStorage.setItem('username', content?.username);

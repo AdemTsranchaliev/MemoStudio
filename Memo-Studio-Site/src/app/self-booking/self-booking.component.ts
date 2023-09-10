@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, OnInit } from "@angular/core";
 import { animate, style, transition, trigger } from "@angular/animations";
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { SelfBookingModalComponent } from "../shared/self-booking-modal/self-booking-modal.component";
+import { SelfBookingModalComponent } from "../shared/dialogs/self-booking-modal/self-booking-modal.component";
 
 @Component({
   selector: "app-self-booking",

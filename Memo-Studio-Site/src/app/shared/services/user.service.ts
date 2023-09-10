@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { User } from "src/app/models/user.model";
+import { User } from "src/app/shared/models/user.model";
 import { BASE_URL_DEV, BASE_URL_PROD } from "../routes";
 const httpOptions = {
   headers: {

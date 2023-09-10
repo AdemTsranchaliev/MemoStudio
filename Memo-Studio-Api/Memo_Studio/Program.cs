@@ -128,7 +128,7 @@ public class Program
 
     public static void SetupAuthentication(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddIdentity<User, IdentityRole>(op =>
+        services.AddIdentity<User, IdentityRole<int>>(op =>
         {
             op.Password.RequiredLength = 6;
             op.Password.RequireUppercase = false;

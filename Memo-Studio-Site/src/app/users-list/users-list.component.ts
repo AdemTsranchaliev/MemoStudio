@@ -3,9 +3,9 @@ import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { UserService } from "../shared/services/user.service";
-import { User } from "../models/user.model";
+import { User } from "../shared/models/user.model";
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
-import { UserDetailsComponent } from "../user-details/user-details.component";
+import { UserDetailsComponent } from "../shared/dialogs/user-details/user-details.component";
 
 @Component({
   selector: "app-users-list",

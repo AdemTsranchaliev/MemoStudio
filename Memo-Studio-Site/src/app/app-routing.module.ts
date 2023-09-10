@@ -3,7 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { BookingComponent } from "./booking/booking.component";
 import { LoginComponent } from "./auth-user/authentication/login/login.component";
 import { AuthGuard } from "./shared/guards/auth-guard";
-import { UserDetailsComponent } from "./user-details/user-details.component";
+import { UserDetailsComponent } from "./shared/dialogs/user-details/user-details.component";
 import { UsersListComponent } from "./users-list/users-list.component";
 import { AuthenticationComponent } from "./auth-user/authentication/authentication.component";
 import { ForgottenPasswordComponent } from "./auth-user/forgotten-password/forgotten-password.component";

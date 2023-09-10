@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
-import { Booking } from "../models/booking.model";
+import { Booking } from "../shared/models/booking.model";
 
 @Component({
   selector: "app-booking-confirmation-list",

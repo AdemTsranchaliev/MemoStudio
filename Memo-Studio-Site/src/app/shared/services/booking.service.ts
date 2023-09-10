@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { BookingDto } from "src/app/booking/booking-dto-model";
-import { Booking } from "src/app/models/booking.model";
+import { Booking } from "src/app/shared/models/booking.model";
 import { BASE_URL_DEV } from "../routes";
 const httpOptions = {
   headers: {

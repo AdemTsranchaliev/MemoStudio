@@ -21,7 +21,7 @@ namespace Memo_Studio_Library.Services
             {
                 model.DayDate = model.DayDate.ToLocalTime();
                 model.DayDate = new DateTime(model.DayDate.Year, model.DayDate.Month, model.DayDate.Day);
-                var foundModel = context.Days.FirstOrDefault(x=>x.DayDate==model.DayDate&&x.EmployeeId==model.EmployeeId);
+                var foundModel = context.Days.FirstOrDefault(x=>x.DayDate==model.DayDate);
                 model.StartPeriod = model.StartPeriod.ToLocalTime();
                 model.EndPeriod = model.EndPeriod.ToLocalTime();
                 if (foundModel != null)
@@ -48,8 +48,7 @@ namespace Memo_Studio_Library.Services
             {
                 return context.Days.FirstOrDefault(x => x.DayDate.Year == dateTime.Year&&
                 x.DayDate.Month == dateTime.Month &&
-                x.DayDate.Day == dateTime.Day &&
-                x.EmployeeId==employeeId);
+                x.DayDate.Day == dateTime.Day);
             }
         }
 
@@ -57,7 +56,7 @@ namespace Memo_Studio_Library.Services
         {
             using (var context = new StudioContext())
             {
-                var foundModel = context.Days.FirstOrDefault(x => x.DayDate == day.DayDate && x.EmployeeId == day.EmployeeId);
+                var foundModel = context.Days.FirstOrDefault(x => x.DayDate == day.DayDate);
 
                 if (foundModel != null)
                 {
@@ -69,7 +68,7 @@ namespace Memo_Studio_Library.Services
                     context.Days.Add(day);
                 }
 
-                var bookings = await context.Bookings.Include(x => x.User).Where(x => x.Timestamp.Year == day.DayDate.Year && x.Timestamp.Month == day.DayDate.Month && x.Timestamp.Day == day.DayDate.Day&&day.EmployeeId==x.EmployeeId&&!x.Canceled).ToListAsync();
+                var bookings = await context.Bookings.Include(x => x.User).Where(x => x.Timestamp.Year == day.DayDate.Year && x.Timestamp.Month == day.DayDate.Month && x.Timestamp.Day == day.DayDate.Day&!x.Canceled).ToListAsync();
                 CultureInfo culture = new CultureInfo("bg-BG");
 
                 string dayD = day.DayDate.ToString("dd");
