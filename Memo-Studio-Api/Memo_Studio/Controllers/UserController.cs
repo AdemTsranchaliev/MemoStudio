@@ -38,8 +38,6 @@ namespace Memo_Studio.Controllers
         {
             try
             {
-                var user = await userManager.FindByEmailAsync("ademcran4aliew@gmail.com");
-                await accountService.SendEmailConfirmationAsync(user);
                 var users = await userService.GetAllUsers();
 
                 return Ok(users);
