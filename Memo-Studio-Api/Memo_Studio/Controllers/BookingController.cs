@@ -68,6 +68,7 @@ namespace Memo_Studio.Controllers
                     Note = x.Note
                 };
             });
+
             return Ok(mapedBookings);
         }
 

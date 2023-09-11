@@ -50,6 +50,7 @@ import { SideMenuComponent } from "./profile/side-menu/side-menu.component";
 import { BookingConfirmationListComponent } from "./booking-confirmation-list/booking-confirmation-list.component";
 import { SelfBookingModalComponent } from "./shared/dialogs/self-booking-modal/self-booking-modal.component";
 import { UtilityService } from "./shared/services/utility.service";
+import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -73,6 +74,7 @@ registerLocaleData(localeBg, "bg");
     SideMenuComponent,
     BookingConfirmationListComponent,
     SelfBookingModalComponent,
+    EmailConfirmationComponent,
   ],
   imports: [
     BrowserModule,

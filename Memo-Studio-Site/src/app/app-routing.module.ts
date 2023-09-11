@@ -10,6 +10,7 @@ import { ForgottenPasswordComponent } from "./auth-user/forgotten-password/forgo
 import { SelfBookingComponent } from "./self-booking/self-booking.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { BookingConfirmationListComponent } from "./booking-confirmation-list/booking-confirmation-list.component";
+import { EmailConfirmationComponent } from "./email-confirmation/email-confirmation.component";
 
 const routes: Routes = [
   { path: "booking", component: BookingComponent, canActivate: [AuthGuard] },
@@ -26,12 +27,14 @@ const routes: Routes = [
   { path: "login", component: AuthenticationComponent },
   { path: "forgotten-password", component: ForgottenPasswordComponent },
   { path: "users", component: UsersListComponent, canActivate: [AuthGuard] },
+  { path: "email-confirm", component: EmailConfirmationComponent },
   {
-    path: "user",
+    path: "user", 
     component: UserDetailsComponent,
     canActivate: [AuthGuard],
   },
   { path: "profile", component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: "profile", component: ProfileComponent },
   { path: "**", redirectTo: "booking" },
 ];
 

@@ -1,10 +1,13 @@
 ﻿using System;
 using Memo_Studio_Library;
 using Memo_Studio_Library.Models;
+using Memo_Studio_Library.Services;
+using Memo_Studio_Library.Services.Interfaces;
 using Memo_Studio_Library.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Memo_Studio.Controllers
@@ -18,10 +21,12 @@ namespace Memo_Studio.Controllers
         private readonly StudioContext context;
 
         private IUserService userService { get; }
+        public IAccountService accountService { get; }
 
-        public UserController(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, StudioContext context)
+        public UserController(IUserService userService, IAccountService accountService, UserManager<User> userManager, SignInManager<User> signInManager, StudioContext context)
         {
             this.userService = userService;
+            this.accountService = accountService;
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.context = context;
@@ -33,6 +38,8 @@ namespace Memo_Studio.Controllers
         {
             try
             {
+                var user = await userManager.FindByEmailAsync("ademcran4aliew@gmail.com");
+                await accountService.SendEmailConfirmationAsync(user);
                 var users = await userService.GetAllUsers();
 
                 return Ok(users);
@@ -56,10 +63,12 @@ namespace Memo_Studio.Controllers
                     NormalizedEmail = model.Email.ToLower(),
                     PhoneNumber = model.Phone                   
                 };
+
                 var result = await userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
+                    await accountService.SendEmailConfirmationAsync(user);
                     return Ok();
                 }
 
@@ -67,7 +76,6 @@ namespace Memo_Studio.Controllers
             }
             catch (Exception ex)
             {
-
                 return BadRequest();
 
             }
@@ -82,6 +90,16 @@ namespace Memo_Studio.Controllers
 
             return Ok();
         }
+
+        [AllowAnonymous]
+        [HttpPost("EmailConfirmation")]
+        public async Task EmailConfirmation(EmailConfirmationRequest request)
+        {
+
+            await accountService.ConfirmEmailAsync(request);
+         
+        }
+
     }
 }
 

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Memo_Studio_Library.Services.Interfaces;
 
 namespace Memo_Studio;
 
@@ -118,12 +119,14 @@ public class Program
 
     public static void RegisterServices(IServiceCollection services)
     {
-        services.AddSingleton<IUserService, UserService>();
-        services.AddSingleton<IBookingService, BookingService>();
-        services.AddSingleton<INotificationService, NotificationService>();
-        services.AddSingleton<IDayService, DayService>();
-        services.AddSingleton<ITokenService, TokenService>();
-        services.AddSingleton<IMessageService, MessageService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IBookingService, BookingService>();
+        services.AddScoped<INotificationService, NotificationService>();
+        services.AddScoped<IDayService, DayService>();
+        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IMessageService, MessageService>();
+        services.AddScoped<IMailService, MailService>();
+        services.AddScoped<IAccountService, AccountService>();
     }
 
     public static void SetupAuthentication(IServiceCollection services, IConfiguration configuration)
