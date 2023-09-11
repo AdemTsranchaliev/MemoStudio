@@ -1,36 +1,42 @@
 .container {
-    padding: 20px;
-  }
-  .custom-dialog {
-    max-width: 80%; /* Adjust the width as per your requirements */
-  }
-  .header {
-    background-color: #007bff;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    border-radius: 5px;
-    margin-bottom: 20px;
-  }
-  
-  .page-title {
-    font-size: 24px;
-    margin: 0;
-  }
-  
-  .user-item {
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 10px;
-  }
-  
-  .user-item h3 {
-    font-size: 18px;
-    margin: 0;
-  }
-  
-  .user-item p {
-    color: #777;
-  }
-  
+  padding: 20px;
+}
+
+.custom-dialog {
+  max-width: 80%;
+  /* Adjust the width as per your requirements */
+}
+
+.header {
+  background-color: #007bff;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.page-title {
+  font-size: 24px;
+  margin: 0;
+}
+
+.user-item {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.user-item h3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.user-item p {
+  color: #777;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}

@@ -1,0 +1,29 @@
+.blue {
+    color: #4E66F8;
+    background-color: #e4e8fe;
+}
+
+.green {
+    color: #35b653;
+    background-color: #e1f4e5;
+}
+
+.orange {
+    color: #ffc107;
+    background-color: #fff6da;
+}
+
+.red {
+    color: #dc3545;
+    background-color: #fae1e3;
+}
+
+.purple {
+    color: #17a2b8;
+    background-color: #dcf1f4;
+}
+
+.notification-sent {
+    color: #00b266;
+    background-color: #06ffe5;
+}
