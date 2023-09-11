@@ -1,1 +1,33 @@
-<p>email-confirmation works!</p>
+<section>
+  <div class="spinner-container" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <!-- =========== When Respons is fixed remove '!' from 'isConfirmed'  =========== -->
+  <div class="confirmed container" *ngIf="!isConfirmedSuccess && !isLoading">
+    <article class="row text-center">
+      <h1 class="col-12 text-secondary pb-3 text-break">Поздравления!</h1>
+      <h3 class="col-12 text-secondary text-break">
+        Имейлът Ви беше потвърден успешно.
+      </h3>
+      <h3 class="col-12 text-secondary text-break">
+        Вече можете да продължите.
+      </h3>
+      <mat-icon class="col-12 mt-5 icon-style-success">check_circle</mat-icon>
+    </article>
+  </div>
+
+  <!-- =========== When Respons is fixed remove '!' from 'isConfirmedFail'  =========== -->
+  <div class="confirmed container" *ngIf="isConfirmedFail && !isLoading">
+    <article class="row text-center">
+      <h1 class="col-12 text-secondary pb-3 text-break">
+        Опа... Нещо се случи!
+      </h1>
+      <h3 class="col-12 text-secondary text-break">
+        Имейлът Ви <strong class="text-dark">НЕ</strong> беше потвърден успешно.
+      </h3>
+      <h3 class="col-12 text-secondary text-break">Опитайте отново.</h3>
+      <mat-icon class="col-12 mt-5 icon-style-fail">cancel</mat-icon>
+    </article>
+  </div>
+</section>

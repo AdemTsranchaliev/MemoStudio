@@ -23,7 +23,7 @@
               Изпратено на
             </th>
             <td mat-cell *matCellDef="let row">
-              {{ row.sentOn | date : 'dd.MM.yy HH:mmч' }}
+              {{ row.sentOn | date : 'dd/MM/yyyy HH:mm' }}
             </td>
           </ng-container>
 
@@ -73,11 +73,9 @@
         matSortDirection="desc"
       >
         <ng-container matColumnDef="reservationData">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Дата на записване
-          </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Дата и час</th>
           <td mat-cell *matCellDef="let row">
-            {{ row.reservationData | date }}
+            {{ row.reservationData | date : 'dd/MM/yyyy HH:mm' }}
           </td>
         </ng-container>
 

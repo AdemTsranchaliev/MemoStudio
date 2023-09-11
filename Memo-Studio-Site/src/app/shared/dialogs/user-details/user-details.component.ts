@@ -30,17 +30,17 @@ export class UserDetailsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.notifications = [
-      new Notification(new Date(1), "Email", "Изпратено", "Подстрижка"),
-      new Notification(new Date(2), "Viber", "Получено", "Среща"),
-      new Notification(new Date(3), "Viber", "Видяно", "Среща"),
+      new Notification(new Date(2012, 2, 9, 15, 10), "Email", "Изпратено", "Подстрижка"),
+      new Notification(new Date(2012, 2, 9, 15, 10), "Viber", "Получено", "Среща"),
+      new Notification(new Date(2012, 2, 9, 15, 10), "Viber", "Видяно", "Среща"),
     ];
 
     this.reservations = [
-      new Reservation(new Date(2012, 1, 29), 'Администратор', 'В Ход'),
-      new Reservation(new Date(2012, 2, 9), 'Иван Иванов', 'Изпълнен'),
-      new Reservation(new Date(2012, 2, 10), 'Администратор', 'Отказан'),
-      new Reservation(new Date(2012, 2, 12), 'Иван Иванов', 'Предстои'),
-      new Reservation(new Date(2012, 2, 14), 'Администратор', 'Потвърден'),
+      new Reservation(new Date(2012, 2, 9, 10, 30), 'Иван Иванов', 'Изпълнен'),
+      new Reservation(new Date(2012, 2, 10, 10, 30), 'Администратор', 'Отказан'),
+      new Reservation(new Date(2012, 2, 12, 10, 30), 'Иван Иванов', 'Предстои'),
+      // new Reservation(new Date(2012, 1, 29, 10, 30), 'Администратор', 'В Ход'),
+      // new Reservation(new Date(2012, 2, 14, 10, 30), 'Администратор', 'Потвърден'),
     ];
 
     this.dataSource = new MatTableDataSource(this.notifications);
@@ -60,10 +60,6 @@ export class UserDetailsComponent implements OnInit, AfterViewInit {
     switch (status) {
       case 'Предстои':
         return 'blue';
-      case 'Потвърден':
-        return 'green';
-      case 'В Ход':
-        return 'orange';
       case 'Отказан':
         return 'red';
       case 'Изпълнен':

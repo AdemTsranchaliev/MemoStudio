@@ -11,8 +11,10 @@ import { SelfBookingComponent } from "./self-booking/self-booking.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { BookingConfirmationListComponent } from "./booking-confirmation-list/booking-confirmation-list.component";
 import { EmailConfirmationComponent } from "./email-confirmation/email-confirmation.component";
+import { HomeInfoComponent } from "./home-info/home-info.component";
 
 const routes: Routes = [
+  { path: "home-information", component: HomeInfoComponent },
   { path: "booking", component: BookingComponent, canActivate: [AuthGuard] },
   {
     path: "self-booking",
@@ -29,7 +31,7 @@ const routes: Routes = [
   { path: "users", component: UsersListComponent, canActivate: [AuthGuard] },
   { path: "email-confirm", component: EmailConfirmationComponent },
   {
-    path: "user", 
+    path: "user",
     component: UserDetailsComponent,
     canActivate: [AuthGuard],
   },
@@ -42,4 +44,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

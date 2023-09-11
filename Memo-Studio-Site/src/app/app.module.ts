@@ -39,6 +39,8 @@ import { SelfBookingComponent } from "./self-booking/self-booking.component";
 import { MatButtonModule } from "@angular/material/button";
 import { StudioDatetimePickerComponent } from "./studio-datetime-picker/studio-datetime-picker.component";
 import { DatePipe } from "@angular/common";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 // Import BG Language - Use from Pipe
 import localeBg from "@angular/common/locales/bg";
@@ -52,6 +54,7 @@ import { BookingConfirmationListComponent } from "./booking-confirmation-list/bo
 import { SelfBookingModalComponent } from "./shared/dialogs/self-booking-modal/self-booking-modal.component";
 import { UtilityService } from "./shared/services/utility.service";
 import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
+import { HomeInfoComponent } from './home-info/home-info.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -76,6 +79,7 @@ registerLocaleData(localeBg, "bg");
     BookingConfirmationListComponent,
     SelfBookingModalComponent,
     EmailConfirmationComponent,
+    HomeInfoComponent,
   ],
   imports: [
     BrowserModule,
@@ -100,6 +104,8 @@ registerLocaleData(localeBg, "bg");
     MatSelectModule,
     MatDialogModule,
     MatSortModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

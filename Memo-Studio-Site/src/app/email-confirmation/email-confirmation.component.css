@@ -1,0 +1,27 @@
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.confirmed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+
+.icon-style-success {
+  color: green;
+  font-size: 100px;
+}
+
+.icon-style-fail {
+  color: red;
+  font-size: 100px;
+}
+
+.text-line-height {
+  line-height: 0;
+}
