@@ -1,49 +1,114 @@
 <div class="site-mobile-menu site-navbar-target">
-    <div class="site-mobile-menu-header">
-        <div class="site-mobile-menu-close mt-3">
-            <span class="icon-close2 js-menu-toggle"></span>
-        </div>
+  <div class="site-mobile-menu-header">
+    <div class="site-mobile-menu-close mt-3">
+      <span class="icon-close2 js-menu-toggle"></span>
     </div>
-    <div class="site-mobile-menu-body"></div>
+  </div>
+  <div class="site-mobile-menu-body"></div>
 </div>
 
+<header
+  class="site-navbar js-sticky-header site-navbar-target"
+  role="banner"
+  style="background-color: white; width: 100%"
+>
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-6 col-xl-2">
+        <h1 class="mb-0 site-logo">
+          <a routerLink="/home-information"
+            >Glamgoo<span class="text-primary">.</span>
+          </a>
+        </h1>
+      </div>
 
-<header class="site-navbar js-sticky-header site-navbar-target" role="banner"
-    style="background-color: white; width: 100%;">
+      <div class="col-12 col-md-10 d-none d-xl-block">
+        <nav
+          class="site-navigation position-relative text-right"
+          role="navigation"
+        >
+          <ul
+            class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block"
+          >
+            <li class="has-children">
+              <a routerLink="/profile" class="nav-link">
+                За Потребителите!
+                <span class="text-primary"> &#9660; </span>
+              </a>
+              <ul class="dropdown">
+                <li>
+                  <a routerLink="/login" class="nav-link">Вход</a>
+                </li>
+                <li>
+                  <a routerLink="/register" class="nav-link">Регистрация</a>
+                </li>
+                <li>
+                  <a routerLink="/forgotten-password" class="nav-link"
+                    >Забравена парола</a
+                  >
+                </li>
+                <li>
+                  <a routerLink="/self-booking" class="nav-link"
+                    >Запазване на час</a
+                  >
+                </li>
+                <li>
+                  <a routerLink="/email-confirm" class="nav-link"
+                    >Потрърждаване на имайл</a
+                  >
+                </li>
+              </ul>
+            </li>
 
-    <div class="container">
-        <div class="row align-items-center">
+            <li>
+              <a class="nav-link">|</a>
+            </li>
 
-            <div class="col-6 col-xl-2">
-                <h1 class="mb-0 site-logo"><a routerLink="/home-information">Glamgoo<span class="text-primary">.</span> </a></h1>
-            </div>
+            <li>
+              <a routerLink="/home-information" class="nav-link">Начало</a>
+            </li>
+            <li class="has-children">
+              <a routerLink="/profile" class="nav-link">
+                Профил
+                <span class="text-primary"> &#9660; </span>
+              </a>
+              <ul class="dropdown">
+                <li>
+                  <a routerLink="/users" class="nav-link"> Потребители </a>
+                </li>
+                <li>
+                  <a routerLink="/booking-confirmation-list" class="nav-link">
+                    Резервации за потвърждение
+                  </a>
+                </li>
+                <li>
+                  <a routerLink="/booking" class="nav-link">
+                    Ръчно записване
+                  </a>
+                </li>
+              </ul>
+            </li>
 
-            <div class="col-12 col-md-10 d-none d-xl-block">
-                <nav class="site-navigation position-relative text-right" role="navigation">
+            <li>
+              <a
+                routerLink="/home-information"
+                (click)="exit()"
+                class="nav-link"
+                >Изход</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
 
-                    <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-                        <li><a href="#home-section" class="nav-link">НАЧАЛО</a></li>
-                        <li class="has-children">
-                            <a href="#about-section" class="nav-link">ПРОФИЛ</a>
-                            <ul class="dropdown">
-                                <li><a routerLink="/users" class="nav-link">ПОТРЕБИТЕЛИ</a></li>
-                                <li><a href="#pricing-section" class="nav-link">Резервации за потвърждение</a></li>
-
-                            </ul>
-                        </li>
-
-
-                        <li><a href="#blog-section" class="nav-link">ИЗХОД</a></li>
-   
-                    </ul>
-                </nav>
-            </div>
-
-
-            <div class="col-6 d-inline-block d-xl-none ml-md-0 py-3" style="position: relative; top: 3px;"><a href="#"
-                    class="site-menu-toggle js-menu-toggle float-right"><span class="icon-menu h3"></span></a></div>
-
-        </div>
+      <div
+        class="col-6 d-inline-block d-xl-none ml-md-0 py-3"
+        style="position: relative; top: 3px"
+      >
+        <a href="#" class="site-menu-toggle js-menu-toggle float-right"
+          ><span class="icon-menu h3"></span
+        ></a>
+      </div>
     </div>
-
+  </div>
 </header>

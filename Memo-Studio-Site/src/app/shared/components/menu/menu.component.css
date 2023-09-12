@@ -87,7 +87,7 @@ a, a:hover {
 
 .site-navbar .site-navigation .site-menu .has-children>a:before {
     position: absolute;
-    content: "\e313";
+    content: "";
     font-size: 16px;
     top: 50%;
     right: 0;

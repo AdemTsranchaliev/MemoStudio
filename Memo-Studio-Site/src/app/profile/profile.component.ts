@@ -6,16 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-
   public activeTab: number = 1;
+  public pageTabs: string[] = ['Основни', 'Защита', 'Календар'];
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  public changeTab(id: number){
-
-    this.activeTab = id;
+  handleActiveTabChange(newActiveTab: number) {
+    this.activeTab = newActiveTab;
   }
-
 }

@@ -12164,3 +12164,7 @@ h5,
 .error-input {
   border-color: #2980B9;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}

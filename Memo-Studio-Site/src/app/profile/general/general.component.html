@@ -1,48 +1,79 @@
-<div>
-    <h4 class="ml-2 mt-3">Основна информация</h4>
-    <mat-divider class="ml-2 "></mat-divider>
-    <div class="card-body media align-items-center">
-        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="d-block ui-w-80">
-        <div class="media-body ml-4">
-            <label class="btn btn-outline-primary">
-                Upload new photo
-                <input type="file" class="account-settings-fileinput">
-            </label> &nbsp;
-            <button type="button" class="btn btn-default md-btn-flat">Reset</button>
+<div class="container">
+  <h4 class="ml-2 my-3">Основна информация</h4>
+  <div class="row">
+    <article class="col-4 img-container mb-4">
+      <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" />
+    </article>
 
-            <div class="text-light small mt-1">Allowed JPG, GIF or PNG. Max size of 800K</div>
-        </div>
+    <div class="col-8">
+      <p>Име на обект: Иван ГРУП ООД</p>
+      <p>Име: Иван</p>
+      <p>Фамилия: Иванов</p>
+      <p>Телефон: 0888888888</p>
+      <p>Имейл: john.doe@gmail.com</p>
     </div>
-    <hr class="border-light m-0">
-
-    <div class="card-body">
-        <mat-form-field class="w-100">
-            <mat-label>Име</mat-label>
-            <input matInput>
-        </mat-form-field>
-        <mat-form-field class="w-100">
-            <mat-label>Фамилия</mat-label>
-            <input matInput>
-        </mat-form-field>
-        <mat-form-field class="w-100">
-            <mat-label>Телефон</mat-label>
-            <input matInput>
-        </mat-form-field>
-        <mat-form-field class="w-100">
-            <mat-label>Имейл</mat-label>
-            <input matInput>
-            <div class="alert alert-warning mt-3">
-                Имейлът Ви не е потвърден. Моля проверете вашата пощта.<br>
-                <a href="javascript:void(0)">Повторно изпращане на потвърждение</a>
-            </div>
-        </mat-form-field>
-        <mat-form-field class="w-100">
-            <mat-label>Име на обект</mat-label>
-            <input matInput>
-            <mat-hint align="start">Името, което ще се появява, когато някой запазва час. Ако това поле е празно, ще
-                се появяват двете ви имена.</mat-hint>
-        </mat-form-field>
-
+  </div>
+  <mat-divider></mat-divider>
+  <h4 class="ml-2 my-3">Редакция на информацията</h4>
+  <div class="card-body">
+    <div class="row">
+      <div class="col col-lg-10">
+        <button
+          class="btn btn-outline-primary w-100"
+          (click)="uploader.click()"
+        >
+          {{
+            currentUploadedImage
+              ? currentUploadedImage?.name
+              : 'Смяна на снимка'
+          }}
+        </button>
+        <input
+          hidden
+          type="file"
+          class="account-settings-fileinput"
+          #uploader
+          (change)="onFileSelected($event)"
+        />
+      </div>
+      <div class="col col-lg-2">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="clearImageField()"
+          [disabled]="!currentUploadedImage"
+        >
+          Изчисти
+        </button>
+      </div>
     </div>
-
+    <mat-form-field class="w-100 mt-2">
+      <mat-label>Име</mat-label>
+      <input matInput />
+    </mat-form-field>
+    <mat-form-field class="w-100">
+      <mat-label>Фамилия</mat-label>
+      <input matInput />
+    </mat-form-field>
+    <mat-form-field class="w-100">
+      <mat-label>Телефон</mat-label>
+      <input matInput />
+    </mat-form-field>
+    <mat-form-field class="w-100">
+      <mat-label>Имейл</mat-label>
+      <input matInput />
+      <mat-hint *ngIf="true">
+        Имейлът Ви не е потвърден. Моля проверете вашата пощта.
+        <a href="javascript:void(0)">Повторно изпращане на потвърждение.</a>
+      </mat-hint>
+    </mat-form-field>
+    <mat-form-field class="w-100">
+      <mat-label>Име на обект</mat-label>
+      <input matInput />
+      <mat-hint align="start"
+        >Името, което ще се появява, когато някой запазва час. Ако това поле е
+        празно, ще се появяват двете ви имена.</mat-hint
+      >
+    </mat-form-field>
+  </div>
 </div>

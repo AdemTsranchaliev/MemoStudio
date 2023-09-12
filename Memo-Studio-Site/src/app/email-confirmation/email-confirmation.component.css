@@ -12,9 +12,17 @@
   height: 70vh;
 }
 
+.confirmed-success {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
 .icon-style-success {
   color: green;
   font-size: 100px;
+  padding-bottom: 120px;
 }
 
 .icon-style-fail {
@@ -24,4 +32,16 @@
 
 .text-line-height {
   line-height: 0;
+}
+
+.login-button {
+  color: white;
+}
+
+.login-button:hover {
+  color: gray;
+}
+
+.bg-green {
+  background-color: green;
 }

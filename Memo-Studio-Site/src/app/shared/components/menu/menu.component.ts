@@ -12,4 +12,8 @@ export class MenuComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  exit() {
+    localStorage.removeItem('AUTH_TOKEN');
+  }
+
 }
