@@ -28,13 +28,13 @@ function passwordMatchValidator(control: AbstractControl) {
 })
 export class ChangeForgottenPasswordComponent implements OnInit {
   private subscriptions: Subscription[] = [];
-  public isLoginError: boolean = false;
+  public requestStatus: number = 0;
   public registerForm: FormGroup = this.formBuilder.group(
     {
       email: ["", [Validators.required]],
       oldPassword: ["", [Validators.required]],
       password: ["", [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ["", Validators.required]
+      confirmPassword: ["", Validators.required],
     },
     { validator: passwordMatchValidator }
   );
@@ -48,8 +48,8 @@ export class ChangeForgottenPasswordComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const token = this.router.snapshot.queryParamMap.get('token');
-    const email = this.router.snapshot.queryParamMap.get('email');
+    const token = this.router.snapshot.queryParamMap.get("token");
+    const email = this.router.snapshot.queryParamMap.get("email");
 
     if (!token) {
       // ========== When new Page ready navigate there ==========
@@ -67,16 +67,23 @@ export class ChangeForgottenPasswordComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
-    console.log(this.registerForm);
+
+    this.requestStatus = -1;
+
     var model = Object.assign({}, this.registerForm.value);
-    const loginSubscription = this.authService.changeForgottenPassword(model).subscribe({
-      next: (x: string) => {
-        this.route.navigate(["/login"]);
-      },
-      error: (err) => {
-        this.isLoginError = true;
-      },
-    });
+    const loginSubscription = this.authService
+      .changeForgottenPassword(model)
+      .subscribe({
+        next: () => {
+          this.requestStatus = 1;
+          setTimeout(() => {
+            this.route.navigate(["/login"]);
+          }, 3000); 
+        },
+        error: (err) => {
+          this.requestStatus = 2;
+        },
+      });
     this.subscriptions.push(loginSubscription);
   }
 }

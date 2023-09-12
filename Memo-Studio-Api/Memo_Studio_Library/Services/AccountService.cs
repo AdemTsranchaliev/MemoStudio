@@ -98,9 +98,10 @@ namespace Memo_Studio_Library.Services
                        {"token", token },
                        {"email", user.Email }
                     };
-            var clientUrl = $"http://localhost:4200/#/change-password";
-
-            string link = QueryHelpers.AddQueryString(clientUrl, param);
+            var clientUrl = $"http://localhost:4200/#/";
+            var route = "change-password";
+            string routeWithParams = QueryHelpers.AddQueryString(route, param);
+            var link = string.Concat(clientUrl, routeWithParams);
             string message = $"Здравейте! Вие получавате това известие, защото сте забравили паролата за профила си в Glamgoo. Кликнете <a href=\"{link}\">ТУК</a> за да смените паролата си. Ако не сте поискали смяна на парола игнорирайте това съобщение.";
             mailService.Send(user.Email, "Смяна на забравена парола", message);
 
@@ -114,7 +115,11 @@ namespace Memo_Studio_Library.Services
                 throw new Exception("Невалидна заявка");
 
             var result = await userManager.ResetPasswordAsync(user, model.OldPassword, model.Password);
-            var i = 1;
+
+            if (!result.Succeeded)
+            {
+                throw new Exception("Excpetion");
+            }
         }
     }
 }

@@ -10,6 +10,7 @@ import { AuthenticatinService } from "src/app/shared/services/authenticatin.serv
 })
 export class ForgottenPasswordComponent implements OnInit {
   private subscriptions: Subscription[] = [];
+  public requestStatus: number = 0;
 
   public forgottenPasswordForm: FormGroup = this.formBuilder.group({
     email: ["", [Validators.required, Validators.email]],
@@ -26,8 +27,14 @@ export class ForgottenPasswordComponent implements OnInit {
 
     var model = Object.assign({}, this.forgottenPasswordForm.value);
 
-    this.authService.forgottenPassword(model).subscribe(x=>{
-      
+    this.requestStatus = -1;
+    this.authService.forgottenPassword(model).subscribe({
+      next: () => {
+        this.requestStatus = 1;
+      },
+      error: (err) => {
+        this.requestStatus = 2;
+      },
     });
   }
 }
