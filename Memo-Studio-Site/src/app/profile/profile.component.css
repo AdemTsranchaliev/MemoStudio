@@ -53,14 +53,6 @@ label.btn {
     overflow: hidden;
 }
 
-.account-settings-fileinput {
-    position: absolute;
-    visibility: hidden;
-    width: 1px;
-    height: 1px;
-    opacity: 0;
-}
-
 .account-settings-links .list-group-item.active {
     font-weight: bold !important;
 }
@@ -107,10 +99,6 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 .light-style .account-settings-links .list-group-item {
     padding: 0.85rem 1.5rem;
     border-color: rgba(24, 28, 33, 0.03) !important;
-}
-
-::ng-deep.mat-pseudo-checkbox {
-    display: none !important;
 }
 
 .active-tab-menu{

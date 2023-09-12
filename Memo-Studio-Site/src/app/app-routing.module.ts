@@ -38,7 +38,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: "profile", component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: "profile", component: ProfileComponent },
   { path: "**", redirectTo: "booking" },
 ];
 

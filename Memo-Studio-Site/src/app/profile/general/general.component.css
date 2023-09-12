@@ -1,0 +1,9 @@
+.img-container {
+  width: 150px;
+}
+
+.img-container img {
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: 5px 5px;
+}

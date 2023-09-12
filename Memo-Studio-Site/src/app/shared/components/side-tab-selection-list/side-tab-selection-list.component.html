@@ -1,0 +1,13 @@
+<mat-selection-list [multiple]="false" hideSingleSelectionIndicator role="list">
+  <ng-container *ngFor="let tab of tabs; let i = index">
+    <mat-divider></mat-divider>
+    <mat-list-option
+      (click)="changeTab(i + 1)"
+      [ngClass]="{ 'active-tab-menu': activeTab == i + 1 }"
+      class="pl-3"
+    >
+      {{ tab }}
+    </mat-list-option>
+    <mat-divider></mat-divider>
+  </ng-container>
+</mat-selection-list>

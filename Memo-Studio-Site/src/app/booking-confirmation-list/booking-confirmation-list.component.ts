@@ -9,10 +9,10 @@ import { Booking } from "../shared/models/booking.model";
 })
 export class BookingConfirmationListComponent implements OnInit {
   notifications: Notification[] = [];
-  columndefs: any[] = ["date", "createdOn", "name", "phone", "service", "accept", "decline"];
+  columndefs: any[] = ["date", "createdOn", "name", "phone", "service", "action"];
   dataSource: MatTableDataSource<TestBooking>;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
     let bookings: TestBooking[] = [
@@ -22,7 +22,8 @@ export class BookingConfirmationListComponent implements OnInit {
         new Date(),
         'John Doe',
         '555-555-5555',
-        'Haircut'
+        'Haircut',
+        true
       ),
       new TestBooking(
         2,
@@ -30,7 +31,8 @@ export class BookingConfirmationListComponent implements OnInit {
         new Date(),
         'Jane Smith',
         '123-456-7890',
-        'Massage'
+        'Massage',
+        true
       ),
       new TestBooking(
         3,
@@ -38,14 +40,27 @@ export class BookingConfirmationListComponent implements OnInit {
         new Date(),
         'Bob Johnson',
         '987-654-3210',
-        'Manicure'
+        'Manicure',
+        true
       ),
     ];
 
     this.dataSource = new MatTableDataSource(bookings);
   }
 
-  public editUser() {}
+  public getRowColor(row: any): string {
+    return row.isApproved ? 'primary' : 'warn';
+  }
+
+  public getButtonText(row: any): string {
+    return row.isApproved ? 'Одобри' : 'Откажи';
+  }
+
+  public toggleApproval(row: any): void {
+    row.isApproved = !row.isApproved;
+  }
+
+  public editUser() { }
 }
 
 export class TestBooking {
@@ -55,13 +70,15 @@ export class TestBooking {
   public name: string;
   public phone: string;
   public service: string;
+  public isAproved: boolean;
   constructor(
     id: number,
     date: Date,
     createdOn: Date,
     name: string,
     phone: string,
-    service: string
+    service: string,
+    isAproved: boolean
   ) {
     this.id = id;
     this.date = date;
@@ -69,5 +86,6 @@ export class TestBooking {
     this.name = name;
     this.phone = phone;
     this.service = service;
+    this.isAproved = isAproved
   }
 }

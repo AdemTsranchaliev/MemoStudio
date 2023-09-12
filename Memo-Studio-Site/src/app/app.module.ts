@@ -56,6 +56,8 @@ import { UtilityService } from "./shared/services/utility.service";
 import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
 import { HomeInfoComponent } from './home-info/home-info.component';
 import { ChangeForgottenPasswordComponent } from './auth-user/change-forgotten-password/change-forgotten-password.component';
+import { SelectionListComponent } from './shared/components/selection-list/selection-list.component';
+import { SideTabSelectionListComponent } from './shared/components/side-tab-selection-list/side-tab-selection-list.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -82,6 +84,8 @@ registerLocaleData(localeBg, "bg");
     EmailConfirmationComponent,
     HomeInfoComponent,
     ChangeForgottenPasswordComponent,
+    SelectionListComponent,
+    SideTabSelectionListComponent,
   ],
   imports: [
     BrowserModule,
