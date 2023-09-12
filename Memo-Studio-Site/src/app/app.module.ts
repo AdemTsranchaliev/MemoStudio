@@ -55,6 +55,7 @@ import { SelfBookingModalComponent } from "./shared/dialogs/self-booking-modal/s
 import { UtilityService } from "./shared/services/utility.service";
 import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
 import { HomeInfoComponent } from './home-info/home-info.component';
+import { ChangeForgottenPasswordComponent } from './auth-user/change-forgotten-password/change-forgotten-password.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -80,6 +81,7 @@ registerLocaleData(localeBg, "bg");
     SelfBookingModalComponent,
     EmailConfirmationComponent,
     HomeInfoComponent,
+    ChangeForgottenPasswordComponent,
   ],
   imports: [
     BrowserModule,

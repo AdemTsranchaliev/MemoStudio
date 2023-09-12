@@ -49,15 +49,16 @@ export class AuthenticatinService {
         );
     }
 
+    public forgottenPassword(email) {      
+        return this.http.post(`${BASE_URL_DEV}/account/forgotten-password`, email, this.configureOptions());
+    }
+
     public register(content) {
-        return this.http.post(`${BASE_URL_DEV}/User/register`, content, this.configureOptions()).pipe(
-            tap(user => {
-                // this.user = user;
-                // localStorage.setItem('username', content?.username);
-                // localStorage.setItem('AuthToken', user?.sessionToken);
-                // localStorage.setItem('userId', user?.objectId);
-            })
-        );
+        return this.http.post(`${BASE_URL_DEV}/account/register`, content, this.configureOptions());
+    }
+
+    public changeForgottenPassword(content){
+        return this.http.post(`${BASE_URL_DEV}/account/change-password`,content);
     }
 
     logout() {

@@ -12,6 +12,7 @@ import { ProfileComponent } from "./profile/profile.component";
 import { BookingConfirmationListComponent } from "./booking-confirmation-list/booking-confirmation-list.component";
 import { EmailConfirmationComponent } from "./email-confirmation/email-confirmation.component";
 import { HomeInfoComponent } from "./home-info/home-info.component";
+import { ChangeForgottenPasswordComponent } from "./auth-user/change-forgotten-password/change-forgotten-password.component";
 
 const routes: Routes = [
   { path: "home-information", component: HomeInfoComponent },
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: "forgotten-password", component: ForgottenPasswordComponent },
   { path: "users", component: UsersListComponent, canActivate: [AuthGuard] },
   { path: "email-confirm", component: EmailConfirmationComponent },
+  { path: "change-password", component: ChangeForgottenPasswordComponent },
   {
     path: "user",
     component: UserDetailsComponent,

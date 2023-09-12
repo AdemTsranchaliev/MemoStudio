@@ -48,37 +48,7 @@ namespace Memo_Studio.Controllers
             return Ok();
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
-        {
-            try
-            {
-                var user = new User {
-                    UserName = model.Email,
-                    Email = model.Email,
-                    Name = model.Name,
-                    NormalizedUserName = model.Email,
-                    NormalizedEmail = model.Email.ToLower(),
-                    PhoneNumber = model.Phone                   
-                };
 
-                var result = await userManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded)
-                {
-                    await accountService.SendEmailConfirmationAsync(user);
-                    return Ok();
-                }
-
-                return BadRequest();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest();
-
-            }
-
-        }
 
         [Authorize]
         [HttpPost("AddUser")]
@@ -89,14 +59,7 @@ namespace Memo_Studio.Controllers
             return Ok();
         }
 
-        [AllowAnonymous]
-        [HttpPost("EmailConfirmation")]
-        public async Task EmailConfirmation(EmailConfirmationRequest request)
-        {
 
-            await accountService.ConfirmEmailAsync(request);
-         
-        }
 
     }
 }

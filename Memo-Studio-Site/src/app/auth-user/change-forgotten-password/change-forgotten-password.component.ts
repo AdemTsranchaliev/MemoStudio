@@ -5,7 +5,7 @@ import {
   FormBuilder,
   AbstractControl,
 } from "@angular/forms";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Route, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { AuthenticatinService } from "src/app/shared/services/authenticatin.service";
 import { UtilityService } from "src/app/shared/services/utility.service";
@@ -22,37 +22,41 @@ function passwordMatchValidator(control: AbstractControl) {
 }
 
 @Component({
-  selector: "app-register",
-  templateUrl: "./register.component.html",
-  styleUrls: ["./register.component.css"],
+  selector: "app-change-forgotten-password",
+  templateUrl: "./change-forgotten-password.component.html",
+  styleUrls: ["./change-forgotten-password.component.css"],
 })
-export class RegisterComponent implements OnInit {
+export class ChangeForgottenPasswordComponent implements OnInit {
   private subscriptions: Subscription[] = [];
   public isLoginError: boolean = false;
   public registerForm: FormGroup = this.formBuilder.group(
     {
-      name: ["", Validators.required],
-      surname: ["", Validators.required],
-      email: ["", [Validators.required, Validators.email]],
+      email: ["", [Validators.required]],
+      oldPassword: ["", [Validators.required]],
       password: ["", [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ["", Validators.required],
-      phone: ["", Validators.required],
-      acceptPolicy: [false, Validators.required],
+      confirmPassword: ["", Validators.required]
     },
     { validator: passwordMatchValidator }
   );
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
+    private router: ActivatedRoute,
+    private route: Router,
     private authService: AuthenticatinService,
     public utilityService: UtilityService
   ) {}
 
   ngOnInit(): void {
-    if (localStorage.getItem("AUTH_TOKEN")) {
-      this.router.navigate(["/"]);
+    const token = this.router.snapshot.queryParamMap.get('token');
+    const email = this.router.snapshot.queryParamMap.get('email');
+
+    if (!token) {
+      // ========== When new Page ready navigate there ==========
+      this.route.navigate(["/"]);
     }
+    this.registerForm.get("email").setValue(email);
+    this.registerForm.get("oldPassword").setValue(token);
   }
 
   ngOnDestroy() {
@@ -63,11 +67,11 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
-
+    console.log(this.registerForm);
     var model = Object.assign({}, this.registerForm.value);
-    const loginSubscription = this.authService.register(model).subscribe({
+    const loginSubscription = this.authService.changeForgottenPassword(model).subscribe({
       next: (x: string) => {
-        this.router.navigate(["/login"]);
+        this.route.navigate(["/login"]);
       },
       error: (err) => {
         this.isLoginError = true;

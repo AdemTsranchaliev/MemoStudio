@@ -40,6 +40,10 @@ namespace Memo_Studio.Controllers
             {
                 return new NotFoundResult();
             }
+            if (!user.EmailConfirmed)
+            {
+                return BadRequest("Имейлът ви не е потвърден. Моля проверете имейла си и го потвърдете.");
+            }
 
             var result = await signInManager.CheckPasswordSignInAsync(user, model.Password, false);
             if (result.Succeeded)

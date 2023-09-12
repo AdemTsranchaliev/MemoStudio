@@ -10,8 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class EmailConfirmationComponent implements OnInit {
   isLoading: boolean;
-  isConfirmedSuccess: boolean = false;
-  isConfirmedFail: boolean = false;
+  requestStatus: number = 0;
 
   constructor(
     private http: HttpClient,
@@ -27,27 +26,18 @@ export class EmailConfirmationComponent implements OnInit {
 
     if (!token) {
       // ========== When new Page ready navigate there ==========
-      // this.router.navigate(["/"]);
+      this.router.navigate(["/"]);
     }
 
-    this.http.post("https://localhost:7190/api/User/EmailConfirmation", { email: email, token: token }).subscribe({
+    this.http.post("https://localhost:7190/api/account/EmailConfirmation", { email: email, token: token }).subscribe({
       next: (x) => {
         console.log('>>> Response', x)
-        this.setLoader(false);
-        this.isConfirmedSuccess = true;
-      },
-      complete: () => {
-        this.setLoader(false);
-        this.isConfirmedSuccess = true;
-
-        this.snackBar.open('Пренасочване към началната страница', 'Затвори', {
-          duration: 5000,
-        });
+        //this.setLoader(false);
+        this.requestStatus = 1;
       },
       error: (err: Error) => {
-        this.setLoader(false);
-        this.isConfirmedFail = true;
-        this.isConfirmedSuccess = false;
+        //this.setLoader(false);
+        this.requestStatus = 2;
 
         this.snackBar.open('Имейлът НЕ беше потвърден успешно!', 'Затвори', {
           duration: 8000,
