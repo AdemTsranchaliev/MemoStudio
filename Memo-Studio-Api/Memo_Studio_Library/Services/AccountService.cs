@@ -29,9 +29,10 @@ namespace Memo_Studio_Library.Services
                        {"token", token },
                        {"email", user.Email }
                     };
-                var clientUrl = $"http://localhost:4200/#/email-confirm";
+                var clientUrl = $"http://localhost:4200/#/";
+                var route = "email-confirm";
 
-                string link = QueryHelpers.AddQueryString(clientUrl, param);
+                string link = String.Concat(clientUrl, QueryHelpers.AddQueryString(route, param));
                 string message = $"Добре дошли в Glamgoo! Моля, потвърдете регистрацията си като проследите или копирате в адресната лента следния линк <a href=\"{link}\">НАТИСНЕТЕ ТУК</a>.";
 
                 mailService.Send(user.Email, "Потвърждаване на имейл", message);

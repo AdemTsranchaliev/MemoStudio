@@ -46,7 +46,6 @@
   color: black;
 }
 
-
 /* ========== New Logic ========== */
 
 .calendar {
@@ -138,7 +137,6 @@
   /* Start with no underline */
   color: black;
   /* Set the text color */
-
 }
 
 .salon-name-decoration::after {
@@ -146,7 +144,7 @@
   /* Create a pseudo-element for the underline */
   position: absolute;
   left: 0;
-  bottom: 0;
+  bottom: -12px;
   height: 2px;
   /* Set the thickness of the underline */
   width: 0;
@@ -201,6 +199,10 @@
   background-color: #e4e8fe;
 }
 
+.past-day-date {
+  color: gray !important;
+}
+
 /* Style truncated text */
 .truncate-text {
   /* Set a fixed width for each item */
@@ -209,4 +211,22 @@
   white-space: nowrap;
   overflow: hidden;
   text-align: left;
+}
+
+.free-day {
+  color: red !important;
+  background-color: #fff2f2;
+}
+
+.full-day {
+  color: yellow !important;
+  background-color: #000000;
+}
+
+/* ============== Media Query ============== */
+
+@media (max-width: 576px) {
+  .table-date {
+    height: 48px;
+  }
 }
