@@ -699,5 +699,9 @@ export class BookingComponent implements OnInit {
   isFullDay(day: number) {
     // console.log('>>> ', this.bookings.length);
     // console.log('>>> ', this.bookings[1].free);
+    const demoFullDays = {
+      saturday: 12,
+    };
+    return Object.values(demoFullDays).includes(day);
   }
 }

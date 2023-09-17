@@ -13,7 +13,7 @@
 }
 
 .not-active-tab {
-  color: #6f42c1 !important;
+  color: #007bff !important;
   cursor: pointer !important;
 }
 
@@ -149,7 +149,7 @@
   /* Set the thickness of the underline */
   width: 0;
   /* Start with zero width */
-  background-color: blue;
+  background-color: #007bff;
   /* Set the color of the underline */
   transition: width 0.5s ease-in-out;
   /* Add a smooth transition effect */
@@ -214,19 +214,32 @@
 }
 
 .free-day {
-  color: red !important;
-  background-color: #fff2f2;
+  color: gray !important;
+  text-decoration: line-through solid black 1px;
 }
 
 .full-day {
-  color: yellow !important;
-  background-color: #000000;
+  color: red !important;
+  /* decorate with crossed line */
+}
+
+.action-btn {
+  padding: 5px 35px;
+}
+
+.center-transform {
+  padding-top: 220px;
+}
+
+.server-down-msg {
+  font-size: 28px;
+  color: black;
 }
 
 /* ============== Media Query ============== */
 
 @media (max-width: 576px) {
   .table-date {
-    height: 48px;
+    height: 52px;
   }
 }

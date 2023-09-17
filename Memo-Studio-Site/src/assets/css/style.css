@@ -11899,7 +11899,7 @@ h5,
   height: 520px;
   position: relative;
   margin: 20px auto;
-  background: #7e0cf5;
+  background: #007bff;
 }
 
 /*  Events display */
@@ -12179,7 +12179,7 @@ h5,
   width: 26px;
   font-size: 15px;
   padding: 10px;
-  line-height: 26px;
+  line-height: 28px;
   text-align: center;
   border-radius: 50%;
   border: 2px solid transparent;
@@ -12284,7 +12284,7 @@ h5,
 }
 
 .text-light-blue {
-  color: #007bff;
+  color: #007bff !important;
 }
 
 .bg-light-blue {

@@ -28,7 +28,7 @@
                 >
                 </span>
               </div>
-              
+
               <table class="months-table w-100">
                 <tbody>
                   <tr class="months-row">
@@ -58,10 +58,11 @@
                 <div class="frame">
                   <table class="dates-table w-100">
                     <tbody class="tbody">
-                      <tr *ngFor="let row of calendarRows" class="row justify-content-between align-items-center">
-                        <ng-container
-                          *ngFor="let day of row"
-                        >
+                      <tr
+                        *ngFor="let row of calendarRows"
+                        class="row justify-content-between align-items-center"
+                      >
+                        <ng-container *ngFor="let day of row">
                           <td
                             id="day-{{ day }}"
                             class="table-date text-primary col"
@@ -97,7 +98,10 @@
           </div>
 
           <!-- Tabs -->
-          <div class="events-container" *ngIf="!loader">
+          <div
+            class="events-container"
+            *ngIf="!loader && isServerDown == false"
+          >
             <ul class="nav nav-tabs" style="background-color: white !important">
               <li class="nav-item" style="width: 33.33%">
                 <p
@@ -143,7 +147,9 @@
             <div
               class="alert alert-warning m-4"
               role="alert"
-              *ngIf="bookings.length == 0 && !isDayPast"
+              *ngIf="
+                bookings.length == 0 && !isDayPast && isServerDown == false
+              "
             >
               Все още няма заети часове за {{ this.date.getDate() }}
               {{ date.toLocaleString('bg-BG', { month: 'long' }) }}
@@ -235,8 +241,11 @@
             </div>
           </div>
 
-          <div class="text-center" *ngIf="isServerDown == true">
-            <h3>Няма връзка до сървъра!</h3>
+          <div
+            class="text-center center-transform"
+            *ngIf="isServerDown == true"
+          >
+            <span class="server-down-msg">Няма връзка до сървъра!</span>
           </div>
 
           <!-- Dialogs -->
@@ -250,7 +259,8 @@
               </b>
             </p>
 
-            <form class="form mb-0 mt-0 pb-0 pt-0" id="form">
+            <!-- Add New Hour -->
+            <form class="form mb-0 mt-0 p-2" id="form">
               <div class="form-container mb-0 mt-0 pb-0 pt-0" align="center">
                 <span
                   class="alert border-danger text-danger p-2 px-4"
@@ -258,18 +268,15 @@
                 >
                   Моля попълнете всички полета!
                 </span>
-                <form class="pl-3 pr-3 mb-0 mt-2 pt-0">
-                  <mat-form-field
-                    class="example-full-width mb-0 mt-0 pb-0 pt-0"
-                  >
-                    <label>Име</label>
+                <form>
+                  <!-- Name -->
+                  <mat-form-field class="example-full-width my-4">
+                    <mat-label>Име</mat-label>
                     <input
-                      style="background-color: white !important"
+                      matInput
                       id="name"
                       type="text"
-                      matInput
                       [formControl]="nameControl"
-                      class="form-control border"
                       [matAutocomplete]="auto"
                     />
                     <mat-autocomplete
@@ -284,17 +291,15 @@
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
-                  <mat-form-field
-                    class="example-full-width mb-0 mt-0 pb-0 pt-0"
-                  >
-                    <label>Телефон</label>
+
+                  <!-- Phone -->
+                  <mat-form-field class="example-full-width my-4">
+                    <mat-label>Телефон</mat-label>
                     <input
-                      style="background-color: white !important"
+                      matInput
                       id="phone"
                       type="text"
-                      matInput
                       [formControl]="phoneControl"
-                      class="form-control border"
                       [matAutocomplete]="auto2"
                     />
                     <mat-autocomplete
@@ -311,76 +316,90 @@
                   </mat-form-field>
                 </form>
 
-                <div class="form-group pl-3 pr-3">
-                  <p class="text-left pb-0 mb-0">Продължителност</p>
-                  <select
-                    class="form-control"
+                <!-- Procedure Duration -->
+                <mat-form-field class="example-full-width my-4">
+                  <mat-label>Продължителност</mat-label>
+                  <mat-select
                     id="selectedDuration"
                     [(ngModel)]="selectedDuration"
                     [ngModelOptions]="{ standalone: true }"
                   >
-                    <option value="1">30 мин. - продължителност</option>
-                    <option value="2">1 час - продължителност</option>
-                    <option value="3">1:30 часа - продължителност</option>
-                    <option value="4">2 часа - продължителност</option>
-                    <option value="5">2:30 часа - продължителност</option>
-                    <option value="6">3 часа - продължителност</option>
-                    <option value="7">3:30 часа - продължителност</option>
-                    <option value="8">4 часа - продължителност</option>
-                    <option value="9">4:30 часа - продължителност</option>
-                    <option value="10">5 часа - продължителност</option>
-                    <option value="11">5:30 часа - продължителност</option>
-                    <option value="12">6 часа - продължителност</option>
-                    <option value="13">6:30 часа - продължителност</option>
-                    <option value="14">7 часа - продължителност</option>
-                  </select>
-                </div>
-                <div class="form-group pl-3 pr-3">
-                  <p class="text-left pb-0 mb-0">Избери час</p>
-                  <select
-                    class="form-control"
-                    id="exampleFormControlSelect1"
+                    <mat-option value="1">30 мин. - продължителност</mat-option>
+                    <mat-option value="2">1 час - продължителност</mat-option>
+                    <mat-option value="3"
+                      >1:30 часа - продължителност</mat-option
+                    >
+                    <mat-option value="4">2 часа - продължителност</mat-option>
+                    <mat-option value="5"
+                      >2:30 часа - продължителност</mat-option
+                    >
+                    <mat-option value="6">3 часа - продължителност</mat-option>
+                    <mat-option value="7"
+                      >3:30 часа - продължителност</mat-option
+                    >
+                    <mat-option value="8">4 часа - продължителност</mat-option>
+                    <mat-option value="9"
+                      >4:30 часа - продължителност</mat-option
+                    >
+                    <mat-option value="10">5 часа - продължителност</mat-option>
+                    <mat-option value="11"
+                      >5:30 часа - продължителност</mat-option
+                    >
+                    <mat-option value="12">6 часа - продължителност</mat-option>
+                    <mat-option value="13"
+                      >6:30 часа - продължителност</mat-option
+                    >
+                    <mat-option value="14">7 часа - продължителност</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <!-- Select Hour -->
+                <mat-form-field class="example-full-width my-4">
+                  <mat-label>Избери час</mat-label>
+                  <mat-select
+                    id="selectedHour"
                     [(ngModel)]="selectedHour"
                     [ngModelOptions]="{ standalone: true }"
                   >
-                    <option></option>
-                    <option
+                    <mat-option
                       *ngFor="let hour of generateHourArray()"
                       value="{{ hour }}"
                       [disabled]="checkIfBookingExist(hour)"
                     >
                       {{ hour }}
-                    </option>
-                  </select>
-                </div>
-                <div class="form-group pl-3 pr-3">
-                  <p class="text-left pt-0 pb-0 mt-0 mb-0">Забележка</p>
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <!-- Add Notes -->
+                <div class="example-full-width my-4">
                   <mat-form-field
                     class="example-full-width mb-0 mt-0 pb-0 pt-0"
                   >
+                    <mat-label>Бележка</mat-label>
                     <input
-                      style="background-color: white !important"
+                      matInput
                       id="note"
                       type="text"
-                      matInput
                       [formControl]="noteControl"
-                      class="form-control border"
                     />
                   </mat-form-field>
-                  <input
-                    type="button"
-                    value="Отказ"
-                    class="button bg-light-blue mr-3"
-                    id="cancel-button"
-                    (click)="cancelEvent(1)"
-                  />
-                  <input
-                    type="button"
-                    value="Добави"
-                    class="button bg-light-blue"
-                    id="ok-button"
-                    (click)="bookHour()"
-                  />
+                  <div class="pt-4">
+                    <button
+                      id="cancel-button"
+                      class="button bg-light-blue mr-3 action-btn"
+                      (click)="cancelEvent(1)"
+                    >
+                      Отказ
+                    </button>
+                    <button
+                      id="ok-button"
+                      class="button bg-light-blue mr-3 action-btn"
+                      (click)="bookHour()"
+                    >
+                      Добави
+                    </button>
+                  </div>
                 </div>
               </div>
             </form>
