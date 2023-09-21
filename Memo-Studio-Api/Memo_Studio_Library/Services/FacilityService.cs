@@ -1,8 +1,8 @@
-﻿using System;
-using Memo_Studio_Library.Data.Models;
+﻿using Memo_Studio_Library.Data.Models;
 using Memo_Studio_Library.Models;
 using Memo_Studio_Library.Services.Interfaces;
-using Memo_Studio_Library.ViewModels;
+using Memo_Studio_Library.ViewModels.FacilityViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace Memo_Studio_Library.Services
 {
@@ -40,6 +40,32 @@ namespace Memo_Studio_Library.Services
             catch(Exception ex)
             {
                 int i = 0;
+            }
+        }
+
+        public async Task<List<FacilityUsersViewModel>> GetSubscribedUsers(Guid facilityId)
+        {
+            try
+            {
+                var result = await context.UserFalicities
+                    .Include(x => x.User)
+                    .Include(x => x.Facility)
+                    .Include(x => x.FacilityRole)
+                    .Where(x => x.Facility.FacilityId == facilityId && x.FacilityRole.Name == "Subscriber")
+                    .Select(x => new FacilityUsersViewModel
+                    {
+                        UserId = x.User.UserId,
+                        Name = x.User.Name,
+                        Phone = x.User.Email
+
+                    })
+                    .ToListAsync();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
             }
         }
     }

@@ -1,8 +1,5 @@
-﻿using System;
-using Memo_Studio_Library.Data.Models;
+﻿using Memo_Studio_Library.Data.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Memo_Studio_Library.Models
 {
