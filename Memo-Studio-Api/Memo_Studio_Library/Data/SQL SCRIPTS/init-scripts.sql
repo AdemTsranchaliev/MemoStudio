@@ -72,7 +72,7 @@ CREATE TABLE Booking (
 );
 
 -- Create the UserFalicity table
-CREATE TABLE UserFacility (
+CREATE TABLE UserFalicity (
     UserId INT NOT NULL,
     FacilityId INT NOT NULL,
     FacilityRoleId INT NOT NULL,

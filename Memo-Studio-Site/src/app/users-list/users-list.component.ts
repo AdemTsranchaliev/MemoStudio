@@ -26,11 +26,8 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    let hardCodedID = '7FAD3AE0-1F9E-4607-A40B-71441F026620';
-    this.userService.getAllUsers(hardCodedID).subscribe((x) => {
+    this.userService.getAllUsers().subscribe((x) => {
       this.users = x;
-      console.log();
-      
 
       this.dataSource = new MatTableDataSource(this.users);
 
