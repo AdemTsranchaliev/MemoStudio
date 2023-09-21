@@ -23,6 +23,24 @@ namespace Memo_Studio.Controllers
 
             return Ok(result);
         }
+
+        [AllowAnonymous]
+        [HttpGet("{facilityId}/users-reservations/{userId}")]
+        public async Task<IActionResult> GetUserReservations(string facilityId,string userId)
+        {
+            var result = await facilityService.GetUserReservations(Guid.Parse(facilityId), Guid.Parse(userId));
+
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("{facilityId}/users-notifications/{userId}")]
+        public async Task<IActionResult> GetUserNotifications(string facilityId, string userId)
+        {
+            var result = await facilityService.GetUserNotifications(Guid.Parse(facilityId), Guid.Parse(userId));
+
+            return Ok(result);
+        }
     }
 }
 

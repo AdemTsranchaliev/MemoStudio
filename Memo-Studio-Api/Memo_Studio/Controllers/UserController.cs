@@ -48,8 +48,6 @@ namespace Memo_Studio.Controllers
             return Ok();
         }
 
-
-
         [Authorize]
         [HttpPost("AddUser")]
         public async Task<IActionResult> AddUser([FromBody] UserViewModel model)
@@ -58,9 +56,6 @@ namespace Memo_Studio.Controllers
 
             return Ok();
         }
-
-
-
     }
 }
 

@@ -11,7 +11,6 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 using Memo_Studio_Library.Services.Interfaces;
 using Memo_Studio_Library.Data.Models;
-using Microsoft.Extensions.FileSystemGlobbing.Internal;
 
 namespace Memo_Studio;
 
@@ -28,7 +27,7 @@ public class Program
             .Build();
 
         builder.Services.AddDbContext<StudioContext>(options =>
-            options.UseSqlServer(configuration.GetValue<string>("DbConnectionString-WIN")));
+            options.UseSqlServer(configuration.GetValue<string>("DbConnectionString-MAC")));
 
         SetupAuthentication(builder.Services, configuration);
 
@@ -175,13 +174,13 @@ public class Program
             try
             {
 
-
+                var facilities = new List<Facility>();
+                var users = new User[5];
                 if (!context.Users.Any())
                 {
-                    var facilities = new List<Facility>();
                     var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
 
-                    var users = new[] {
+                    users = new[] {
                     new User {
                         UserName = "user1",
                             Name = "Test User 1",
@@ -289,7 +288,7 @@ public class Program
 
                         var bookings = new List<Booking>
                 {
-                     
+
                     new Booking
                     {
                         Timestamp = new DateTime(2023,9, 21, 8,30,0), // Set your timestamp
@@ -300,7 +299,7 @@ public class Program
                         Confirmed = true,
                         RegisteredUser = true,
                         UserId = randomUser.Id,
-                        FacilityId = facility.Id, 
+                        FacilityId = facility.Id,
                     },
                     new Booking
                     {
@@ -320,6 +319,45 @@ public class Program
                     context.SaveChanges();
                 }
 
+                
+                if (!context.Notifications.Any())
+                {
+                    var facilitiesList = context.Facilities.Take(5).ToList();
+                    var facilityUsers = context.Users.Take(5).ToList();
+                    foreach (var facility in facilitiesList)
+                    {
+                        Random random = new Random();
+                        int randomIndex = random.Next(0, facilityUsers.Count());
+                        var randomUser = facilityUsers[randomIndex];
+
+                        var notifications = new Notification[]
+                    {
+                    new Notification
+                    {
+                        SentOn = DateTime.UtcNow,
+                        Type = 1, // Set your notification type
+                        Message = "Notification 1 Message",
+                        BookingId = 1, // Set your BookingId
+                        UserId = randomUser.Id, // Set your UserId
+                        FacilityId = facility.Id, // Set your FacilityId
+                    },
+                    new Notification
+                    {
+                        SentOn = DateTime.UtcNow,
+                        Type = 2, // Set your notification type
+                        Message = "Notification 2 Message",
+                        BookingId = 2, // Set your BookingId
+                        UserId = randomUser.Id, // Set your UserId
+                        FacilityId = facility.Id,
+                    },
+                        // Add more Notification records as needed
+                    };
+
+                    context.Notifications.AddRange(notifications);
+                    context.SaveChanges();
+                }
+
+                }
             }
             catch (Exception ex)
             {

@@ -68,6 +68,55 @@ namespace Memo_Studio_Library.Services
                 throw new Exception();
             }
         }
+
+        public async Task<List<FacilityUserBookingsViewModel>> GetUserReservations(Guid facilityId, Guid userId)
+        {
+            try
+            {
+                var result = await context.Bookings
+                    .Include(x => x.Facility)
+                    .Include(c => c.User)
+                    .Where(x => x.Facility.FacilityId == facilityId && x.User.UserId == userId)
+                    .Select(x=>new FacilityUserBookingsViewModel
+                    {
+                        IsCanceled = x.Canceled,
+                        Note = x.Note,
+                        Timestamp = x.Timestamp
+                    })
+                    .ToListAsync();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
+        }
+
+        public async Task<List<FacilityUserNotificationsViewModel>> GetUserNotifications(Guid facilityId, Guid userId)
+        {
+            try
+            {
+                var result = await context.Notifications
+                    .Include(x => x.Facility)
+                    .Include(c => c.User)
+                    .Where(x => x.Facility.FacilityId == facilityId && x.User.UserId == userId)
+                    .Select(x => new FacilityUserNotificationsViewModel
+                    {
+                        Message = x.Message,
+                        SentOn = x.SentOn,
+                        Status = 1,
+                        Type = x.Type
+                    })
+                    .ToListAsync();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
+        }
     }
 }
 
