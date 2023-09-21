@@ -9,7 +9,7 @@ public class UserFalicityConfig : IEntityTypeConfiguration<UserFalicity>
         builder.ToTable("UserFalicity");
 
         builder
-            .HasKey(x => new { x.UserId, x.FacilityId });
+            .HasKey(x => new { x.UserId, x.FacilityId , x.FacilityRoleId});
 
 
         builder

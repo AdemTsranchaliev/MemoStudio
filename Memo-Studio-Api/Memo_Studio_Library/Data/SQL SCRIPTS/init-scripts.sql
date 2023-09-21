@@ -76,7 +76,7 @@ CREATE TABLE UserFalicity (
     UserId INT NOT NULL,
     FacilityId INT NOT NULL,
     FacilityRoleId INT NOT NULL,
-    CONSTRAINT PK_UserFalicity PRIMARY KEY (UserId, FacilityId),
+    CONSTRAINT PK_UserFalicity PRIMARY KEY (UserId, FacilityId,FacilityRoleId),
     CONSTRAINT FK_UserFalicity_User FOREIGN KEY (UserId) REFERENCES [User] (Id),
     CONSTRAINT FK_UserFalicity_Facility FOREIGN KEY (FacilityId) REFERENCES Facility (Id),
     CONSTRAINT FK_UserFalicity_FacilityRole FOREIGN KEY (FacilityRoleId) REFERENCES FacilityRole (Id)

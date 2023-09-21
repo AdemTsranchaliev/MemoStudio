@@ -1,11 +1,8 @@
-﻿using System;
-using Azure.Core;
-using Memo_Studio_Library.Models;
+﻿using Memo_Studio_Library.Models;
 using Memo_Studio_Library.Services.Interfaces;
 using Memo_Studio_Library.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Memo_Studio_Library.Services
 {
@@ -77,7 +74,8 @@ namespace Memo_Studio_Library.Services
                 Name = model.Name,
                 NormalizedUserName = model.Email,
                 NormalizedEmail = model.Email.ToLower(),
-                PhoneNumber = model.Phone
+                PhoneNumber = model.Phone,
+                UserId = Guid.NewGuid()
             };
 
             var result = await userManager.CreateAsync(user, model.Password);

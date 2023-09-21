@@ -1,5 +1,5 @@
-﻿using System;
-using Memo_Studio_Library.Services.Interfaces;
+﻿using Memo_Studio_Library.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Memo_Studio.Controllers
@@ -14,6 +14,15 @@ namespace Memo_Studio.Controllers
 		{
             this.facilityService = facilityService;
         }
-	}
+
+        [AllowAnonymous]
+        [HttpGet("users/{facilityId}")]
+        public async Task<IActionResult> GetSubscribedUsers(string facilityId)
+        {
+            var result = await facilityService.GetSubscribedUsers(Guid.Parse(facilityId));
+
+            return Ok(result);
+        }
+    }
 }
 
