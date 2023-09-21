@@ -15,12 +15,18 @@ const httpOptions = {
   providedIn: "root",
 })
 export class UserService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  public getAllUsers() {
+  public getAllUsers(id: string) {
     return this.http.get<User[]>(
-      `${BASE_URL_DEV}/User/getAllUsers`,
+      `${BASE_URL_DEV}/Facility/users/${id}`,
       httpOptions
     );
   }
-}
+
+  public getUserDetails() {
+    return this.http.get<User[]>(
+      `${BASE_URL_DEV}/Facility/users/`,
+      httpOptions
+    );
+  }

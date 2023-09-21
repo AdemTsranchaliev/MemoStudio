@@ -36,9 +36,9 @@ export class UserDetailsComponent implements OnInit, AfterViewInit {
     ];
 
     this.reservations = [
-      new Reservation(new Date(2012, 2, 9, 10, 30), 'Иван Иванов', 'Изпълнен'),
+      new Reservation(new Date(2012, 2, 9, 10, 30), 'Администратор', 'Изпълнен'),
       new Reservation(new Date(2012, 2, 10, 10, 30), 'Администратор', 'Отказан'),
-      new Reservation(new Date(2012, 2, 12, 10, 30), 'Иван Иванов', 'Предстои'),
+      new Reservation(new Date(2012, 2, 12, 10, 30), 'Администратор', 'Предстои'),
       // new Reservation(new Date(2012, 1, 29, 10, 30), 'Администратор', 'В Ход'),
       // new Reservation(new Date(2012, 2, 14, 10, 30), 'Администратор', 'Потвърден'),
     ];
