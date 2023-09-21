@@ -27,6 +27,7 @@ export class EmailConfirmationComponent implements OnInit {
     if (!token) {
       // ========== When new Page ready navigate there ==========
       this.router.navigate(["/"]);
+      return;
     }
 
     this.http.post("https://localhost:7190/api/account/EmailConfirmation", { email: email, token: token }).subscribe({
