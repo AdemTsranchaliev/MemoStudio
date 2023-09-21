@@ -41,8 +41,8 @@ export class EmailConfirmationComponent implements OnInit {
 
         this.snackBar.open('Имейлът НЕ беше потвърден успешно!', 'Затвори', {
           duration: 8000,
+          panelClass: ["custom-snackbar"],
         });
-        console.log('>>> Error', err)
       },
     })
   }

@@ -11,9 +11,10 @@ import { UtilityService } from "src/app/shared/services/utility.service";
   styleUrls: ["./login.component.css"],
 })
 export class LoginComponent implements OnInit {
+  isLoading: boolean = false;
   private subscriptions: Subscription[] = [];
   public isLoginError: boolean = false;
-  
+
   public loginForm: FormGroup = this.formBuilder.group({
     email: ["", [Validators.required, Validators.email]],
     password: ["", [Validators.required, Validators.minLength(3)]],
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authService: AuthenticatinService,
     public utilityService: UtilityService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (localStorage.getItem("AUTH_TOKEN")) {
@@ -41,14 +42,19 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
+
+    this.isLoading = true;
+
     var model = Object.assign({}, this.loginForm.value);
     const loginSubscription = this.authService.login(model).subscribe({
       next: (x: string) => {
         localStorage.setItem("AUTH_TOKEN", x);
+        this.isLoading = false;
         this.router.navigate(["/"]);
       },
       error: (err) => {
         this.isLoginError = true;
+        this.isLoading = false;
       },
     });
     this.subscriptions.push(loginSubscription);

@@ -1,4 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { MatTabGroup } from "@angular/material/tabs";
 
 @Component({
   selector: "app-authentication",
@@ -6,7 +8,14 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./authentication.component.css"],
 })
 export class AuthenticationComponent implements OnInit {
-  constructor() {}
+  @ViewChild("tabGroup") tabGroup: MatTabGroup;
+  selected = new FormControl(0);
 
-  ngOnInit(): void {}
+  constructor() { }
+
+  ngOnInit(): void { }
+
+  setSelectedTabIndex(index: number) {
+    this.tabGroup.selectedIndex = index;
+  }
 }

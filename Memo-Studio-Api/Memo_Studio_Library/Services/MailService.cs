@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Memo_Studio_Library.Services.Interfaces;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
-using Memo_Studio_Library.Services.Interfaces;
 
 namespace Memo_Studio_Library.Services
 {
     public class MailService : IMailService
     {
-        public void Send(string recipientEmail, string subject, string message)
+        public void Send(string recipientEmail, string subject, string title, string description, string buttonName, string buttonLink)
         {
             // Set your email and password (or use an app-specific password if using Gmail)
             string senderEmail = "project200test@gmail.com";
@@ -25,7 +24,16 @@ namespace Memo_Studio_Library.Services
             smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
             smtpClient.EnableSsl = true; // Use SSL encryption
 
-            AlternateView htmlView = AlternateView.CreateAlternateViewFromString(message, null, MediaTypeNames.Text.Html);
+
+
+            var emailTemplate = File.ReadAllText("D:/Software/project-200-calendar/MemoStudio/Memo-Studio-Api/Memo_Studio_Library/EmailTemplates/EmailTemplates.html");
+            emailTemplate = emailTemplate.Replace("{{emailTitle}}", title);
+            emailTemplate = emailTemplate.Replace("{{emailDescription}}", description);
+            emailTemplate = emailTemplate.Replace("{{emailButton}}", buttonName);
+            emailTemplate = emailTemplate.Replace("{{link}}", buttonLink);
+
+
+            AlternateView htmlView = AlternateView.CreateAlternateViewFromString(emailTemplate, null, MediaTypeNames.Text.Html);
 
             mail.AlternateViews.Add(htmlView);
 

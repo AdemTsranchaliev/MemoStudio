@@ -13,6 +13,6 @@ export class UtilityService {
   }
 
   public IsTouched(formGroup: FormGroup, field: string) {
-    return formGroup.get(field).touched;
+    return formGroup.get(field)?.touched;
   }
 }

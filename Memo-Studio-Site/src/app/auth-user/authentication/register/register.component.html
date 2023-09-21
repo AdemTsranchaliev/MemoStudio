@@ -1,97 +1,164 @@
 <div class="form-block">
-
-    <div class="mb-4">
-        <h3>Регистрация в <strong>Glamgoo</strong></h3>
-        <p class="mb-4"></p>
+  <div class="mb-4">
+    <h3>Регистрация в <strong>Glamgoo</strong></h3>
+    <p class="mb-4"></p>
+  </div>
+  <div class="alert alert-danger" role="alert" *ngIf="isLoginError">
+    Грешна парола или имейл
+  </div>
+  <form [formGroup]="registerForm">
+    <mat-form-field class="w-100 mt-2">
+      <mat-label>Име</mat-label>
+      <input matInput id="name" type="text" formControlName="name" />
+      <mat-error
+        *ngIf="
+          utilityService.HasError(registerForm, 'name', 'required') &&
+          utilityService.IsTouched(registerForm, 'name')
+        "
+      >
+        Това поле е задължително.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-100 mt-2">
+      <mat-label>Фамилия</mat-label>
+      <input matInput id="surname" type="text" formControlName="surname" />
+      <mat-error
+        *ngIf="
+          utilityService.HasError(registerForm, 'surname', 'required') &&
+          utilityService.IsTouched(registerForm, 'surname')
+        "
+      >
+        Това поле е задължително.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-100 mt-2">
+      <mat-label>Имейл</mat-label>
+      <input matInput id="email" type="email" formControlName="email" />
+      <mat-error
+        *ngIf="
+          utilityService.HasError(registerForm, 'email', 'required') &&
+          utilityService.IsTouched(registerForm, 'email')
+        "
+      >
+        Това поле е задължително.
+      </mat-error>
+      <mat-error
+        *ngIf="
+          utilityService.HasError(registerForm, 'email', 'email') &&
+          utilityService.IsTouched(registerForm, 'email')
+        "
+      >
+        Моля въведете валиден имейл адрес.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-100 mt-2">
+      <mat-label>Телефон</mat-label>
+      <input matInput id="phone" type="phone" formControlName="phone" />
+      <mat-error
+        *ngIf="
+          utilityService.HasError(registerForm, 'phone', 'required') &&
+          utilityService.IsTouched(registerForm, 'phone')
+        "
+      >
+        Това поле е задължително.
+      </mat-error>
+      <mat-error
+        *ngIf="
+          utilityService.HasError(registerForm, 'phone', 'minlength') &&
+          utilityService.IsTouched(registerForm, 'phone')
+        "
+      >
+        Невалиден телефонен номер.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-100 mt-2">
+      <mat-label>Парола</mat-label>
+      <input
+        matInput
+        id="password"
+        type="password"
+        formControlName="password"
+      />
+      <mat-error
+        *ngIf="
+          utilityService.HasError(registerForm, 'password', 'required') &&
+          utilityService.IsTouched(registerForm, 'password')
+        "
+      >
+        Това поле е задължително.
+      </mat-error>
+      <mat-error
+        *ngIf="
+          utilityService.HasError(registerForm, 'password', 'minLength') &&
+          utilityService.IsTouched(registerForm, 'password')
+        "
+      >
+        Паролата, трябва да бъде поне 3 символа.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-100 mt-2">
+      <mat-label>Повтори парола</mat-label>
+      <input
+        matInput
+        id="confirmPassword"
+        type="password"
+        formControlName="confirmPassword"
+      />
+      <mat-error
+        *ngIf="
+          registerForm.get('password').hasError('required') &&
+          registerForm.get('password').touched
+        "
+      >
+        Това поле е задължително.
+      </mat-error>
+      <mat-error> Паролите не съвпадат </mat-error>
+    </mat-form-field>
+    <div class="d-flex mb-5 mt-3 align-items-center">
+      <mat-checkbox formControlName="acceptPolicy"
+        >Приемам политиките за поверителност</mat-checkbox
+      >
+      <mat-error
+        *ngIf="
+          utilityService.HasError(registerForm, 'acceptPolicy', 'required') &&
+          utilityService.IsTouched(registerForm, 'privacyPolicy')
+        "
+      >
+        Това поле е задължително.
+      </mat-error>
     </div>
-    <div class="alert alert-danger" role="alert" *ngIf="isLoginError">
-        Грешна парола или имейл
-    </div>
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <mat-form-field class="w-100 mt-2">
-            <mat-label>Име</mat-label>
-            <input matInput id="name" type="text" formControlName="name">
-            <mat-error
-                *ngIf="utilityService.HasError(registerForm,'name','required') && utilityService.IsTouched(registerForm,'name')">
-                Това поле е задължително.
-            </mat-error>
-        </mat-form-field>
-        <mat-form-field class="w-100 mt-2">
-            <mat-label>Фамилия</mat-label>
-            <input matInput id="surname" type="text" formControlName="surname">
-            <mat-error
-                *ngIf="utilityService.HasError(registerForm,'surname','required') && utilityService.IsTouched(registerForm,'surname')">
-                Това поле е задължително.
-            </mat-error>
-        </mat-form-field>
-        <mat-form-field class="w-100 mt-2">
-            <mat-label>Имейл</mat-label>
-            <input matInput id="email" type="email" formControlName="email">
-            <mat-error
-                *ngIf="utilityService.HasError(registerForm,'email','required') && utilityService.IsTouched(registerForm,'email')">
-                Това поле е задължително.
-            </mat-error>
-            <mat-error
-                *ngIf="utilityService.HasError(registerForm,'email','email') && utilityService.IsTouched(registerForm,'email')">
-                Моля въведете валиден имейл адрес.
-            </mat-error>
-        </mat-form-field>
-        <mat-form-field class="w-100 mt-2">
-            <mat-label>Телефон</mat-label>
-            <input matInput id="phone" type="phone" formControlName="phone">
-            <mat-error
-                *ngIf="utilityService.HasError(registerForm,'phone','required') && utilityService.IsTouched(registerForm,'phone')">
-                Това поле е задължително.
-            </mat-error>
-            <mat-error
-                *ngIf="utilityService.HasError(registerForm,'phone','minlength') && utilityService.IsTouched(registerForm,'phone')">
-                Невалиден телефонен номер.
-            </mat-error>
-        </mat-form-field>
-        <mat-form-field class="w-100 mt-2">
-            <mat-label>Парола</mat-label>
-            <input matInput id="password" type="password" formControlName="password">
-            <mat-error
-                *ngIf="utilityService.HasError(registerForm,'password','required') && utilityService.IsTouched(registerForm,'password')">
-                Това поле е задължително.
-            </mat-error>
-            <mat-error
-                *ngIf="utilityService.HasError(registerForm,'password','minLength') && utilityService.IsTouched(registerForm,'password')">
-                Паролата, трябва да бъде поне 3 символа.
-            </mat-error>
-        </mat-form-field>
-        <mat-form-field class="w-100 mt-2">
-            <mat-label>Повтори парола</mat-label>
-            <input matInput id="confirmPassword" type="password" formControlName="confirmPassword">
-            <mat-error
-                *ngIf="registerForm.get('password').hasError('required') && registerForm.get('password').touched">
-                Това поле е задължително.
-            </mat-error>
-            <mat-error>
-                Паролите не съвпадат
-            </mat-error>
-        </mat-form-field>
-        <div class="d-flex mb-5 mt-3 align-items-center">
-            <mat-checkbox formControlName="acceptPolicy">Приемам политиките за поверителност</mat-checkbox>
-            <mat-error
-                *ngIf="utilityService.HasError(registerForm,'acceptPolicy','required') && utilityService.IsTouched(registerForm,'privacyPolicy')">
-                Това поле е задължително.
-            </mat-error>
-        </div>
-        <input type="submit" value="РЕГИСТРАЦИЯ" class="btn btn-pill text-white btn-block btn-primary">
+    <a
+      (click)="onSubmit()"
+      class="btn btn-pill text-white btn-block btn-primary cursor-pointer"
+    >
+      <div *ngIf="isLoading == false">РЕГИСТРАЦИЯ</div>
+      <div
+        class="spinner-container d-flex justify-content-center"
+        *ngIf="isLoading == true"
+      >
+        <mat-spinner [diameter]="35"></mat-spinner>
+      </div>
+    </a>
 
-        <span class="d-block text-center my-4 text-muted"> или се регистрирайте с</span>
-        <div class="social-login text-center">
-            <a href="#" class="facebook mr-4">
-                <span class="mr-3"><i class="fa fa-facebook" aria-hidden="true"></i></span>
-            </a>
-            <a href="#" class="twitter mr-4">
-                <span class="icon-twitter mr-3"><i class="fa fa-apple" aria-hidden="true"></i>
-                </span>
-            </a>
-            <a href="#" class="google">
-                <span class="icon-google mr-3"><i class="fa fa-google" aria-hidden="true"></i></span>
-            </a>
-        </div>
-    </form>
+    <span class="d-block text-center my-4 text-muted">
+      или се регистрирайте с</span
+    >
+    <div class="social-login text-center">
+      <a href="#" class="facebook mr-4">
+        <span class="mr-3"
+          ><i class="fa fa-facebook" aria-hidden="true"></i
+        ></span>
+      </a>
+      <a href="#" class="twitter mr-4">
+        <span class="icon-twitter mr-3"
+          ><i class="fa fa-apple" aria-hidden="true"></i>
+        </span>
+      </a>
+      <a href="#" class="google">
+        <span class="icon-google mr-3"
+          ><i class="fa fa-google" aria-hidden="true"></i
+        ></span>
+      </a>
+    </div>
+  </form>
 </div>

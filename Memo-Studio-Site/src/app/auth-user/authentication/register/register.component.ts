@@ -9,6 +9,8 @@ import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { AuthenticatinService } from "src/app/shared/services/authenticatin.service";
 import { UtilityService } from "src/app/shared/services/utility.service";
+import { AuthenticationComponent } from "../authentication.component";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 function passwordMatchValidator(control: AbstractControl) {
   const password = control.get("password").value;
@@ -27,6 +29,7 @@ function passwordMatchValidator(control: AbstractControl) {
   styleUrls: ["./register.component.css"],
 })
 export class RegisterComponent implements OnInit {
+  isLoading: boolean = false;
   private subscriptions: Subscription[] = [];
   public isLoginError: boolean = false;
   public registerForm: FormGroup = this.formBuilder.group(
@@ -46,8 +49,10 @@ export class RegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthenticatinService,
-    public utilityService: UtilityService
-  ) {}
+    public utilityService: UtilityService,
+    private parentComponent: AuthenticationComponent,
+    private snackBar: MatSnackBar,
+  ) { }
 
   ngOnInit(): void {
     if (localStorage.getItem("AUTH_TOKEN")) {
@@ -64,13 +69,22 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true;
+
     var model = Object.assign({}, this.registerForm.value);
     const loginSubscription = this.authService.register(model).subscribe({
       next: (x: string) => {
-        this.router.navigate(["/login"]);
+        this.registerForm.reset();
+        this.snackBar.open('Регистрацията Ви бе успешна!', 'Затвори', {
+          duration: 8000,
+          panelClass: ["custom-snackbar"],
+        });
+        this.isLoading = false;
+        this.parentComponent.setSelectedTabIndex(0);
       },
       error: (err) => {
         this.isLoginError = true;
+        this.isLoading = false;
       },
     });
     this.subscriptions.push(loginSubscription);

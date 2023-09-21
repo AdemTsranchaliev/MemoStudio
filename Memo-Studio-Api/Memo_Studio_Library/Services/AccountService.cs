@@ -35,10 +35,12 @@ namespace Memo_Studio_Library.Services
                 var clientUrl = $"http://localhost:4200/#/";
                 var route = "email-confirm";
 
+                string emailTitle = "Моля потвърдете вашият имейл";
+                string emailDescription = "Натиснете бутона за да валидирате вашият имейл. След натискането ще бъдете препратени директно към сайта.";
+                string emailButton = "Потвърди";
                 string link = String.Concat(clientUrl, QueryHelpers.AddQueryString(route, param));
-                string message = $"Добре дошли в Glamgoo! Моля, потвърдете регистрацията си като проследите или копирате в адресната лента следния линк <a href=\"{link}\">НАТИСНЕТЕ ТУК</a>.";
 
-                mailService.Send(user.Email, "Потвърждаване на имейл", message);
+                mailService.Send(user.Email, "Потвърждаване на имейл", emailTitle, emailDescription, emailButton, link);
             }
             catch(Exception ex)
             {
@@ -107,9 +109,13 @@ namespace Memo_Studio_Library.Services
             var clientUrl = $"http://localhost:4200/#/";
             var route = "change-password";
             string routeWithParams = QueryHelpers.AddQueryString(route, param);
+
+            string emailTitle = "Забравивили сте паролата си?";
+            string emailDescription = "Получихме искане Ви за подмяна на вашата парола. Нека започваме, натиснете на бутона по-долу за да Ви отведе в станицата за подмяна на паролата.";
+            string emailButton = "Напред";
             var link = string.Concat(clientUrl, routeWithParams);
-            string message = $"Здравейте! Вие получавате това известие, защото сте забравили паролата за профила си в Glamgoo. Кликнете <a href=\"{link}\">ТУК</a> за да смените паролата си. Ако не сте поискали смяна на парола игнорирайте това съобщение.";
-            mailService.Send(user.Email, "Смяна на забравена парола", message);
+
+            mailService.Send(user.Email, "Смяна на забравена парола", emailTitle, emailDescription, emailButton, link);
 
         }
 

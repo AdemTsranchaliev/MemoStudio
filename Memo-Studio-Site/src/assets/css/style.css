@@ -12298,3 +12298,8 @@ h5,
 .bg-super-light-blue {
   background-color: #72b6ff;
 }
+
+.custom-snackbar {
+  background-color: white !important;
+  color: black !important;
+}
