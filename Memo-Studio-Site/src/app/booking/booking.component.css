@@ -13,7 +13,7 @@
 }
 
 .not-active-tab {
-  color: #6f42c1 !important;
+  color: #007bff !important;
   cursor: pointer !important;
 }
 
@@ -45,7 +45,6 @@
 .past-date {
   color: black;
 }
-
 
 /* ========== New Logic ========== */
 
@@ -138,7 +137,6 @@
   /* Start with no underline */
   color: black;
   /* Set the text color */
-
 }
 
 .salon-name-decoration::after {
@@ -146,12 +144,12 @@
   /* Create a pseudo-element for the underline */
   position: absolute;
   left: 0;
-  bottom: 0;
+  bottom: -12px;
   height: 2px;
   /* Set the thickness of the underline */
   width: 0;
   /* Start with zero width */
-  background-color: blue;
+  background-color: #007bff;
   /* Set the color of the underline */
   transition: width 0.5s ease-in-out;
   /* Add a smooth transition effect */
@@ -201,6 +199,10 @@
   background-color: #e4e8fe;
 }
 
+.past-day-date {
+  color: gray !important;
+}
+
 /* Style truncated text */
 .truncate-text {
   /* Set a fixed width for each item */
@@ -209,4 +211,35 @@
   white-space: nowrap;
   overflow: hidden;
   text-align: left;
+}
+
+.free-day {
+  color: gray !important;
+  text-decoration: line-through solid black 1px;
+}
+
+.full-day {
+  color: red !important;
+  /* decorate with crossed line */
+}
+
+.action-btn {
+  padding: 5px 35px;
+}
+
+.center-transform {
+  padding-top: 220px;
+}
+
+.server-down-msg {
+  font-size: 28px;
+  color: black;
+}
+
+/* ============== Media Query ============== */
+
+@media (max-width: 576px) {
+  .table-date {
+    height: 52px;
+  }
 }

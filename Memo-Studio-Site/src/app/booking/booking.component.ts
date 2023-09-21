@@ -11,6 +11,7 @@ import { Day } from "../shared/models/day.model";
 import { BASE_URL_PROD } from "../shared/routes";
 import { UserService } from "../shared/services/user.service";
 import { DayService } from "../shared/services/day.service";
+import { ServerStatusService } from "../shared/services/serverStatus.service";
 declare const $: any;
 
 @Component({
@@ -55,27 +56,6 @@ export class BookingComponent implements OnInit {
   // Storage for Event of the Day
   events: { [key: string]: string[] } = {};
 
-  constructor(
-    private bookingService: BookingService,
-    private userService: UserService,
-    private dayService: DayService // private bookingViewService: BookingViewService
-  ) {}
-
-  ngOnInit() {
-    this.userService.getAllUsers().subscribe((x) => {
-      this.options = x;
-    });
-
-    this.monthClick(this.date.getMonth());
-    this.dateClick(this.date.getDate());
-
-    this.InitDropdownFilters();
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach((el) => el.unsubscribe());
-  }
-
   selectedStartHour: number = 17;
   selectedEndHour: number = 35;
   workingDayAddError: number = -1;
@@ -108,6 +88,44 @@ export class BookingComponent implements OnInit {
   public isDayPast: boolean = false;
   calendarRows: number[][];
   year: number;
+  isServerDown: boolean;
+
+  constructor(
+    private bookingService: BookingService,
+    private userService: UserService,
+    private dayService: DayService, // private bookingViewService: BookingViewService
+    private serverStatusService: ServerStatusService,
+  ) { }
+
+  ngOnInit() {
+    // Check server status
+    this.serverStatusService.checkServerStatus().subscribe(
+      () => {
+        // Server is up, continue with initialization
+        this.monthClick(this.date.getMonth());
+        this.dateClick(this.date.getDate());
+        this.InitDropdownFilters();
+        this.isServerDown = false;
+      },
+      (error) => {
+        this.isServerDown = true;
+        console.error("Server is down:", error);
+      }
+    );
+
+    this.userService.getAllUsers().subscribe((x) => {
+      this.options = x;
+    });
+
+    this.monthClick(this.date.getMonth());
+    this.dateClick(this.date.getDate());
+
+    this.InitDropdownFilters();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((el) => el.unsubscribe());
+  }
 
   public onOptionSelected(event: any): void {
     var selectedValue: User = event.option.value;
@@ -433,7 +451,6 @@ export class BookingComponent implements OnInit {
   public showBookings(id: number) {
     this.selectedFilter = id;
 
-    this.loader = true;
     this.bookingService.getBookingsByDate(this.date).subscribe((x) => {
       this.bookingsOrigin = x;
 
@@ -662,5 +679,29 @@ export class BookingComponent implements OnInit {
       return text.substring(0, limit) + "...";
     }
     return text;
+  }
+
+  isPastDay(day: number): boolean {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return day < today.getDate();
+  }
+
+  isFreeDay(day: number): boolean {
+    // When Backend ready need to be redo!
+    const demoFreeDays = {
+      saturday: 6,
+      sunday: 7
+    };
+    return Object.values(demoFreeDays).includes(day);
+  }
+
+  isFullDay(day: number) {
+    // console.log('>>> ', this.bookings.length);
+    // console.log('>>> ', this.bookings[1].free);
+    const demoFullDays = {
+      saturday: 12,
+    };
+    return Object.values(demoFullDays).includes(day);
   }
 }
