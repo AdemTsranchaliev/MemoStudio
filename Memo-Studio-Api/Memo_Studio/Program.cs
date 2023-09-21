@@ -26,8 +26,20 @@ public class Program
             .AddJsonFile($"appsettings.{enviorment}.json", optional: true, reloadOnChange: true)
             .Build();
 
-        builder.Services.AddDbContext<StudioContext>(options =>
+        OperatingSystem os = System.Environment.OSVersion;
+
+        if (os.Platform == PlatformID.Win32NT)
+        {
+                    builder.Services.AddDbContext<StudioContext>(options =>
+            options.UseSqlServer(configuration.GetValue<string>("DbConnectionString-WIN")));
+        }
+        // Check if the operating system is macOS
+        else if (os.Platform == PlatformID.Unix)
+        {
+                    builder.Services.AddDbContext<StudioContext>(options =>
             options.UseSqlServer(configuration.GetValue<string>("DbConnectionString-MAC")));
+        }
+
 
         SetupAuthentication(builder.Services, configuration);
 

@@ -30,8 +30,18 @@ public class StudioContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlServer("Server=tcp:127.0.0.1,1433;Database=MemoStudio;MultipleActiveResultSets=true;User=sa;Password=MyPass@word;TrustServerCertificate=True;MultiSubnetFailover=True");
-            //optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=MemoStudio;TrustServerCertificate=True;Trusted_Connection=True");
+            OperatingSystem os = System.Environment.OSVersion;
+
+            if (os.Platform == PlatformID.Win32NT)
+            {
+                optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=MemoStudio;TrustServerCertificate=True;Trusted_Connection=True");
+            }
+            // Check if the operating system is macOS
+            else if (os.Platform == PlatformID.Unix)
+            {
+                optionsBuilder.UseSqlServer("Server=tcp:127.0.0.1,1433;Database=MemoStudio;MultipleActiveResultSets=true;User=sa;Password=MyPass@word;TrustServerCertificate=True;MultiSubnetFailover=True");
+
+            }
         }
     }
 
