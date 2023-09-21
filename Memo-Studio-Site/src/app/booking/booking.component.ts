@@ -12,6 +12,7 @@ import { BASE_URL_PROD } from "../shared/routes";
 import { UserService } from "../shared/services/user.service";
 import { DayService } from "../shared/services/day.service";
 import { ServerStatusService } from "../shared/services/serverStatus.service";
+import { AuthenticatinService } from "../shared/services/authenticatin.service";
 declare const $: any;
 
 @Component({
@@ -93,9 +94,10 @@ export class BookingComponent implements OnInit {
   constructor(
     private bookingService: BookingService,
     private userService: UserService,
+    private authService: AuthenticatinService,
     private dayService: DayService, // private bookingViewService: BookingViewService
-    private serverStatusService: ServerStatusService,
-  ) { }
+    private serverStatusService: ServerStatusService
+  ) {}
 
   ngOnInit() {
     // Check server status
@@ -113,10 +115,11 @@ export class BookingComponent implements OnInit {
       }
     );
 
-    let hardCodedID = 'cf2e2069-b0bd-4a30-ac76-b73cd5f6684e';
-    this.userService.getAllUsers(hardCodedID).subscribe((x) => {
-      this.options = x;
-    });
+    this.userService
+      .getAllUsers(this.authService.getFacilityId())
+      .subscribe((x) => {
+        this.options = x;
+      });
 
     this.monthClick(this.date.getMonth());
     this.dateClick(this.date.getDate());
@@ -692,14 +695,12 @@ export class BookingComponent implements OnInit {
     // When Backend ready need to be redo!
     const demoFreeDays = {
       saturday: 6,
-      sunday: 7
+      sunday: 7,
     };
     return Object.values(demoFreeDays).includes(day);
   }
 
   isFullDay(day: number) {
-    // console.log('>>> ', this.bookings.length);
-    // console.log('>>> ', this.bookings[1].free);
     const demoFullDays = {
       saturday: 12,
     };

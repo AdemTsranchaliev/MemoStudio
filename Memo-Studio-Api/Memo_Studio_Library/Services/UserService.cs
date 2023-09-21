@@ -59,7 +59,10 @@ namespace Memo_Studio_Library
         {
             using (var context = new StudioContext())
             {
-                var user = await context.Users.FirstOrDefaultAsync(x=>x.Email==email);
+                var user = await context.Users
+                    .Include(x=>x.UserFalicities)
+                    .ThenInclude(x=>x.Facility)
+                    .FirstOrDefaultAsync(x=>x.Email==email);
 
                 return user;
             }

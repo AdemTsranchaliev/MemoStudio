@@ -4,8 +4,9 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { UserService } from "../shared/services/user.service";
 import { User } from "../shared/models/user.model";
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { UserDetailsComponent } from "../shared/dialogs/user-details/user-details.component";
+import { AuthenticatinService } from "../shared/services/authenticatin.service";
 
 @Component({
   selector: "app-users-list",
@@ -22,19 +23,20 @@ export class UsersListComponent implements OnInit, AfterViewInit {
 
   constructor(
     private userService: UserService,
+    private authService: AuthenticatinService,
     public dialog: MatDialog
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    let hardCodedID = 'cf2e2069-b0bd-4a30-ac76-b73cd5f6684e';
-    this.userService.getAllUsers(hardCodedID).subscribe((x) => {
-      this.users = x;
+    this.userService
+      .getAllUsers(this.authService.getFacilityId())
+      .subscribe((x) => {
+        this.users = x;
 
-      this.dataSource = new MatTableDataSource(this.users.reverse());
-
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
+        this.dataSource = new MatTableDataSource(this.users);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
   }
 
   ngAfterViewInit() {
@@ -42,15 +44,12 @@ export class UsersListComponent implements OnInit, AfterViewInit {
     // this.dataSource.sort = this.sort;
   }
 
-  openDialog() {
+  openDialog(userId: string) {
     const dialogRef = this.dialog.open(UserDetailsComponent, {
-      width: '100vw',
-    }
-    );
-
-    dialogRef.afterClosed().subscribe(result => {
-
+      width: "100vw",
     });
+
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   applyFilter(event: Event) {
