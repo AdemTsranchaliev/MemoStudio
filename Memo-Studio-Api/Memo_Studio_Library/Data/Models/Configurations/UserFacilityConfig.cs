@@ -6,7 +6,7 @@ public class UserFalicityConfig : IEntityTypeConfiguration<UserFalicity>
 {
     public void Configure(EntityTypeBuilder<UserFalicity> builder)
     {
-        builder.ToTable("UserFacility");
+        builder.ToTable("UserFalicity");
 
         builder
             .HasKey(x => new { x.UserId, x.FacilityId });

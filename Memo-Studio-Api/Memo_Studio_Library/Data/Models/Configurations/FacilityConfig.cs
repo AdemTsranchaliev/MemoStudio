@@ -14,6 +14,10 @@ public class FacilityConfig : IEntityTypeConfiguration<Facility>
         builder.Property(p => p.FacilityId).IsRequired();
         builder.Property(p => p.Description).IsRequired(false);
 
-        builder.HasOne(x => x.CalendarConfiguration).WithOne(x => x.Facility).HasForeignKey<CalendarConfiguration>(x => x.Id);
+        builder.Property(p => p.StartPeriod).IsRequired();
+        builder.Property(p => p.EndPeriod).IsRequired();
+        builder.Property(p => p.WorkingDays).IsRequired(false);
+        builder.Property(p => p.AllowUserBooking).HasDefaultValue(false).IsRequired();
+
     }
 }

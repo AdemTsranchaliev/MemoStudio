@@ -127,6 +127,7 @@ public class Program
         services.AddScoped<IMessageService, MessageService>();
         services.AddScoped<IMailService, MailService>();
         services.AddScoped<IAccountService, AccountService>();
+        services.AddScoped<IFacilityService, FacilityService>();
     }
 
     public static void SetupAuthentication(IServiceCollection services, IConfiguration configuration)

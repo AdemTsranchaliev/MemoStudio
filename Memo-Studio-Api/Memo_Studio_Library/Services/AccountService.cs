@@ -5,6 +5,7 @@ using Memo_Studio_Library.Services.Interfaces;
 using Memo_Studio_Library.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Memo_Studio_Library.Services
 {
@@ -12,11 +13,13 @@ namespace Memo_Studio_Library.Services
     {
         private readonly UserManager<User> userManager;
         private readonly IMailService mailService;
+        private readonly IFacilityService facilityService;
 
-        public AccountService(UserManager<User> userManager, IMailService mailService)
+        public AccountService(UserManager<User> userManager, IMailService mailService, IFacilityService facilityService)
         {
             this.userManager = userManager;
             this.mailService = mailService;
+            this.facilityService = facilityService;
         }
 
         public async Task SendEmailConfirmationAsync(User user)
@@ -81,6 +84,8 @@ namespace Memo_Studio_Library.Services
             if (result.Succeeded)
             {
                 await this.SendEmailConfirmationAsync(user);
+                await facilityService.CreateFacility(user);
+
             }
         }
 

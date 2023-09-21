@@ -17,7 +17,6 @@ public class StudioContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new BookingConfig());
-        modelBuilder.ApplyConfiguration(new CalendarConfigurationConfig());
         modelBuilder.ApplyConfiguration(new DayConfig());
         modelBuilder.ApplyConfiguration(new FacilityConfig());
         modelBuilder.ApplyConfiguration(new FacilityRoleConfig());
@@ -37,7 +36,6 @@ public class StudioContext : DbContext
     }
 
     public DbSet<Booking> Bookings { get; set; }
-    public DbSet<CalendarConfiguration> CalendarConfigurations { get; set; }
     public DbSet<Day> Days { get; set; }
     public DbSet<Facility> Facilities { get; set; }
     public DbSet<FacilityRole> FacilityRoles { get; set; }

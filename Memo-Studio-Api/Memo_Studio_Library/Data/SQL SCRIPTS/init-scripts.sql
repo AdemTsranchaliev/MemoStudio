@@ -3,7 +3,7 @@ CREATE TABLE [User] (
     Id INT PRIMARY KEY IDENTITY(1,1),
     UserId UNIQUEIDENTIFIER NOT NULL,
     Name NVARCHAR(max) NULL,
-    ViberId NVARCHAR(max) NULL
+    ViberId NVARCHAR(max) NULL,
     UserName NVARCHAR(256) NULL,
     NormalizedUserName NVARCHAR(256) NULL,
     Email NVARCHAR(256) NULL,
@@ -33,23 +33,12 @@ CREATE TABLE Facility (
     FacilityId UNIQUEIDENTIFIER NOT NULL,
     Name NVARCHAR(100) NULL,
     Description NVARCHAR(max) NULL,
-    CalendarConfigurationId INT NULL,
-);
-
--- Create the CalendarConfiguration table
-CREATE TABLE CalendarConfiguration (
-    Id INT PRIMARY KEY IDENTITY(1,1),
     StartPeriod DATETIME2 NOT NULL,
     EndPeriod DATETIME2 NOT NULL,
     Interval INT NOT NULL,
     WorkingDays NVARCHAR(max) NULL,
-    AllowUserBooking BIT NOT NULL DEFAULT 0,
-    FacilityId INT NOT NULL,
+    AllowUserBooking BIT NOT NULL DEFAULT 0
 );
-
-ALTER TABLE Facility ADD  CONSTRAINT FK_Facility_CalendarConfiguration FOREIGN KEY (CalendarConfigurationId) REFERENCES CalendarConfiguration (Id)
-ALTER TABLE CalendarConfiguration ADD CONSTRAINT FK_CalendarConfiguration_Facility FOREIGN KEY (FacilityId) REFERENCES Facility (Id)
-
 
 -- Create the Day table
 CREATE TABLE Day (
