@@ -3,6 +3,16 @@ import { User } from "../../models/user.model";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
+import { UserService } from "../../../shared/services/user.service";
+import { Subscription } from "rxjs";
+
+interface Reservation {
+
+}
+
+interface Notification {
+
+}
 
 @Component({
   selector: "app-user-details",
@@ -10,6 +20,8 @@ import { MatSort } from "@angular/material/sort";
   styleUrls: ["./user-details.component.css"],
 })
 export class UserDetailsComponent implements OnInit, AfterViewInit {
+  private subscriptions: Subscription[] = [];
+
   // Reservations Tab
   @ViewChild('paginator1') paginator1: MatPaginator;
   @ViewChild('sort1', { static: true }) sort1: MatSort;
@@ -22,61 +34,125 @@ export class UserDetailsComponent implements OnInit, AfterViewInit {
   @ViewChild('paginator2') paginator2: MatPaginator;
   @ViewChild('sort2', { static: true }) sort2: MatSort;
 
-  reservationsColumns: string[] = ['reservationData', 'createdFrom', 'status'];
+  reservationsColumns: string[] = ['reservationData', 'note', 'createdFrom', 'status'];
   reservationsDataSource: MatTableDataSource<Reservation>;
   reservations: Reservation[] = [];
 
-  constructor() { }
+  constructor(
+    private userService: UserService,
+  ) { }
 
   ngOnInit(): void {
-    this.notifications = [
-      new Notification(new Date(2012, 2, 9, 15, 10), "Email", "Изпратено", "Подстрижка"),
-      new Notification(new Date(2012, 2, 9, 15, 10), "Viber", "Получено", "Среща"),
-      new Notification(new Date(2012, 2, 9, 15, 10), "Viber", "Видяно", "Среща"),
-    ];
-
-    this.reservations = [
-      new Reservation(new Date(2012, 2, 9, 10, 30), 'Администратор', 'Изпълнен'),
-      new Reservation(new Date(2012, 2, 10, 10, 30), 'Администратор', 'Отказан'),
-      new Reservation(new Date(2012, 2, 12, 10, 30), 'Администратор', 'Предстои'),
-      // new Reservation(new Date(2012, 1, 29, 10, 30), 'Администратор', 'В Ход'),
-      // new Reservation(new Date(2012, 2, 14, 10, 30), 'Администратор', 'Потвърден'),
-    ];
-
-    this.dataSource = new MatTableDataSource(this.notifications);
-    this.reservationsDataSource = new MatTableDataSource(this.reservations);
+    this.getUsersNotifications();
+    this.getUsersReservations();
   }
 
   ngAfterViewInit() {
     // Notifications
-    this.dataSource.paginator = this.paginator1;
-    this.dataSource.sort = this.sort1;
+    if (this.dataSource) {
+      this.dataSource.paginator = this.paginator1;
+      this.dataSource.sort = this.sort1;
+    }
     // Reservations
-    this.reservationsDataSource.paginator = this.paginator2;
-    this.reservationsDataSource.sort = this.sort2;
+    if (this.reservationsDataSource) {
+      this.reservationsDataSource.paginator = this.paginator2;
+      this.reservationsDataSource.sort = this.sort2;
+    }
   }
 
-  reservationsStatusColor(status: string): string {
+  ngOnDestroy() {
+    this.subscriptions.forEach((el) => el.unsubscribe());
+  }
+
+  reservationsStatusColor(row: any): string {
+    const timestampFromDatabase = new Date(row.timestamp);
+    const currentDate = new Date();
+    let status = '';
+
+    // Compare the current date with the timestamp date (ignoring minutes and seconds)
+    if (
+      currentDate.getFullYear() === timestampFromDatabase.getFullYear() &&
+      currentDate.getMonth() === timestampFromDatabase.getMonth() &&
+      currentDate.getDate() === timestampFromDatabase.getDate() &&
+      currentDate.getHours() >= timestampFromDatabase.getHours()
+    ) {
+      status = 'isDone';
+    } else {
+      // The current date is earlier than the timestamp date and hour
+      status = 'isComming';
+    }
+
+    if (row.isCanceled) {
+      status = 'isCanceled';
+    }
+
     switch (status) {
-      case 'Предстои':
+      case 'isComming':
         return 'blue';
-      case 'Отказан':
-        return 'red';
-      case 'Изпълнен':
+      case 'isDone':
         return 'purple';
+      case 'isCanceled':
+        return 'red';
       default:
         return '';
     }
   }
 
-  notificationStatusColor(status: string): string {
+  reservationsStatusName(row: any): string {
+    const timestampFromDatabase = new Date(row.timestamp);
+    const currentDate = new Date();
+    let status = '';
+
+    // Compare the current date with the timestamp date (ignoring minutes and seconds)
+    if (
+      currentDate.getFullYear() === timestampFromDatabase.getFullYear() &&
+      currentDate.getMonth() === timestampFromDatabase.getMonth() &&
+      currentDate.getDate() === timestampFromDatabase.getDate() &&
+      currentDate.getHours() >= timestampFromDatabase.getHours()
+    ) {
+      status = 'isDone';
+    } else {
+      // The current date is earlier than the timestamp date and hour
+      status = 'isComming';
+    }
+
+    if (row.isCanceled) {
+      status = 'isCanceled';
+    }
+
     switch (status) {
-      case 'Изпратено':
+      case 'isComming':
+        return 'Предстои';
+      case 'isDone':
+        return 'Изпълнен';
+      case 'isCanceled':
+        return 'Отказан';
+      default:
+        return '';
+    }
+  }
+
+  notificationStatusColor(status: number): string {
+    switch (status) {
+      case 1:
         return 'notification-sent';
-      case 'Получено':
+      case 2:
         return 'purple';
-      case 'Видяно':
+      case 3:
         return 'blue';
+      default:
+        return '';
+    }
+  }
+
+  notificationStatusName(status: number): string {
+    switch (status) {
+      case 1:
+        return 'Изпратено';
+      case 2:
+        return 'Получено';
+      case 3:
+        return 'Видяно';
       default:
         return '';
     }
@@ -96,28 +172,36 @@ export class UserDetailsComponent implements OnInit, AfterViewInit {
       }
     });
   }
-}
 
-export class Notification {
-  constructor(sentOn: Date, type: string, status: string, service: string) {
-    this.sentOn = sentOn;
-    this.type = type;
-    this.status = status;
-    this.service = service;
-  }
-  public sentOn: Date;
-  public type: string;
-  public status: string;
-  public service: string;
-}
+  getUsersReservations() {
+    const hardCodedID = '3F47C5BE-5E73-4C2E-B9AB-ADAFA388DF44';
+    const hardCodedUserID = 'FD4103ED-04AF-468E-8287-460203973522';
 
-export class Reservation {
-  constructor(reservationData: Date, createdFrom: string, status: string) {
-    this.reservationData = reservationData;
-    this.createdFrom = createdFrom;
-    this.status = status;
+    const reservationsSubscription = this.userService.getUserReservations(hardCodedID, hardCodedUserID).subscribe((x) => {
+      this.reservationsDataSource = new MatTableDataSource(x);
+    });
+    this.subscriptions.push(reservationsSubscription);
   }
-  public reservationData: Date;
-  public createdFrom: string;
-  public status: string;
+
+  getCurrentFormattedDate() {
+    const currentDate = new Date();
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based, so add 1
+    const year = currentDate.getFullYear();
+    const hours = String(currentDate.getHours()).padStart(2, '0');
+    const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+
+    const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
+    return formattedDate;
+  }
+
+  getUsersNotifications() {
+    const hardCodedID = '3F47C5BE-5E73-4C2E-B9AB-ADAFA388DF44';
+    const hardCodedUserID = 'FD4103ED-04AF-468E-8287-460203973522';
+
+    const notificationsSubscription = this.userService.getUserNotifications(hardCodedID, hardCodedUserID).subscribe((x) => {
+      this.dataSource = new MatTableDataSource(x);
+    });
+    this.subscriptions.push(notificationsSubscription);
+  }
 }
