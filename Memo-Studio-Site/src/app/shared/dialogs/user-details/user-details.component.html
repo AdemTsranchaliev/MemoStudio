@@ -19,7 +19,14 @@
         <ng-container matColumnDef="reservationData">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Дата и час</th>
           <td mat-cell *matCellDef="let row">
-            {{ row.reservationData | date : 'dd/MM/yyyy HH:mm' }}
+            {{ row.timestamp | date : 'dd/MM/yyyy HH:mm' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="note">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Бележка</th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.note }}
           </td>
         </ng-container>
 
@@ -27,7 +34,9 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             Създадена от
           </th>
-          <td mat-cell *matCellDef="let row">{{ row.createdFrom }}</td>
+          <td mat-cell *matCellDef="let row">
+            {{ row.createdFrom || 'Администратор' }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="status">
@@ -35,9 +44,9 @@
           <td mat-cell *matCellDef="let row">
             <span
               class="badge badge-pill p-2"
-              [ngClass]="reservationsStatusColor(row.status)"
+              [ngClass]="reservationsStatusColor(row)"
             >
-              {{ row.status }}
+              {{ reservationsStatusName(row) }}
             </span>
           </td>
         </ng-container>
@@ -75,7 +84,9 @@
           <!-- Name Column -->
           <ng-container matColumnDef="type">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Платформа</th>
-            <td mat-cell *matCellDef="let row">{{ row.type }}</td>
+            <td mat-cell *matCellDef="let row">
+              {{ row.type == 1 ? 'Email' : 'Viber' }}
+            </td>
           </ng-container>
 
           <ng-container matColumnDef="status">
@@ -85,7 +96,7 @@
                 class="badge badge-pill p-2"
                 [ngClass]="notificationStatusColor(row.status)"
               >
-                {{ row.status }}
+                {{ notificationStatusName(row.status) }}
               </span>
             </td>
           </ng-container>
@@ -93,7 +104,7 @@
           <ng-container matColumnDef="service">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Услуга</th>
             <td mat-cell *matCellDef="let row">
-              {{ row.service }}
+              {{ row.service || 'Подстрижка' }}
             </td>
           </ng-container>
 

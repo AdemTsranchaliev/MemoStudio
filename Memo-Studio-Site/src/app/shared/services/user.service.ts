@@ -24,9 +24,16 @@ export class UserService {
     );
   }
 
-  public getUserDetails() {
+  public getUserReservations(facilityId: string, userId: string) {
     return this.http.get<User[]>(
-      `${BASE_URL_DEV}/Facility/users/`,
+      `${BASE_URL_DEV}/Facility/${facilityId}/users-reservations/${userId}`,
+      httpOptions
+    );
+  }
+
+  public getUserNotifications(facilityId: string, userId: string) {
+    return this.http.get<User[]>(
+      `${BASE_URL_DEV}/Facility/${facilityId}/users-notifications/${userId}`,
       httpOptions
     );
   }

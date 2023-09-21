@@ -16,7 +16,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  columndefs: any[] = ["id", "name", "phoneNumber", "operation"];
+  columndefs: any[] = ["name", "phoneNumber", "operation"];
   dataSource: MatTableDataSource<User>;
   users: User[] = [];
 
@@ -30,7 +30,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
     this.userService.getAllUsers(hardCodedID).subscribe((x) => {
       this.users = x;
 
-      this.dataSource = new MatTableDataSource(this.users);
+      this.dataSource = new MatTableDataSource(this.users.reverse());
 
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -49,7 +49,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+
     });
   }
 
