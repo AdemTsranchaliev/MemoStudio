@@ -70,12 +70,7 @@ export class UserDetailsComponent implements OnInit, AfterViewInit {
     let status = '';
 
     // Compare the current date with the timestamp date (ignoring minutes and seconds)
-    if (
-      currentDate.getFullYear() === timestampFromDatabase.getFullYear() &&
-      currentDate.getMonth() === timestampFromDatabase.getMonth() &&
-      currentDate.getDate() === timestampFromDatabase.getDate() &&
-      currentDate.getHours() >= timestampFromDatabase.getHours()
-    ) {
+    if (currentDate > timestampFromDatabase) {
       status = 'isDone';
     } else {
       // The current date is earlier than the timestamp date and hour
@@ -104,12 +99,7 @@ export class UserDetailsComponent implements OnInit, AfterViewInit {
     let status = '';
 
     // Compare the current date with the timestamp date (ignoring minutes and seconds)
-    if (
-      currentDate.getFullYear() === timestampFromDatabase.getFullYear() &&
-      currentDate.getMonth() === timestampFromDatabase.getMonth() &&
-      currentDate.getDate() === timestampFromDatabase.getDate() &&
-      currentDate.getHours() >= timestampFromDatabase.getHours()
-    ) {
+    if (currentDate > timestampFromDatabase) {
       status = 'isDone';
     } else {
       // The current date is earlier than the timestamp date and hour
@@ -181,18 +171,6 @@ export class UserDetailsComponent implements OnInit, AfterViewInit {
       this.reservationsDataSource = new MatTableDataSource(x);
     });
     this.subscriptions.push(reservationsSubscription);
-  }
-
-  getCurrentFormattedDate() {
-    const currentDate = new Date();
-    const day = String(currentDate.getDate()).padStart(2, '0');
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based, so add 1
-    const year = currentDate.getFullYear();
-    const hours = String(currentDate.getHours()).padStart(2, '0');
-    const minutes = String(currentDate.getMinutes()).padStart(2, '0');
-
-    const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
-    return formattedDate;
   }
 
   getUsersNotifications() {
