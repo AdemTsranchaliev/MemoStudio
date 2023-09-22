@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home-info.component.css']
 })
 export class HomeInfoComponent implements OnInit {
+  panelOpenState = false;
 
   constructor() { }
 

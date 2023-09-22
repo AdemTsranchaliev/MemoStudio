@@ -41,6 +41,7 @@ import { StudioDatetimePickerComponent } from "./studio-datetime-picker/studio-d
 import { DatePipe } from "@angular/common";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatCardModule } from '@angular/material/card';
 
 // Import BG Language - Use from Pipe
 import localeBg from "@angular/common/locales/bg";
@@ -112,6 +113,7 @@ registerLocaleData(localeBg, "bg");
     MatSortModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatCardModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

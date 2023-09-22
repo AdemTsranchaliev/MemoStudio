@@ -158,7 +158,6 @@ strong {
 .featured-section .row {
   position: relative;
   bottom: 100px;
-  margin-bottom: -100px;
 }
 
 .custom-block {
@@ -271,6 +270,30 @@ strong {
 .social-icon-link:hover {
   background: var(--primary-color);
   color: var(--white-color);
+}
+
+/*---------------------------------------
+    IMAGE SLIDES               
+  -----------------------------------------*/
+.custom-title {
+  font-size: 30px;
+}
+
+.custom-card-container {
+  display: flex;
+  flex-direction: row;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+
+.custom-card {
+  max-width: 400px;
+  border-radius: 20px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.custom-card:hover {
+  transform: translateY(-3px);
 }
 
 /*---------------------------------------

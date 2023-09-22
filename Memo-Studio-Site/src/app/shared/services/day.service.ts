@@ -15,7 +15,7 @@ const httpOptions = {
   providedIn: "root",
 })
 export class DayService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public addDay(day: Day) {
     return this.http.post(`${BASE_URL_DEV}/day/AddDay`, day);
