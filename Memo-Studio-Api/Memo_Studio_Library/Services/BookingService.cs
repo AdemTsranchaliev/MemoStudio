@@ -1,14 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using Memo_Studio_Library.Enums;
 using Memo_Studio_Library.Models;
+using Memo_Studio_Library.ViewModels.Booking;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Memo_Studio_Library
 {
     public class BookingService : IBookingService
 	{
-		public BookingService()
+        private readonly StudioContext context;
+
+        public BookingService(StudioContext context)
 		{
-		}
+            this.context = context;
+        }
 
         public async Task<Booking> AddBookign(BookingViewModel booking)
         {
@@ -120,6 +127,97 @@ namespace Memo_Studio_Library
             }
         }
 
+        public async Task<List<MonthDaysStatisticsResponse>> GetMonthDaysStatistics(Guid facilityId, int month, int year)
+        {
+            var result = new List<MonthDaysStatisticsResponse>();
+
+            var facility = await context.Facilities
+                 .FirstOrDefaultAsync(x => x.FacilityId == facilityId);
+
+            var customDaysForFacility = await context.Days
+                .Include(x=>x.Facility)
+                .Where(x => x.DayDate.Month == month && x.DayDate.Year == year && x.Facility.FacilityId == facilityId)
+                .ToListAsync();
+
+            var bookings = await context.Bookings
+                .Include(x => x.Facility)
+                .Where(x => x.Timestamp.Month == month && x.Timestamp.Year == year && x.Facility.FacilityId == facilityId)
+                .ToListAsync();
+
+            if (facility == null)
+            {
+                return result;
+            }
+
+            var businessHours = JsonConvert.DeserializeObject<List<BusinessHoursViewModel>>(facility.WorkingDays);
+
+            var daysInMonth = DateTime.DaysInMonth(year, month);
+
+            for (int dayOfMonth = 1; dayOfMonth <= daysInMonth; dayOfMonth++)
+            {
+                if (dayOfMonth<DateTime.Now.Day)
+                {
+                    result.Add(new MonthDaysStatisticsResponse(dayOfMonth, (int)DayStatusEnum.Past));
+                    continue;
+                }
+                DateTime currentDate = new DateTime(year, month, dayOfMonth);
+                var dayOfWeek = currentDate.DayOfWeek;
+
+                var customDay = customDaysForFacility.FirstOrDefault(x => x.DayDate.Day == dayOfMonth);
+
+                if (customDay != null)
+                {
+                    if (!customDay.IsOpen)
+                    {
+                        result.Add(new MonthDaysStatisticsResponse(dayOfMonth, (int)DayStatusEnum.Closed));
+                    }
+                    else
+                    {
+                        var bookingsForDay = bookings.Where(x => x.Timestamp.Day == dayOfMonth).ToList();
+
+                        var intervalCount = CalculateIntervalCount(customDay.StartPeriod, customDay.EndPeriod, customDay.Interval);
+
+                        if (bookingsForDay.Count() == intervalCount)
+                        {
+                            result.Add(new MonthDaysStatisticsResponse(dayOfMonth, (int)DayStatusEnum.Full));
+                        }
+                        else
+                        {
+                            result.Add(new MonthDaysStatisticsResponse(dayOfMonth, (int)DayStatusEnum.Open));
+                        }
+                    }
+                }
+                else
+                {
+                    var bussinessDay = businessHours.FirstOrDefault(x => x.Id == (int)dayOfWeek);
+
+                    if (bussinessDay!=null&&!bussinessDay.IsOpen)
+                    {
+                        result.Add(new MonthDaysStatisticsResponse(dayOfMonth,(int)DayStatusEnum.Closed));
+                    }
+                    else
+                    {
+                        var bookingsForDay = bookings.Where(x => x.Timestamp.Day == dayOfMonth).ToList();
+
+                        var intervalCount = CalculateIntervalCount(facility.StartPeriod, facility.EndPeriod, facility.Interval);
+
+                        if (bookingsForDay.Count() == intervalCount)
+                        {
+                            result.Add(new MonthDaysStatisticsResponse(dayOfMonth, (int)DayStatusEnum.Full));
+                        }
+                        else
+                        {
+                            result.Add(new MonthDaysStatisticsResponse(dayOfMonth, (int)DayStatusEnum.Open));
+                        }
+                    }
+                }
+            }
+
+
+            return result;
+
+        }
+
         public async Task<List<Booking>> GetBookingByReservationId(string id)
         {
             using (var context = new StudioContext())
@@ -130,6 +228,17 @@ namespace Memo_Studio_Library
 
                 return bookings;
             }
+        }
+
+        private int CalculateIntervalCount(DateTime startTime, DateTime endTime, int intervalMinutes)
+        {
+            int intervalCount = 0;
+
+            int totalMinutes = (int)(endTime - startTime).TotalMinutes;
+
+            intervalCount = totalMinutes / intervalMinutes;
+
+            return intervalCount;
         }
     }
 }

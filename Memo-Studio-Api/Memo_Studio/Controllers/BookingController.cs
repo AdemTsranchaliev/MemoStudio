@@ -92,6 +92,15 @@ namespace Memo_Studio.Controllers
 
             return Ok();
         }
+
+        [AllowAnonymous]
+        [HttpGet("/{facilityId}/month-statistics/{month}/{year}")]
+        public async Task<IActionResult> MonthDaysStatistic(string facilityId ,int month, int year)
+        {
+            var daysStatistics = await bookingService.GetMonthDaysStatistics(Guid.Parse(facilityId),month,year);
+   
+            return Ok(daysStatistics);
+        }
     }
 }
 

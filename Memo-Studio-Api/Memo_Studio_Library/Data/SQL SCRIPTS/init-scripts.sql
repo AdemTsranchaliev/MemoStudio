@@ -46,7 +46,8 @@ CREATE TABLE Day (
     DayDate DATETIME2 NOT NULL,
     StartPeriod DATETIME2 NOT NULL,
     EndPeriod DATETIME2 NOT NULL,
-    IsWorking BIT NOT NULL DEFAULT 1,
+    IsOpen BIT NOT NULL DEFAULT 1,
+    Interval INT NOT NULL DEFAULT 30,
     FacilityId INT NOT NULL,
     CONSTRAINT FK_Day_Facility FOREIGN KEY (FacilityId) REFERENCES Facility (Id)
 );

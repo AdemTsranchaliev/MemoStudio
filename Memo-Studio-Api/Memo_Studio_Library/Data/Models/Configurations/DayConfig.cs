@@ -12,7 +12,8 @@ public class DayConfig : IEntityTypeConfiguration<Day>
         builder.Property(p => p.DayDate).IsRequired();
         builder.Property(p => p.StartPeriod).IsRequired();
         builder.Property(p => p.EndPeriod).IsRequired();
-        builder.Property(p => p.IsWorking).HasDefaultValue(true).IsRequired();
+        builder.Property(p => p.Interval).IsRequired();
+        builder.Property(p => p.IsOpen).HasDefaultValue(30).IsRequired();
 
         builder.HasOne(x => x.Facility).WithMany(x => x.Days).HasForeignKey(x => x.FacilityId);
     }

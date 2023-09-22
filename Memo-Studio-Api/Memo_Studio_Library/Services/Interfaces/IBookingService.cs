@@ -1,5 +1,6 @@
 ﻿using System;
 using Memo_Studio_Library.Models;
+using Memo_Studio_Library.ViewModels.Booking;
 
 namespace Memo_Studio_Library
 {
@@ -12,7 +13,7 @@ namespace Memo_Studio_Library
 		public Task<string> GetViberIdByBookingId(int id);
 		public Task<Booking> GetBookingByBookingId(int id);
 		public Task<List<Booking>> GetBookingByReservationId(string id);
-
+		public Task<List<MonthDaysStatisticsResponse>> GetMonthDaysStatistics(Guid facilityId, int month, int year);
     }
 }
 

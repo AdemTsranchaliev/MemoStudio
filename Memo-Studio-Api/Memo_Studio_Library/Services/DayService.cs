@@ -26,7 +26,7 @@ namespace Memo_Studio_Library.Services
                 model.EndPeriod = model.EndPeriod.ToLocalTime();
                 if (foundModel != null)
                 {
-                    foundModel.IsWorking = model.IsWorking;
+                    foundModel.IsOpen = model.IsOpen;
                     foundModel.StartPeriod = model.StartPeriod;
                     foundModel.EndPeriod = model.EndPeriod;
                     foundModel.DayDate = model.DayDate;
@@ -60,7 +60,7 @@ namespace Memo_Studio_Library.Services
 
                 if (foundModel != null)
                 {
-                    foundModel.IsWorking = false;
+                    foundModel.IsOpen = false;
                     context.Days.Update(foundModel);
                 }
                 else
