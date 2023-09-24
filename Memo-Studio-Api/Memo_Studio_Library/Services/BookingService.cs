@@ -38,7 +38,8 @@ namespace Memo_Studio_Library
                 Timestamp = booking.DateTime.ToLocalTime(),
                 FacilityId = facility.Id,
                 Note = booking.Note,
-                Duration = booking.Duration
+                Duration = booking.Duration,
+                BookingId = Guid.NewGuid()
             };
 
 
@@ -61,16 +62,18 @@ namespace Memo_Studio_Library
             return result.Entity;
         }
 
-        public List<Booking> GetBookingsByDate(DateTime dateTime, int clientId)
+        public async Task<List<Booking>> GetBookingsByDate(DateTime dateTime, Guid facilityId)
         {
             using (var context = new StudioContext())
             {
                 var start = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day,0,0,0);
                 var end = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day,23,59,59);
 
-                return context.Bookings
+                return await context.Bookings
                     .Include(x => x.User)
-                    .Where(x=>x.Timestamp>= start && x.Timestamp <=end && !x.Canceled).ToList();
+                    .Include(x=>x.Facility)
+                    .Where(x=>x.Timestamp >= start && x.Timestamp <= end && x.Facility.FacilityId==facilityId && !x.Canceled)
+                    .ToListAsync();
             }
         }
 

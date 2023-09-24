@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Web.Http.Cors;
+using AutoMapper;
 using Memo_Studio_Library;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +14,13 @@ namespace Memo_Studio.Controllers
     {
         private readonly IBookingService bookingService;
         private readonly IMessageService messageService;
+        private readonly IMapper mapper;
 
-        public BookingController(IBookingService bookingService, IMessageService messageService)
+        public BookingController(IBookingService bookingService, IMessageService messageService, IMapper mapper)
         {
             this.bookingService = bookingService;
             this.messageService = messageService;
+            this.mapper = mapper;
         }
 
         [AllowAnonymous]
@@ -35,30 +38,14 @@ namespace Memo_Studio.Controllers
             return Ok();
         }
 
-        [Authorize]
-        [DisableCors]
-        [HttpGet("{date}/{userId}/get")]
-        public IActionResult GetBooking(DateTime date,int userId)
+        [AllowAnonymous]
+        [HttpGet("{date}/{facilityId}")]
+        public async Task<IActionResult> GetBooking(DateTime date,Guid facilityId)
         {
-            var bookings = bookingService.GetBookingsByDate(date,userId);
-            var mapedBookings = bookings.Select(x =>
-            {
-                return new BookingsResponceViewModel
-                {
-                    Id = x.Id,
-                    Name = x.User.Name,
-                    Phone = x.User.PhoneNumber,
-                    Year = x.Timestamp.Year,
-                    Month = x.Timestamp.Month,
-                    Day = x.Timestamp.Day,
-                    Hour = x.Timestamp.Hour,
-                    Minutes = x.Timestamp.Minute,
-                    Free = false,
-                    Note = x.Note
-                };
-            });
+            var bookings = await bookingService.GetBookingsByDate(date, facilityId);
+            var result = mapper.Map<List<BookingsResponceViewModel>>(bookings);
 
-            return Ok(mapedBookings);
+            return Ok(result);
         }
 
         [Authorize]
