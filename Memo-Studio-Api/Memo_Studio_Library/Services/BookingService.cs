@@ -99,21 +99,24 @@ namespace Memo_Studio_Library
             
         }
 
-        public async Task RemoveBooking(int id)
+        public async Task RemoveBooking(Guid bookingId, Guid facilityId)
         {
             using (var context = new StudioContext())
             {              
-                var model = context.Bookings.FirstOrDefault(x=>x.Id==id);
-                if (model == null)
+                var booking = await context
+                    .Bookings
+                    .Include(x => x.Facility)
+                    .FirstOrDefaultAsync(x=>x.Facility.FacilityId==facilityId && x.BookingId == bookingId);
+
+                if (booking == null)
                 {
                     return;
                 }
-                //var allBookings = context.Bookings.Where(x=>x.ReservationId==model.ReservationId);
-                //
-                //await allBookings.ForEachAsync(x => x.Canceled = true);
-                //
-                //context.Bookings.UpdateRange(allBookings);
-                //await context.SaveChangesAsync();
+
+                booking.Canceled = true;
+
+                context.Bookings.Update(booking);
+                await context.SaveChangesAsync();
             }
         }
 

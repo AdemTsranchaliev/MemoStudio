@@ -48,23 +48,18 @@ namespace Memo_Studio.Controllers
             return Ok(result);
         }
 
-        [Authorize]
-        [HttpDelete("{bookingId}")]
-        public async Task<IActionResult> RemoveBooking(int bookingId)
+        [AllowAnonymous]
+        [HttpDelete("{bookingId}/{facilityId}")]
+        public async Task<IActionResult> RemoveBooking(Guid bookingId, Guid facilityId)
         {
-            var booking = await bookingService.GetBookingByBookingId(bookingId);
-            if (booking == null)
-            {
-                return BadRequest();
-            }
-            await bookingService.RemoveBooking(bookingId);
+            await bookingService.RemoveBooking(bookingId, facilityId);
           
-            var date = booking.GetDateTimeInMessageFormat();
-
-            if (booking.User.ViberId!=null)
-            {
-                await messageService.SendMessage(booking.User.ViberId, $"Вашият час за \n{date} беше отменен.");
-            }
+            //var date = booking.GetDateTimeInMessageFormat();
+            //
+            //if (booking.User.ViberId!=null)
+            //{
+            //    await messageService.SendMessage(booking.User.ViberId, $"Вашият час за \n{date} беше отменен.");
+            //}
 
             return Ok();
         }
