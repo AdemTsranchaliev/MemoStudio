@@ -6,7 +6,7 @@ namespace Memo_Studio.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FacilityController : ControllerBase
+    public class FacilityController : BaseController
 	{
         private readonly IFacilityService facilityService;
 
@@ -16,28 +16,34 @@ namespace Memo_Studio.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("users/{facilityId}")]
-        public async Task<IActionResult> GetSubscribedUsers(string facilityId)
+        [HttpGet("users")]
+        public async Task<IActionResult> GetSubscribedUsers()
         {
-            var result = await facilityService.GetSubscribedUsers(Guid.Parse(facilityId));
+            var facilityId = this.GetFacilityId();
+
+            var result = await facilityService.GetSubscribedUsers(facilityId);
 
             return Ok(result);
         }
 
         [AllowAnonymous]
-        [HttpGet("{facilityId}/users-reservations/{userId}")]
-        public async Task<IActionResult> GetUserReservations(string facilityId,string userId)
+        [HttpGet("users-reservations/{userId}")]
+        public async Task<IActionResult> GetUserReservations(string userId)
         {
-            var result = await facilityService.GetUserReservations(Guid.Parse(facilityId), Guid.Parse(userId));
+            var facilityId = this.GetFacilityId();
+
+            var result = await facilityService.GetUserReservations(facilityId, Guid.Parse(userId));
 
             return Ok(result);
         }
 
         [AllowAnonymous]
-        [HttpGet("{facilityId}/users-notifications/{userId}")]
-        public async Task<IActionResult> GetUserNotifications(string facilityId, string userId)
+        [HttpGet("users-notifications/{userId}")]
+        public async Task<IActionResult> GetUserNotifications(string userId)
         {
-            var result = await facilityService.GetUserNotifications(Guid.Parse(facilityId), Guid.Parse(userId));
+            var facilityId = this.GetFacilityId();
+
+            var result = await facilityService.GetUserNotifications(facilityId, Guid.Parse(userId));
 
             return Ok(result);
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Web.Http.Cors;
+using AutoMapper;
 using Memo_Studio_Library;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,19 +10,21 @@ namespace Memo_Studio.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BookingController : ControllerBase
+    public class BookingController : BaseController
     {
         private readonly IBookingService bookingService;
         private readonly IMessageService messageService;
+        private readonly IMapper mapper;
 
-        public BookingController(IBookingService bookingService, IMessageService messageService)
+        public BookingController(IBookingService bookingService, IMessageService messageService, IMapper mapper)
         {
             this.bookingService = bookingService;
             this.messageService = messageService;
+            this.mapper = mapper;
         }
 
-        [AllowAnonymous]
-        [HttpPost("add")]
+        [Authorize]
+        [HttpPost("create")]
         public async Task<IActionResult> AddBooking([FromBody] BookingViewModel booking)
         {
             var bookingModel = await bookingService.AddBookign(booking);
@@ -36,58 +39,43 @@ namespace Memo_Studio.Controllers
         }
 
         [Authorize]
-        [DisableCors]
-        [HttpGet("{date}/{userId}/get")]
-        public IActionResult GetBooking(DateTime date,int userId)
+        [HttpGet("{date}")]
+        public async Task<IActionResult> GetBooking(DateTime date)
         {
-            var bookings = bookingService.GetBookingsByDate(date,userId);
-            var mapedBookings = bookings.Select(x =>
-            {
-                return new BookingsResponceViewModel
-                {
-                    Id = x.Id,
-                    Name = x.User.Name,
-                    Phone = x.User.PhoneNumber,
-                    Year = x.Timestamp.Year,
-                    Month = x.Timestamp.Month,
-                    Day = x.Timestamp.Day,
-                    Hour = x.Timestamp.Hour,
-                    Minutes = x.Timestamp.Minute,
-                    Free = false,
-                    Note = x.Note
-                };
-            });
+            var facilityId = this.GetFacilityId();
 
-            return Ok(mapedBookings);
+            var bookings = await bookingService.GetBookingsByDate(date, facilityId);
+            var result = mapper.Map<List<BookingsResponceViewModel>>(bookings);
+
+            return Ok(result);
         }
 
         [Authorize]
         [HttpDelete("{bookingId}")]
-        public async Task<IActionResult> RemoveBooking(int bookingId)
+        public async Task<IActionResult> RemoveBooking(Guid bookingId)
         {
-            var booking = await bookingService.GetBookingByBookingId(bookingId);
-            if (booking == null)
-            {
-                return BadRequest();
-            }
-            await bookingService.RemoveBooking(bookingId);
-          
-            var date = booking.GetDateTimeInMessageFormat();
+            var facilityId = this.GetFacilityId();
 
-            if (booking.User.ViberId!=null)
-            {
-                await messageService.SendMessage(booking.User.ViberId, $"Вашият час за \n{date} беше отменен.");
-            }
+            await bookingService.RemoveBooking(bookingId, facilityId);
+
+            //var date = booking.GetDateTimeInMessageFormat();
+            //
+            //if (booking.User.ViberId!=null)
+            //{
+            //    await messageService.SendMessage(booking.User.ViberId, $"Вашият час за \n{date} беше отменен.");
+            //}
 
             return Ok();
         }
 
-        [AllowAnonymous]
-        [HttpGet("/{facilityId}/month-statistics/{month}/{year}")]
-        public async Task<IActionResult> MonthDaysStatistic(string facilityId ,int month, int year)
+        [Authorize]
+        [HttpGet("month-statistics/{month}/{year}")]
+        public async Task<IActionResult> MonthDaysStatistic(int month, int year)
         {
-            var daysStatistics = await bookingService.GetMonthDaysStatistics(Guid.Parse(facilityId),month,year);
-   
+            var facilityId = this.GetFacilityId();
+
+            var daysStatistics = await bookingService.GetMonthDaysStatistics(facilityId, month, year);
+
             return Ok(daysStatistics);
         }
     }

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Globalization;
+using AutoMapper;
 using Memo_Studio_Library.Data.Models;
 using Memo_Studio_Library.Models;
+using Memo_Studio_Library.Services.Interfaces;
+using Memo_Studio_Library.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Memo_Studio_Library.Services
@@ -9,92 +12,68 @@ namespace Memo_Studio_Library.Services
     public class DayService : IDayService
     {
         private readonly IMessageService messageService;
+        private readonly IMapper mapper;
+        private readonly IFacilityService facilityService;
 
-        public DayService(IMessageService messageService)
+        public DayService(IMessageService messageService, IMapper mapper, IFacilityService facilityService)
         {
             this.messageService = messageService;
+            this.mapper = mapper;
+            this.facilityService = facilityService;
         }
 
-        public void AddDay(Day model)
+        public async Task AddDay(DayAddViewModel model, Guid facilityId)
         {
             using (var context = new StudioContext())
             {
-                model.DayDate = model.DayDate.ToLocalTime();
-                model.DayDate = new DateTime(model.DayDate.Year, model.DayDate.Month, model.DayDate.Day);
-                var foundModel = context.Days.FirstOrDefault(x=>x.DayDate==model.DayDate);
-                model.StartPeriod = model.StartPeriod.ToLocalTime();
-                model.EndPeriod = model.EndPeriod.ToLocalTime();
-                if (foundModel != null)
-                {
-                    foundModel.IsOpen = model.IsOpen;
-                    foundModel.StartPeriod = model.StartPeriod;
-                    foundModel.EndPeriod = model.EndPeriod;
-                    foundModel.DayDate = model.DayDate;
+                var day = await context.Days.FirstOrDefaultAsync(x => x.Id == model.Id);
 
-                    context.Days.Update(foundModel);
+                if (day != null)
+                {
+                    day.Update(model.DayDate, model.StartPeriod, model.EndPeriod, model.Interval, model.IsOpen);
+
+                    context.Days.Update(day);
                 }
                 else
                 {
-                    context.Days.Add(model);
+                    var mappedModel = mapper.Map<Day>(model);
+                    var facility = await facilityService.GetFacilityById(facilityId);
+
+                    mappedModel.FacilityId = facility.Id;
+                    context.Days.Add(mappedModel);
                 }
 
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
 
-        public Day GetDay(DateTime dateTime, int employeeId)
+        public async Task<Day> GetDayForFacility(DateTime dateTime, Guid facilityId)
         {
             using (var context = new StudioContext())
             {
-                return context.Days.FirstOrDefault(x => x.DayDate.Year == dateTime.Year&&
-                x.DayDate.Month == dateTime.Month &&
-                x.DayDate.Day == dateTime.Day);
-            }
-        }
-
-        public async Task<Day> GetDayForFacility(DateTime dateTime, int facilityId)
-        {
-            using (var context = new StudioContext())
-            {
-                return await context.Days.FirstOrDefaultAsync(x => x.DayDate.Year == dateTime.Year &&
+                return await context.Days
+                    .Include(x=>x.Facility)
+                    .FirstOrDefaultAsync(x => x.DayDate.Year == dateTime.Year &&
                 x.DayDate.Month == dateTime.Month &&
                 x.DayDate.Day == dateTime.Day
-                && x.FacilityId == facilityId);
+                && x.Facility.FacilityId == facilityId);
             }
         }
 
-        public async Task CancelDay(Day day)
+        public async Task CancelDay(int dayId, Guid facilityId)
         {
             using (var context = new StudioContext())
             {
-                var foundModel = context.Days.FirstOrDefault(x => x.DayDate == day.DayDate);
+                var day = await context.Days
+                    .Include(x=>x.Facility)
+                    .FirstOrDefaultAsync(x => x.Id == dayId && x.Facility.FacilityId == facilityId);
 
-                if (foundModel != null)
+                if (day != null)
                 {
-                    foundModel.IsOpen = false;
-                    context.Days.Update(foundModel);
-                }
-                else
-                {
-                    context.Days.Add(day);
-                }
+                    //day.Update(model.DayDate, model.StartPeriod, model.EndPeriod, model.Interval, model.IsOpen);
 
-                var bookings = await context.Bookings.Include(x => x.User).Where(x => x.Timestamp.Year == day.DayDate.Year && x.Timestamp.Month == day.DayDate.Month && x.Timestamp.Day == day.DayDate.Day&!x.Canceled).ToListAsync();
-                CultureInfo culture = new CultureInfo("bg-BG");
-
-                string dayD = day.DayDate.ToString("dd");
-                string month = culture.DateTimeFormat.GetMonthName(day.DayDate.Month);
-                string year = day.DayDate.ToString("yyyy");
-                string weekday = culture.DateTimeFormat.GetDayName(day.DayDate.DayOfWeek);
-                foreach (var booking in bookings)
-                {
-                    await messageService.SendMessage(booking.User.ViberId, $"Вашият час за \n*{weekday}, {dayD} {month} {year}г.* беше отменен. Извинете ни за неудобството!");
-
-                    booking.Canceled = true;
-                    context.Bookings.Update(booking);
+                    context.Days.Update(day);
                 }
-                
-                context.SaveChanges();
             }
         }
     }

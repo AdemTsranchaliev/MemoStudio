@@ -11,6 +11,8 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 using Memo_Studio_Library.Services.Interfaces;
 using Memo_Studio_Library.Data.Models;
+using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Memo_Studio;
 
@@ -132,6 +134,7 @@ public class Program
         services.AddScoped<IMailService, MailService>();
         services.AddScoped<IAccountService, AccountService>();
         services.AddScoped<IFacilityService, FacilityService>();
+        services.AddAutoMapper(typeof(AutoMapperProfile));
     }
 
     public static void SetupAuthentication(IServiceCollection services, IConfiguration configuration)

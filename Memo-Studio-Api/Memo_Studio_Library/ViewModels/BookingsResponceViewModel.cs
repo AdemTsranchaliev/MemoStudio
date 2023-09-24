@@ -3,16 +3,27 @@ namespace Memo_Studio_Library
 {
     public class BookingsResponceViewModel
 	{
-		public int Id { get; set; }
-		public string Name { get; set; }
-		public string Phone { get; set; }
-		public int Year { get; set; }
-		public int Month { get; set; }
-		public int Day { get; set; }
-		public int Hour { get; set; }
-		public int Minutes { get; set; }
-		public bool Free { get; set; }
-		public string Note { get; set; }
-	}
+        public Guid BookingId { get; set; }
+
+        public DateTime Timestamp { get; set; }
+
+        public DateTime CreatedOn { get; set; }
+
+        public bool Canceled { get; set; }
+
+        public string? Note { get; set; }
+
+        public string? Name { get; set; }
+
+        public string? Email { get; set; }
+
+        public string? Phone { get; set; }
+
+        public bool Confirmed { get; set; }
+
+        public bool RegisteredUser { get; set; }
+
+        public int Duration { get; set; }
+    }
 }
 
