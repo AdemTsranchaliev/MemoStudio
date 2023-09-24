@@ -1,12 +1,12 @@
 ﻿using System;
 using Memo_Studio_Library.Data.Models;
+using Memo_Studio_Library.ViewModels;
 
 namespace Memo_Studio_Library.Services
 {
     public interface IDayService
     {
-        public void AddDay(Day model);
-        public Day GetDay(DateTime dateTime, int employeeId);
+        public Task AddDay(DayAddViewModel model, Guid facilityId);
         public Task CancelDay(Day day);
         public Task<Day> GetDayForFacility(DateTime dateTime, int facilityId);
     }

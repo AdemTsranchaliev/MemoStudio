@@ -2,6 +2,7 @@
 using Memo_Studio_Library;
 using Memo_Studio_Library.Data.Models;
 using Memo_Studio_Library.Services;
+using Memo_Studio_Library.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +10,7 @@ namespace Memo_Studio.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DayController : ControllerBase
+    public class DayController : BaseController
     {
         private readonly IDayService dayService;
 
@@ -22,28 +23,31 @@ namespace Memo_Studio.Controllers
         [HttpGet("{dateTime}/{clientId}")]
         public IActionResult GetDay(DateTime dateTime, int clientId)
         {
-            var result = dayService.GetDay(dateTime, clientId);
+            var facilityId = GetFacilityId();
 
-            return Ok(result);
-        }
-
-        [Authorize]
-        [HttpPost("AddDay")]
-        public IActionResult AddDay([FromBody] Day model)
-        {
-            dayService.AddDay(model);
+            //var result = dayService.GetDay(dateTime, clientId);
 
             return Ok();
         }
 
         [Authorize]
-        [HttpPost("holiday")]
-        public async Task<IActionResult> SetHoliday([FromBody] Day model)
+        [HttpPost]
+        public async Task<IActionResult> AddDay([FromBody] DayAddViewModel model)
         {
-                await dayService.CancelDay(model);
+            var facilityId = GetFacilityId();
+            await dayService.AddDay(model, facilityId);
 
             return Ok();
         }
+
+        //[Authorize]
+        //[HttpPost("holiday")]
+        //public async Task<IActionResult> SetHoliday([FromBody] Day model)
+        //{
+        //        await dayService.CancelDay(model);
+        //
+        //    return Ok();
+        //}
     }
 }
 

@@ -45,7 +45,7 @@ namespace Memo_Studio.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("EmailConfirmation")]
+        [HttpPost("email-confirmation")]
         public async Task<IActionResult> EmailConfirmation([FromBody]EmailConfirmationRequest request)
         {
             try

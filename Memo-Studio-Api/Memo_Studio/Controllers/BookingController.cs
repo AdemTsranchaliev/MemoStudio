@@ -10,7 +10,7 @@ namespace Memo_Studio.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BookingController : ControllerBase
+    public class BookingController : BaseController
     {
         private readonly IBookingService bookingService;
         private readonly IMessageService messageService;
@@ -23,8 +23,8 @@ namespace Memo_Studio.Controllers
             this.mapper = mapper;
         }
 
-        [AllowAnonymous]
-        [HttpPost("add")]
+        [Authorize]
+        [HttpPost("create")]
         public async Task<IActionResult> AddBooking([FromBody] BookingViewModel booking)
         {
             var bookingModel = await bookingService.AddBookign(booking);
@@ -38,22 +38,26 @@ namespace Memo_Studio.Controllers
             return Ok();
         }
 
-        [AllowAnonymous]
-        [HttpGet("{date}/{facilityId}")]
-        public async Task<IActionResult> GetBooking(DateTime date,Guid facilityId)
+        [Authorize]
+        [HttpGet("{date}")]
+        public async Task<IActionResult> GetBooking(DateTime date)
         {
+            var facilityId = this.GetFacilityId();
+
             var bookings = await bookingService.GetBookingsByDate(date, facilityId);
             var result = mapper.Map<List<BookingsResponceViewModel>>(bookings);
 
             return Ok(result);
         }
 
-        [AllowAnonymous]
-        [HttpDelete("{bookingId}/{facilityId}")]
-        public async Task<IActionResult> RemoveBooking(Guid bookingId, Guid facilityId)
+        [Authorize]
+        [HttpDelete("{bookingId}")]
+        public async Task<IActionResult> RemoveBooking(Guid bookingId)
         {
+            var facilityId = this.GetFacilityId();
+
             await bookingService.RemoveBooking(bookingId, facilityId);
-          
+
             //var date = booking.GetDateTimeInMessageFormat();
             //
             //if (booking.User.ViberId!=null)
@@ -64,12 +68,14 @@ namespace Memo_Studio.Controllers
             return Ok();
         }
 
-        [AllowAnonymous]
-        [HttpGet("/{facilityId}/month-statistics/{month}/{year}")]
-        public async Task<IActionResult> MonthDaysStatistic(string facilityId ,int month, int year)
+        [Authorize]
+        [HttpGet("month-statistics/{month}/{year}")]
+        public async Task<IActionResult> MonthDaysStatistic(int month, int year)
         {
-            var daysStatistics = await bookingService.GetMonthDaysStatistics(Guid.Parse(facilityId),month,year);
-   
+            var facilityId = this.GetFacilityId();
+
+            var daysStatistics = await bookingService.GetMonthDaysStatistics(facilityId, month, year);
+
             return Ok(daysStatistics);
         }
     }

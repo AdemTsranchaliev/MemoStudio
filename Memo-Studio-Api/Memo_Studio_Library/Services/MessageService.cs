@@ -28,7 +28,7 @@ namespace Memo_Studio_Library
                     Avatar = "http://dl-media.viber.com/1/share/2/long/bots/generic-avatar%402x.png"
                 },
                 Text = message
-            };
+            };  
 
             var response = await viberBotApi.SendMessageAsync<ViberResponse.SendMessageResponse>(messageObj);
         }
