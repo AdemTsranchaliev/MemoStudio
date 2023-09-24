@@ -97,7 +97,7 @@ export class BookingComponent implements OnInit {
     private authService: AuthenticatinService,
     private dayService: DayService, // private bookingViewService: BookingViewService
     private serverStatusService: ServerStatusService
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Check server status
@@ -125,6 +125,7 @@ export class BookingComponent implements OnInit {
     this.dateClick(this.date.getDate());
 
     this.InitDropdownFilters();
+    this.getBookingsByMonthStatistics();
   }
 
   ngOnDestroy() {
@@ -705,5 +706,16 @@ export class BookingComponent implements OnInit {
       saturday: 12,
     };
     return Object.values(demoFullDays).includes(day);
+  }
+
+  getBookingsByMonthStatistics() {
+    const facilityId = this.authService.getFacilityId();
+    console.log('>>>', facilityId);
+    
+    const month = this.date.getMonth() + 1;
+
+    this.bookingService.getBookingsByMonthStatistics(facilityId, month, this.year).subscribe((x) => {
+      console.log('>>>>', x);
+    });
   }
 }

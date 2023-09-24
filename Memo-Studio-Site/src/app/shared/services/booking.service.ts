@@ -17,7 +17,7 @@ const httpOptions = {
   providedIn: "root",
 })
 export class BookingService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getReservationForDate(date: Date, booking: Booking[]) {
     let result: Booking[] = [];
@@ -56,13 +56,20 @@ export class BookingService {
 
   public addBooking(dto: BookingDto) {
     console.log(dto);
-    dto.employeeId=20;
+    dto.employeeId = 20;
     return this.http.post(`${BASE_URL_DEV}/Booking/add`, dto);
   }
 
   public deleteBooking(bookingId: string) {
     return this.http.delete(
       `${BASE_URL_DEV}/Booking/${bookingId}`,
+      httpOptions
+    );
+  }
+
+  public getBookingsByMonthStatistics(facilityId: any, month: any, year: any) {
+    return this.http.get<Booking[]>(
+      `${BASE_URL_DEV}/${facilityId}/month-statistics/${month}/${year}`,
       httpOptions
     );
   }
