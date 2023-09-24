@@ -3,18 +3,21 @@ namespace Memo_Studio_Library
 {
     public class BookingViewModel
 	{
-
         public DateTime DateTime { get; set; }
 
-        public int UserId { get; set; }
+        public Guid? UserId { get; set; }
 
-        public int EmployeeId { get; set; }
+        public Guid FacilityId { get; set; }
 
-        public string ReservationId { get; set; }
-
-        public int Index { get; set; }
+        public int Duration { get; set; }
 
         public string Note { get; set; }
+
+        public string? Name { get; set; }
+
+        public string? Phone { get; set; }
+
+        public string? Email { get; set; }
     }
 }
 

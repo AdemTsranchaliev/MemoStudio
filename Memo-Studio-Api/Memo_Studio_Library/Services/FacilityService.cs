@@ -15,6 +15,13 @@ namespace Memo_Studio_Library.Services
             this.context = context;
         }
 
+        public async Task<Facility> GetFacilityById(Guid facilityId)
+        {
+            var facility = await context.Facilities.FirstOrDefaultAsync(x=>x.FacilityId == facilityId);
+
+            return facility;
+        }
+
         public async Task CreateFacility(User user)
         {
             try
