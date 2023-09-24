@@ -1,7 +1,9 @@
 ﻿using System;
 using Memo_Studio_Library.Models;
+using Memo_Studio_Library.ViewModels.Booking;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Newtonsoft.Json;
 
 namespace Memo_Studio_Library.Data.Models
 {
@@ -37,6 +39,11 @@ namespace Memo_Studio_Library.Data.Models
 		public List<Booking> Bookings { get; set; }
 
 		public List<Day> Days { get; set; }
+
+		public List<BusinessHoursViewModel> GetBussinesHours()
+		{
+			return JsonConvert.DeserializeObject<List<BusinessHoursViewModel>>(this.WorkingDays);
+		}
     }
 }
 

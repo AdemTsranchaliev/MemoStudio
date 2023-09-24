@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Memo_Studio_Library.Enums;
 using Memo_Studio_Library.Models;
+using Memo_Studio_Library.Services;
+using Memo_Studio_Library.Services.Interfaces;
 using Memo_Studio_Library.ViewModels.Booking;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -11,33 +13,52 @@ namespace Memo_Studio_Library
     public class BookingService : IBookingService
 	{
         private readonly StudioContext context;
+        private readonly IFacilityService facilityService;
+        private readonly IUserService userService;
 
-        public BookingService(StudioContext context)
+        public BookingService(StudioContext context, IFacilityService facilityService, IUserService userService)
 		{
             this.context = context;
+            this.facilityService = facilityService;
+            this.userService = userService;
         }
 
         public async Task<Booking> AddBookign(BookingViewModel booking)
         {
-            using (var context = new StudioContext())
+            var facility = await facilityService.GetFacilityById(booking.FacilityId);
+
+            if (facility==null)
             {
-                var newBooking = new Booking
-                {
-                    CreatedOn = DateTime.Now,
-                    //EmployeeId = booking.EmployeeId,
-                    Timestamp = booking.DateTime.ToLocalTime(),
-                    UserId = booking.UserId,
-                    ReservationId = booking.ReservationId,
-                    Note = booking.Note
-                };
-
-                var result = await context.Bookings.AddAsync(newBooking);
-                await context.SaveChangesAsync();
-
-                context.Entry(result.Entity).Reference(b => b.User).Load();
-
-                return result.Entity;
+                return null;
             }
+
+            var newBooking = new Booking
+            {
+                CreatedOn = DateTime.Now,
+                Timestamp = booking.DateTime.ToLocalTime(),
+                FacilityId = facility.Id,
+                Note = booking.Note,
+                Duration = booking.Duration
+            };
+
+
+            if (booking?.UserId!=null)
+            {
+                var user = await userService.GetUserById(booking.UserId.Value);
+
+                newBooking.UserId = user.Id;
+            }
+            else
+            {
+                newBooking.SetUnregisteredUser(booking.Name,booking.Email,booking.Phone);
+            }
+
+            var result = await context.Bookings.AddAsync(newBooking);
+            await context.SaveChangesAsync();
+
+            context.Entry(result.Entity).Reference(b => b.User).Load();
+
+            return result.Entity;
         }
 
         public List<Booking> GetBookingsByDate(DateTime dateTime, int clientId)
@@ -84,12 +105,12 @@ namespace Memo_Studio_Library
                 {
                     return;
                 }
-                var allBookings = context.Bookings.Where(x=>x.ReservationId==model.ReservationId);
-
-                await allBookings.ForEachAsync(x => x.Canceled = true);
-
-                context.Bookings.UpdateRange(allBookings);
-                await context.SaveChangesAsync();
+                //var allBookings = context.Bookings.Where(x=>x.ReservationId==model.ReservationId);
+                //
+                //await allBookings.ForEachAsync(x => x.Canceled = true);
+                //
+                //context.Bookings.UpdateRange(allBookings);
+                //await context.SaveChangesAsync();
             }
         }
 
@@ -223,7 +244,7 @@ namespace Memo_Studio_Library
             using (var context = new StudioContext())
             {
                 var bookings = await context.Bookings
-                     .Where(x => x.ReservationId == id)
+                     //.Where(x => x.ReservationId == id)
                      .ToListAsync();             
 
                 return bookings;

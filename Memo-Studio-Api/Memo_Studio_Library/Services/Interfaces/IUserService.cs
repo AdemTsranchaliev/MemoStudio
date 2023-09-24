@@ -9,7 +9,7 @@ namespace Memo_Studio_Library
 		public User GetUserByViberId(string viberId);
 		public Task<List<User>> GetAllUsers();
 		Task<User> GetUserByEmailAsync(string email);
-
+		public Task<User> GetUserById(Guid id);
     }
 }
 

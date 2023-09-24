@@ -16,8 +16,6 @@ namespace Memo_Studio_Library.Models
 
         public bool Canceled { get; set; }
 
-		public string ReservationId { get; set; }
-
 		public string? Note { get; set; }
 
 		public string? Name { get; set; }
@@ -30,7 +28,9 @@ namespace Memo_Studio_Library.Models
 
         public bool RegisteredUser { get; set; }
 
-        public int UserId { get; set; }
+        public int Duration { get; set; }
+
+        public int? UserId { get; set; }
         public User User { get; set; }
 
         public int FacilityId { get; set; }
@@ -55,6 +55,14 @@ namespace Memo_Studio_Library.Models
 
 			return date;
         }
+
+        public void SetUnregisteredUser(string name, string email, string phone)
+        {
+            this.Email = email;
+            this.Name = name;
+            this.Phone = phone;
+        }
+
     }
 }
 

@@ -20,28 +20,17 @@ namespace Memo_Studio.Controllers
             this.messageService = messageService;
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpPost("add")]
         public async Task<IActionResult> AddBooking([FromBody] BookingViewModel booking)
         {
-            if (booking.UserId==null)
-            {
-                return BadRequest();
-            }
-
             var bookingModel = await bookingService.AddBookign(booking);
 
-            if (bookingModel.User==null)
-            {
-                return BadRequest("The user do not exists!");
-            }
-
-
-            if (booking.Index==0 && bookingModel.User.ViberId != null)
-            {
-                var dateString = bookingModel.GetDateTimeInMessageFormat();
-                await messageService.SendMessage(bookingModel.User.ViberId, $"Запазихте час за \n{dateString}");
-            }
+            //if (bookingModel.User.ViberId != null)
+            //{
+            //    var dateString = bookingModel.GetDateTimeInMessageFormat();
+            //    await messageService.SendMessage(bookingModel.User.ViberId, $"Запазихте час за \n{dateString}");
+            //}
 
             return Ok();
         }

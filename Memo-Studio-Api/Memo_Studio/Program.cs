@@ -259,6 +259,7 @@ public class Program
                         {
                             Name = user.Name,
                             FacilityId = Guid.NewGuid(),
+                            WorkingDays = "[{\"id\":1,\"day\":\"Monday\",\"isOpen\":true,\"openingTime\":\"08:00 AM\",\"closingTime\":\"06:00 PM\"},{\"id\":2,\"day\":\"Tuesday\",\"isOpen\":true,\"openingTime\":\"08:00 AM\",\"closingTime\":\"06:00 PM\"},{\"id\":3,\"day\":\"Wednesday\",\"isOpen\":false},{\"id\":4,\"day\":\"Thursday\",\"isOpen\":true,\"openingTime\":\"09:00 AM\",\"closingTime\":\"07:00 PM\"},{\"id\":5,\"day\":\"Friday\",\"isOpen\":true,\"openingTime\":\"09:00 AM\",\"closingTime\":\"08:00 PM\"},{\"id\":6,\"day\":\"Saturday\",\"isOpen\":true,\"openingTime\":\"10:00 AM\",\"closingTime\":\"08:00 PM\"},{\"id\":7,\"day\":\"Sunday\",\"isOpen\":false}]"
                         };
                         facilities.Add(facility);
                         foreach (var user2 in users)
@@ -306,7 +307,7 @@ public class Program
                         Timestamp = new DateTime(2023,9, 21, 8,30,0), // Set your timestamp
                         CreatedOn = DateTime.UtcNow, // Set your created on date
                         Canceled = false,
-                        ReservationId = "ABC123",
+                        Duration = 30,
                         Note = "Booking 1 Note",
                         Confirmed = true,
                         RegisteredUser = true,
@@ -318,7 +319,7 @@ public class Program
                         Timestamp = new DateTime(2023,9, 21, 15,30,0),
                         CreatedOn = DateTime.UtcNow, // Set your created on date
                         Canceled = false,
-                        ReservationId = "DEF456",
+                        Duration = 30,
                         Note = "Booking 2 Note",
                         Confirmed = true,
                         RegisteredUser = true,

@@ -14,7 +14,7 @@ public class BookingConfig : IEntityTypeConfiguration<Booking>
         builder.Property(p => p.Timestamp).IsRequired();
         builder.Property(p => p.CreatedOn).IsRequired();
         builder.Property(p => p.Canceled).IsRequired();
-        builder.Property(p => p.ReservationId).IsRequired();
+        builder.Property(p => p.Duration).IsRequired();
         builder.Property(p => p.Note).IsRequired(false);
         builder.Property(p => p.Name).IsRequired(false);
         builder.Property(p => p.Email).IsRequired(false);

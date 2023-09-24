@@ -55,6 +55,15 @@ namespace Memo_Studio_Library
             }
         }
 
+        public async Task<User> GetUserById(Guid id)
+        {
+            using (var context = new StudioContext())
+            {
+                var user = await context.Users.FirstOrDefaultAsync(x => x.UserId == id);
+                return user;
+            }
+        }
+
         public async Task<User> GetUserByEmailAsync(string email)
         {
             using (var context = new StudioContext())

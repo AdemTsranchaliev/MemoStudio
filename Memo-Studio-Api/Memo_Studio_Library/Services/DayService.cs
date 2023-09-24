@@ -52,6 +52,17 @@ namespace Memo_Studio_Library.Services
             }
         }
 
+        public async Task<Day> GetDayForFacility(DateTime dateTime, int facilityId)
+        {
+            using (var context = new StudioContext())
+            {
+                return await context.Days.FirstOrDefaultAsync(x => x.DayDate.Year == dateTime.Year &&
+                x.DayDate.Month == dateTime.Month &&
+                x.DayDate.Day == dateTime.Day
+                && x.FacilityId == facilityId);
+            }
+        }
+
         public async Task CancelDay(Day day)
         {
             using (var context = new StudioContext())
