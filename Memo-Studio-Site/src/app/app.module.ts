@@ -59,6 +59,7 @@ import { HomeInfoComponent } from './home-info/home-info.component';
 import { ChangeForgottenPasswordComponent } from './auth-user/change-forgotten-password/change-forgotten-password.component';
 import { SelectionListComponent } from './shared/components/selection-list/selection-list.component';
 import { SideTabSelectionListComponent } from './shared/components/side-tab-selection-list/side-tab-selection-list.component';
+import { ViberConfirmationComponent } from './shared/components/viber-confirmation/viber-confirmation.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -87,6 +88,7 @@ registerLocaleData(localeBg, "bg");
     ChangeForgottenPasswordComponent,
     SelectionListComponent,
     SideTabSelectionListComponent,
+    ViberConfirmationComponent,
   ],
   imports: [
     BrowserModule,

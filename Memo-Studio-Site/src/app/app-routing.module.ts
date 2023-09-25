@@ -13,6 +13,7 @@ import { BookingConfirmationListComponent } from "./booking-confirmation-list/bo
 import { EmailConfirmationComponent } from "./email-confirmation/email-confirmation.component";
 import { HomeInfoComponent } from "./home-info/home-info.component";
 import { ChangeForgottenPasswordComponent } from "./auth-user/change-forgotten-password/change-forgotten-password.component";
+import { ViberConfirmationComponent } from "./shared/components/viber-confirmation/viber-confirmation.component";
 
 const routes: Routes = [
   { path: "home-information", component: HomeInfoComponent },
@@ -27,6 +28,7 @@ const routes: Routes = [
     component: BookingConfirmationListComponent,
     canActivate: [AuthGuard],
   },
+  { path: "viber-confirmation", component: ViberConfirmationComponent },
   { path: "login", component: AuthenticationComponent },
   { path: "forgotten-password", component: ForgottenPasswordComponent },
   { path: "users", component: UsersListComponent, canActivate: [AuthGuard] },

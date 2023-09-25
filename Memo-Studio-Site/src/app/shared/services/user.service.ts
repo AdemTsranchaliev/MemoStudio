@@ -17,9 +17,9 @@ const httpOptions = {
 export class UserService {
   constructor(private http: HttpClient) { }
 
-  public getAllUsers(id: string) {
+  public getAllUsers() {
     return this.http.get<User[]>(
-      `${BASE_URL_DEV}/Facility/users/${id}`,
+      `${BASE_URL_DEV}/User/getAllUsers`,
       httpOptions
     );
   }
