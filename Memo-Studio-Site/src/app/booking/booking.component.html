@@ -62,20 +62,20 @@
                         *ngFor="let row of calendarRows"
                         class="row justify-content-between align-items-center"
                       >
-                        <ng-container *ngFor="let day of row">
+                        <ng-container *ngFor="let element of row">
                           <td
-                            id="day-{{ day }}"
+                            id="day-{{ element.day }}"
                             class="table-date text-primary col"
-                            [class.nil]="day === -1"
-                            [class.active-date]="day === date.getDate()"
+                            [class.nil]="element.day === -1"
+                            [class.active-date]="element.day === date.getDate()"
                             [ngClass]="{
-                              'past-day-date': isPastDay(day),
-                              'free-day': isFreeDay(day),
-                              'full-day': isFullDay(day)
+                              'past-day-date': isPastDay(element.status),
+                              'free-day': isFreeDay(element.status),
+                              'full-day': isFullDay(element.status)
                             }"
-                            (click)="dateClick(day)"
+                            (click)="dateClick(element.day)"
                           >
-                            {{ day > 0 ? day : '' }}
+                            {{ element.day > 0 ? element.day : '' }}
                           </td>
                         </ng-container>
                       </tr>

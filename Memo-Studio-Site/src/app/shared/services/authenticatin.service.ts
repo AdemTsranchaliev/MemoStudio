@@ -14,7 +14,7 @@ export class AuthenticatinService {
     return localStorage.getItem("AuthToken");
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   configureOptions() {
     let headers = new HttpHeaders({

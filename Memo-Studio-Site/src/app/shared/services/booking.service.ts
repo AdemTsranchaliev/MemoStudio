@@ -69,7 +69,7 @@ export class BookingService {
 
   public getBookingsByMonthStatistics(facilityId: any, month: any, year: any) {
     return this.http.get<Booking[]>(
-      `${BASE_URL_DEV}/${facilityId}/month-statistics/${month}/${year}`,
+      `https://localhost:7190/${facilityId}/month-statistics/${month}/${year}`,
       httpOptions
     );
   }

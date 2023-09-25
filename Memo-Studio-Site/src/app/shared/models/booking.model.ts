@@ -10,4 +10,5 @@ export interface Booking {
   minutes: number;
   free: boolean;
   freeHour: string;
+  status: number;
 }

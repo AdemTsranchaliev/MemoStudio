@@ -13,6 +13,7 @@ import { UserService } from "../shared/services/user.service";
 import { DayService } from "../shared/services/day.service";
 import { ServerStatusService } from "../shared/services/serverStatus.service";
 import { AuthenticatinService } from "../shared/services/authenticatin.service";
+import { DayStausEnum } from "../shared/models/dayStatus.model";
 declare const $: any;
 
 @Component({
@@ -87,9 +88,11 @@ export class BookingComponent implements OnInit {
   public noteModal: Booking;
   public raiseError: boolean = false;
   public isDayPast: boolean = false;
-  calendarRows: number[][];
-  year: number;
-  isServerDown: boolean;
+  public calendarRows = [];
+  public year: number = new Date().getFullYear();
+  public isServerDown: boolean;
+  public monthStatistics: any[] = [];
+  public monthClicked: number = new Date().getMonth() + 1;
 
   constructor(
     private bookingService: BookingService,
@@ -151,27 +154,20 @@ export class BookingComponent implements OnInit {
     this.firstDay = date.getDay();
     this.date.setDate(tempDate);
 
-    let row: number[] = [];
+    let row: { day: number; status: number }[] = [];
 
-    for (let i = 0; i < 35 + this.firstDay; i++) {
-      const day = i - this.firstDay + 1;
+    while (this.monthStatistics.length > 0) {
+      const currentRow = this.monthStatistics.splice(0, 7);
+      if (currentRow.length > 0) {
+        this.calendarRows.push(currentRow);
 
-      if (i % 7 === 0 && row.length > 0) {
-        this.calendarRows.push(row);
-        row = [];
+        if (currentRow.length < 7) {
+          const remainingCount = 7 - currentRow.length;
+          for (let i = 0; i < remainingCount; i++) {
+            currentRow.push({ day: -1, status: 6 });
+          }
+        }
       }
-      let dayToAdd = -1;
-      if (i < this.firstDay || day > this.dayCount) {
-        dayToAdd = -1;
-      } else {
-        dayToAdd = day;
-      }
-
-      row.push(dayToAdd);
-    }
-
-    if (row.length > 0) {
-      this.calendarRows.push(row);
     }
 
     this.dateClick(this.date.getDate());
@@ -190,21 +186,24 @@ export class BookingComponent implements OnInit {
   public monthClick(month: number) {
     this.showEventContainer();
     this.date.setMonth(month);
-    this.initCalendar(this.date);
+    this.monthClicked = (month + 1);
+    this.getBookingsByMonthStatistics();
   }
 
   public nextYear() {
     this.hideDialogs();
     const newYear = this.date.getFullYear() + 1;
+    this.year = newYear;
     this.date.setFullYear(newYear);
-    this.initCalendar(this.date);
+    this.getBookingsByMonthStatistics();
   }
 
   public prevYear() {
     this.hideDialogs();
     const newYear = this.date.getFullYear() - 1;
+    this.year = newYear;
     this.date.setFullYear(newYear);
-    this.initCalendar(this.date);
+    this.getBookingsByMonthStatistics();
   }
 
   public newEvent(preDefinedHour: string) {
@@ -334,7 +333,7 @@ export class BookingComponent implements OnInit {
     }
 
     date.setDate(this.date.getDate());
-    this.initCalendar(date);
+    this.getBookingsByMonthStatistics();
     this.dateClick(this.date.getDate());
   }
 
@@ -490,6 +489,7 @@ export class BookingComponent implements OnInit {
             free: true,
             freeHour: x,
             note: null,
+            status: 0,
           };
           temp.push(freeBook);
         }
@@ -554,6 +554,7 @@ export class BookingComponent implements OnInit {
       minutes: minutes,
       free: false,
       freeHour: null,
+      status: 0
     };
     var specificDate: Date = new Date(newEvent.year, newEvent.month, day);
     specificDate.setHours(hour);
@@ -686,36 +687,24 @@ export class BookingComponent implements OnInit {
     return text;
   }
 
-  isPastDay(day: number): boolean {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    return day < today.getDate();
+  isPastDay(status: number): boolean {
+    return status == DayStausEnum.Past;
   }
 
-  isFreeDay(day: number): boolean {
-    // When Backend ready need to be redo!
-    const demoFreeDays = {
-      saturday: 6,
-      sunday: 7,
-    };
-    return Object.values(demoFreeDays).includes(day);
+  isFreeDay(status: number): boolean {
+    return status == DayStausEnum.Closed;
   }
 
-  isFullDay(day: number) {
-    const demoFullDays = {
-      saturday: 12,
-    };
-    return Object.values(demoFullDays).includes(day);
+  isFullDay(status: number) {
+    return status == DayStausEnum.Full;
   }
 
   getBookingsByMonthStatistics() {
     const facilityId = this.authService.getFacilityId();
-    console.log('>>>', facilityId);
-    
-    const month = this.date.getMonth() + 1;
 
-    this.bookingService.getBookingsByMonthStatistics(facilityId, month, this.year).subscribe((x) => {
-      console.log('>>>>', x);
+    this.bookingService.getBookingsByMonthStatistics(facilityId, this.monthClicked, this.year).subscribe((x) => {
+      this.monthStatistics = x;
+      this.initCalendar(this.date);
     });
   }
 }
