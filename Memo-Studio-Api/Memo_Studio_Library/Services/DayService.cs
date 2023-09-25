@@ -51,12 +51,14 @@ namespace Memo_Studio_Library.Services
         {
             using (var context = new StudioContext())
             {
+                var facility = await facilityService.GetFacilityById(facilityId);
+
                 return await context.Days
-                    .Include(x=>x.Facility)
-                    .FirstOrDefaultAsync(x => x.DayDate.Year == dateTime.Year &&
+                    .Where(x => x.DayDate.Year == dateTime.Year &&
                 x.DayDate.Month == dateTime.Month &&
                 x.DayDate.Day == dateTime.Day
-                && x.Facility.FacilityId == facilityId);
+                && x.FacilityId == facility.Id)
+                    .FirstOrDefaultAsync();
             }
         }
 

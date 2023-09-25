@@ -1,4 +1,5 @@
-﻿using Memo_Studio_Library.Services;
+﻿using Memo_Studio_Library.Data.Models;
+using Memo_Studio_Library.Services;
 using Memo_Studio_Library.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,13 +19,22 @@ namespace Memo_Studio.Controllers
 
         [Authorize]
         [HttpGet("{dateTime}")]
-        public IActionResult GetDay(DateTime dateTime)
+        public async Task<IActionResult> GetDay(DateTime dateTime)
         {
-            var facilityId = GetFacilityId();
+            var result = new Day();
+            try
+            {
+                var facilityId = GetFacilityId();
 
-            var result = dayService.GetDayForFacility(dateTime, facilityId);
+                result = await dayService.GetDayForFacility(dateTime, facilityId);
 
+            }
+            catch(Exception ex)
+            {
+                int i = 1;
+            }
             return Ok(result);
+
         }
 
         [Authorize]
