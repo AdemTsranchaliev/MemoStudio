@@ -1,0 +1,29 @@
+<section class="container viber-confirmation-section">
+  <form [formGroup]="viberConfirmationForm">
+    <article class="row justify-content-center">
+      <mat-form-field class="col-2 col-md-1 text-center">
+        <input matInput type="number" min="0" formControlName="inputFirst" />
+      </mat-form-field>
+      <mat-form-field class="col-2 col-md-1 text-center">
+        <input matInput type="number" min="0" formControlName="inputSecond" />
+      </mat-form-field>
+      <mat-form-field class="col-2 col-md-1 text-center">
+        <input matInput type="number" min="0" formControlName="inputThrird" />
+      </mat-form-field>
+      <mat-form-field class="col-2 col-md-1 text-center">
+        <input matInput type="number" min="0" formControlName="inputFourth" />
+      </mat-form-field>
+      <mat-form-field class="col-2 col-md-1 text-center">
+        <input matInput type="number" min="0" formControlName="inputFifth" />
+      </mat-form-field>
+      <mat-form-field class="col-2 col-md-1 text-center">
+        <input matInput type="number" min="0" formControlName="inputSixth" />
+      </mat-form-field>
+    </article>
+  </form>
+  <div class="d-flex justify-content-center align-items-center">
+    <a (click)="onSubmit()" class="btn btn-pill text-white btn-primary w-50">
+      Потвърди
+    </a>
+  </div>
+</section>

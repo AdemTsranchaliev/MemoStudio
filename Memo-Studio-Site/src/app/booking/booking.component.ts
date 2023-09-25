@@ -119,7 +119,7 @@ export class BookingComponent implements OnInit {
     );
 
     this.userService
-      .getAllUsers(this.authService.getFacilityId())
+      .getAllUsers()
       .subscribe((x) => {
         this.options = x;
       });
@@ -490,6 +490,14 @@ export class BookingComponent implements OnInit {
             freeHour: x,
             note: null,
             status: 0,
+            timestamp: "",
+            createdOn: "",
+            canceled: false,
+            email: "",
+            confirmed: false,
+            registeredUser: false,
+            duration: 0,
+            bookingId: ""
           };
           temp.push(freeBook);
         }
@@ -554,7 +562,15 @@ export class BookingComponent implements OnInit {
       minutes: minutes,
       free: false,
       freeHour: null,
-      status: 0
+      status: 0,
+      timestamp: "",
+      createdOn: "",
+      canceled: false,
+      email: "",
+      confirmed: false,
+      registeredUser: false,
+      duration: 0,
+      bookingId: ""
     };
     var specificDate: Date = new Date(newEvent.year, newEvent.month, day);
     specificDate.setHours(hour);
@@ -700,10 +716,11 @@ export class BookingComponent implements OnInit {
   }
 
   getBookingsByMonthStatistics() {
-    const facilityId = this.authService.getFacilityId();
-
-    this.bookingService.getBookingsByMonthStatistics(facilityId, this.monthClicked, this.year).subscribe((x) => {
+    // console.log('>>>', this.monthClicked, this.year);
+    
+    this.bookingService.getBookingsByMonthStatistics(this.monthClicked, this.year).subscribe((x) => {
       this.monthStatistics = x;
+
       this.initCalendar(this.date);
     });
   }

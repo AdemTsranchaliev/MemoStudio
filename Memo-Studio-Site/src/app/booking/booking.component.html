@@ -169,23 +169,23 @@
             <!-- Display Hours -->
             <div class="event-card" *ngFor="let booking of bookings">
               <!-- Render Olny Reserved Hours -->
-              <div *ngIf="!booking.free">
+              <div *ngIf="bookings.length > 0">
                 <mat-accordion>
                   <mat-expansion-panel class="event-expansion-panel" hideToggle>
                     <mat-expansion-panel-header class="reservation-container">
                       <mat-panel-title>
-                        {{ getHour(booking.hour, booking.minutes) }} ч.
+                        {{ booking.timestamp }} ч.
                       </mat-panel-title>
 
                       <mat-panel-description>
                         <div class="d-flex justify-content-between">
                           <span class="truncate-text margin-right">
-                            {{ truncateText(booking.name, 6) }}
+                            {{ truncateText(booking.name || 'NULL DATA', 6) }}
                           </span>
 
                           <span class="">
                             <a href="tel:{{ booking.phone }}">
-                              {{ booking.phone }}
+                              {{ booking.phone || 'NULL DATA' }}
                             </a>
                           </span>
 
@@ -196,7 +196,7 @@
                               data-toggle="modal"
                               data-target="#exampleModalCenter"
                               (click)="
-                                openRemoveBookingConfirmation(booking.id)
+                                openRemoveBookingConfirmation(booking.bookingId)
                               "
                               >&#xf00d;</i
                             >
@@ -220,7 +220,7 @@
               </div>
 
               <!-- Render Olny Free Hours -->
-              <div *ngIf="booking.free" style="cursor: pointer">
+              <div *ngIf="bookings.length == 0" style="cursor: pointer">
                 <div
                   class="border border-primary rounded shadow p-2 text-dark text-center"
                   (click)="newEvent(booking.freeHour)"

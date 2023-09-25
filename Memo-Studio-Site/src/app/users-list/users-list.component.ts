@@ -29,7 +29,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.userService
-      .getAllUsers(this.authService.getFacilityId())
+      .getAllUsers()
       .subscribe((x) => {
         this.users = x;
 
