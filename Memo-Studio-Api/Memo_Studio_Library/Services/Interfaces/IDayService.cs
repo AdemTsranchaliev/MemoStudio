@@ -7,8 +7,7 @@ namespace Memo_Studio_Library.Services
     public interface IDayService
     {
         public Task AddDay(DayAddViewModel model, Guid facilityId);
-        public Task CancelDay(Day day);
-        public Task<Day> GetDayForFacility(DateTime dateTime, int facilityId);
+        public Task<Day> GetDayForFacility(DateTime dateTime, Guid facilityId);
     }
 }
 

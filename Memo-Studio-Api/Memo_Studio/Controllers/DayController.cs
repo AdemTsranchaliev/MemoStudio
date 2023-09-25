@@ -1,7 +1,4 @@
-﻿using System;
-using Memo_Studio_Library;
-using Memo_Studio_Library.Data.Models;
-using Memo_Studio_Library.Services;
+﻿using Memo_Studio_Library.Services;
 using Memo_Studio_Library.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,14 +17,14 @@ namespace Memo_Studio.Controllers
         }
 
         [Authorize]
-        [HttpGet("{dateTime}/{clientId}")]
-        public IActionResult GetDay(DateTime dateTime, int clientId)
+        [HttpGet("{dateTime}")]
+        public IActionResult GetDay(DateTime dateTime)
         {
             var facilityId = GetFacilityId();
 
-            //var result = dayService.GetDay(dateTime, clientId);
+            var result = dayService.GetDayForFacility(dateTime, facilityId);
 
-            return Ok();
+            return Ok(result);
         }
 
         [Authorize]

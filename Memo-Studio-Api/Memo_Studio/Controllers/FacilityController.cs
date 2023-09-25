@@ -15,7 +15,7 @@ namespace Memo_Studio.Controllers
             this.facilityService = facilityService;
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet("users")]
         public async Task<IActionResult> GetSubscribedUsers()
         {
@@ -26,7 +26,7 @@ namespace Memo_Studio.Controllers
             return Ok(result);
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet("users-reservations/{userId}")]
         public async Task<IActionResult> GetUserReservations(string userId)
         {
@@ -37,7 +37,7 @@ namespace Memo_Studio.Controllers
             return Ok(result);
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet("users-notifications/{userId}")]
         public async Task<IActionResult> GetUserNotifications(string userId)
         {

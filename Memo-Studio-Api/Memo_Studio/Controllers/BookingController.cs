@@ -1,7 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Web.Http.Cors;
-using AutoMapper;
+﻿using AutoMapper;
 using Memo_Studio_Library;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

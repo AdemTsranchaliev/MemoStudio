@@ -30,6 +30,7 @@ namespace Memo_Studio.Controllers
             this.context = context;
         }
 
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
         {
