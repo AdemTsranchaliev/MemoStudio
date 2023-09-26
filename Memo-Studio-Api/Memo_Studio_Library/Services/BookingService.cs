@@ -166,6 +166,7 @@ namespace Memo_Studio_Library
                 .Where(x => x.DayDate.Month == month && x.DayDate.Year == year && x.Facility.FacilityId == facilityId)
                 .ToListAsync();
 
+
             var bookings = await context.Bookings
                 .Include(x => x.Facility)
                 .Where(x => x.Timestamp.Month == month && x.Timestamp.Year == year && x.Facility.FacilityId == facilityId)
