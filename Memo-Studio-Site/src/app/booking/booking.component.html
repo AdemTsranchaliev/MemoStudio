@@ -314,6 +314,29 @@
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
+
+                  <!-- Email -->
+                  <mat-form-field class="example-full-width my-4">
+                    <mat-label>Имейл</mat-label>
+                    <input
+                      matInput
+                      id="email"
+                      type="email"
+                      [formControl]="emailControl"
+                      [matAutocomplete]="autoEmail"
+                    />
+                    <mat-autocomplete
+                      #autoEmail="matAutocomplete"
+                      (optionSelected)="onOptionSelected($event)"
+                    >
+                      <mat-option
+                        *ngFor="let option of filteredEmailOptions | async"
+                        [value]="option"
+                      >
+                        {{ option.email }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
                 </form>
 
                 <!-- Procedure Duration -->

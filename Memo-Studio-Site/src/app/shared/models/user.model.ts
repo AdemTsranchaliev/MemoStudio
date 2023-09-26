@@ -4,5 +4,6 @@ export interface User {
     phoneNumber: string;
     viberId: string;
     userId: string;
+    email: string;
   }
   
