@@ -14,5 +14,6 @@ namespace Memo_Studio_Library.Models
         public List<Notification> Notifications { get; set; }
         public List<UserFalicity> UserFalicities { get; set; }
         public List<Booking> Bookings { get; set; }
+        public List<ViberCode> ViberCodes { get; set; }
     }
 }

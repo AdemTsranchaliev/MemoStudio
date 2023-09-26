@@ -77,6 +77,18 @@ namespace Memo_Studio_Library
             }
         }
 
+        public async Task<User> GetUserByEmailWithCodesAsync(string email)
+        {
+            using (var context = new StudioContext())
+            {
+                var user = await context.Users
+                    .Include(x => x.ViberCodes)
+                    .FirstOrDefaultAsync(x => x.Email == email);
+
+                return user;
+            }
+        }
+
         public User GetUserByViberId(string viberId)
         {
             using (var context = new StudioContext())

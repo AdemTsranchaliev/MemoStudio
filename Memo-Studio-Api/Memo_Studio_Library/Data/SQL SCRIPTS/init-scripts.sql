@@ -96,3 +96,13 @@ CREATE TABLE Notification (
     CONSTRAINT FK_Notification_User FOREIGN KEY (UserId) REFERENCES [User] (Id),
     CONSTRAINT FK_Notification_Facility FOREIGN KEY (FacilityId) REFERENCES Facility (Id)
 );
+
+CREATE TABLE ViberCodes (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    ValidTo DATETIME NOT NULL,
+    GeneratedOn DATETIME NOT NULL,
+    Code NVARCHAR(255) NOT NULL,
+    IsUsed BIT NOT NULL,
+    UserId INT NOT NULL,
+    FOREIGN KEY (UserId) REFERENCES [dbo].[User](Id)
+);

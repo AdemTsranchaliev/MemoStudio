@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 public class BaseController : ControllerBase
 {
@@ -67,5 +68,25 @@ public class BaseController : ControllerBase
         }
 
         return Guid.Empty;
+    }
+
+    protected string GetEmail()
+    {
+        Dictionary<string, object> payloadProperties = GetTokenPayload();
+
+        if (payloadProperties == null)
+        {
+
+        }
+
+        if (payloadProperties.ContainsKey(ClaimTypes.Email))
+        {
+            string subject = payloadProperties[ClaimTypes.Email].ToString();
+
+
+            return subject;
+        }
+
+        return string.Empty;
     }
 }

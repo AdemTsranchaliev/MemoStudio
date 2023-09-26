@@ -52,4 +52,5 @@ public class StudioContext : DbContext
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<UserFalicity> UserFalicities { get; set; }
+    public DbSet<ViberCode> ViberCodes { get; set; }
 }

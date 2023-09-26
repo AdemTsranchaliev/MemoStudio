@@ -134,6 +134,7 @@ public class Program
         services.AddScoped<IMailService, MailService>();
         services.AddScoped<IAccountService, AccountService>();
         services.AddScoped<IFacilityService, FacilityService>();
+        services.AddScoped<IViberService, ViberService>();
         services.AddAutoMapper(typeof(AutoMapperProfile));
     }
 

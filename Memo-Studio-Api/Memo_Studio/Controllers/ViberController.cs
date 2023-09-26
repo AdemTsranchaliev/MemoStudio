@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Memo_Studio_Library.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Viber.Bot.NetCore.Infrastructure;
 using Viber.Bot.NetCore.Models;
@@ -8,13 +9,15 @@ namespace Controller.Viber
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ViberController : ControllerBase
+    public class ViberController : BaseController
     {
         private readonly IViberBotApi _viberBotApi;
+        private readonly IViberService viberService;
 
-        public ViberController(IViberBotApi viberBotApi)
+        public ViberController(IViberBotApi viberBotApi, IViberService viberService)
         {
             _viberBotApi = viberBotApi;
+            this.viberService = viberService;
         }
 
         // The service sets a webhook automatically, but if you want sets him manually then use this
@@ -60,6 +63,23 @@ namespace Controller.Viber
             var response = await _viberBotApi.SendMessageAsync<ViberResponse.SendMessageResponse>(message);
 
             return Ok();
+        }
+
+
+        [Authorize]
+        [HttpGet("confirmation-code")]
+        public async Task<IActionResult> GetConfirmationCode()
+        {
+            var email = GetEmail();
+
+            if (email == null)
+            {
+                return BadRequest();
+            }
+
+            var code = await viberService.GenerateConfirmationCode(email);
+
+            return Ok(code);
         }
     }
 }
