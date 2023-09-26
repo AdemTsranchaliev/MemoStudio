@@ -79,6 +79,7 @@ export class BookingComponent implements OnInit {
   deleteBookingId: string;
   filteredOptions: Observable<User[]>;
   filteredPhoneOptions: Observable<User[]>;
+  filteredEmailOptions: Observable<User[]>;
   public error: number = -1;
   public selectedDuration: number = 1;
   public date = new Date();
@@ -142,6 +143,7 @@ export class BookingComponent implements OnInit {
     var selectedValue: User = event.option.value;
     this.phoneControl.setValue(selectedValue.phoneNumber);
     this.nameControl.setValue(selectedValue.name);
+    this.emailControl.setValue(selectedValue.email);
     this.selectedUserId = selectedValue.userId;
   }
 
@@ -248,6 +250,7 @@ export class BookingComponent implements OnInit {
     if (id == 1) {
       this.nameControl.setValue("");
       this.phoneControl.setValue("");
+      this.emailControl.setValue("");
       this.noteControl.setValue("");
       this.selectedPhone = null;
       this.selectedHour = null;
@@ -280,13 +283,11 @@ export class BookingComponent implements OnInit {
 
   public bookHour() {
     if (
-      this.nameControl.value === null ||
-      this.phoneControl.value === null ||
-      this.emailControl.value === null ||
-      this.selectedUserId === null ||
-      this.selectedHour == null ||
-      this.nameControl.value === "" ||
-      this.phoneControl.value === ""
+      this.nameControl.value == '' ||
+      this.phoneControl.value == '' ||
+      this.emailControl.value == '' ||
+      this.selectedUserId == '' ||
+      this.selectedHour == ''
     ) {
       this.raiseError = true;
       return;
@@ -324,26 +325,25 @@ export class BookingComponent implements OnInit {
       this.error = -1;
       let id = this.generateGuidString();
 
-      for (let i = 0; i < this.selectedDuration; i++) {
-        this.newEventJson(
-          id,
-          name,
-          phone,
-          date,
-          this.date.getDate(),
-          hour,
-          minutes,
-          i,
-          note,
-          email
-        );
-        if (minutes == 30) {
-          hour++;
-          minutes = 0;
-        } else {
-          minutes = 30;
-        }
-      }
+      this.newEventJson(
+        id,
+        name,
+        phone,
+        date,
+        this.date.getDate(),
+        hour,
+        minutes,
+        note,
+        email
+      );
+      // for (let i = 0; i < this.selectedDuration; i++) {
+      //   if (minutes == 30) {
+      //     hour++;
+      //     minutes = 0;
+      //   } else {
+      //     minutes = 30;
+      //   }
+      // }
 
       this.nameControl.setValue("");
       this.phoneControl.setValue("");
@@ -586,7 +586,6 @@ export class BookingComponent implements OnInit {
     day: number,
     hour: number,
     minutes: number,
-    index: number,
     note: string,
     email: string
   ) {
@@ -616,18 +615,16 @@ export class BookingComponent implements OnInit {
     specificDate.setHours(hour);
     specificDate.setMinutes(minutes);
 
-    const isUserRegistered = this.bookingsOrigin.filter(x => x.email == email)
-
     // need changes changed when API is ready!
-    var dto: any = {
+    var dto: unknown = {
       dateTime: specificDate,
-      userId: this.selectedUserId,
+      userId: this.selectedUserId == undefined ? null : this.selectedUserId,
       facilityId: this.authService.getFacilityId(),
       note: note,
       duration: 30, // Upcoming Update
-      name: isUserRegistered ? null : name,
-      phone: isUserRegistered ? null : phone,
-      email: isUserRegistered ? null : email,
+      name: this.selectedUserId != undefined ? null : name,
+      phone: this.selectedUserId != undefined ? null : phone,
+      email: this.selectedUserId != undefined ? null : email,
     };
 
     this.bookingService.addBooking(dto).subscribe((x) => {
@@ -654,6 +651,18 @@ export class BookingComponent implements OnInit {
       }
       return null;
     });
+    return result;
+  }
+
+  private _filterEmail(name: string): User[] {
+    const filterValue = name.toLowerCase();
+    var result = this.options.filter((option) => {
+      if (option.email) {
+        return option.email.toLowerCase().startsWith(filterValue);
+      }
+      return null;
+    });
+
     return result;
   }
 
@@ -693,6 +702,16 @@ export class BookingComponent implements OnInit {
         const phone = typeof value === "string" ? value : value?.phone;
         return phone
           ? this._filterPhone(phone as string)
+          : this.options.slice();
+      })
+    );
+
+    this.filteredEmailOptions = this.emailControl.valueChanges.pipe(
+      startWith(""),
+      map((value) => {
+        const email = typeof value === "string" ? value : value?.email;
+        return email
+          ? this._filterEmail(email as string)
           : this.options.slice();
       })
     );
