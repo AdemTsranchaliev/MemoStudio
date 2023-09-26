@@ -21,7 +21,7 @@ public class BookingConfig : IEntityTypeConfiguration<Booking>
         builder.Property(p => p.Phone).IsRequired(false);
         builder.Property(p => p.Confirmed).IsRequired();
         builder.Property(p => p.RegisteredUser).IsRequired();
-        builder.Property(p => p.UserId).IsRequired();
+        builder.Property(p => p.UserId).IsRequired(false);
         builder.Property(p => p.FacilityId).IsRequired();
 
         builder.HasOne(x => x.User).WithMany(x => x.Bookings).HasForeignKey(x => x.UserId);
