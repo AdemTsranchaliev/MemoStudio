@@ -35,7 +35,6 @@ export class DayService {
     const milliseconds = String(date.getUTCMilliseconds()).padStart(7, '0');
 
     const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
-    // console.log('>>>', formattedDate);
 
     return this.http.get<Day>(
       `${BASE_URL_DEV}/Day/${formattedDate}`,

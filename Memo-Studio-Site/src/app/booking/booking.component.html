@@ -169,7 +169,7 @@
             <!-- Display Hours -->
             <div class="event-card" *ngFor="let booking of bookings">
               <!-- Render Olny Reserved Hours -->
-              <div *ngIf="bookings.length > 0">
+              <div *ngIf="booking.bookingId">
                 <mat-accordion>
                   <mat-expansion-panel class="event-expansion-panel" hideToggle>
                     <mat-expansion-panel-header class="reservation-container">
@@ -220,7 +220,7 @@
               </div>
 
               <!-- Render Olny Free Hours -->
-              <div *ngIf="bookings.length == 0" style="cursor: pointer">
+              <div *ngIf="!booking.bookingId" style="cursor: pointer">
                 <div
                   class="border border-primary rounded shadow p-2 text-dark text-center"
                   (click)="newEvent(booking.freeHour)"

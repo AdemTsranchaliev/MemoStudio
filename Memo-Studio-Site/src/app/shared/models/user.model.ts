@@ -3,5 +3,6 @@ export interface User {
     name: string;
     phoneNumber: string;
     viberId: string;
+    userId: string;
   }
   

@@ -66,11 +66,13 @@ export class BookingComponent implements OnInit {
   isAddClicked = false;
   selectedHour: string;
   selectedPhone: string;
+
   nameControl = new FormControl("");
   phoneControl = new FormControl("");
   noteControl = new FormControl("");
+
   options: User[] = [];
-  selectedUserId: number;
+  selectedUserId: string;
   selectedFilter: number = 1;
 
   deleteBookingId: string;
@@ -139,7 +141,7 @@ export class BookingComponent implements OnInit {
     var selectedValue: User = event.option.value;
     this.phoneControl.setValue(selectedValue.phoneNumber);
     this.nameControl.setValue(selectedValue.name);
-    this.selectedUserId = parseInt(selectedValue.id);
+    this.selectedUserId = selectedValue.userId;
   }
 
   public initCalendar(date: Date): void {
@@ -381,16 +383,24 @@ export class BookingComponent implements OnInit {
   public checkIfBookingExist(hour) {
     return (
       this.bookingsOrigin.findIndex((x) => {
-        var ttt = hour == this.getHour(x.hour, x.minutes);
+        const date = new Date(x.timestamp);
+
+        const hoursStr = String(date.getHours());
+        const hoursPad = hoursStr.padStart(2, '0');
+
+        const minutesStr = String(date.getUTCMinutes());
+        const minutesPad = minutesStr.padStart(2, '0');
+
+        var ttt = hour == this.getHour(hoursPad, minutesPad);
+
         return ttt;
       }) != -1
     );
   }
 
-  public getHour(hour: number, minutes: number) {
-    return `${hour.toString().padStart(2, "0")}:${minutes
-      .toString()
-      .padStart(2, "0")}`;
+  public getHour(hour: string, minutes: string) {
+
+    return `${hour.padStart(2, "0")}:${minutes.padStart(2, "0")}`;
   }
 
   public generateHourArray(): string[] {
@@ -460,13 +470,13 @@ export class BookingComponent implements OnInit {
 
       this.dayService.getDayByDate(this.date).subscribe((x) => {
         this.currentDay = x;
-        this.bookings = this.getBookingsByBusyness(id);
+        this.bookings = this.getBookingsByBusiness(id);
         this.loader = false;
       });
     });
   }
 
-  private getBookingsByBusyness(id: number) {
+  private getBookingsByBusiness(id: number) {
     let temp: Booking[] = [];
     if (!this.currentDay || this.currentDay?.isWorking) {
       this.generateHourArray().forEach((x) => {
@@ -515,9 +525,18 @@ export class BookingComponent implements OnInit {
   }
 
   private getBooking(hour) {
-    let index = this.bookingsOrigin.findIndex(
-      (x) => hour == this.getHour(x.hour, x.minutes)
-    );
+    let index = this.bookingsOrigin.findIndex((x) => {
+      const date = new Date(x.timestamp);;
+
+      const hoursStr = String(date.getHours());
+      const hoursPad = hoursStr.padStart(2, '0');
+
+      const minutesStr = String(date.getUTCMinutes());
+      const minutesPad = minutesStr.padStart(2, '0');
+
+      return hour == this.getHour(hoursPad, minutesPad)
+    });
+
     return this.bookingsOrigin[index];
   }
 
@@ -550,7 +569,7 @@ export class BookingComponent implements OnInit {
     index: number,
     note: string
   ) {
-    let newEvent: Booking = {
+    let newEvent: any = {
       id: id,
       name: name,
       phone: phone,
@@ -576,13 +595,16 @@ export class BookingComponent implements OnInit {
     specificDate.setHours(hour);
     specificDate.setMinutes(minutes);
 
-    var dto: BookingDto = {
+    // need changes changed when API is ready!
+    var dto: any = {
       dateTime: specificDate,
       userId: this.selectedUserId,
-      employeeId: parseInt(localStorage.getItem("clientId")),
-      reservationId: id,
-      index: index,
+      facilityId: this.authService.getFacilityId(),
       note: note,
+      duration: 30,
+      name: null,
+      phone: null,
+      email: null,
     };
 
     this.bookingService.addBooking(dto).subscribe((x) => {
@@ -716,8 +738,6 @@ export class BookingComponent implements OnInit {
   }
 
   getBookingsByMonthStatistics() {
-    // console.log('>>>', this.monthClicked, this.year);
-    
     this.bookingService.getBookingsByMonthStatistics(this.monthClicked, this.year).subscribe((x) => {
       this.monthStatistics = x;
 
