@@ -174,7 +174,7 @@
                   <mat-expansion-panel class="event-expansion-panel" hideToggle>
                     <mat-expansion-panel-header class="reservation-container">
                       <mat-panel-title>
-                        {{ booking.timestamp }} ч.
+                        {{ booking.timestamp | date : 'HH:mm' }} ч.
                       </mat-panel-title>
 
                       <mat-panel-description>
