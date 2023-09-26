@@ -57,7 +57,6 @@ export class BookingService {
     const milliseconds = String(date.getUTCMilliseconds()).padStart(7, '0');
 
     const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
-    const demoBookedDates = '2023-09-21 08:30:00.0000000';
 
     return this.http.get<Booking[]>(
       `${BASE_URL_DEV}/Booking/${formattedDate}`,
@@ -65,10 +64,8 @@ export class BookingService {
     );
   }
 
-  public addBooking(dto: BookingDto) {
-    console.log(dto);
-    dto.employeeId = 20;
-    return this.http.post(`${BASE_URL_DEV}/Booking/add`, dto);
+  public addBooking(payload: any) {
+    return this.http.post(`${BASE_URL_DEV}/Booking/create`, payload);
   }
 
   public deleteBooking(bookingId: string) {

@@ -66,11 +66,14 @@ export class BookingComponent implements OnInit {
   isAddClicked = false;
   selectedHour: string;
   selectedPhone: string;
+
   nameControl = new FormControl("");
   phoneControl = new FormControl("");
+  emailControl = new FormControl("");
   noteControl = new FormControl("");
+
   options: User[] = [];
-  selectedUserId: number;
+  selectedUserId: string;
   selectedFilter: number = 1;
 
   deleteBookingId: string;
@@ -139,7 +142,7 @@ export class BookingComponent implements OnInit {
     var selectedValue: User = event.option.value;
     this.phoneControl.setValue(selectedValue.phoneNumber);
     this.nameControl.setValue(selectedValue.name);
-    this.selectedUserId = parseInt(selectedValue.id);
+    this.selectedUserId = selectedValue.userId;
   }
 
   public initCalendar(date: Date): void {
@@ -154,21 +157,36 @@ export class BookingComponent implements OnInit {
     this.firstDay = date.getDay();
     this.date.setDate(tempDate);
 
-    let row: { day: number; status: number }[] = [];
+    const firstDayOfMonth = new Date(this.year, month);
+    const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const startingDay = dayNames[firstDayOfMonth.getDay()];
+
+    // Calculate the number of filler objects to add based on the starting day
+    let fillerCount = 0;
+    if (startingDay !== "Sunday") {
+      fillerCount = dayNames.indexOf(startingDay);
+    }
 
     while (this.monthStatistics.length > 0) {
-      const currentRow = this.monthStatistics.splice(0, 7);
-      if (currentRow.length > 0) {
-        this.calendarRows.push(currentRow);
+      const currentRow = this.monthStatistics.splice(0, 7 - fillerCount); // Adjust the row length
+      for (let i = 0; i < fillerCount; i++) {
+        currentRow.unshift({ day: -1, status: 6 }); // Add filler objects to the beginning of the row
+      }
 
-        if (currentRow.length < 7) {
-          const remainingCount = 7 - currentRow.length;
-          for (let i = 0; i < remainingCount; i++) {
-            currentRow.push({ day: -1, status: 6 });
-          }
+      // Check if the last row needs fillers
+      if (this.monthStatistics.length === 0 && currentRow.length < 7) {
+        const remainingCount = 7 - currentRow.length;
+        for (let i = 0; i < remainingCount; i++) {
+          currentRow.push({ day: -1, status: 6 }); // Add fillers to the end of the last row
         }
       }
+
+      this.calendarRows.push(currentRow);
+
+      // Set fillerCount to 0 after adding fillers for the first row
+      fillerCount = 0;
     }
+
 
     this.dateClick(this.date.getDate());
     setTimeout(() => {
@@ -264,6 +282,7 @@ export class BookingComponent implements OnInit {
     if (
       this.nameControl.value === null ||
       this.phoneControl.value === null ||
+      this.emailControl.value === null ||
       this.selectedUserId === null ||
       this.selectedHour == null ||
       this.nameControl.value === "" ||
@@ -278,6 +297,7 @@ export class BookingComponent implements OnInit {
     let date = this.date;
     let name = this.nameControl.value.trim();
     let phone = this.phoneControl.value.trim();
+    let email = this.emailControl.value.trim();
     let note = this.noteControl.value.trim();
 
     let hour = parseInt(this.selectedHour.split(":")[0]);
@@ -314,7 +334,8 @@ export class BookingComponent implements OnInit {
           hour,
           minutes,
           i,
-          note
+          note,
+          email
         );
         if (minutes == 30) {
           hour++;
@@ -326,6 +347,7 @@ export class BookingComponent implements OnInit {
 
       this.nameControl.setValue("");
       this.phoneControl.setValue("");
+      this.emailControl.setValue("");
       this.noteControl.setValue("");
       this.selectedPhone = null;
       this.selectedHour = null;
@@ -381,16 +403,24 @@ export class BookingComponent implements OnInit {
   public checkIfBookingExist(hour) {
     return (
       this.bookingsOrigin.findIndex((x) => {
-        var ttt = hour == this.getHour(x.hour, x.minutes);
+        const date = new Date(x.timestamp);
+
+        const hoursStr = String(date.getHours());
+        const hoursPad = hoursStr.padStart(2, '0');
+
+        const minutesStr = String(date.getUTCMinutes());
+        const minutesPad = minutesStr.padStart(2, '0');
+
+        var ttt = hour == this.getHour(hoursPad, minutesPad);
+
         return ttt;
       }) != -1
     );
   }
 
-  public getHour(hour: number, minutes: number) {
-    return `${hour.toString().padStart(2, "0")}:${minutes
-      .toString()
-      .padStart(2, "0")}`;
+  public getHour(hour: string, minutes: string) {
+
+    return `${hour.padStart(2, "0")}:${minutes.padStart(2, "0")}`;
   }
 
   public generateHourArray(): string[] {
@@ -460,13 +490,13 @@ export class BookingComponent implements OnInit {
 
       this.dayService.getDayByDate(this.date).subscribe((x) => {
         this.currentDay = x;
-        this.bookings = this.getBookingsByBusyness(id);
+        this.bookings = this.getBookingsByBusiness(id);
         this.loader = false;
       });
     });
   }
 
-  private getBookingsByBusyness(id: number) {
+  private getBookingsByBusiness(id: number) {
     let temp: Booking[] = [];
     if (!this.currentDay || this.currentDay?.isWorking) {
       this.generateHourArray().forEach((x) => {
@@ -515,9 +545,18 @@ export class BookingComponent implements OnInit {
   }
 
   private getBooking(hour) {
-    let index = this.bookingsOrigin.findIndex(
-      (x) => hour == this.getHour(x.hour, x.minutes)
-    );
+    let index = this.bookingsOrigin.findIndex((x) => {
+      const date = new Date(x.timestamp);;
+
+      const hoursStr = String(date.getHours());
+      const hoursPad = hoursStr.padStart(2, '0');
+
+      const minutesStr = String(date.getUTCMinutes());
+      const minutesPad = minutesStr.padStart(2, '0');
+
+      return hour == this.getHour(hoursPad, minutesPad)
+    });
+
     return this.bookingsOrigin[index];
   }
 
@@ -548,9 +587,10 @@ export class BookingComponent implements OnInit {
     hour: number,
     minutes: number,
     index: number,
-    note: string
+    note: string,
+    email: string
   ) {
-    let newEvent: Booking = {
+    let newEvent: any = {
       id: id,
       name: name,
       phone: phone,
@@ -576,13 +616,18 @@ export class BookingComponent implements OnInit {
     specificDate.setHours(hour);
     specificDate.setMinutes(minutes);
 
-    var dto: BookingDto = {
+    const isUserRegistered = this.bookingsOrigin.filter(x => x.email == email)
+
+    // need changes changed when API is ready!
+    var dto: any = {
       dateTime: specificDate,
       userId: this.selectedUserId,
-      employeeId: parseInt(localStorage.getItem("clientId")),
-      reservationId: id,
-      index: index,
+      facilityId: this.authService.getFacilityId(),
       note: note,
+      duration: 30, // Upcoming Update
+      name: isUserRegistered ? null : name,
+      phone: isUserRegistered ? null : phone,
+      email: isUserRegistered ? null : email,
     };
 
     this.bookingService.addBooking(dto).subscribe((x) => {
@@ -716,8 +761,6 @@ export class BookingComponent implements OnInit {
   }
 
   getBookingsByMonthStatistics() {
-    // console.log('>>>', this.monthClicked, this.year);
-    
     this.bookingService.getBookingsByMonthStatistics(this.monthClicked, this.year).subscribe((x) => {
       this.monthStatistics = x;
 
