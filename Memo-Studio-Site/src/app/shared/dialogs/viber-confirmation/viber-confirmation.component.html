@@ -1,10 +1,5 @@
-<section class="container viber-confirmation-section">
-  <!-- Display the countdown timer -->
-  <article class="text-center">
-    <h1>
-      {{ timer | date : 'mm:ss' }}
-    </h1>
-  </article>
+<h1 class="text-center" mat-dialog-title>Код за потвърждение</h1>
+<div mat-dialog-content>
   <form [formGroup]="viberConfirmationForm">
     <article class="row justify-content-center">
       <mat-form-field class="col-2 col-md-1 text-center">
@@ -27,6 +22,12 @@
       </mat-form-field>
     </article>
   </form>
+  <!-- Display the countdown timer -->
+  <article class="text-center">
+    <p>
+      {{ timer | date : 'mm:ss' }}
+    </p>
+  </article>
   <div class="d-flex justify-content-center align-items-center">
     <a
       [cdkCopyToClipboard]="viberConfirmation.code"
@@ -36,4 +37,7 @@
       Копирай кода
     </a>
   </div>
-</section>
+</div>
+<div class="custom-float-end" mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Затвори</button>
+</div>

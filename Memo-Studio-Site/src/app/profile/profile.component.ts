@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
   public activeTab: number = 1;
-  public pageTabs: string[] = ['Основни', 'Защита', 'Календар'];
+  public pageTabs: string[] = ['Основни', 'Защита', 'Календар', 'Известия'];
 
   constructor() { }
 
