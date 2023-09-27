@@ -1,4 +1,10 @@
 <section class="container viber-confirmation-section">
+  <!-- Display the countdown timer -->
+  <article class="text-center">
+    <h1>
+      {{ timer | date : 'mm:ss' }}
+    </h1>
+  </article>
   <form [formGroup]="viberConfirmationForm">
     <article class="row justify-content-center">
       <mat-form-field class="col-2 col-md-1 text-center">
@@ -8,7 +14,7 @@
         <input matInput type="number" min="0" formControlName="inputSecond" />
       </mat-form-field>
       <mat-form-field class="col-2 col-md-1 text-center">
-        <input matInput type="number" min="0" formControlName="inputThrird" />
+        <input matInput type="number" min="0" formControlName="inputThird" />
       </mat-form-field>
       <mat-form-field class="col-2 col-md-1 text-center">
         <input matInput type="number" min="0" formControlName="inputFourth" />
@@ -22,8 +28,12 @@
     </article>
   </form>
   <div class="d-flex justify-content-center align-items-center">
-    <a (click)="onSubmit()" class="btn btn-pill text-white btn-primary w-50">
-      Потвърди
+    <a
+      [cdkCopyToClipboard]="viberConfirmation.code"
+      class="btn btn-pill text-white btn-primary w-50"
+      (click)="copiedCodeMsg()"
+    >
+      Копирай кода
     </a>
   </div>
 </section>

@@ -60,6 +60,8 @@ import { ChangeForgottenPasswordComponent } from './auth-user/change-forgotten-p
 import { SelectionListComponent } from './shared/components/selection-list/selection-list.component';
 import { SideTabSelectionListComponent } from './shared/components/side-tab-selection-list/side-tab-selection-list.component';
 import { ViberConfirmationComponent } from './shared/components/viber-confirmation/viber-confirmation.component';
+import { ViberService } from "./shared/services/viber.service";
+import { ClipboardModule } from '@angular/cdk/clipboard';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -116,6 +118,7 @@ registerLocaleData(localeBg, "bg");
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatCardModule,
+    ClipboardModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -130,6 +133,7 @@ registerLocaleData(localeBg, "bg");
     { provide: LOCALE_ID, useValue: "bg" }, // Set the locale to 'bg'
     DatePipe,
     UtilityService,
+    ViberService
   ],
   bootstrap: [AppComponent],
 })
