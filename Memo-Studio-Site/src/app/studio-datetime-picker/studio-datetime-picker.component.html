@@ -1,14 +1,31 @@
 <div class="swiper-parent-container">
   <div class="swiper-container" #swiper>
     <div class="swiper-wrapper">
-      <div class="swiper-slide rounded" *ngFor="let day of days" [ngClass]="{
+      <div
+        class="swiper-slide rounded bg-white shadow"
+        *ngFor="let day of days"
+        [ngClass]="{
           'current-day': isCurrentDay(day.date),
           'past-day': day.isDisabled
-        }" (click)="loadFreeHours(day)">
-        <div class="day-item-number">{{ day.date | date : 'dd' }} <span style="font-size: small;">{{ day.month | slice :
-            0 : 3 | uppercase }}</span> </div>
+        }"
+        (click)="loadFreeHours(day)"
+      >
+        <div
+          class="day-item-number"
+          [ngClass]="{ 'text-primary': !day.isDisabled }"
+        >
+          {{ day.date | date : 'dd' }}
+          <span
+            style="font-size: small"
+            [ngClass]="{ 'text-primary': !day.isDisabled }"
+          >
+            {{ day.month | slice : 0 : 3 | uppercase }}
+          </span>
+        </div>
         <div class="d-flex">
-          <span>{{ day.date | date : 'EEEE' | slice : 0 : 3 | uppercase }}</span>
+          <span [ngClass]="{ 'text-primary': !day.isDisabled }">
+            {{ day.date | date : 'EEEE' | slice : 0 : 3 | uppercase }}
+          </span>
         </div>
       </div>
     </div>

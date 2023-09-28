@@ -115,6 +115,11 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit {
     return this.datePipe.transform(date, 'yyyy-MM-dd') === this.datePipe.transform(currentDate, 'yyyy-MM-dd');
   }
 
+  isNextMonth() {
+    // Check if dates of next month -> Disable them
+    // Make it with option which will come from request
+  }
+
   isPastDate(date: Date): boolean {
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0); // Set time to midnight for accurate comparison

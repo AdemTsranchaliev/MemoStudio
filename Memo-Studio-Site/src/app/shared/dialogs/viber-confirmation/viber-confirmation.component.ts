@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription, timer } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
+import { takeWhile, switchMap, tap } from 'rxjs/operators';
 import { ViberService } from '../../services/viber.service';
 
 @Component({
@@ -31,16 +31,7 @@ export class ViberConfirmationComponent implements OnInit, OnDestroy {
     const confirmationSubscription = this.viberService.getViberConfirmationCode().subscribe({
       next: (x) => {
         this.viberConfirmation = x;
-
-        const code = this.viberConfirmation.code.split('');
-        this.viberConfirmationForm.patchValue({
-          inputFirst: code[0] || "",
-          inputSecond: code[1] || "",
-          inputThird: code[2] || "",
-          inputFourth: code[3] || "",
-          inputFifth: code[4] || "",
-          inputSixth: code[5] || ""
-        });
+        this.updateViberConfirmationForm();
 
         // Calculate the remaining time in milliseconds
         const validToTimestamp = new Date(this.viberConfirmation.validTo).getTime();
@@ -49,21 +40,52 @@ export class ViberConfirmationComponent implements OnInit, OnDestroy {
 
         // Start the countdown timer
         const countdown$ = timer(0, 1000).pipe(
-          takeWhile(() => this.timer > 0)
+          takeWhile(() => this.timer > 0),
+          tap(() => {
+            this.timer -= 1000;
+
+            if (this.timer <= 0) {
+              this.timer = 0;
+            }
+          })
         );
 
-        countdown$.subscribe(() => {
-          this.timer -= 1000; // Decrease the timer by 1 second (1000 ms)
-
+        const countdownSubscription = countdown$.subscribe(() => {
           if (this.timer <= 0) {
-            this.timer = 0;
+            // When hit 0, call the request to get new code
+            this.viberService.getViberConfirmationCode().pipe(
+              switchMap((newX) => {
+                this.viberConfirmation = newX;
+                this.updateViberConfirmationForm();
+
+                // Calculate the new remaining time
+                const newValidToTimestamp = new Date(this.viberConfirmation.validTo).getTime();
+                const newCurrentTimestamp = new Date().getTime();
+                this.timer = newValidToTimestamp - newCurrentTimestamp;
+
+                // Restart the countdown timer
+                return timer(0, 1000).pipe(
+                  takeWhile(() => this.timer > 0),
+                  tap(() => {
+                    this.timer -= 1000;
+
+                    if (this.timer <= 0) {
+                      this.timer = 0;
+                    }
+                  })
+                );
+              })
+            ).subscribe();
           }
         });
+
+        this.subscriptions.push(countdownSubscription);
       },
       error: (err) => {
         console.error(err);
       },
-    })
+    });
+
     this.subscriptions.push(confirmationSubscription);
 
     this.createViberForm();
@@ -86,16 +108,17 @@ export class ViberConfirmationComponent implements OnInit, OnDestroy {
     this.viberConfirmationForm.disable();
   }
 
-  public onSubmit() { // Not shure where to validate the code! For now will stay!
-    if (this.viberConfirmationForm.invalid) {
-      return;
-    }
-
-    // Fetch
-    var model = Object.assign({}, this.viberConfirmationForm.value);
-    console.log('>>>>', model);
-
-    // Navigate
+  updateViberConfirmationForm() {
+    const code = this.viberConfirmation.code.split('');
+    this.viberConfirmationForm.reset();
+    this.viberConfirmationForm.patchValue({
+      inputFirst: code[0] || "",
+      inputSecond: code[1] || "",
+      inputThird: code[2] || "",
+      inputFourth: code[3] || "",
+      inputFifth: code[4] || "",
+      inputSixth: code[5] || ""
+    });
   }
 
   public copiedCodeMsg() {

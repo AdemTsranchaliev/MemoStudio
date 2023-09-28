@@ -1,11 +1,31 @@
-/* Remove number input arrows */
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  appearance: none;
-  margin: 0;
+.custom-content {
+  overflow-x: hidden !important;
+  white-space: nowrap !important;
+}
+
+.custom-input {
+  background-color: white;
+  border: none !important;
+}
+
+.custom-bottom-divider {
+  display: block;
+  margin-top: 5px;
+  margin-left: -10px;
+  width: 36px;
+  border-bottom: 2px solid gray !important;
 }
 
 .custom-float-end {
   float: right;
+}
+
+.custom-px {
+  padding: 10px 190px;
+}
+
+@media (max-width: 1201px) {
+  .custom-px {
+    padding: 10px 5px;
+  }
 }

@@ -63,6 +63,8 @@ import { ViberConfirmationComponent } from './shared/dialogs/viber-confirmation/
 import { ViberService } from "./shared/services/viber.service";
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { NotificationComponent } from './profile/notification/notification.component';
+import { BusinessCardHeaderComponent } from './shared/components/business-card-header/business-card-header.component';
+import { BusinessCardCalendarComponent } from './shared/components/business-card-calendar/business-card-calendar.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -93,6 +95,8 @@ registerLocaleData(localeBg, "bg");
     SideTabSelectionListComponent,
     ViberConfirmationComponent,
     NotificationComponent,
+    BusinessCardHeaderComponent,
+    BusinessCardCalendarComponent,
   ],
   imports: [
     BrowserModule,

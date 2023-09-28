@@ -1,42 +1,72 @@
 <h1 class="text-center" mat-dialog-title>Код за потвърждение</h1>
-<div mat-dialog-content>
+<div mat-dialog-content class="custom-content">
   <form [formGroup]="viberConfirmationForm">
     <article class="row justify-content-center">
-      <mat-form-field class="col-2 col-md-1 text-center">
-        <input matInput type="number" min="0" formControlName="inputFirst" />
-      </mat-form-field>
-      <mat-form-field class="col-2 col-md-1 text-center">
-        <input matInput type="number" min="0" formControlName="inputSecond" />
-      </mat-form-field>
-      <mat-form-field class="col-2 col-md-1 text-center">
-        <input matInput type="number" min="0" formControlName="inputThird" />
-      </mat-form-field>
-      <mat-form-field class="col-2 col-md-1 text-center">
-        <input matInput type="number" min="0" formControlName="inputFourth" />
-      </mat-form-field>
-      <mat-form-field class="col-2 col-md-1 text-center">
-        <input matInput type="number" min="0" formControlName="inputFifth" />
-      </mat-form-field>
-      <mat-form-field class="col-2 col-md-1 text-center">
-        <input matInput type="number" min="0" formControlName="inputSixth" />
-      </mat-form-field>
+      <article class="col-2 col-md-1 text-center">
+        <input
+          class="text-dark custom-input"
+          type="number"
+          min="0"
+          formControlName="inputFirst"
+        />
+        <span class="custom-bottom-divider"></span>
+      </article>
+      <article class="col-2 col-md-1 text-center">
+        <input
+          class="text-dark custom-input"
+          type="number"
+          min="0"
+          formControlName="inputSecond"
+        />
+        <span class="custom-bottom-divider"></span>
+      </article>
+      <article class="col-2 col-md-1 text-center">
+        <input
+          class="text-dark custom-input"
+          type="number"
+          min="0"
+          formControlName="inputThird"
+        />
+        <span class="custom-bottom-divider"></span>
+      </article>
+      <article class="col-2 col-md-1 text-center">
+        <input
+          class="text-dark custom-input"
+          type="number"
+          min="0"
+          formControlName="inputFourth"
+        />
+        <span class="custom-bottom-divider"></span>
+      </article>
+      <article class="col-2 col-md-1 text-center">
+        <input
+          class="text-dark custom-input"
+          type="number"
+          min="0"
+          formControlName="inputFifth"
+        />
+        <span class="custom-bottom-divider"></span>
+      </article>
+      <article class="col-2 col-md-1 text-center">
+        <input
+          class="text-dark custom-input"
+          type="number"
+          min="0"
+          formControlName="inputSixth"
+        />
+        <mat-icon class="cursor-pointer text-primary"> file_copy </mat-icon>
+        <span class="custom-bottom-divider"></span>
+      </article>
     </article>
   </form>
   <!-- Display the countdown timer -->
-  <article class="text-center">
-    <p>
-      {{ timer | date : 'mm:ss' }}
-    </p>
+  <article
+    class="text-center text-muted"
+    [cdkCopyToClipboard]="viberConfirmation.code"
+    (click)="copiedCodeMsg()"
+  >
+    <span> Валиден още: {{ timer | date : 'mm:ss' }} </span>
   </article>
-  <div class="d-flex justify-content-center align-items-center">
-    <a
-      [cdkCopyToClipboard]="viberConfirmation.code"
-      class="btn btn-pill text-white btn-primary w-50"
-      (click)="copiedCodeMsg()"
-    >
-      Копирай кода
-    </a>
-  </div>
 </div>
 <div class="custom-float-end" mat-dialog-actions>
   <button mat-raised-button mat-dialog-close>Затвори</button>
