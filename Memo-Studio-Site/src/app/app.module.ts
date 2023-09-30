@@ -65,6 +65,10 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { NotificationComponent } from './profile/notification/notification.component';
 import { BusinessCardHeaderComponent } from './shared/components/business-card-header/business-card-header.component';
 import { BusinessCardCalendarComponent } from './shared/components/business-card-calendar/business-card-calendar.component';
+import { LoaderComponent } from './shared/components/loader/loader.component';
+import { LoaderService } from "./shared/services/loader.service";
+import { LoaderInterceptor } from "./shared/interceptors/loader.interceptor";
+import { LoaderDirective } from './shared/directives/loader.directive';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -97,6 +101,8 @@ registerLocaleData(localeBg, "bg");
     NotificationComponent,
     BusinessCardHeaderComponent,
     BusinessCardCalendarComponent,
+    LoaderComponent,
+    LoaderDirective,
   ],
   imports: [
     BrowserModule,
@@ -139,7 +145,13 @@ registerLocaleData(localeBg, "bg");
     { provide: LOCALE_ID, useValue: "bg" }, // Set the locale to 'bg'
     DatePipe,
     UtilityService,
-    ViberService
+    ViberService,
+    LoaderService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })
