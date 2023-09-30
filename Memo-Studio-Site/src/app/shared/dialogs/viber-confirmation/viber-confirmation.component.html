@@ -54,20 +54,23 @@
           min="0"
           formControlName="inputSixth"
         />
-        <mat-icon class="cursor-pointer text-primary"> file_copy </mat-icon>
         <span class="custom-bottom-divider"></span>
       </article>
     </article>
   </form>
   <!-- Display the countdown timer -->
-  <article
-    class="text-center text-muted"
-    [cdkCopyToClipboard]="viberConfirmation.code"
-    (click)="copiedCodeMsg()"
-  >
+  <article class="text-center text-muted">
     <span> Валиден още: {{ timer | date : 'mm:ss' }} </span>
   </article>
 </div>
 <div class="custom-float-end" mat-dialog-actions>
+  <button
+    mat-raised-button
+    [cdkCopyToClipboard]="viberConfirmation.code"
+    (click)="copiedCodeMsg()"
+  >
+    Копирай кода
+    <mat-icon class="cursor-pointer text-primary"> file_copy </mat-icon>
+  </button>
   <button mat-raised-button mat-dialog-close>Затвори</button>
 </div>

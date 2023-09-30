@@ -14,6 +14,7 @@ import { DayService } from "../shared/services/day.service";
 import { ServerStatusService } from "../shared/services/serverStatus.service";
 import { AuthenticatinService } from "../shared/services/authenticatin.service";
 import { DayStausEnum } from "../shared/models/dayStatus.model";
+import { MonthStatistics } from "../shared/models/month-statistics.model";
 declare const $: any;
 
 @Component({
@@ -95,7 +96,7 @@ export class BookingComponent implements OnInit {
   public calendarRows = [];
   public year: number = new Date().getFullYear();
   public isServerDown: boolean;
-  public monthStatistics: any[] = [];
+  public monthStatistics: MonthStatistics[] = [];
   public monthClicked: number = new Date().getMonth() + 1;
 
   constructor(
@@ -589,7 +590,7 @@ export class BookingComponent implements OnInit {
     note: string,
     email: string
   ) {
-    let newEvent: any = {
+    let newEvent: Booking = {
       id: id,
       name: name,
       phone: phone,

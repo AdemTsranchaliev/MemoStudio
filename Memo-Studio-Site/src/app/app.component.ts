@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { LoaderService } from "./shared/services/loader.service";
 
 @Component({
@@ -10,9 +10,18 @@ export class AppComponent implements OnInit {
   title = "MemoStudioBooking";
   token = "";
 
-  constructor(private globalLoaderService: LoaderService) { }
+  constructor(
+    private globalLoaderService: LoaderService,
+    private cdRef: ChangeDetectorRef,
+  ) { }
 
   ngOnInit() {
+    // Subscribe to the loader state
+    this.globalLoaderService.getLoaderState().subscribe((isLoading) => {
+      // Trigger change detection manually to update the view
+      this.cdRef.detectChanges();
+    });
+
     // Show the loader globally
     this.globalLoaderService.showLoader();
 

@@ -236,6 +236,12 @@
   color: black;
 }
 
+.custom-calendar-edit-btn {
+  position: absolute;
+  bottom: 10px;
+  left: 33%;
+}
+
 /* ============== Media Query ============== */
 
 @media (max-width: 576px) {

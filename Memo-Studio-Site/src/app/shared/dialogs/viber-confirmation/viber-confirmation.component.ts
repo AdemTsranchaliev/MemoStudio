@@ -18,6 +18,7 @@ export class ViberConfirmationComponent implements OnInit, OnDestroy {
   viberConfirmation: any = {};
   viberConfirmationForm: FormGroup;
   timer: number = 0;
+  countdownInterval: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -39,54 +40,14 @@ export class ViberConfirmationComponent implements OnInit, OnDestroy {
         this.timer = validToTimestamp - currentTimestamp;
 
         // Start the countdown timer
-        const countdown$ = timer(0, 1000).pipe(
-          takeWhile(() => this.timer > 0),
-          tap(() => {
-            this.timer -= 1000;
+        this.startCountdown();
 
-            if (this.timer <= 0) {
-              this.timer = 0;
-            }
-          })
-        );
-
-        const countdownSubscription = countdown$.subscribe(() => {
-          if (this.timer <= 0) {
-            // When hit 0, call the request to get new code
-            this.viberService.getViberConfirmationCode().pipe(
-              switchMap((newX) => {
-                this.viberConfirmation = newX;
-                this.updateViberConfirmationForm();
-
-                // Calculate the new remaining time
-                const newValidToTimestamp = new Date(this.viberConfirmation.validTo).getTime();
-                const newCurrentTimestamp = new Date().getTime();
-                this.timer = newValidToTimestamp - newCurrentTimestamp;
-
-                // Restart the countdown timer
-                return timer(0, 1000).pipe(
-                  takeWhile(() => this.timer > 0),
-                  tap(() => {
-                    this.timer -= 1000;
-
-                    if (this.timer <= 0) {
-                      this.timer = 0;
-                    }
-                  })
-                );
-              })
-            ).subscribe();
-          }
-        });
-
-        this.subscriptions.push(countdownSubscription);
+        this.subscriptions.push(confirmationSubscription);
       },
       error: (err) => {
         console.error(err);
       },
     });
-
-    this.subscriptions.push(confirmationSubscription);
 
     this.createViberForm();
   }
@@ -119,6 +80,30 @@ export class ViberConfirmationComponent implements OnInit, OnDestroy {
       inputFifth: code[4] || "",
       inputSixth: code[5] || ""
     });
+  }
+
+  startCountdown() {
+    this.countdownInterval = setInterval(() => {
+      this.timer -= 1000;
+
+      if (this.timer <= 0) {
+        clearInterval(this.countdownInterval); // Clear the interval when the timer hits 0
+        this.timer = 0;
+        const intervalSubscription = this.viberService.getViberConfirmationCode().subscribe((newX) => {
+          this.viberConfirmation = newX;
+          this.updateViberConfirmationForm();
+
+          // Calculate the new remaining time
+          const newValidToTimestamp = new Date(this.viberConfirmation.validTo).getTime();
+          const newCurrentTimestamp = new Date().getTime();
+          this.timer = newValidToTimestamp - newCurrentTimestamp;
+
+          // Restart the countdown timer
+          this.startCountdown();
+        });
+        this.subscriptions.push(intervalSubscription);
+      }
+    }, 1000);
   }
 
   public copiedCodeMsg() {

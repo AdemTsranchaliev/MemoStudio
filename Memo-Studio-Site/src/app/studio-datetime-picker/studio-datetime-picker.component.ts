@@ -115,12 +115,8 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit {
     return this.datePipe.transform(date, 'yyyy-MM-dd') === this.datePipe.transform(currentDate, 'yyyy-MM-dd');
   }
 
-  isNextMonth() {
-    // Check if dates of next month -> Disable them
-    // Make it with option which will come from request
-  }
-
-  isPastDate(date: Date): boolean {
+  // =========== Not in use now | If need to make next dates/months/years disabled ===========
+  isNextMonth(date: Date) {
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0); // Set time to midnight for accurate comparison
     const currentMonth = currentDate.getMonth();
@@ -131,7 +127,14 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit {
     // Calculate the first day of the next month
     const firstDayOfNextMonth = new Date(nextYear, nextMonth, 1);
 
-    return date < currentDate || date >= firstDayOfNextMonth;
+    return date >= firstDayOfNextMonth;
+  }
+
+  isPastDate(date: Date): boolean {
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0); // Set time to midnight for accurate comparison
+
+    return date < currentDate;
   }
 
 
