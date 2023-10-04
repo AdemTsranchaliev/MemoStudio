@@ -31,6 +31,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
     this.userService
       .getAllUsers()
       .subscribe((x) => {
+        // If 404/Error -> show to the user that thre is no data
         this.users = x;
 
         this.dataSource = new MatTableDataSource(this.users);
@@ -47,6 +48,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   openDialog(userId: string) {
     const dialogRef = this.dialog.open(UserDetailsComponent, {
       width: "100vw",
+      data: userId
     });
 
     dialogRef.afterClosed().subscribe((result) => {});

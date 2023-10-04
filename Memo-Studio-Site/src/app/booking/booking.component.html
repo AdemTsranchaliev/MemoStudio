@@ -1,12 +1,5 @@
 <section class="ftco-section mt-0 pt-0" style="padding-top: 100px !important">
   <div class="container">
-    <!-- <div class="row justify-content-center">
-      <div class="col-md-6 text-center mb-1">
-        <h2 class="heading-section salon-name-decoration animation-onload">
-          Barber Shop Memo
-        </h2>
-      </div>
-    </div> -->
     <div class="row justify-content-center">
       <div class="col-md-8">
         <app-business-card-calendar></app-business-card-calendar>
@@ -89,7 +82,10 @@
             </div>
 
             <!-- Edit & Add Apointment Butons -->
-            <div class="text-center custom-calendar-edit-btn" *ngIf="isServerDown == false">
+            <div
+              class="text-center custom-calendar-edit-btn"
+              *ngIf="isServerDown == false"
+            >
               <button
                 class="button bg-light-blue"
                 (click)="editDay()"
@@ -265,15 +261,9 @@
             <!-- Add New Hour -->
             <form class="form mb-0 mt-0 p-2" id="form">
               <div class="form-container mb-0 mt-0 pb-0 pt-0" align="center">
-                <span
-                  class="alert border-danger text-danger p-2 px-4"
-                  *ngIf="raiseError"
-                >
-                  Моля попълнете всички полета!
-                </span>
                 <form>
                   <!-- Name -->
-                  <mat-form-field class="example-full-width my-4">
+                  <mat-form-field class="example-full-width mb-4">
                     <mat-label>Име</mat-label>
                     <input
                       matInput
@@ -282,6 +272,10 @@
                       [formControl]="nameControl"
                       [matAutocomplete]="auto"
                     />
+                    <div
+                      class="mt-2 border-top"
+                      [ngClass]="loadInputUnderline()"
+                    ></div>
                     <mat-autocomplete
                       #auto="matAutocomplete"
                       (optionSelected)="onOptionSelected($event)"
@@ -296,7 +290,7 @@
                   </mat-form-field>
 
                   <!-- Phone -->
-                  <mat-form-field class="example-full-width my-4">
+                  <mat-form-field class="example-full-width mb-4">
                     <mat-label>Телефон</mat-label>
                     <input
                       matInput
@@ -305,6 +299,10 @@
                       [formControl]="phoneControl"
                       [matAutocomplete]="auto2"
                     />
+                    <div
+                      class="mt-2 border-top"
+                      [ngClass]="loadInputUnderline()"
+                    ></div>
                     <mat-autocomplete
                       #auto2="matAutocomplete"
                       (optionSelected)="onOptionSelected($event)"
@@ -319,7 +317,7 @@
                   </mat-form-field>
 
                   <!-- Email -->
-                  <mat-form-field class="example-full-width my-4">
+                  <mat-form-field class="example-full-width mb-4">
                     <mat-label>Имейл</mat-label>
                     <input
                       matInput
@@ -328,6 +326,10 @@
                       [formControl]="emailControl"
                       [matAutocomplete]="autoEmail"
                     />
+                    <div
+                      class="mt-2 border-top"
+                      [ngClass]="loadInputUnderline()"
+                    ></div>
                     <mat-autocomplete
                       #autoEmail="matAutocomplete"
                       (optionSelected)="onOptionSelected($event)"
@@ -343,7 +345,7 @@
                 </form>
 
                 <!-- Procedure Duration -->
-                <mat-form-field class="example-full-width my-4">
+                <mat-form-field class="example-full-width mb-4">
                   <mat-label>Продължителност</mat-label>
                   <mat-select
                     id="selectedDuration"
@@ -377,10 +379,14 @@
                     >
                     <mat-option value="14">7 часа - продължителност</mat-option>
                   </mat-select>
+                  <div
+                    class="mt-2 border-top"
+                    [ngClass]="loadInputUnderline()"
+                  ></div>
                 </mat-form-field>
 
                 <!-- Select Hour -->
-                <mat-form-field class="example-full-width my-4">
+                <mat-form-field class="example-full-width mb-4">
                   <mat-label>Избери час</mat-label>
                   <mat-select
                     id="selectedHour"
@@ -395,10 +401,14 @@
                       {{ hour }}
                     </mat-option>
                   </mat-select>
+                  <div
+                    class="mt-2 border-top"
+                    [ngClass]="loadInputUnderline()"
+                  ></div>
                 </mat-form-field>
 
                 <!-- Add Notes -->
-                <div class="example-full-width my-4">
+                <div class="example-full-width mb-4">
                   <mat-form-field
                     class="example-full-width mb-0 mt-0 pb-0 pt-0"
                   >
@@ -409,8 +419,12 @@
                       type="text"
                       [formControl]="noteControl"
                     />
+                    <div
+                      class="mt-2 border-top"
+                      [ngClass]="loadInputUnderline()"
+                    ></div>
                   </mat-form-field>
-                  <div class="pt-4">
+                  <div class="pt-5">
                     <button
                       id="cancel-button"
                       class="button bg-light-blue mr-3 action-btn"

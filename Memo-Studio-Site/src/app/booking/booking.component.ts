@@ -15,6 +15,7 @@ import { ServerStatusService } from "../shared/services/serverStatus.service";
 import { AuthenticatinService } from "../shared/services/authenticatin.service";
 import { DayStausEnum } from "../shared/models/dayStatus.model";
 import { MonthStatistics } from "../shared/models/month-statistics.model";
+import { MatSnackBar } from "@angular/material/snack-bar";
 declare const $: any;
 
 @Component({
@@ -104,7 +105,8 @@ export class BookingComponent implements OnInit {
     private userService: UserService,
     private authService: AuthenticatinService,
     private dayService: DayService, // private bookingViewService: BookingViewService
-    private serverStatusService: ServerStatusService
+    private serverStatusService: ServerStatusService,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {
@@ -291,6 +293,10 @@ export class BookingComponent implements OnInit {
       this.selectedHour == ''
     ) {
       this.raiseError = true;
+      this.snackBar.open('Моля попълнете всички полета!', 'Затвори', {
+        duration: 8000,
+        panelClass: ["custom-snackbar"],
+      });
       return;
     } else {
       this.raiseError = false;
@@ -786,5 +792,9 @@ export class BookingComponent implements OnInit {
 
       this.initCalendar(this.date);
     });
+  }
+
+  loadInputUnderline() {
+    return 'border-primary';
   }
 }

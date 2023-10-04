@@ -1,10 +1,11 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from "@angular/core";
+import { Component, OnInit, AfterViewInit, ViewChild, Inject } from "@angular/core";
 import { User } from "../../models/user.model";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { UserService } from "../../../shared/services/user.service";
 import { Subscription } from "rxjs";
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 interface Reservation {
 
@@ -39,12 +40,12 @@ export class UserDetailsComponent implements OnInit, AfterViewInit {
   reservations: Reservation[] = [];
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public userId: any,
     private userService: UserService,
   ) { }
 
   ngOnInit(): void {
-    this.getUsersNotifications();
-    this.getUsersReservations();
+    this.getUsersReservations(this.userId);
   }
 
   ngAfterViewInit() {
@@ -161,24 +162,24 @@ export class UserDetailsComponent implements OnInit, AfterViewInit {
           break;
       }
     });
+
+    if (tabIndex === 1) {
+      this.getUsersNotifications(this.userId);
+    }
   }
 
-  getUsersReservations() {
-    const hardCodedID = '3F47C5BE-5E73-4C2E-B9AB-ADAFA388DF44';
-    const hardCodedUserID = 'FD4103ED-04AF-468E-8287-460203973522';
-
-    const reservationsSubscription = this.userService.getUserReservations(hardCodedID, hardCodedUserID).subscribe((x) => {
+  getUsersReservations(userId: string) {
+    const reservationsSubscription = this.userService.getUserReservations(userId).subscribe((x) => {
       this.reservationsDataSource = new MatTableDataSource(x);
+      this.reservations = x;
     });
     this.subscriptions.push(reservationsSubscription);
   }
 
-  getUsersNotifications() {
-    const hardCodedID = '3F47C5BE-5E73-4C2E-B9AB-ADAFA388DF44';
-    const hardCodedUserID = 'FD4103ED-04AF-468E-8287-460203973522';
-
-    const notificationsSubscription = this.userService.getUserNotifications(hardCodedID, hardCodedUserID).subscribe((x) => {
+  getUsersNotifications(userId: string) {
+    const notificationsSubscription = this.userService.getUserNotifications(userId).subscribe((x) => {
       this.dataSource = new MatTableDataSource(x);
+      this.notifications = x;
     });
     this.subscriptions.push(notificationsSubscription);
   }

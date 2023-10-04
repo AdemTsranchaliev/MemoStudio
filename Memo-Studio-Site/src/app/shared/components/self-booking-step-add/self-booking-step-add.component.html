@@ -1,5 +1,5 @@
-<h2 mat-dialog-title>Запазване на час</h2>
-<mat-dialog-content class="mat-typography">
+<section>
+  <h2 class="text-center">Запазване на час</h2>
   <form [formGroup]="bookingForm">
     <mat-form-field class="w-100">
       <mat-label>Име</mat-label>
@@ -52,16 +52,13 @@
       </mat-select>
     </mat-form-field>
   </form>
-</mat-dialog-content>
-<mat-dialog-actions class="row justify-content-end">
-  <button type="button" class="btn btn-link text-danger me-2" mat-dialog-close>
-    Затвори
-  </button>
-  <button
-    type="button"
-    class="btn btn-link text-primary me-2"
-    (click)="onSubmit()"
-  >
-    Запази
-  </button>
-</mat-dialog-actions>
+  <div class="row justify-content-end">
+    <button
+      type="button"
+      class="btn btn-link text-primary me-2"
+      (click)="onSubmit()"
+    >
+      Запази
+    </button>
+  </div>
+</section>

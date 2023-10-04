@@ -26,7 +26,7 @@
         <ng-container matColumnDef="note">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Бележка</th>
           <td mat-cell *matCellDef="let row">
-            {{ row.note }}
+            {{ row.note || 'Няма' }}
           </td>
         </ng-container>
 
@@ -54,6 +54,10 @@
         <tr mat-header-row *matHeaderRowDef="reservationsColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: reservationsColumns"></tr>
       </table>
+
+      <ng-container *ngIf="reservations.length === 0">
+        <p class="my-2">Няма данни за постъпили резервации</p>
+      </ng-container>
 
       <mat-paginator
         #paginator2
@@ -111,6 +115,10 @@
           <tr mat-header-row *matHeaderRowDef="columndefs"></tr>
           <tr mat-row *matRowDef="let row; columns: columndefs"></tr>
         </table>
+
+        <ng-container *ngIf="notifications.length === 0">
+          <p class="my-2">Няма данни за изпратени напомяния</p>
+        </ng-container>
 
         <mat-paginator
           #paginator1

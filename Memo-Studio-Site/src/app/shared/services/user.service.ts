@@ -24,16 +24,16 @@ export class UserService {
     );
   }
 
-  public getUserReservations(facilityId: string, userId: string) {
+  public getUserReservations(userId: string) {
     return this.http.get<User[]>(
-      `${BASE_URL_DEV}/Facility/${facilityId}/users-reservations/${userId}`,
+      `${BASE_URL_DEV}/Facility/users-reservations/${userId}`,
       httpOptions
     );
   }
 
-  public getUserNotifications(facilityId: string, userId: string) {
+  public getUserNotifications(userId: string) {
     return this.http.get<User[]>(
-      `${BASE_URL_DEV}/Facility/${facilityId}/users-notifications/${userId}`,
+      `${BASE_URL_DEV}/Facility/users-notifications/${userId}`,
       httpOptions
     );
   }
