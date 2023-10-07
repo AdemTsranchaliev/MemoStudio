@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using System.IO;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Memo_Studio_Library;
+using Memo_Studio_Library.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace YourNamespace.Controllers
 {
@@ -14,11 +12,13 @@ namespace YourNamespace.Controllers
     {
         private readonly IUserService userService;
         private readonly IMessageService messageService;
+        private readonly IViberService viberService;
 
-        public WebhookController(IUserService userService, IMessageService messageService)
+        public WebhookController(IUserService userService, IMessageService messageService, IViberService viberService)
         {
             this.userService = userService;
             this.messageService = messageService;
+            this.viberService = viberService;
         }
         [HttpPost]
         public async Task<IActionResult> Post()
@@ -52,56 +52,16 @@ namespace YourNamespace.Controllers
                 {
                     var userViberId = data["sender"]["id"].Value;
                     var message = data["message"]["text"].Value;
+
                     var user = userService.GetUserByViberId(userViberId);
 
-                    if (user!=null)
+                    if (user == null)
                     {
-                        var model = new UserViewModel
-                        {
-                            ViberId = userViberId,
-                            Phone=user.Phone,
-                            Name=user.Name
-                        };
+                        var result = await viberService.ValidateConfirmationCode(message, userViberId);
 
-                        if (user.Name==null)
-                        {
-                            bool isValidFullName = ValidateName(message);
-
-                            if (isValidFullName)
-                            {
-                                model.Name = message;
-                                var isUserExist = userService.AddUser(model);
-
-                                var responseName = messageService.SendMessage(userViberId, "Моля въведете вашия телефонен номер, започващ с '0', а не с '+359'(пример \"0892693877\")");
-                                System.Console.WriteLine($"Name response: {responseName} - {message}");
-
-                            }
-                            else
-                            {
-                                var responseNameError = messageService.SendMessage(userViberId, "Грешен формат! Моля опитайте отново. (пример \"Иван Иванов\")");
-                                System.Console.WriteLine($"Name response: {responseNameError} - {message}");
-                            }
-
-                        }
-                        else if (user.Phone == null)
-                        {
-                            bool isValidPhone = ValidatePhoneNumber(message);
-
-                            if (isValidPhone)
-                            {
-                                model.Phone = message;
-                                var isUserExist = userService.AddUser(model);
-                                var endMessage = messageService.SendMessage(userViberId, $"Благодаря Ви, {user.Name}. Успешно завършихте регистрацията си. Вие се абонирахте за канала от който ще получавате напомняния за резервираните си часове.\n");
-                                System.Console.WriteLine($"Name response: {endMessage} - {message}");
-                            }
-                            else
-                            {
-                                var endMessageError = messageService.SendMessage(userViberId, "Грешен формат! Моля опитайте отново. (пример \"0892693877\")");
-                                System.Console.WriteLine($"Name response: {endMessageError} - {message}");
-                            }
-
-                        }
+                        await messageService.SendMessage(userViberId,"Успешно свръзахте вашия вайбър с вашия профил. Вече ще получавате вашите напомняния тук.");
                     }
+
                 }
             }
 

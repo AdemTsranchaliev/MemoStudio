@@ -66,6 +66,23 @@ namespace Memo_Studio_Library.Services
             return null;
         }
 
+        public async Task<bool> ValidateConfirmationCode(string code, string viberId)
+        {
+            var existingCode = await context.ViberCodes.Include(x=>x.User).FirstOrDefaultAsync(x=>x.Code==code&&x.ValidTo>=DateTime.Now&&!x.IsUsed);
+
+            if (existingCode==null)
+            {
+                return false;
+            }
+
+            existingCode.User.ViberId = viberId;
+            existingCode.IsUsed = true;
+
+            context.Update(existingCode);
+
+            return true;
+        }
+
         private string Generate6DigitCode()
         {
             int min = 100000;
