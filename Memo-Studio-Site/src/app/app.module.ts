@@ -52,7 +52,6 @@ import { SecurityComponent } from "./profile/security/security.component";
 import { CalendarComponent } from "./profile/calendar/calendar.component";
 import { SideMenuComponent } from "./profile/side-menu/side-menu.component";
 import { BookingConfirmationListComponent } from "./booking-confirmation-list/booking-confirmation-list.component";
-import { SelfBookingModalComponent } from "./shared/dialogs/self-booking-modal/self-booking-modal.component";
 import { UtilityService } from "./shared/services/utility.service";
 import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
 import { HomeInfoComponent } from './home-info/home-info.component';
@@ -69,6 +68,8 @@ import { LoaderComponent } from './shared/components/loader/loader.component';
 import { LoaderService } from "./shared/services/loader.service";
 import { LoaderInterceptor } from "./shared/interceptors/loader.interceptor";
 import { LoaderDirective } from './shared/directives/loader.directive';
+import { MatStepperModule } from '@angular/material/stepper';
+import { SelfBookingStepAddComponent } from './shared/components/self-booking-step-add/self-booking-step-add.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -91,7 +92,6 @@ registerLocaleData(localeBg, "bg");
     CalendarComponent,
     SideMenuComponent,
     BookingConfirmationListComponent,
-    SelfBookingModalComponent,
     EmailConfirmationComponent,
     HomeInfoComponent,
     ChangeForgottenPasswordComponent,
@@ -103,6 +103,7 @@ registerLocaleData(localeBg, "bg");
     BusinessCardCalendarComponent,
     LoaderComponent,
     LoaderDirective,
+    SelfBookingStepAddComponent,
   ],
   imports: [
     BrowserModule,
@@ -131,6 +132,7 @@ registerLocaleData(localeBg, "bg");
     MatSnackBarModule,
     MatCardModule,
     ClipboardModule,
+    MatStepperModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

@@ -160,7 +160,7 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit {
       const dayFormatted = this.datePipe.transform(day.date, 'yyyy-MM-dd');
 
       if (dayFormatted === currentDateFormatted) {
-        console.log('>>>', i);
+        // console.log('>>>', i);
 
         return i; // Return the index of the current day
       }

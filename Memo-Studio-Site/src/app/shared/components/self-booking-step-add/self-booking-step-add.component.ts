@@ -1,20 +1,23 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FormControl } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-self-booking-modal',
-  templateUrl: './self-booking-modal.component.html',
-  styleUrls: ['./self-booking-modal.component.css']
+  selector: 'app-self-booking-step-add',
+  templateUrl: './self-booking-step-add.component.html',
+  styleUrls: ['./self-booking-step-add.component.css']
 })
-export class SelfBookingModalComponent implements OnInit {
+export class SelfBookingStepAddComponent implements OnInit {
+  // ========= Set the dacorators properly when the API is ready =========
+  @Input() date: any;
+  @Input() hour: any;
+
   bookingForm: FormGroup;
   serviceList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -32,7 +35,10 @@ export class SelfBookingModalComponent implements OnInit {
 
   onSubmit() {
     if (!this.bookingForm.invalid) {
-
+      this.snackBar.open('Часът беше запазен успешно!', 'Затвори', {
+        duration: 8000,
+        panelClass: ["custom-snackbar"],
+      });
     }
   }
 }

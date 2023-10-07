@@ -7,7 +7,6 @@ import { LoaderService } from "./shared/services/loader.service";
   styleUrls: ["./app.component.css"],
 })
 export class AppComponent implements OnInit {
-  title = "MemoStudioBooking";
   token = "";
 
   constructor(

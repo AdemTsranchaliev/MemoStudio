@@ -1,26 +1,42 @@
 <div class="container-fluid px-0 px-sm-4 mx-auto">
   <div class="row justify-content-center mx-0">
     <div class="col-lg-10">
-      <!-- <h2 class="text-center text-secondary mb-2">Запазете час</h2> -->
-
       <div class="card border-0">
         <form autocomplete="off">
           <app-business-card-header></app-business-card-header>
-          <div class="card-header bg-white">
-            <app-studio-datetime-picker></app-studio-datetime-picker>
-          </div>
-          <div class="card-body p-3 p-sm-5">
-            <div class="row justify-content-start">
-              <button
-                *ngFor="let timeInterval of timeIntervals"
-                (click)="openDialog()"
-                class="col-md-2 col-sm-12 my-1 px-2 mx-2"
-                mat-stroked-button
-              >
-                {{ timeInterval }}
-              </button>
-            </div>
-          </div>
+
+          <!-- Start Stepper -->
+          <mat-stepper>
+            <mat-step>
+              <div class="card-header bg-white">
+                <app-studio-datetime-picker></app-studio-datetime-picker>
+              </div>
+              <div class="card-body p-3 p-sm-5">
+                <div class="row justify-content-start">
+                  <button
+                    *ngFor="let timeInterval of timeIntervals"
+                    class="col-md-2 col-sm-12 my-1 px-2 mx-2"
+                    mat-stroked-button
+                    matStepperNext
+                  >
+                    {{ timeInterval }}
+                  </button>
+                </div>
+              </div>
+            </mat-step>
+
+            <mat-step>
+              <!-- ========== Pass the needed data when API is ready ========== -->
+              <app-self-booking-step-add
+                date="today"
+                hour="2"
+              ></app-self-booking-step-add>
+              <div>
+                <button mat-button matStepperPrevious>Назад</button>
+              </div>
+            </mat-step>
+          </mat-stepper>
+          <!-- End Stepper -->
         </form>
       </div>
     </div>

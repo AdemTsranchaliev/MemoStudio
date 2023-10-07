@@ -2,7 +2,7 @@ body {
   color: #000;
   overflow-x: hidden;
   height: 100%;
-  background-color: #C5CAE9 !important;
+  background-color: #c5cae9 !important;
   background-repeat: no-repeat;
   padding: 0px !important;
 }
@@ -13,7 +13,7 @@ body {
 }
 
 .card {
-  box-shadow: 0px 4px 8px 0px #7986CB;
+  box-shadow: 0px 4px 8px 0px #7986cb;
 }
 
 input {
@@ -32,7 +32,7 @@ input:focus {
   -moz-box-shadow: none !important;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
-  border: 1px solid #512DA8;
+  border: 1px solid #512da8;
   outline-width: 0;
 }
 
@@ -97,7 +97,7 @@ thead tr:nth-child(3) th {
 
 .active {
   border-radius: 6px !important;
-  background-image: linear-gradient(#90CAF9, #64B5F6) !important;
+  background-image: linear-gradient(#90caf9, #64b5f6) !important;
   color: #000 !important;
 }
 
@@ -124,17 +124,17 @@ thead tr:nth-child(3) th {
 }
 
 .cell {
-  border: 1px solid #BDBDBD;
+  border: 1px solid #bdbdbd;
   margin: 2px;
   cursor: pointer;
 }
 
 .cell:hover {
-  border: 1px solid #3D5AFE;
+  border: 1px solid #3d5afe;
 }
 
 .cell.select {
-  background-color: #3D5AFE;
+  background-color: #3d5afe;
   color: #fff;
 }
 
@@ -185,4 +185,10 @@ thead tr:nth-child(3) th {
 .numbers:hover {
   background-color: #2980b9;
   transform: scale(1.05);
+}
+
+/* Stepper */
+
+::ng-deep .mat-horizontal-stepper-header-container {
+  display: none !important;
 }

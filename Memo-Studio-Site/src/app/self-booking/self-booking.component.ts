@@ -1,20 +1,9 @@
 import { Component, ElementRef, HostListener, OnInit } from "@angular/core";
-import { animate, style, transition, trigger } from "@angular/animations";
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { SelfBookingModalComponent } from "../shared/dialogs/self-booking-modal/self-booking-modal.component";
 
 @Component({
   selector: "app-self-booking",
   templateUrl: "./self-booking.component.html",
   styleUrls: ["./self-booking.component.css"],
-  animations: [
-    trigger("scrollAnimation", [
-      transition(":enter", [
-        style({ transform: "translateX(100%)" }),
-        animate("500ms ease-in-out", style({ transform: "translateX(0)" })),
-      ]),
-    ]),
-  ],
 })
 export class SelfBookingComponent implements OnInit {
   date = {
@@ -31,7 +20,6 @@ export class SelfBookingComponent implements OnInit {
 
   constructor(
     private elementRef: ElementRef,
-    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -39,6 +27,8 @@ export class SelfBookingComponent implements OnInit {
       this.elementRef.nativeElement.querySelector(".scroll-container");
     this.loadNumbers();
 
+
+    // ============== Will be removed when API is ready! ==============
     const startTime = 8 * 60; // 8:00 in minutes
     const endTime = 17 * 60; // 17:00 in minutes
     const interval = 30; // 30-minute interval
@@ -58,16 +48,7 @@ export class SelfBookingComponent implements OnInit {
     this.loadNumbers();
   }
 
-  onScroll(event: Event) {
-    const container = event.target as HTMLElement;
-    const scrollLeft = container.scrollLeft;
-    const maxScrollLeft = container.scrollWidth - container.clientWidth;
-
-    if (scrollLeft === maxScrollLeft) {
-      this.loadNumbers();
-    }
-  }
-
+  // ============== Will be removed when API is ready! ==============
   loadNumbers() {
     for (
       let i = this.numbers.length;
@@ -79,18 +60,5 @@ export class SelfBookingComponent implements OnInit {
       }
       this.numbers.push(i + 1);
     }
-  }
-
-  openDialog() {
-    const dialogConfig: MatDialogConfig = {
-      width: '50%',
-      // data: currentElement | From data need to pass ID? 
-    };
-
-    const dialogRef = this.dialog.open(SelfBookingModalComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(result => {
-
-    });
   }
 }
