@@ -18,6 +18,8 @@ export class SelfBookingComponent implements OnInit {
   maxNumber = 100;
   pageSize = 10;
 
+  nextStep: unknown; // Will be OBJ with the data for the booking!
+
   constructor(
     private elementRef: ElementRef,
   ) { }
@@ -60,5 +62,10 @@ export class SelfBookingComponent implements OnInit {
       }
       this.numbers.push(i + 1);
     }
+  }
+
+  // ============ When API ready need to OBJ and have more data to set the next step ============
+  setNexStep(timeInterval) {
+    this.nextStep = timeInterval; // will be adjusted
   }
 }

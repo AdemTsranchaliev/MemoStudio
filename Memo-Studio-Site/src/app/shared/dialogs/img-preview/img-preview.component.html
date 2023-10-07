@@ -1,0 +1,69 @@
+<h1 mat-dialog-title>Редакция на профилна снимка</h1>
+<div mat-dialog-content>
+  <div class="row mt-3">
+    <div class="col col-lg-10">
+      <button
+        class="btn btn-outline-primary w-100"
+        (click)="uploader.click()"
+        [disabled]="imageChangedEvent"
+      >
+        {{ imageChangedEvent ? processingStr : changeStr }}
+      </button>
+
+      <input
+        hidden
+        type="file"
+        class="account-settings-fileinput"
+        #uploader
+        (change)="fileChangeEvent($event)"
+      />
+    </div>
+
+    <div class="col col-lg-2">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="clearImage()"
+        [disabled]="!imageChangedEvent"
+      >
+        Изчисти
+      </button>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-8">
+      <image-cropper
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="3 / 3"
+        format="png"
+        [roundCropper]="true"
+        [cropperMinWidth]="1000"
+        [cropperMaxWidth]="1000"
+        [hideResizeSquares]="true"
+        (imageCropped)="imageCropped($event)"
+        (loadImageFailed)="loadImageFailed()"
+      ></image-cropper>
+    </div>
+
+    <article class="col-3" *ngIf="croppedImage">
+      <h6 class="text-center">Преглед</h6>
+      <img
+        class="w-100 border border-primary rounded-circle"
+        [src]="croppedImage"
+      />
+    </article>
+  </div>
+</div>
+<div class="row justify-content-end mx-2" mat-dialog-actions>
+  <button mat-button mat-dialog-close>Отказ</button>
+  <button
+    mat-raised-button
+    color="primary"
+    cdkFocusInitial
+    (click)="saveCroppedImage()"
+  >
+    Запази
+  </button>
+</div>
