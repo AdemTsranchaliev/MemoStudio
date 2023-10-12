@@ -1,4 +1,8 @@
 import { Component, OnInit } from "@angular/core";
+import { BreakpointObserver, BreakpointState, Breakpoints } from "@angular/cdk/layout";
+import { MatDialog } from "@angular/material/dialog";
+import { Observable, Subscription } from "rxjs";
+import { ImgPreviewComponent } from "src/app/shared/dialogs/img-preview/img-preview.component";
 
 @Component({
   selector: "app-general",
@@ -6,31 +10,42 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./general.component.css"],
 })
 export class GeneralComponent implements OnInit {
-  currentUploadedImage: File | null = null;
-  base64Image: string | null = null;
+  private subscriptions: Subscription[] = [];
+  isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
+  currentSize: string;
+  newProfileImg: string;
 
-  constructor() { }
+  constructor(
+    public dialog: MatDialog,
+    private breakpointObserver: BreakpointObserver
+  ) { }
 
   ngOnInit(): void { }
 
-  onFileSelected(event) {
-    const file: File = event.target.files[0];
-
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onload = (e: any) => {
-        this.base64Image = e.target.result;
-        this.currentUploadedImage = file
-      };
-
-      reader.readAsDataURL(file);
-    }
+  ngOnDestroy() {
+    this.subscriptions.forEach((el) => el.unsubscribe());
   }
 
-  clearImageField() {
-    this.base64Image = null;
-    this.currentUploadedImage = null;
-  }
+  openDialog() {
+    const dialogRef = this.dialog.open(ImgPreviewComponent, {
+      width: "100vw",
+      data: { size: this.currentSize }
+    });
 
+    const smallDialogSubscription = this.isExtraSmall.subscribe(size => {
+      this.currentSize = size.matches ? 'small' : 'large';
+
+      if (size.matches) {
+        dialogRef.updateSize('90%');
+      } else {
+        dialogRef.updateSize('50%');
+      }
+    });
+    this.subscriptions.push(smallDialogSubscription);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // ============== When API ready use the new image ==============
+      this.newProfileImg = result.changingThisBreaksApplicationSecurity;
+    });
+  }
 }

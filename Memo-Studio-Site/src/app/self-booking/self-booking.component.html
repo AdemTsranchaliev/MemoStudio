@@ -18,6 +18,7 @@
                     class="col-md-2 col-sm-12 my-1 px-2 mx-2"
                     mat-stroked-button
                     matStepperNext
+                    (click)="setNexStep(timeInterval)"
                   >
                     {{ timeInterval }}
                   </button>
@@ -25,15 +26,18 @@
               </div>
             </mat-step>
 
-            <mat-step>
+            <mat-step class="position-relative">
+              <button
+                class="position-absolute top-0 start-0 fs-1"
+                mat-raised-button
+                matStepperPrevious
+              >
+                <mat-icon>arrow_back</mat-icon>
+              </button>
+
               <!-- ========== Pass the needed data when API is ready ========== -->
-              <app-self-booking-step-add
-                date="today"
-                hour="2"
-              ></app-self-booking-step-add>
-              <div>
-                <button mat-button matStepperPrevious>Назад</button>
-              </div>
+              <app-self-booking-step-add date="today" [hour]="nextStep">
+              </app-self-booking-step-add>
             </mat-step>
           </mat-stepper>
           <!-- End Stepper -->

@@ -23,6 +23,7 @@
     "date-fns": "^2.30.0",
     "jquery": "^3.7.0",
     "ng2-pagination": "^2.0.2",
+    "ngx-image-cropper": "^6.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react2angular": "^4.0.6",

@@ -42,6 +42,7 @@ import { DatePipe } from "@angular/common";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 // Import BG Language - Use from Pipe
 import localeBg from "@angular/common/locales/bg";
@@ -70,6 +71,7 @@ import { LoaderInterceptor } from "./shared/interceptors/loader.interceptor";
 import { LoaderDirective } from './shared/directives/loader.directive';
 import { MatStepperModule } from '@angular/material/stepper';
 import { SelfBookingStepAddComponent } from './shared/components/self-booking-step-add/self-booking-step-add.component';
+import { ImgPreviewComponent } from './shared/dialogs/img-preview/img-preview.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -104,6 +106,7 @@ registerLocaleData(localeBg, "bg");
     LoaderComponent,
     LoaderDirective,
     SelfBookingStepAddComponent,
+    ImgPreviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -133,6 +136,7 @@ registerLocaleData(localeBg, "bg");
     MatCardModule,
     ClipboardModule,
     MatStepperModule,
+    ImageCropperModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
