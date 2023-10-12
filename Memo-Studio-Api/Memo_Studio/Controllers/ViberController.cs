@@ -81,21 +81,5 @@ namespace Controller.Viber
 
             return Ok(code);
         }
-
-        [HttpPost]
-        [HttpGet("validate-code")]
-        public async Task<IActionResult> ConfirmCode()
-        {
-            var email = GetEmail();
-
-            if (email == null)
-            {
-                return BadRequest();
-            }
-
-            var code = await viberService.GenerateConfirmationCode(email);
-
-            return Ok(code);
-        }
     }
 }

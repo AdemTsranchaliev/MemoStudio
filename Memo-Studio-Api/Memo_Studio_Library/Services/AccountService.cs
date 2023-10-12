@@ -84,8 +84,8 @@ namespace Memo_Studio_Library.Services
 
             if (result.Succeeded)
             {
-                await this.SendEmailConfirmationAsync(user);
                 await facilityService.CreateFacility(user);
+                await this.SendEmailConfirmationAsync(user);
 
             }
         }

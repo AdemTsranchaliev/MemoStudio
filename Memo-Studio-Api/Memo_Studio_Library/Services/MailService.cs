@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
+using System.Reflection;
 
 namespace Memo_Studio_Library.Services
 {
@@ -11,7 +12,7 @@ namespace Memo_Studio_Library.Services
         {
             // Set your email and password (or use an app-specific password if using Gmail)
             string senderEmail = "project200test@gmail.com";
-            string senderPassword = "ixywxovizwforqgg";
+            string senderPassword = "qbtxlecimxoqsszm";
 
             // Create a new MailMessage
             MailMessage mail = new MailMessage(senderEmail, recipientEmail);
@@ -24,9 +25,10 @@ namespace Memo_Studio_Library.Services
             smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
             smtpClient.EnableSsl = true; // Use SSL encryption
 
+            var path = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
 
-            var emailTemplate = File.ReadAllText("D:/Software/project-200-calendar/MemoStudio/Memo-Studio-Api/Memo_Studio_Library/EmailTemplates/EmailTemplates.html");
+            var emailTemplate = File.ReadAllText(path+"/EmailTemplates/EmailTemplates.html");
             emailTemplate = emailTemplate.Replace("{{emailTitle}}", title);
             emailTemplate = emailTemplate.Replace("{{emailDescription}}", description);
             emailTemplate = emailTemplate.Replace("{{emailButton}}", buttonName);

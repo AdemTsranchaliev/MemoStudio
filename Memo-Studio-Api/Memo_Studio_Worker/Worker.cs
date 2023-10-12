@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 using Memo_Studio_Library;
-using Memo_Studio_Library.Models;
 
 namespace Memo_Studio_Worker;
 
@@ -35,7 +34,7 @@ public class Worker : BackgroundService
             var bookings = bookingService
                 .GetBookingsByRange(currentTime, currentTime.AddDays(1))
                 .OrderBy(x=>x.Timestamp)
-                .GroupBy(x=>x.ReservationId)
+                .GroupBy(x=>x.Id)
                 .ToDictionary(x=>x.Key,x=>x.ToList().FirstOrDefault());
             foreach (var booking in bookings)
             {
