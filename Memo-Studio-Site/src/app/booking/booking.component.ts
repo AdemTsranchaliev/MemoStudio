@@ -111,19 +111,19 @@ export class BookingComponent implements OnInit {
 
   ngOnInit() {
     // Check server status
-    this.serverStatusService.checkServerStatus().subscribe(
-      () => {
-        // Server is up, continue with initialization
-        this.monthClick(this.date.getMonth());
-        this.dateClick(this.date.getDate());
-        this.InitDropdownFilters();
-        this.isServerDown = false;
-      },
-      (error) => {
-        this.isServerDown = true;
-        console.error("Server is down:", error);
-      }
-    );
+    // this.serverStatusService.checkServerStatus().subscribe(
+    //   () => {
+    //     // Server is up, continue with initialization
+    //     this.monthClick(this.date.getMonth());
+    //     this.dateClick(this.date.getDate());
+    //     this.InitDropdownFilters();
+    //     this.isServerDown = false;
+    //   },
+    //   (error) => {
+    //     this.isServerDown = true;
+    //     console.error("Server is down:", error);
+    //   }
+    // );
 
     this.userService
       .getAllUsers()

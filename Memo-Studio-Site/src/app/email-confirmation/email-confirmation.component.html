@@ -4,7 +4,7 @@
   </div> -->
 
   <!-- =========== When Respons is fixed remove '!' from 'isConfirmed'  =========== -->
-  <div class="confirmed container" *ngIf="requestStatus==1">
+  <div class="confirmed container" *ngIf="requestStatus == 1">
     <article class="row text-center">
       <h1 class="col-12 text-secondary pb-3 text-break">Поздравления!</h1>
       <h3 class="col-12 text-secondary text-break">
@@ -15,7 +15,7 @@
       </h3>
       <mat-icon class="col-12 mt-5 icon-style-success">check_circle</mat-icon>
       <div class="col-12">
-        <a mat-raised-button class="bg-green login-button" [routerLink]="['/login']">
+        <a mat-raised-button class="bg-green login-button" routerLink="/login">
           Вход
         </a>
       </div>
@@ -23,7 +23,7 @@
   </div>
 
   <!-- =========== When Respons is fixed remove '!' from 'isConfirmedFail'  =========== -->
-  <div class="confirmed container" *ngIf="requestStatus==2">
+  <div class="confirmed container" *ngIf="requestStatus == 2">
     <div class="row text-center">
       <h1 class="col-12 text-secondary pb-3 text-break">
         Опа... Нещо се случи!
