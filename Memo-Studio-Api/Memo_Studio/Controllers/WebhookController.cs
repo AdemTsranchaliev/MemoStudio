@@ -43,7 +43,7 @@ namespace YourNamespace.Controllers
 
                     if (!isUserExist)
                     {
-                        var responseOne = messageService.SendMessage(userViberId, "Моля въведете вашето име и фамилия,\nНА КИРИЛИЦА(пример \"Иван Иванов\").");
+                        var responseOne = messageService.SendMessage(userViberId, "Здравейте! За да свържете вашия вайбър профил с профила ви в BoookIt. моля следвайте следните стъпки: \n 1. Влезте във вашия профил в BoookIt \n 2. Кликнете на моя профил \n 3. След това отиде в секцията 'НОТИФИКАЦИИ' \n 4. В подсекцията вайбър кликнете свържи вайбър профил \n 5. Копирайте и поставете ТУК кода, който се показва");
                         System.Console.WriteLine($"Greeting response: {responseOne}");
                     }
 
@@ -58,8 +58,12 @@ namespace YourNamespace.Controllers
                     if (user == null)
                     {
                         var result = await viberService.ValidateConfirmationCode(message, userViberId);
+                        if (!result)
+                        {
+                            await messageService.SendMessage(userViberId, "Валидационният код е невалиден! Моля опитайте отново.");
+                        }
 
-                        await messageService.SendMessage(userViberId,"Успешно свръзахте вашия вайбър с вашия профил. Вече ще получавате вашите напомняния тук.");
+                        await messageService.SendMessage(userViberId,"Успешно свръзахте вашия Вайбър профил с профила ви в BoookIt. Вече ще получавате вашите напомняния тук.");
                     }
 
                 }

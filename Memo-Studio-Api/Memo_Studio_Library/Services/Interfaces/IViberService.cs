@@ -7,7 +7,7 @@ namespace Memo_Studio_Library.Services.Interfaces
 	public interface IViberService
 	{
         public Task<ViberCodeGenerationResponse> GenerateConfirmationCode(string userEmail);
-        public Task<bool> ValidateConfirmationCode(string code, string viberId)
+        public Task<bool> ValidateConfirmationCode(string code, string viberId);
     }
 }
 

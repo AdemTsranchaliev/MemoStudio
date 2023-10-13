@@ -39,7 +39,7 @@ namespace Memo_Studio.Controllers
                 await accountService.RegisterAsync(model);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return BadRequest("Нещо се обърка. Моля опитайте отново.");
             }
