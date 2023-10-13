@@ -30,15 +30,6 @@ export class AppComponent implements OnInit {
     }, 1000);
   }
 
-  checkIsUserLogged() {
-    this.token = localStorage.getItem("AUTH_TOKEN");
-    if (this.token) {
-      return true;
-    }
-
-    return false;
-  }
-
   public getNameEmployee() {
     if (localStorage.getItem("clientId") == "1") {
       return "Мемо";

@@ -27,7 +27,6 @@ import { DayService } from "./shared/services/day.service";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatIconModule } from "@angular/material/icon";
 import { MatBadgeModule } from "@angular/material/badge";
-import { AuthInterceptor } from "./shared/interceptors/auth.interceptor";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { ForgottenPasswordComponent } from "./auth-user/forgotten-password/forgotten-password.component";
 import { RegisterComponent } from "./auth-user/authentication/register/register.component";
@@ -72,6 +71,7 @@ import { LoaderDirective } from './shared/directives/loader.directive';
 import { MatStepperModule } from '@angular/material/stepper';
 import { SelfBookingStepAddComponent } from './shared/components/self-booking-step-add/self-booking-step-add.component';
 import { ImgPreviewComponent } from './shared/dialogs/img-preview/img-preview.component';
+import { AuthInterceptor } from "./shared/interceptors/auth.interceptor";
 registerLocaleData(localeBg, "bg");
 
 @NgModule({

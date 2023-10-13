@@ -7,30 +7,21 @@
   <div class="site-mobile-menu-body"></div>
 </div>
 
-<header
-  class="site-navbar js-sticky-header site-navbar-target"
-  role="banner"
-  style="background-color: white; width: 100%"
->
+<header class="site-navbar js-sticky-header site-navbar-target" role="banner"
+  style="background-color: white; width: 100%">
   <div class="container">
     <div class="row align-items-center">
       <div class="col-6 col-xl-2">
         <h1 class="mb-0 site-logo">
-          <a routerLink="/home-information"
-            >BOOOKIT<span class="text-primary">.</span>
+          <a routerLink="/home-information">BOOOKIT<span class="text-primary">.</span>
           </a>
         </h1>
       </div>
 
       <div class="col-12 col-md-10 d-none d-xl-block">
-        <nav
-          class="site-navigation position-relative text-right"
-          role="navigation"
-        >
-          <ul
-            class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block"
-          >
-            <li class="has-children">
+        <nav class="site-navigation position-relative text-right" role="navigation">
+          <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
+            <li class="has-children" *ngIf="authService.isAuthenticated()">
               <a routerLink="/profile" class="nav-link">
                 За Потребителите!
                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
@@ -44,19 +35,13 @@
                   <a routerLink="/register" class="nav-link">Регистрация</a>
                 </li>
                 <li>
-                  <a routerLink="/forgotten-password" class="nav-link"
-                    >Забравена парола</a
-                  >
+                  <a routerLink="/forgotten-password" class="nav-link">Забравена парола</a>
                 </li>
                 <li>
-                  <a routerLink="/self-booking" class="nav-link"
-                    >Запазване на час</a
-                  >
+                  <a routerLink="/self-booking" class="nav-link">Запазване на час</a>
                 </li>
                 <li>
-                  <a routerLink="/email-confirm" class="nav-link"
-                    >Потрърждаване на имайл</a
-                  >
+                  <a routerLink="/email-confirm" class="nav-link">Потрърждаване на имайл</a>
                 </li>
               </ul>
             </li>
@@ -68,7 +53,9 @@
             <li>
               <a routerLink="/home-information" class="nav-link">Начало</a>
             </li>
-            <li class="has-children">
+
+
+            <li class="has-children" *ngIf="authService.isAuthenticated()">
               <a routerLink="/profile" class="nav-link">
                 Профил
                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
@@ -90,26 +77,19 @@
                 </li>
               </ul>
             </li>
+            <li *ngIf="!authService.isAuthenticated()">
+              <a routerLink="/login" class="nav-link">Вход / Регистрация</a>
+            </li>
 
-            <li>
-              <a
-                routerLink="/home-information"
-                (click)="exit()"
-                class="nav-link"
-                >Изход</a
-              >
+            <li *ngIf="authService.isAuthenticated()">
+              <a routerLink="/home-information" (click)="authService.logout()" class="nav-link">Изход</a>
             </li>
           </ul>
         </nav>
       </div>
 
-      <div
-        class="col-6 d-inline-block d-xl-none ml-md-0 py-3"
-        style="position: relative; top: 3px"
-      >
-        <a href="#" class="site-menu-toggle js-menu-toggle float-right"
-          ><span class="icon-menu h3"></span
-        ></a>
+      <div class="col-6 d-inline-block d-xl-none ml-md-0 py-3" style="position: relative; top: 3px">
+        <a href="#" class="site-menu-toggle js-menu-toggle float-right"><span class="icon-menu h3"></span></a>
       </div>
     </div>
   </div>

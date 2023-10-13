@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticatinService } from '../../services/authenticatin.service';
 
 @Component({
   selector: 'app-menu',
@@ -7,13 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
 
-  constructor() { }
+  constructor(public authService: AuthenticatinService) { }
 
   ngOnInit(): void {
-  }
-
-  exit() {
-    localStorage.removeItem('AUTH_TOKEN');
   }
 
 }

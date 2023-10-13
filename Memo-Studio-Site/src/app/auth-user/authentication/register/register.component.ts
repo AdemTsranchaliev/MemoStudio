@@ -55,7 +55,7 @@ export class RegisterComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (localStorage.getItem("AUTH_TOKEN")) {
+    if (this.authService.isAuthenticated()) {
       this.router.navigate(["/"]);
     }
   }

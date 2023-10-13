@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (localStorage.getItem("AUTH_TOKEN")) {
+    if (this.authService.isAuthenticated()) {
       this.router.navigate(["/"]);
     }
   }
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
     var model = Object.assign({}, this.loginForm.value);
     const loginSubscription = this.authService.login(model).subscribe({
       next: (x: string) => {
-        localStorage.setItem("AUTH_TOKEN", x);
+        this.authService.setToken(x);
         this.isLoading = false;
         this.router.navigate(["/"]);
       },

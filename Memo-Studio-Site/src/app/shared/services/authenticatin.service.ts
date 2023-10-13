@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 import { BASE_URL_DEV, BASE_URL_PROD } from "../routes";
+const AUTHTOKEN = 'AUTH_TOKEN';
 
 @Injectable({
   providedIn: "root",
@@ -10,11 +11,19 @@ import { BASE_URL_DEV, BASE_URL_PROD } from "../routes";
 export class AuthenticatinService {
   user: null | undefined = undefined;
 
-  get isUserLogged(): string {
-    return localStorage.getItem("AuthToken");
+  constructor(public http: HttpClient) { }
+
+  public isAuthenticated(): boolean {
+    return this.getToken() ? true : false;
   }
 
-  constructor(private http: HttpClient) { }
+  public getToken(): string {
+    return localStorage.getItem(AUTHTOKEN);
+  }
+
+  public setToken(token: string) {
+    localStorage.setItem(AUTHTOKEN, token);
+  }
 
   configureOptions() {
     let headers = new HttpHeaders({
@@ -23,11 +32,9 @@ export class AuthenticatinService {
       Accept: "application/json",
       "ngrok-skip-browser-warning": "69420",
     });
+    const token = this.getToken();
 
-    const token = this.isUserLogged;
-
-    if (token != null) {
-      // Check token parse for SERVER
+    if (token!= null) {
       headers = headers.set("X-Parse-Session-Token", `${token}`);
     }
 
@@ -78,15 +85,6 @@ export class AuthenticatinService {
   }
 
   logout() {
-    return this.http
-      .post(`${BASE_URL_DEV}/logout`, {}, this.configureOptions())
-      .pipe(
-        tap((user) => {
-          this.user = null;
-          localStorage.removeItem("username");
-          localStorage.removeItem("userId");
-          localStorage.removeItem("AuthToken");
-        })
-      );
+    localStorage.removeItem("AUTH_TOKEN");
   }
 }
