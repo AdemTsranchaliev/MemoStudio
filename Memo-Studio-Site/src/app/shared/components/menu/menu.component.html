@@ -16,7 +16,7 @@
     <div class="row align-items-center">
       <div class="col-6 col-xl-2">
         <h1 class="mb-0 site-logo">
-          <a routerLink="/home-information"
+          <a [routerLink]="['/home-information']"
             >BOOOKIT<span class="text-primary">.</span>
           </a>
         </h1>
@@ -31,30 +31,30 @@
             class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block"
           >
             <li class="has-children">
-              <a routerLink="/profile" class="nav-link">
+              <a [routerLink]="['/profile']" class="nav-link">
                 За Потребителите!
                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
 
               </a>
               <ul class="dropdown">
                 <li>
-                  <a routerLink="/login" class="nav-link">Вход</a>
+                  <a [routerLink]="['/login']" class="nav-link">Вход</a>
                 </li>
                 <li>
-                  <a routerLink="/register" class="nav-link">Регистрация</a>
+                  <a [routerLink]="['/register']" class="nav-link">Регистрация</a>
                 </li>
                 <li>
-                  <a routerLink="/forgotten-password" class="nav-link"
+                  <a [routerLink]="['/forgotten-password']" class="nav-link"
                     >Забравена парола</a
                   >
                 </li>
                 <li>
-                  <a routerLink="/self-booking" class="nav-link"
+                  <a [routerLink]="['/self-booking']" class="nav-link"
                     >Запазване на час</a
                   >
                 </li>
                 <li>
-                  <a routerLink="/email-confirm" class="nav-link"
+                  <a [routerLink]="['/email-confirm']" class="nav-link"
                     >Потрърждаване на имайл</a
                   >
                 </li>
@@ -66,25 +66,25 @@
             </li>
 
             <li>
-              <a routerLink="/home-information" class="nav-link">Начало</a>
+              <a [routerLink]="['/home-information']" class="nav-link">Начало</a>
             </li>
             <li class="has-children">
-              <a routerLink="/profile" class="nav-link">
+              <a [routerLink]="['/profile']" class="nav-link">
                 Профил
                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
 
               </a>
               <ul class="dropdown">
                 <li>
-                  <a routerLink="/users" class="nav-link"> Потребители </a>
+                  <a [routerLink]="['/users']" class="nav-link"> Потребители </a>
                 </li>
                 <li>
-                  <a routerLink="/booking-confirmation-list" class="nav-link">
+                  <a [routerLink]="['/booking-confirmation-list']" class="nav-link">
                     Резервации за потвърждение
                   </a>
                 </li>
                 <li>
-                  <a routerLink="/booking" class="nav-link">
+                  <a [routerLink]="['/booking']" class="nav-link">
                     Ръчно записване
                   </a>
                 </li>
@@ -93,7 +93,7 @@
 
             <li>
               <a
-                routerLink="/home-information"
+                [routerLink]="['/home-information']"
                 (click)="exit()"
                 class="nav-link"
                 >Изход</a

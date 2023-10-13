@@ -110,7 +110,6 @@ registerLocaleData(localeBg, "bg");
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MatAutocompleteModule,
@@ -137,6 +136,7 @@ registerLocaleData(localeBg, "bg");
     ClipboardModule,
     MatStepperModule,
     ImageCropperModule,
+    AppRoutingModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
