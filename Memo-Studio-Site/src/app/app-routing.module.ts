@@ -14,6 +14,7 @@ import { EmailConfirmationComponent } from "./email-confirmation/email-confirmat
 import { HomeInfoComponent } from "./home-info/home-info.component";
 import { ChangeForgottenPasswordComponent } from "./auth-user/change-forgotten-password/change-forgotten-password.component";
 import { ViberConfirmationComponent } from "./shared/dialogs/viber-confirmation/viber-confirmation.component";
+import { TermsConditionsComponent } from "./terms-conditions/terms-conditions.component";
 
 const routes: Routes = [
   { path: "home-information", component: HomeInfoComponent },
@@ -39,6 +40,7 @@ const routes: Routes = [
     component: UserDetailsComponent,
     canActivate: [AuthGuard],
   },
+  { path: "terms-conditions", component: TermsConditionsComponent },
   { path: "profile", component: ProfileComponent, canActivate: [AuthGuard] },
   { path: "**", redirectTo: "booking" },
 ];

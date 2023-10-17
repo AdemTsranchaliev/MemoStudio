@@ -72,6 +72,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { SelfBookingStepAddComponent } from './shared/components/self-booking-step-add/self-booking-step-add.component';
 import { ImgPreviewComponent } from './shared/dialogs/img-preview/img-preview.component';
 import { AuthInterceptor } from "./shared/interceptors/auth.interceptor";
+import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -107,6 +108,7 @@ registerLocaleData(localeBg, "bg");
     LoaderDirective,
     SelfBookingStepAddComponent,
     ImgPreviewComponent,
+    TermsConditionsComponent,
   ],
   imports: [
     BrowserModule,
