@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { AfterViewInit, Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
@@ -10,10 +10,11 @@ import { UtilityService } from "src/app/shared/services/utility.service";
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.css"],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
   isLoading: boolean = false;
   private subscriptions: Subscription[] = [];
   public isLoginError: boolean = false;
+  public showPage: boolean = false;
 
   public loginForm: FormGroup = this.formBuilder.group({
     email: ["", [Validators.required, Validators.email]],
@@ -27,6 +28,10 @@ export class LoginComponent implements OnInit {
     private authService: AuthenticatinService,
     public utilityService: UtilityService
   ) { }
+
+  ngAfterViewInit(): void {
+    this.showPage = true;
+  }
 
   ngOnInit(): void {
     if (this.authService.isAuthenticated()) {

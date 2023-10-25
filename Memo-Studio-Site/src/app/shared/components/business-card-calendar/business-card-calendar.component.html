@@ -1,28 +1,20 @@
 <section class="row align-items-center">
   <!-- Check is Profile Image -->
-  <ng-container *ngIf="true">
+  <ng-container *ngIf="facilityModel?.imageBase64">
     <article class="col-3">
-      <img
-        class="company-profile-image img-fluid img-thumbnail"
-        src="assets/images/avatar-1.jpg"
-        alt="..."
-      />
+      <img class="company-profile-image img-fluid img-thumbnail" [src]="facilityModel.imageBase64" alt="..." />
     </article>
   </ng-container>
 
   <!-- Check is Company Logo -->
-  <ng-container *ngIf="false">
+  <ng-container *ngIf="!facilityModel?.imageBase64">
     <article class="col-3">
-      <img
-        class="company-logo-image img-fluid"
-        src="assets/images/avatar-1.jpg"
-        alt="..."
-      />
+      <img class="company-logo-image img-fluid" src="assets/images/avatar-1.jpg" alt="..." />
     </article>
   </ng-container>
 
   <article class="col-9">
-    <h1 class="">Company name here..</h1>
+    <h1>{{facilityModel?.name}}</h1>
   </article>
 </section>
 <div class="my-4 pt-2 line-decoration animation-onload"></div>

@@ -7,55 +7,40 @@
   <div class="site-mobile-menu-body"></div>
 </div>
 
-<header
-  class="site-navbar js-sticky-header site-navbar-target"
-  role="banner"
-  style="background-color: white; width: 100%"
->
+<header class="site-navbar js-sticky-header site-navbar-target" role="banner"
+  style="background-color: white; width: 100%">
   <div class="container">
     <div class="row align-items-center">
       <div class="col-6 col-xl-2">
         <h1 class="mb-0 site-logo">
-          <a routerLink="/home-information"
-            >BOOOKIT<span class="text-primary">.</span>
+          <a routerLink="/home-information">BOOOKIT<span class="text-primary">.</span>
           </a>
         </h1>
       </div>
 
       <div class="col-12 col-md-10 d-none d-xl-block">
-        <nav
-          class="site-navigation position-relative text-right"
-          role="navigation"
-        >
-          <ul
-            class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block"
-          >
+        <nav class="site-navigation position-relative text-right" role="navigation">
+          <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
             <li class="has-children" *ngIf="authService.isAuthenticated()">
-              <a routerLink="/profile" class="nav-link">
+              <a routerLink="profile" class="nav-link">
                 За Потребителите!
                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
               </a>
               <ul class="dropdown">
                 <li>
-                  <a routerLink="/login" class="nav-link">Вход</a>
+                  <a routerLink="login" class="nav-link">Вход</a>
                 </li>
                 <li>
-                  <a routerLink="/register" class="nav-link">Регистрация</a>
+                  <a routerLink="register" class="nav-link">Регистрация</a>
                 </li>
                 <li>
-                  <a routerLink="/forgotten-password" class="nav-link"
-                    >Забравена парола</a
-                  >
+                  <a routerLink="forgotten-password" class="nav-link">Забравена парола</a>
                 </li>
                 <li>
-                  <a routerLink="/self-booking" class="nav-link"
-                    >Запазване на час</a
-                  >
+                  <a routerLink="self-booking" class="nav-link">Запазване на час</a>
                 </li>
                 <li>
-                  <a routerLink="/email-confirm" class="nav-link"
-                    >Потрърждаване на имайл</a
-                  >
+                  <a routerLink="email-confirm" class="nav-link">Потрърждаване на имайл</a>
                 </li>
               </ul>
             </li>
@@ -65,53 +50,46 @@
             </li>
 
             <li>
-              <a routerLink="/home-information" class="nav-link">Начало</a>
+              <a routerLink="home-information" class="nav-link">Начало</a>
             </li>
 
             <li class="has-children" *ngIf="authService.isAuthenticated()">
-              <a routerLink="/profile" class="nav-link">
+              <a routerLink="booking" class="nav-link">
+                Календар
+              </a>
+            </li>
+            <li class="has-children" *ngIf="authService.isAuthenticated()">
+              <a class="nav-link">
                 Профил
                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
               </a>
               <ul class="dropdown">
                 <li>
-                  <a routerLink="/users" class="nav-link"> Потребители </a>
+                  <a routerLink="/profile" class="nav-link"> Настройки </a>
                 </li>
                 <li>
-                  <a routerLink="/booking-confirmation-list" class="nav-link">
+                  <a routerLink="users" class="nav-link"> Абонирани потребители </a>
+                </li>
+                <li>
+                  <a routerLink="booking-confirmation-list" class="nav-link">
                     Резервации за потвърждение
-                  </a>
-                </li>
-                <li>
-                  <a routerLink="/booking" class="nav-link">
-                    Ръчно записване
                   </a>
                 </li>
               </ul>
             </li>
             <li *ngIf="!authService.isAuthenticated()">
-              <a routerLink="/login" class="nav-link">Вход / Регистрация</a>
+              <a routerLink="login" class="nav-link">Вход / Регистрация</a>
             </li>
 
             <li *ngIf="authService.isAuthenticated()">
-              <a
-                routerLink="/home-information"
-                (click)="authService.logout()"
-                class="nav-link"
-                >Изход</a
-              >
+              <a routerLink="home-information" (click)="authService.logout()" class="nav-link">Изход</a>
             </li>
           </ul>
         </nav>
       </div>
 
-      <div
-        class="col-6 d-inline-block d-xl-none ml-md-0 py-3"
-        style="position: relative; top: 3px"
-      >
-        <a href="#" class="site-menu-toggle js-menu-toggle float-right"
-          ><span class="icon-menu h3"></span
-        ></a>
+      <div class="col-6 d-inline-block d-xl-none ml-md-0 py-3" style="position: relative; top: 3px">
+        <a href="#" class="site-menu-toggle js-menu-toggle float-right"><span class="icon-menu h3"></span></a>
       </div>
     </div>
   </div>

@@ -72,6 +72,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { SelfBookingStepAddComponent } from './shared/components/self-booking-step-add/self-booking-step-add.component';
 import { ImgPreviewComponent } from './shared/dialogs/img-preview/img-preview.component';
 import { AuthInterceptor } from "./shared/interceptors/auth.interceptor";
+import { AccountService } from "./shared/services/account.service";
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -143,19 +144,22 @@ registerLocaleData(localeBg, "bg");
     BookingService,
     UserService,
     DayService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
+    AccountService,
     { provide: LOCALE_ID, useValue: "bg" }, // Set the locale to 'bg'
     DatePipe,
     UtilityService,
     ViberService,
+
+    //Interceptors
     LoaderService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
       multi: true,
     },
   ],

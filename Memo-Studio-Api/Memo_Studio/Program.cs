@@ -85,6 +85,7 @@ public class Program
 
         app.UseHttpsRedirection();
         app.UseForwardedHeaders();
+        app.UseStaticFiles();
 
         app.UseCors("AllowAll");
 

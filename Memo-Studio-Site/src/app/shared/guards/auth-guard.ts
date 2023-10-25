@@ -13,7 +13,10 @@ import { AuthenticatinService } from "../services/authenticatin.service";
   providedIn: "root",
 })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router, private authService: AuthenticatinService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthenticatinService
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -23,7 +26,6 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-
     if (this.authService.isAuthenticated()) {
       return true; // Allow access to the route
     } else {

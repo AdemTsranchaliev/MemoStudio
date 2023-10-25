@@ -6,22 +6,21 @@ import {
   HttpInterceptor,
 } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { AuthenticatinService } from "../services/authenticatin.service";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor() {}
+  constructor(private authService: AuthenticatinService) {}
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // Add the authorization header with the token if the user is authenticated
-    const token = localStorage.getItem("AUTH_TOKEN");
 
-    if (token) {
+    if (this.authService.isAuthenticated()) {
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${this.authService.getToken()}`,
         },
       });
     }

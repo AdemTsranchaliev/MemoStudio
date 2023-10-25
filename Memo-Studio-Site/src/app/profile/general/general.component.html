@@ -1,51 +1,53 @@
-<div class="container">
+<div class="container" *ngIf="this.showPage">
   <h4 class="ml-2 my-3">Основна информация</h4>
   <div class="row">
     <article class="col-4 img-container mb-4">
-      <img src="assets/images/default-user.png" alt="" />
+      <img [src]="user?.profilePictureBase64" alt="" />
+      <button class="m-3" mat-raised-button color="primary" (click)="openDialog()">
+        Редакция на профилна снимка
+      </button>
     </article>
-
     <div class="col-8">
       <p>Име на обект: Иван ГРУП ООД</p>
-      <p>Име: Иван</p>
-      <p>Фамилия: Иванов</p>
-      <p>Телефон: 0888888888</p>
-      <p>Имейл: john.doe@gmail.com</p>
+      <p>Име: {{user?.name}}</p>
+      <p>Фамилия: {{user?.surname}}</p>
+      <p>Телефон: {{user?.phone}}</p>
+      <p>Имейл: {{user?.email}}</p>
     </div>
   </div>
   <mat-divider></mat-divider>
   <h4 class="ml-2 my-3">Редакция на информацията</h4>
   <div class="card-body">
-    <button mat-raised-button color="primary" (click)="openDialog()">
-      Редакция на профилна снимка
-    </button>
     <mat-form-field class="w-100 mt-2">
       <mat-label>Име</mat-label>
-      <input matInput />
+      <input matInput placeholder="Вашето име" value="{{user?.name}}" />
     </mat-form-field>
+
     <mat-form-field class="w-100">
       <mat-label>Фамилия</mat-label>
-      <input matInput />
+      <input matInput placeholder="Вашата фамилия" value="{{user?.surname}}" />
     </mat-form-field>
+
     <mat-form-field class="w-100">
       <mat-label>Телефон</mat-label>
-      <input matInput />
+      <input matInput placeholder="Вашият телефон" value="{{user?.phone}}" />
     </mat-form-field>
+
     <mat-form-field class="w-100">
       <mat-label>Имейл</mat-label>
-      <input matInput />
-      <mat-hint *ngIf="true">
+      <input matInput placeholder="Вашият имейл" value="{{user?.name}}" disabled="disabled" />
+      <mat-hint>
         Имейлът Ви не е потвърден. Моля проверете вашата пощта.
         <a href="javascript:void(0)">Повторно изпращане на потвърждение.</a>
       </mat-hint>
     </mat-form-field>
+
     <mat-form-field class="w-100">
       <mat-label>Име на обект</mat-label>
-      <input matInput />
-      <mat-hint align="start"
-        >Името, което ще се появява, когато някой запазва час. Ако това поле е
-        празно, ще се появяват двете ви имена.</mat-hint
-      >
+      <input matInput placeholder="Име на обект" />
+      <mat-hint align="start">Името, което ще се появява, когато някой запазва час. Ако това поле е празно, ще се
+        появяват двете ви имена.</mat-hint>
     </mat-form-field>
   </div>
+
 </div>

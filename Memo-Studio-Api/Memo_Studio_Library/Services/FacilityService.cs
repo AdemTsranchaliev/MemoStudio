@@ -124,6 +124,62 @@ namespace Memo_Studio_Library.Services
                 throw new Exception();
             }
         }
+
+        public async Task<FacilitySettingsViewModel> GetFacilitySettings(Guid facilityId)
+        {
+            try
+            {
+                var facilitySettings = await context.Facilities
+                    .FirstOrDefaultAsync(x => x.FacilityId == facilityId);
+
+                if (facilitySettings == null)
+                {
+                    return null;
+                }
+
+                var result = new FacilitySettingsViewModel
+                {
+                    AllowUserBooking = facilitySettings.AllowUserBooking,
+                    EndPeriod = facilitySettings.EndPeriod,
+                    StartPeriod = facilitySettings.StartPeriod,
+                    Interval = facilitySettings.Interval,
+                    WorkingDaysJson = facilitySettings.WorkingDays
+                };
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
+        }
+
+        public async Task UpdateFacilitySettings(FacilitySettingsViewModel model, Guid facilityId)
+        {
+            try
+            {
+                var facilitySettings = await context.Facilities
+                    .FirstOrDefaultAsync(x => x.FacilityId == facilityId);
+
+                if (facilitySettings == null)
+                {
+                    return;
+                }
+
+                facilitySettings.WorkingDays = model.WorkingDaysJson;
+                facilitySettings.EndPeriod = model.EndPeriod;
+                facilitySettings.StartPeriod = model.StartPeriod;
+                facilitySettings.Interval = model.Interval;
+                facilitySettings.AllowUserBooking = model.AllowUserBooking;
+
+                context.Facilities.Update(facilitySettings);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
+        }
     }
 }
 

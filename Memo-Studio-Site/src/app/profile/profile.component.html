@@ -1,35 +1,28 @@
-<div class="container light-style flex-grow-1 my-5 py-5">
-  <div class="card overflow-hidden custom-shadow">
-    <div class="row no-gutters row-bordered row-border-light">
-      <div class="col-md-3 pt-0">
-        <app-side-tab-selection-list
-          [activeTab]="activeTab"
-          [tabs]="pageTabs"
-          (emitedActiveTabChange)="handleActiveTabChange($event)"
-        ></app-side-tab-selection-list>
-      </div>
-      <div class="col-md-9">
-        <app-general
-          [ngClass]="{ 'unactive-tab-content': activeTab != 1 }"
-        ></app-general>
-        <app-security
-          [ngClass]="{ 'unactive-tab-content': activeTab != 2 }"
-        ></app-security>
-        <app-calendar [ngClass]="{ 'unactive-tab-content': activeTab != 3 }">
-        </app-calendar>
-        <app-notification
-          [ngClass]="{ 'unactive-tab-content': activeTab != 4 }"
-        >
-        </app-notification>
+  <ng-template ngIf="showPage">
+    <div class="container light-style flex-grow-1 my-5 py-5">
+      <div class="card overflow-hidden custom-shadow">
+        <div class="row no-gutters row-bordered row-border-light">
+          <div class="col-md-3 pt-0">
+            <app-side-tab-selection-list [activeTab]="activeTab" [tabs]="pageTabs"
+              (emitedActiveTabChange)="handleActiveTabChange($event)"></app-side-tab-selection-list>
+          </div>
+          <div class="col-md-9">
+            <app-general [ngClass]="{ 'unactive-tab-content': activeTab != 1 }"></app-general>
+            <app-security [ngClass]="{ 'unactive-tab-content': activeTab != 2 }"></app-security>
+            <app-calendar [ngClass]="{ 'unactive-tab-content': activeTab != 3 }">
+            </app-calendar>
+            <app-notification [ngClass]="{ 'unactive-tab-content': activeTab != 4 }">
+            </app-notification>
 
-        <mat-divider></mat-divider>
+            <mat-divider></mat-divider>
 
-        <div class="text-right m-4">
-          <button mat-raised-button color="primary">Запази промени</button>
-          &nbsp;
-          <button mat-stroked-button color="primary">Отказ</button>
+            <div class="text-right m-4">
+              <button mat-raised-button color="primary">Запази промени</button>
+              &nbsp;
+              <button mat-stroked-button color="primary">Отказ</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
+  </ng-template>

@@ -1,8 +1,14 @@
 ﻿using Memo_Studio_Library.Models;
 using Memo_Studio_Library.Services.Interfaces;
 using Memo_Studio_Library.ViewModels;
+using Memo_Studio_Library.ViewModels.Account;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Processing;
 
 namespace Memo_Studio_Library.Services
 {
@@ -117,6 +123,21 @@ namespace Memo_Studio_Library.Services
 
         }
 
+        public async Task ResetPassword(ResetPasswordViewModel model)
+        {
+            var user = await userManager.FindByEmailAsync(model.Email);
+
+            if (user == null)
+                throw new Exception("Невалидна заявка");
+
+            var result = await userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception("Excpetion");
+            }
+        }
+
         public async Task ChangePassword(ChangePasswordViewModel model)
         {
             var user = await userManager.FindByEmailAsync(model.Email);
@@ -124,13 +145,116 @@ namespace Memo_Studio_Library.Services
             if (user == null)
                 throw new Exception("Невалидна заявка");
 
-            var result = await userManager.ResetPasswordAsync(user, model.OldPassword, model.Password);
+            var result = await userManager.ChangePasswordAsync(user, model.OldPassword, model.Password);
 
             if (!result.Succeeded)
             {
                 throw new Exception("Excpetion");
             }
         }
+
+        public async Task<AccountViewModel> GetUserByEmailAsync(string email)
+        {
+            var user = await userManager.Users
+                .Include(u => u.UserFalicities)
+                .ThenInclude(u=>u.Facility)
+                .FirstOrDefaultAsync(u => u.Email == email);
+
+            if (user == null)
+                throw new Exception("Невалидна заявка");
+
+            var result = new AccountViewModel
+            {
+                Name = user.Name.Split(' ')[0],
+                Surname = user.Name.Split(' ')[0],
+                Email = user.Email,
+                FacilityName = user.UserFalicities.FirstOrDefault().Facility.Name,
+                Phone = user.PhoneNumber,
+                ProfilePictureBase64 = $"data:image/png;base64,{this.GetFile(user.ImageBase64Code)}"
+            };
+
+            return result;
+        }
+
+        public async Task UpdateAccountInformation(AccountViewModel model, string email)
+        {
+            var user = await userManager.Users
+                .Include(u => u.UserFalicities)
+                .ThenInclude(u => u.Facility)
+                .FirstOrDefaultAsync(u => u.Email == email);
+
+            if (user == null)
+                throw new Exception("Невалидна заявка");
+
+            user.Name = $"{model.Name} {model.Surname}";
+            user.PhoneNumber = model.Phone;
+            user.UserFalicities.FirstOrDefault().Facility.Name = model.FacilityName;
+
+            await userManager.UpdateAsync(user);
+            
+        }
+
+        public async Task UploadProfilePicture(IFormFile file, string email)
+        {
+            var user = await userManager.Users
+                .FirstOrDefaultAsync(u => u.Email == email);
+
+            if (user == null)
+                throw new Exception("Невалидна заявка");
+
+
+            user.ImageBase64Code = await this.UploadImage(file);
+
+            await userManager.UpdateAsync(user);
+        }
+
+        private async Task<string> UploadImage(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                throw new Exception();
+            }
+
+            try
+            {
+                // Define a folder where you want to save the uploaded files
+                var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+
+                if (!Directory.Exists(uploadFolder))
+                {
+                    Directory.CreateDirectory(uploadFolder);
+                }
+
+                // Generate a unique filename to avoid overwriting existing files
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                var filePath = Path.Combine(uploadFolder, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                return fileName;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
+        }
+
+        public string GetFile(string fileName)
+        {
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", fileName);
+
+            if (System.IO.File.Exists(filePath))
+            {
+                var fileBytes = System.IO.File.ReadAllBytes(filePath);
+                return Convert.ToBase64String(fileBytes);
+            }
+
+            return null;
+        }
+
     }
 }
 

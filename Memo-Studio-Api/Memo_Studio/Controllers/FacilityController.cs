@@ -1,4 +1,5 @@
 ﻿using Memo_Studio_Library.Services.Interfaces;
+using Memo_Studio_Library.ViewModels.FacilityViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,6 +47,28 @@ namespace Memo_Studio.Controllers
             var result = await facilityService.GetUserNotifications(facilityId, Guid.Parse(userId));
 
             return Ok(result);
+        }
+
+        [Authorize]
+        [HttpGet("facility-settings")]
+        public async Task<IActionResult> GetFacilitySettings()
+        {
+            var facilityId = this.GetFacilityId();
+
+            var result = await facilityService.GetFacilitySettings(facilityId);
+
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpPost("facility-settings")]
+        public async Task<IActionResult> GetFacilitySettings([FromBody] FacilitySettingsViewModel model)
+        {
+            var facilityId = this.GetFacilityId();
+
+            await facilityService.UpdateFacilitySettings(model, facilityId);
+
+            return Ok();
         }
     }
 }

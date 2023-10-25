@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, AfterViewChecked {
   public activeTab: number = 1;
   public pageTabs: string[] = ['Основни', 'Защита', 'Календар', 'Известия'];
+  public showPage: boolean = false;
 
   constructor() { }
 
@@ -16,5 +17,9 @@ export class ProfileComponent implements OnInit {
 
   handleActiveTabChange(newActiveTab: number) {
     this.activeTab = newActiveTab;
+  }
+
+  ngAfterViewChecked(): void {
+    this.showPage = true;
   }
 }

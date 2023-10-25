@@ -11,6 +11,8 @@ namespace Memo_Studio_Library.Models
 
         public string? ViberId { get; set; }
 
+        public string? ImageBase64Code { get; set; }
+
         public List<Notification> Notifications { get; set; }
         public List<UserFalicity> UserFalicities { get; set; }
         public List<Booking> Bookings { get; set; }

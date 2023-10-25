@@ -4,6 +4,7 @@ using Memo_Studio_Library.Models;
 using Memo_Studio_Library.Services;
 using Memo_Studio_Library.Services.Interfaces;
 using Memo_Studio_Library.ViewModels;
+using Memo_Studio_Library.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,7 @@ namespace Memo_Studio.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountController : BaseController
 	{
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
@@ -76,6 +77,21 @@ namespace Memo_Studio.Controllers
         }
 
         [AllowAnonymous]
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            try
+            {
+                await accountService.ResetPassword(model);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Нещо се обърка. Моля опитайте отново.");
+            }
+        }
+
+        [Authorize]
         [HttpPost("change-password")]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
@@ -83,6 +99,127 @@ namespace Memo_Studio.Controllers
             {
                 await accountService.ChangePassword(model);
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Нещо се обърка. Моля опитайте отново.");
+            }
+        }
+
+        [Authorize]
+        [HttpGet("information")]
+        public async Task<IActionResult> GetAccountInformation()
+        {
+            try
+            {
+                var currentUserEmail = GetEmail();
+
+                if (currentUserEmail == null)
+                {
+                    return Unauthorized();
+                }
+
+                var user = await accountService.GetUserByEmailAsync(currentUserEmail);
+
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Нещо се обърка. Моля опитайте отново.");
+            }
+        }
+
+        [Authorize]
+        [HttpPost("information")]
+        public async Task<IActionResult> UpdateAccountInformation([FromBody] AccountViewModel model)
+        {
+            try
+            {
+                var currentUserEmail = GetEmail();
+
+                if (currentUserEmail == null)
+                {
+                    return Unauthorized();
+                }
+
+                await accountService.UpdateAccountInformation(model, currentUserEmail);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Нещо се обърка. Моля опитайте отново.");
+            }
+        }
+
+        [Authorize]
+        [HttpPost("profile-picture")]
+        public async Task<IActionResult> UpdateProfilePicture([FromForm] IFormFile file)
+        {
+            try
+            {
+                var currentUserEmail = GetEmail();
+
+                if (currentUserEmail == null)
+                {
+                    return Unauthorized();
+                }
+
+                await accountService.UploadProfilePicture(file, currentUserEmail);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Нещо се обърка. Моля опитайте отново.");
+            }
+        }
+
+        [Authorize]
+        [HttpGet("profile-picture")]
+        public async Task<IActionResult> GetProfilePicture()
+        {
+            try
+            {
+                var currentUserEmail = GetEmail();
+
+                if (currentUserEmail == null)
+                {
+                    return Unauthorized();
+                }
+
+                //var file = accountService.GetFile();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Нещо се обърка. Моля опитайте отново.");
+            }
+        }
+
+        [Authorize]
+        [HttpGet("calendar-profile-information")]
+        public async Task<IActionResult> GetProfileInformationForCalendar()
+        {
+            try
+            {
+                var currentUserEmail = GetEmail();
+
+                if (currentUserEmail == null)
+                {
+                    return Unauthorized();
+                }
+
+                var user = await accountService.GetUserByEmailAsync(currentUserEmail);
+
+                var result = new CalendarProfileInformationViewModel
+                {
+                    Name = user.FacilityName,
+                    ImageBase64 = user.ProfilePictureBase64
+                };
+
+                return Ok(result);
             }
             catch (Exception ex)
             {

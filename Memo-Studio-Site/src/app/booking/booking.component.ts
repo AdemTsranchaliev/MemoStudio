@@ -16,6 +16,8 @@ import { AuthenticatinService } from "../shared/services/authenticatin.service";
 import { DayStausEnum } from "../shared/models/dayStatus.model";
 import { MonthStatistics } from "../shared/models/month-statistics.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { AccountService } from "../shared/services/account.service";
+import { CalendarProfileInformation } from "../profile/general/general.component";
 declare const $: any;
 
 @Component({
@@ -26,7 +28,6 @@ declare const $: any;
 export class BookingComponent implements OnInit {
   // Subscriptions
   private subscriptions: Subscription[] = [];
-
   // Week Days for Calendar
   public readonly weekDays: string[] = [
     "Нд",
@@ -106,8 +107,8 @@ export class BookingComponent implements OnInit {
     private authService: AuthenticatinService,
     private dayService: DayService, // private bookingViewService: BookingViewService
     private serverStatusService: ServerStatusService,
-    private snackBar: MatSnackBar,
-  ) { }
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
     // Check server status
@@ -125,11 +126,9 @@ export class BookingComponent implements OnInit {
     //   }
     // );
 
-    this.userService
-      .getAllUsers()
-      .subscribe((x) => {
-        this.options = x;
-      });
+    this.userService.getAllUsers().subscribe((x) => {
+      this.options = x;
+    });
 
     this.monthClick(this.date.getMonth());
     this.dateClick(this.date.getDate());
@@ -163,7 +162,15 @@ export class BookingComponent implements OnInit {
     this.date.setDate(tempDate);
 
     const firstDayOfMonth = new Date(this.year, month);
-    const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const dayNames = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
     const startingDay = dayNames[firstDayOfMonth.getDay()];
 
     // Calculate the number of filler objects to add based on the starting day
@@ -192,7 +199,6 @@ export class BookingComponent implements OnInit {
       fillerCount = 0;
     }
 
-
     this.dateClick(this.date.getDate());
     setTimeout(() => {
       this.markPastDates();
@@ -209,7 +215,7 @@ export class BookingComponent implements OnInit {
   public monthClick(month: number) {
     this.showEventContainer();
     this.date.setMonth(month);
-    this.monthClicked = (month + 1);
+    this.monthClicked = month + 1;
     this.getBookingsByMonthStatistics();
   }
 
@@ -286,14 +292,14 @@ export class BookingComponent implements OnInit {
 
   public bookHour() {
     if (
-      this.nameControl.value == '' ||
-      this.phoneControl.value == '' ||
-      this.emailControl.value == '' ||
-      this.selectedUserId == '' ||
-      this.selectedHour == ''
+      this.nameControl.value == "" ||
+      this.phoneControl.value == "" ||
+      this.emailControl.value == "" ||
+      this.selectedUserId == "" ||
+      this.selectedHour == ""
     ) {
       this.raiseError = true;
-      this.snackBar.open('Моля попълнете всички полета!', 'Затвори', {
+      this.snackBar.open("Моля попълнете всички полета!", "Затвори", {
         duration: 8000,
         panelClass: ["custom-snackbar"],
       });
@@ -413,10 +419,10 @@ export class BookingComponent implements OnInit {
         const date = new Date(x.timestamp);
 
         const hoursStr = String(date.getHours());
-        const hoursPad = hoursStr.padStart(2, '0');
+        const hoursPad = hoursStr.padStart(2, "0");
 
         const minutesStr = String(date.getUTCMinutes());
-        const minutesPad = minutesStr.padStart(2, '0');
+        const minutesPad = minutesStr.padStart(2, "0");
 
         var ttt = hour == this.getHour(hoursPad, minutesPad);
 
@@ -426,7 +432,6 @@ export class BookingComponent implements OnInit {
   }
 
   public getHour(hour: string, minutes: string) {
-
     return `${hour.padStart(2, "0")}:${minutes.padStart(2, "0")}`;
   }
 
@@ -534,7 +539,7 @@ export class BookingComponent implements OnInit {
             confirmed: false,
             registeredUser: false,
             duration: 0,
-            bookingId: ""
+            bookingId: "",
           };
           temp.push(freeBook);
         }
@@ -553,15 +558,15 @@ export class BookingComponent implements OnInit {
 
   private getBooking(hour) {
     let index = this.bookingsOrigin.findIndex((x) => {
-      const date = new Date(x.timestamp);;
+      const date = new Date(x.timestamp);
 
       const hoursStr = String(date.getHours());
-      const hoursPad = hoursStr.padStart(2, '0');
+      const hoursPad = hoursStr.padStart(2, "0");
 
       const minutesStr = String(date.getUTCMinutes());
-      const minutesPad = minutesStr.padStart(2, '0');
+      const minutesPad = minutesStr.padStart(2, "0");
 
-      return hour == this.getHour(hoursPad, minutesPad)
+      return hour == this.getHour(hoursPad, minutesPad);
     });
 
     return this.bookingsOrigin[index];
@@ -616,7 +621,7 @@ export class BookingComponent implements OnInit {
       confirmed: false,
       registeredUser: false,
       duration: 0,
-      bookingId: ""
+      bookingId: "",
     };
     var specificDate: Date = new Date(newEvent.year, newEvent.month, day);
     specificDate.setHours(hour);
@@ -787,14 +792,16 @@ export class BookingComponent implements OnInit {
   }
 
   getBookingsByMonthStatistics() {
-    this.bookingService.getBookingsByMonthStatistics(this.monthClicked, this.year).subscribe((x) => {
-      this.monthStatistics = x;
+    this.bookingService
+      .getBookingsByMonthStatistics(this.monthClicked, this.year)
+      .subscribe((x) => {
+        this.monthStatistics = x;
 
-      this.initCalendar(this.date);
-    });
+        this.initCalendar(this.date);
+      });
   }
 
   loadInputUnderline() {
-    return 'border-primary';
+    return "border-primary";
   }
 }

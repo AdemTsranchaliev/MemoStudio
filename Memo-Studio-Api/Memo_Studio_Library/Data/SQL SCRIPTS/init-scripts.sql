@@ -18,6 +18,8 @@ CREATE TABLE [User] (
     LockoutEnd DATETIMEOFFSET NULL,
     LockoutEnabled BIT NOT NULL,
     AccessFailedCount INT NOT NULL,
+    AccessFailedCount INT NOT NULL,
+    ImageBase64Code NVARCHAR(MAX) NULL
 )
 
 
