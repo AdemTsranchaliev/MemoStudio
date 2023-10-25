@@ -410,3 +410,120 @@ strong {
     font-size: 20px;
   }
 }
+
+/* =============== Hero Landing =============== */
+
+.bg-ice-cube-heavy {
+  background-color: #dee2e6;
+}
+
+.page-content {
+  margin-top: 110px;
+  /* background-color: #27292a; */
+  background-color: #e9ecef;
+  padding: 60px;
+  border-radius: 23px;
+}
+
+.hero-landing {
+  padding-top: 50px;
+}
+
+.hero-banner {
+  background-image: url('../../assets/images/home-landing-2.jpeg');
+  background-position: center center;
+  background-size: cover;
+  min-height: 480px;
+  border-radius: 23px;
+  padding: 80px 60px;
+}
+
+.hero-banner h6 {
+  width: 236px;
+  font-size: 20px;
+  color: #fff;
+  font-weight: 400;
+  margin-bottom: 25px;
+}
+
+.hero-banner h4 {
+  font-size: 36px;
+  text-transform: uppercase;
+  margin-bottom: 25px;
+  max-width: 722px;
+}
+
+.most-popular {
+  margin-top: 60px;
+  padding: 30px;
+  /* background-color: #1f2122; */
+  background-color: #dee2e6;
+  border-radius: 23px;
+}
+
+.most-popular .item {
+  /* background-color: #27292a; */
+  background-color: #e9ecef;
+  padding: 30px 15px;
+  border-radius: 23px;
+  margin-bottom: 30px;
+}
+
+.most-popular .item .item {
+  padding: 0px;
+  border-radius: 0px;
+  background-color: transparent;
+  margin-bottom: 0px;
+}
+
+.most-popular .item img {
+  border-radius: 23px;
+}
+
+.most-popular .item h4 {
+  font-size: 15px;
+  margin-top: 20px;
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
+.most-popular .item span {
+  color: #666;
+  display: block;
+  margin-top: 7px;
+  font-weight: 400;
+}
+
+.most-popular .item ul {
+  float: right;
+  margin-top: 20px;
+}
+
+.most-popular .item ul li {
+  text-align: right;
+  color: #fff;
+  font-size: 14px;
+}
+
+.most-popular .item ul li:first-child i {
+  color: yellow;
+}
+
+.most-popular .item ul li:last-child i {
+  color: #ec6090;
+}
+
+.most-popular .main-button {
+  text-align: center;
+  margin-bottom: -53px;
+}
+
+/* ============== Hover Animation ============== */
+
+.go-up-animation {
+  transition: all 0.3s ease;
+}
+
+.go-up-animation:hover {
+  transform: translateY(-3px);
+}
