@@ -8,17 +8,21 @@ import { AccountViewModel, CalendarProfileInformation } from "src/app/profile/ge
   providedIn: "root",
 })
 export class AccountService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public updateProfilePicture(base64Content: string) {
-    return this.http.post(`${BASE_URL_DEV}/account/profile-picture`, {base64Content: base64Content});
+    return this.http.post(`${BASE_URL_DEV}/account/profile-picture`, { base64Content: base64Content });
   }
 
-  public getUserInformation(){
+  public getUserInformation() {
     return this.http.get<AccountViewModel>(`${BASE_URL_DEV}/account/information`);
   }
 
-  public getCalendarUserInformation(){
+  public setUserInformation(content: AccountViewModel) {
+    return this.http.post<AccountViewModel>(`${BASE_URL_DEV}/account/information`, content);
+  }
+
+  public getCalendarUserInformation() {
     return this.http.get<CalendarProfileInformation>(`${BASE_URL_DEV}/account/calendar-profile-information`);
   }
 }

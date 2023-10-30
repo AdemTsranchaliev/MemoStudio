@@ -7,20 +7,12 @@
               (emitedActiveTabChange)="handleActiveTabChange($event)"></app-side-tab-selection-list>
           </div>
           <div class="col-md-9">
-            <app-general [ngClass]="{ 'unactive-tab-content': activeTab != 1 }"></app-general>
-            <app-security [ngClass]="{ 'unactive-tab-content': activeTab != 2 }"></app-security>
+            <app-general [ngClass]="{ 'unactive-tab-content': activeTab != 1 }" [user]="user"></app-general>
+            <app-security [ngClass]="{ 'unactive-tab-content': activeTab != 2 }" [user]="user"></app-security>
             <app-calendar [ngClass]="{ 'unactive-tab-content': activeTab != 3 }">
             </app-calendar>
             <app-notification [ngClass]="{ 'unactive-tab-content': activeTab != 4 }">
             </app-notification>
-
-            <mat-divider></mat-divider>
-
-            <div class="text-right m-4">
-              <button mat-raised-button color="primary">Запази промени</button>
-              &nbsp;
-              <button mat-stroked-button color="primary">Отказ</button>
-            </div>
           </div>
         </div>
       </div>

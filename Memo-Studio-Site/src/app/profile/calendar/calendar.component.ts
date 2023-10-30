@@ -10,11 +10,14 @@ import { BASE_URL_DEV } from "src/app/shared/routes";
 })
 export class CalendarComponent implements OnInit {
   bookingForm: FormGroup;
+
   times: number[] = [
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
     22, 23,
   ];
+
   durations: number[] = [5, 15, 30, 60, 90, 120];
+
   dayOfWeeks: string[] = [
     "Понеделник",
     "Вторник",
@@ -25,7 +28,7 @@ export class CalendarComponent implements OnInit {
     "Неделя",
   ];
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {}
+  constructor(private fb: FormBuilder, private http: HttpClient) { }
 
   ngOnInit(): void {
     this.http
@@ -35,12 +38,12 @@ export class CalendarComponent implements OnInit {
       .subscribe((x) => {
         this.bookingForm = this.fb.group({
           startPeriod: [
-            this.getFormatedHour(x.StartPeriod),
-            Validators.required,
+            { value: this.getFormatedHour(x.StartPeriod) },
+            Validators.required
           ],
-          endPeriod: [this.getFormatedHour(x.EndPeriod), Validators.required],
-          interval: [x.Interval, Validators.required],
-          allowUserBooking: [x.AllowUserBooking],
+          endPeriod: [{ value: this.getFormatedHour(x.EndPeriod) }, Validators.required],
+          interval: [{ value: x.Interval }, Validators.required],
+          allowUserBooking: [{ value: x.AllowUserBooking }],
         });
       });
   }

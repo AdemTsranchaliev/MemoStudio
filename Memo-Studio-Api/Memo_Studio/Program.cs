@@ -25,7 +25,7 @@ public class Program
 
         IConfiguration configuration = new ConfigurationBuilder()
             .SetBasePath(builder.Environment.ContentRootPath)
-            .AddJsonFile($"appsettings.{enviorment}.json", optional: true, reloadOnChange: true)
+            .AddJsonFile($"appsettings.Development.json", optional: true, reloadOnChange: true)
             .Build();
 
         OperatingSystem os = System.Environment.OSVersion;

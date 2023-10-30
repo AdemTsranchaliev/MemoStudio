@@ -26,12 +26,12 @@ namespace Memo_Studio.Controllers
         {
             var bookingModel = await bookingService.AddBookign(booking);
 
-            //if (bookingModel.User.ViberId != null)
-            //{
-            //    var dateString = bookingModel.GetDateTimeInMessageFormat();
-            //    await messageService.SendMessage(bookingModel.User.ViberId, $"Запазихте час за \n{dateString}");
-            //}
-
+            if (bookingModel.User.ViberId != null)
+            {
+                var dateString = bookingModel.GetDateTimeInMessageFormat();
+                await messageService.SendMessage(bookingModel.User.ViberId, $"Запазихте час за \n{dateString}");
+            }
+            
             return Ok();
         }
 
@@ -49,27 +49,33 @@ namespace Memo_Studio.Controllers
 
         [Authorize]
         [HttpDelete("{bookingId}")]
-        public async Task<IActionResult> RemoveBooking(Guid bookingId)
+        public async Task<IActionResult> RemoveBooking(Guid bookingId, [FromQuery] Guid facilityId)
         {
-            var facilityId = this.GetFacilityId();
+            if (facilityId == null)
+            {
+                facilityId = this.GetFacilityId();
+            }
 
-            await bookingService.RemoveBooking(bookingId, facilityId);
+            var booking = await bookingService.RemoveBooking(bookingId, facilityId);
 
-            //var date = booking.GetDateTimeInMessageFormat();
-            //
-            //if (booking.User.ViberId!=null)
-            //{
-            //    await messageService.SendMessage(booking.User.ViberId, $"Вашият час за \n{date} беше отменен.");
-            //}
+            var date = booking.GetDateTimeInMessageFormat();
+
+            if (booking.User.ViberId != null)
+            {
+                await messageService.SendMessage(booking.User.ViberId, $"Вашият час за \n{date} беше отменен.");
+            }
 
             return Ok();
         }
 
         [Authorize]
         [HttpGet("month-statistics/{month}/{year}")]
-        public async Task<IActionResult> MonthDaysStatistic(int month, int year)
+        public async Task<IActionResult> MonthDaysStatistic(int month, int year, [FromQuery] Guid facilityId)
         {
-            var facilityId = this.GetFacilityId();
+            if (facilityId==null)
+            {
+                facilityId = this.GetFacilityId();
+            }
 
             var daysStatistics = await bookingService.GetMonthDaysStatistics(facilityId, month, year);
 

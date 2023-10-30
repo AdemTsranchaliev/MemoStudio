@@ -99,7 +99,7 @@ namespace Memo_Studio_Library
             
         }
 
-        public async Task RemoveBooking(Guid bookingId, Guid facilityId)
+        public async Task<Booking> RemoveBooking(Guid bookingId, Guid facilityId)
         {
             using (var context = new StudioContext())
             {              
@@ -110,13 +110,15 @@ namespace Memo_Studio_Library
 
                 if (booking == null)
                 {
-                    return;
+                    return null;
                 }
 
                 booking.Canceled = true;
 
                 context.Bookings.Update(booking);
                 await context.SaveChangesAsync();
+
+                return booking;
             }
         }
 

@@ -1,16 +1,26 @@
 <div class="card-body pb-2">
   <h4>Смяна на парола</h4>
 
-  <mat-form-field class="w-100">
-    <mat-label>Стара парола</mat-label>
-    <input matInput />
-  </mat-form-field>
-  <mat-form-field class="w-100">
-    <mat-label>Нова парола</mat-label>
-    <input matInput />
-  </mat-form-field>
-  <mat-form-field class="w-100">
-    <mat-label>Повтори нова парола</mat-label>
-    <input matInput />
-  </mat-form-field>
+  <form [formGroup]="passwordChangeForm" (ngSubmit)="changePassword()">
+    <mat-form-field class="w-100">
+      <mat-label>Стара парола</mat-label>
+      <input matInput formControlName="oldPassword" />
+    </mat-form-field>
+    <mat-form-field class="w-100">
+      <mat-label>Нова парола</mat-label>
+      <input matInput formControlName="newPassword" />
+    </mat-form-field>
+    <mat-form-field class="w-100">
+      <mat-label>Повтори нова парола</mat-label>
+      <input matInput formControlName="confirmNewPassword" />
+    </mat-form-field>
+
+    <div class="text-right m-4">
+      <button type="submit" mat-raised-button color="primary">
+        Запази промени
+      </button>
+      &nbsp;
+      <button mat-stroked-button color="primary">Отказ</button>
+    </div>
+  </form>
 </div>
