@@ -10,8 +10,8 @@
         <app-security *ngIf="activeTab == 2" [ngClass]="{ 'unactive-tab-content': activeTab != 2 }"></app-security>
         <app-calendar *ngIf="activeTab == 3" [ngClass]="{ 'unactive-tab-content': activeTab != 3 }">
         </app-calendar>
-        <!-- <app-notification [ngClass]="{ 'unactive-tab-content': activeTab != 4 }">
-        </app-notification> -->
+        <app-notification *ngIf="activeTab == 4" [ngClass]="{ 'unactive-tab-content': activeTab != 4 }">
+        </app-notification>
       </div>
     </div>
   </div>

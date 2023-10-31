@@ -227,6 +227,29 @@ namespace Memo_Studio.Controllers
                 return BadRequest("Нещо се обърка. Моля опитайте отново.");
             }
         }
+
+        [Authorize]
+        [HttpGet("notification-settings")]
+        public async Task<IActionResult> GetUserNotificationSettings()
+        {
+            try
+            {
+                var currentUserEmail = GetEmail();
+
+                if (currentUserEmail == null)
+                {
+                    return Unauthorized();
+                }
+
+                var result = await accountService.GetUserNotificationSettingsByEmailAsync(currentUserEmail);            
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Нещо се обърка. Моля опитайте отново.");
+            }
+        }
     }
 }
 

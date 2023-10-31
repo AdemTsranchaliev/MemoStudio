@@ -19,7 +19,9 @@ CREATE TABLE [User] (
     LockoutEnabled BIT NOT NULL,
     AccessFailedCount INT NOT NULL,
     AccessFailedCount INT NOT NULL,
-    ImageBase64Code NVARCHAR(MAX) NULL
+    ImageBase64Code NVARCHAR(MAX) NULL,
+    AllowEmailNotification BIT DEFAULT 1,
+    AllowViberNotification BIT DEFAULT 0
 )
 
 

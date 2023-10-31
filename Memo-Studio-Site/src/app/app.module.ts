@@ -42,6 +42,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatCardModule } from "@angular/material/card";
 import { ImageCropperModule } from "ngx-image-cropper";
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 // Import BG Language - Use from Pipe
 import localeBg from "@angular/common/locales/bg";
@@ -141,6 +142,7 @@ registerLocaleData(localeBg, "bg");
     MatStepperModule,
     ImageCropperModule,
     AppRoutingModule,
+    MatSlideToggleModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

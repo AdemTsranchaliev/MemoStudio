@@ -176,6 +176,27 @@ namespace Memo_Studio_Library.Services
             return result;
         }
 
+        public async Task<NotificationSettingsViewModel> GetUserNotificationSettingsByEmailAsync(string email)
+        {
+            var user = await userManager.Users
+                .Include(u => u.UserFalicities)
+                .ThenInclude(u => u.Facility)
+                .FirstOrDefaultAsync(u => u.Email == email);
+
+            if (user == null)
+                throw new Exception("Невалидна заявка");
+
+            var result = new NotificationSettingsViewModel
+            {
+                AllowEmailNotification = user.AllowEmailNotification,
+                AllowViberNotification = user.AllowViberNotification,
+                IsViberSetUp = user.ViberId != null ? true : false,
+                Email = user.Email
+            };
+
+            return result;
+        }
+
         public async Task UpdateAccountInformation(AccountRequestViewModel model, string email)
         {
             var user = await userManager.Users

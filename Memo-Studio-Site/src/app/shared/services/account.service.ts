@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { BASE_URL_DEV } from "../routes";
 import { AccountViewModel } from "../models/account/account.model";
 import { CalendarProfileInformation } from "../models/account/calendar-profile-information.model";
+import { NotificationSettings } from "../models/account/notification-settings.model";
 
 @Injectable({
   providedIn: "root",
@@ -24,5 +25,9 @@ export class AccountService {
 
   public getCalendarUserInformation() {
     return this.http.get<CalendarProfileInformation>(`${BASE_URL_DEV}/account/calendar-profile-information`);
+  }
+
+  public getNotificationSettings() {
+    return this.http.get<NotificationSettings>(`${BASE_URL_DEV}/account/notification-settings`);
   }
 }
