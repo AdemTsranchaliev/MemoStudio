@@ -20,7 +20,7 @@ import { LoginComponent } from "./auth-user/authentication/login/login.component
 import { UsersListComponent } from "./users-list/users-list.component";
 import { MatListModule } from "@angular/material/list";
 import { MatPaginatorModule } from "@angular/material/paginator";
-import { MatSortModule } from '@angular/material/sort';
+import { MatSortModule } from "@angular/material/sort";
 import { UserDetailsComponent } from "./shared/dialogs/user-details/user-details.component";
 import { UserService } from "./shared/services/user.service";
 import { DayService } from "./shared/services/day.service";
@@ -38,10 +38,10 @@ import { SelfBookingComponent } from "./self-booking/self-booking.component";
 import { MatButtonModule } from "@angular/material/button";
 import { StudioDatetimePickerComponent } from "./studio-datetime-picker/studio-datetime-picker.component";
 import { DatePipe } from "@angular/common";
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatCardModule } from '@angular/material/card';
-import { ImageCropperModule } from 'ngx-image-cropper';
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatCardModule } from "@angular/material/card";
+import { ImageCropperModule } from "ngx-image-cropper";
 
 // Import BG Language - Use from Pipe
 import localeBg from "@angular/common/locales/bg";
@@ -53,27 +53,28 @@ import { CalendarComponent } from "./profile/calendar/calendar.component";
 import { SideMenuComponent } from "./profile/side-menu/side-menu.component";
 import { BookingConfirmationListComponent } from "./booking-confirmation-list/booking-confirmation-list.component";
 import { UtilityService } from "./shared/services/utility.service";
-import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
-import { HomeInfoComponent } from './home-info/home-info.component';
-import { ChangeForgottenPasswordComponent } from './auth-user/change-forgotten-password/change-forgotten-password.component';
-import { SelectionListComponent } from './shared/components/selection-list/selection-list.component';
-import { SideTabSelectionListComponent } from './shared/components/side-tab-selection-list/side-tab-selection-list.component';
-import { ViberConfirmationComponent } from './shared/dialogs/viber-confirmation/viber-confirmation.component';
+import { EmailConfirmationComponent } from "./email-confirmation/email-confirmation.component";
+import { HomeInfoComponent } from "./home-info/home-info.component";
+import { ChangeForgottenPasswordComponent } from "./auth-user/change-forgotten-password/change-forgotten-password.component";
+import { SelectionListComponent } from "./shared/components/selection-list/selection-list.component";
+import { SideTabSelectionListComponent } from "./shared/components/side-tab-selection-list/side-tab-selection-list.component";
+import { ViberConfirmationComponent } from "./shared/dialogs/viber-confirmation/viber-confirmation.component";
 import { ViberService } from "./shared/services/viber.service";
-import { ClipboardModule } from '@angular/cdk/clipboard';
-import { NotificationComponent } from './profile/notification/notification.component';
-import { BusinessCardHeaderComponent } from './shared/components/business-card-header/business-card-header.component';
-import { BusinessCardCalendarComponent } from './shared/components/business-card-calendar/business-card-calendar.component';
-import { LoaderComponent } from './shared/components/loader/loader.component';
+import { ClipboardModule } from "@angular/cdk/clipboard";
+import { NotificationComponent } from "./profile/notification/notification.component";
+import { BusinessCardHeaderComponent } from "./shared/components/business-card-header/business-card-header.component";
+import { BusinessCardCalendarComponent } from "./shared/components/business-card-calendar/business-card-calendar.component";
+import { LoaderComponent } from "./shared/components/loader/loader.component";
 import { LoaderService } from "./shared/services/loader.service";
 import { LoaderInterceptor } from "./shared/interceptors/loader.interceptor";
-import { LoaderDirective } from './shared/directives/loader.directive';
-import { MatStepperModule } from '@angular/material/stepper';
-import { SelfBookingStepAddComponent } from './shared/components/self-booking-step-add/self-booking-step-add.component';
-import { ImgPreviewComponent } from './shared/dialogs/img-preview/img-preview.component';
+import { LoaderDirective } from "./shared/directives/loader.directive";
+import { MatStepperModule } from "@angular/material/stepper";
+import { SelfBookingStepAddComponent } from "./shared/components/self-booking-step-add/self-booking-step-add.component";
+import { ImgPreviewComponent } from "./shared/dialogs/img-preview/img-preview.component";
 import { AuthInterceptor } from "./shared/interceptors/auth.interceptor";
 import { AccountService } from "./shared/services/account.service";
-import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
+import { TermsConditionsComponent } from "./terms-conditions/terms-conditions.component";
+import { FacilityService } from "./shared/services/facility.service";
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -151,7 +152,7 @@ registerLocaleData(localeBg, "bg");
     DatePipe,
     UtilityService,
     ViberService,
-
+    FacilityService,
     //Interceptors
     LoaderService,
     {
@@ -167,4 +168,4 @@ registerLocaleData(localeBg, "bg");
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,8 +1,8 @@
 <mat-selection-list>
-  <mat-label>{{ title }}</mat-label>
+  <mat-label>Работни дни</mat-label>
   <mat-divider></mat-divider>
-  <mat-list-option *ngFor="let element of dataSource">
-    {{ element }}
-    <mat-divider></mat-divider>
+  <mat-list-option *ngFor="let day of workingDays?.controls; let i = index" [selected]="day.get('isOpen').value"
+    (click)="toggleWorkingDay(i)">
+    {{ dayOfWeeks[day.get('id').value-1] }}
   </mat-list-option>
 </mat-selection-list>

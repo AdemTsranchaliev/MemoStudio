@@ -1,5 +1,5 @@
 <div class="card-body pb-2">
-  <form [formGroup]="bookingForm">
+  <form [formGroup]="bookingForm" (ngSubmit)="submitForm()">
     <h4>Настройки по подразбиране на календар</h4>
     <p style="font-size: small" class="text-muted">
       Настройките по подразбиране се прилагат на всеки ден от календара. Ако
@@ -11,9 +11,9 @@
       <div class="col-sm-6">
         <mat-form-field class="w-100">
           <mat-label>Начален час</mat-label>
-          <mat-select formControlName="startPeriod" name="startPeriod">
-            <mat-option *ngFor="let time of times" [value]="time">
-              {{ time }}:00
+          <mat-select formControlName="startPeriod">
+            <mat-option *ngFor="let time of generateHours()" [value]="time">
+              {{ time }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -22,9 +22,9 @@
       <div class="col-sm-6">
         <mat-form-field class="w-100">
           <mat-label>Краен час</mat-label>
-          <mat-select formControlName="endPeriod" name="endPeriod">
-            <mat-option *ngFor="let time of times" [value]="time">
-              {{ time }}:00
+          <mat-select formControlName="endPeriod">
+            <mat-option *ngFor="let time of generateHours()" [value]="time">
+              {{ time }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -33,23 +33,16 @@
 
     <mat-form-field class="w-100">
       <mat-label>Интервал на часовете</mat-label>
-      <mat-select formControlName="interval" name="interval">
+      <mat-select formControlName="interval">
         <mat-option *ngFor="let duration of durations" [value]="duration">
           {{ duration }}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <app-selection-list
-      [title]="'Работни дни'"
-      [dataSource]="dayOfWeeks"
-    ></app-selection-list>
+    <app-selection-list [workingDays]="workingDaysFormArray" [title]="'Работни дни'"></app-selection-list>
 
-    <mat-checkbox
-      class="mt-3"
-      formControlName="allowUserBooking"
-      name="allowUserBooking"
-    >
+    <mat-checkbox class="mt-3" formControlName="allowUserBooking">
       Позволи потребителите да запазват часове
     </mat-checkbox>
 

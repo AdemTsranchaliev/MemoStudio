@@ -57,7 +57,7 @@ export class SecurityComponent implements OnDestroy {
     }
   }
 
-  private initForm(){
+  private initForm() {
     this.passwordChangeForm = new FormGroup(
       {
         oldPassword: new FormControl("", Validators.required),
