@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from "rxjs";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticatinService } from 'src/app/shared/services/authenticatin.service';
-import { AccountViewModel } from '../general/general.component';
+import { AccountViewModel } from 'src/app/shared/models/account/account.model';
 
 @Component({
   selector: 'app-security',

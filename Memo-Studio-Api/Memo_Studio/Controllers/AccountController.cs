@@ -131,7 +131,7 @@ namespace Memo_Studio.Controllers
 
         [Authorize]
         [HttpPost("information")]
-        public async Task<IActionResult> UpdateAccountInformation([FromBody] AccountViewModel model)
+        public async Task<IActionResult> UpdateAccountInformation([FromBody] AccountRequestViewModel model)
         {
             try
             {

@@ -17,7 +17,6 @@ import { DayStausEnum } from "../shared/models/dayStatus.model";
 import { MonthStatistics } from "../shared/models/month-statistics.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { AccountService } from "../shared/services/account.service";
-import { CalendarProfileInformation } from "../profile/general/general.component";
 declare const $: any;
 
 @Component({

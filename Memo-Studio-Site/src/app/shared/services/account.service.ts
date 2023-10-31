@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BASE_URL_DEV } from "../routes";
-import { User } from "../models/user.model";
-import { AccountViewModel, CalendarProfileInformation } from "src/app/profile/general/general.component";
+import { AccountViewModel } from "../models/account/account.model";
+import { CalendarProfileInformation } from "../models/account/calendar-profile-information.model";
 
 @Injectable({
   providedIn: "root",
@@ -18,7 +18,7 @@ export class AccountService {
     return this.http.get<AccountViewModel>(`${BASE_URL_DEV}/account/information`);
   }
 
-  public setUserInformation(content: AccountViewModel) {
+  public updateUserInformation(content: AccountViewModel) {
     return this.http.post<AccountViewModel>(`${BASE_URL_DEV}/account/information`, content);
   }
 

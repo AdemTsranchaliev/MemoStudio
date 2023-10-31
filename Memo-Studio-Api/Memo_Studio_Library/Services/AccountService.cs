@@ -168,15 +168,15 @@ namespace Memo_Studio_Library.Services
                 Name = user.Name.Split(' ')[0],
                 Surname = user.Name.Split(' ')[0],
                 Email = user.Email,
-                FacilityName = user.UserFalicities.FirstOrDefault().Facility.Name,
+                FacilityName = user.UserFalicities.FirstOrDefault()?.Facility.Name,
                 Phone = user.PhoneNumber,
-                ProfilePictureBase64 = $"data:image/png;base64,{this.GetFile(user.ImageBase64Code)}"
+                ProfilePictureBase64 = user.ImageBase64Code != null ? $"data:image/png;base64,{this.GetFile(user.ImageBase64Code)}" : null
             };
 
             return result;
         }
 
-        public async Task UpdateAccountInformation(AccountViewModel model, string email)
+        public async Task UpdateAccountInformation(AccountRequestViewModel model, string email)
         {
             var user = await userManager.Users
                 .Include(u => u.UserFalicities)
@@ -244,6 +244,10 @@ namespace Memo_Studio_Library.Services
 
         public string GetFile(string fileName)
         {
+            if (fileName==null)
+            {
+                return null;
+            }
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", fileName);
 
             if (System.IO.File.Exists(filePath))

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import {
   BreakpointObserver,
   BreakpointState,
@@ -7,50 +7,49 @@ import {
 import { MatDialog } from "@angular/material/dialog";
 import { Observable, Subscription } from "rxjs";
 import { ImgPreviewComponent } from "src/app/shared/dialogs/img-preview/img-preview.component";
-import { HttpClient } from "@angular/common/http";
-import { BASE_URL_DEV } from "src/app/shared/routes";
 import { AccountService } from "src/app/shared/services/account.service";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { AccountViewModel } from "src/app/shared/models/account/account.model";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-general",
   templateUrl: "./general.component.html",
   styleUrls: ["./general.component.css"],
 })
-export class GeneralComponent implements OnInit, AfterViewInit {
-  private subscriptions: Subscription[] = [];
-  private newProfileImg: string;
-  @Input() user: AccountViewModel;
-  base64Image: string = ""; // Initialize as an empty string
+export class GeneralComponent implements OnInit {
+  public user: AccountViewModel;
+  public formGroup: FormGroup = new FormGroup({
+    name: new FormControl("", Validators.required),
+    surname: new FormControl("", Validators.required),
+    phone: new FormControl("", Validators.required),
+    email: new FormControl({ value: "", disabled: true }, Validators.required),
+    facilityName: new FormControl("", Validators.required),
+  });
 
   public isExtraSmall: Observable<BreakpointState> =
     this.breakpointObserver.observe(Breakpoints.XSmall);
+
+  private subscriptions: Subscription[] = [];
+  private newProfileImg: string;
   private currentSize: string;
-  public showPage: boolean = false;
 
   constructor(
-    public http: HttpClient,
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
     private accountService: AccountService,
-  ) { }
-
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.showPage = true;
-    }, 1);
-  }
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
-    // this.http.get<string>(`${BASE_URL_DEV}/account/profile-picture`).subscribe((response) => {
-    //   this.base64Image = response;
-    // });
+    this.getUserInformation();
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach((el) => el.unsubscribe());
   }
 
-  openDialog() {
+  public openDialog() {
     const dialogRef = this.dialog.open(ImgPreviewComponent, {
       width: "100vw",
       data: { size: this.currentSize },
@@ -73,27 +72,30 @@ export class GeneralComponent implements OnInit, AfterViewInit {
     });
   }
 
-  saveGeneralInformation() {
-    console.log('>>>', this.user);
-
-    // const generalSubscription = this.accountService.setUserInformation({}).subscribe(res => {
-    //   console.log('>>>', res);
-
-    // });
-    // this.subscriptions.push(generalSubscription);
+  public saveGeneralInformation() {
+    const generalSubscription = this.accountService
+      .updateUserInformation(this.formGroup.value)
+      .subscribe((res) => {
+        this.getUserInformation();
+        this.snackBar.open("Информацията беше запазена успешно!", "Затвори", {
+          duration: 8000,
+          panelClass: ["custom-snackbar"],
+        });
+      });
+    this.subscriptions.push(generalSubscription);
   }
-}
 
-export interface AccountViewModel {
-  name: string;
-  surname: string;
-  email: string;
-  facilityName: string;
-  phone: string;
-  profilePictureBase64: string;
-}
+  private getUserInformation() {
+    this.accountService.getUserInformation().subscribe((res) => {
+      this.user = res;
 
-export interface CalendarProfileInformation {
-  name: string;
-  imageBase64: string;
+      this.formGroup.setValue({
+        name: this.user.name,
+        surname: this.user.surname,
+        phone: this.user.phone,
+        email: this.user.email,
+        facilityName: this.user.facilityName,
+      });
+    });
+  }
 }

@@ -16,7 +16,7 @@ namespace Memo_Studio_Library.Services.Interfaces
 		public Task ResetPassword(ResetPasswordViewModel model);
 
         public Task<AccountViewModel> GetUserByEmailAsync(string email);
-		public Task UpdateAccountInformation(AccountViewModel model, string email);
+		public Task UpdateAccountInformation(AccountRequestViewModel model, string email);
 		public Task UploadProfilePicture(IFormFile model, string email);
 		public string GetFile(string fileName);
     }
