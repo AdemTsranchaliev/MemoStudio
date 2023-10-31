@@ -1,49 +1,80 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthenticatinService } from 'src/app/shared/services/authenticatin.service';
-import { AccountViewModel } from 'src/app/shared/models/account/account.model';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { AuthenticatinService } from "src/app/shared/services/authenticatin.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
-  selector: 'app-security',
-  templateUrl: './security.component.html',
-  styleUrls: ['./security.component.css']
+  selector: "app-security",
+  templateUrl: "./security.component.html",
+  styleUrls: ["./security.component.css"],
 })
-export class SecurityComponent implements OnInit, OnDestroy {
+export class SecurityComponent implements OnDestroy {
   private subscriptions: Subscription[] = [];
-  @Input() user: AccountViewModel;
-  passwordChangeForm: FormGroup;
+
+  public passwordChangeForm: FormGroup;
 
   constructor(
     private authenticatinService: AuthenticatinService,
-    private formBuilder: FormBuilder,
-  ) { }
-
-  ngOnInit(): void {
+    private snackBar: MatSnackBar
+  ) {
+    this.initForm();
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach((el) => el.unsubscribe());
   }
 
-  createForm() {
-    this.passwordChangeForm = this.formBuilder.group({
-      oldPassword: ['', Validators.required],
-      newPassword: ['', [Validators.required, Validators.minLength(6)]],
-      confirmNewPassword: ['', Validators.required],
-    });
-  }
-
-  changePassword() {
-    console.log('>>>', this.user);
-
-    if (this.passwordChangeForm.valid && this.passwordChangeForm.get('newPassword').value == this.passwordChangeForm.get('confirmNewPassword').value) {
-
-      const passwordSubscription = this.authenticatinService.changeForgottenPassword({}).subscribe((res) => {
-        console.log('>>>', res);
-
-      });
+  public changePassword() {
+    if (this.passwordChangeForm.valid) {
+      const passwordSubscription = this.authenticatinService
+        .changeForgottenPassword(this.passwordChangeForm.value)
+        .subscribe(
+          (succses) => {
+            this.snackBar.open("Паролата беше успешно сменена!", "Затвори", {
+              duration: 8000,
+              panelClass: ["custom-snackbar"],
+            });
+            this.initForm();
+          },
+          (err) => {
+            this.snackBar.open(
+              "Паролата НЕ беше сменена успешно! Моля опитайте отново!",
+              "Затвори",
+              {
+                duration: 8000,
+                panelClass: ["custom-snackbar"],
+              }
+            );
+          }
+        );
       this.subscriptions.push(passwordSubscription);
     }
+  }
+
+  private initForm(){
+    this.passwordChangeForm = new FormGroup(
+      {
+        oldPassword: new FormControl("", Validators.required),
+        newPassword: new FormControl("", [
+          Validators.required,
+          Validators.minLength(6),
+        ]),
+        confirmNewPassword: new FormControl("", Validators.required),
+      },
+      { validators: this.passwordMatchValidator }
+    );
+  }
+
+  private passwordMatchValidator(formGroup: FormGroup) {
+    const newPassword = formGroup.get("newPassword").value;
+    const confirmNewPassword = formGroup.get("confirmNewPassword").value;
+
+    return newPassword === confirmNewPassword ? null : { mismatch: true };
   }
 }

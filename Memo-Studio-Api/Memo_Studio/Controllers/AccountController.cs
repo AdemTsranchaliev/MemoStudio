@@ -97,7 +97,8 @@ namespace Memo_Studio.Controllers
         {
             try
             {
-                await accountService.ChangePassword(model);
+                var email = GetEmail();
+                await accountService.ChangePassword(model, email);
                 return Ok();
             }
             catch (Exception ex)

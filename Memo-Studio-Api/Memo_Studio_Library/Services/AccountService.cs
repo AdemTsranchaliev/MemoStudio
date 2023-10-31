@@ -138,14 +138,14 @@ namespace Memo_Studio_Library.Services
             }
         }
 
-        public async Task ChangePassword(ChangePasswordViewModel model)
+        public async Task ChangePassword(ChangePasswordViewModel model, string email)
         {
-            var user = await userManager.FindByEmailAsync(model.Email);
+            var user = await userManager.FindByEmailAsync(email);
 
             if (user == null)
                 throw new Exception("Невалидна заявка");
 
-            var result = await userManager.ChangePasswordAsync(user, model.OldPassword, model.Password);
+            var result = await userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
 
             if (!result.Succeeded)
             {

@@ -12,7 +12,7 @@ namespace Memo_Studio_Library.Services.Interfaces
 		public Task SendEmailConfirmationAsync(User user);
 		public Task ConfirmEmailAsync(EmailConfirmationRequest req);
 		public Task SendChangePasswordEmailAsync(string email);
-		public Task ChangePassword(ChangePasswordViewModel model);
+		public Task ChangePassword(ChangePasswordViewModel model, string email);
 		public Task ResetPassword(ResetPasswordViewModel model);
 
         public Task<AccountViewModel> GetUserByEmailAsync(string email);
