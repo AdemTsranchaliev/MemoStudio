@@ -16,11 +16,12 @@ import { NotificationSettings } from "src/app/shared/models/account/notification
   styleUrls: ["./notification.component.css"],
 })
 export class NotificationComponent implements OnInit {
-  isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(
+  public isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(
     Breakpoints.XSmall
   );
-  sliderValue = 50; // Initialize the selected value
-  settings: NotificationSettings;
+  public sliderValue = 50; // Initialize the selected value
+  public settings: NotificationSettings;
+
   constructor(
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
@@ -28,8 +29,14 @@ export class NotificationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.accountService.getNotificationSettings().subscribe(x=>{
+    this.accountService.getNotificationSettings().subscribe((x) => {
       this.settings = x;
+    });
+  }
+
+  public saveChanges(){
+    this.accountService.updateNotificationSettings(this.settings).subscribe(x=>{
+      console.log(x)
     });
   }
 
