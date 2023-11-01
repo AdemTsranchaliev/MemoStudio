@@ -20,15 +20,21 @@ export class NotificationComponent implements OnInit {
     Breakpoints.XSmall
   );
   sliderValue = 50; // Initialize the selected value
-  settings: NotificationSettings;
+  settings: NotificationSettings = {
+    allowEmailNotification: false,
+    allowViberNotification: false,
+    email: '',
+    isViberSetUp: false,
+  };
+
   constructor(
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
     private accountService: AccountService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.accountService.getNotificationSettings().subscribe(x=>{
+    this.accountService.getNotificationSettings().subscribe(x => {
       this.settings = x;
     });
   }
@@ -54,5 +60,10 @@ export class NotificationComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       smallDialogSubscription.unsubscribe();
     });
+  }
+
+  public openViberLink() {
+    console.log('>>>> YES');
+    
   }
 }

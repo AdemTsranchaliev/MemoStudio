@@ -67,7 +67,6 @@ export class GeneralComponent implements OnInit {
     this.subscriptions.push(smallDialogSubscription);
 
     dialogRef.afterClosed().subscribe((result) => {
-      // ============== When API ready use the new image ==============
       this.newProfileImg = result.changingThisBreaksApplicationSecurity;
     });
   }
