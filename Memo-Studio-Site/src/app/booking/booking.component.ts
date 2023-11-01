@@ -1,4 +1,3 @@
-import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Observable, Subscription } from "rxjs";
@@ -6,7 +5,6 @@ import { Booking } from "../shared/models/booking.model";
 import { startWith, map, concatMap } from "rxjs/operators";
 import { BookingService } from "../shared/services/booking.service";
 import { User } from "../shared/models/user.model";
-import { BookingDto } from "./booking-dto-model";
 import { Day } from "../shared/models/day.model";
 import { BASE_URL_PROD } from "../shared/routes";
 import { UserService } from "../shared/services/user.service";
@@ -14,7 +12,7 @@ import { DayService } from "../shared/services/day.service";
 import { ServerStatusService } from "../shared/services/serverStatus.service";
 import { AuthenticatinService } from "../shared/services/authenticatin.service";
 import { DayStausEnum } from "../shared/models/dayStatus.model";
-import { MonthStatistics } from "../shared/models/month-statistics.model";
+import { MonthStatistics } from "../shared/models/booking/month-statistics.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { AccountService } from "../shared/services/account.service";
 declare const $: any;
@@ -338,7 +336,7 @@ export class BookingComponent implements OnInit {
       let id = this.generateGuidString();
 
       this.newEventJson(
-        id,
+        1,
         name,
         phone,
         date,
@@ -460,15 +458,15 @@ export class BookingComponent implements OnInit {
     return hours;
   }
 
-  public showModal(id: string) {
-    var index = this.bookingsOrigin.findIndex((x) => x.id == id);
+  // public showModal(id: string) {
+  //   var index = this.bookingsOrigin.findIndex((x) => x.id == id);
 
-    if (index != -1) {
-      this.noteModal = this.bookingsOrigin[index];
+  //   if (index != -1) {
+  //     this.noteModal = this.bookingsOrigin[index];
 
-      $("#modalNote").modal("show");
-    }
-  }
+  //     $("#modalNote").modal("show");
+  //   }
+  // }
   public showHolidayDayModal() {
     $("#modalCancel").modal("show");
   }
@@ -518,28 +516,20 @@ export class BookingComponent implements OnInit {
           (id == 1 || id == 2) &&
           !this.isDayPast
         ) {
-          let freeBook: Booking = {
-            id: "-1",
-            name: "СВОБОДЕН",
-            phone: "",
-            year: this.date.getFullYear(),
-            month: this.date.getMonth(),
-            day: this.date.getDate(),
-            hour: this.getHourByString(x),
-            minutes: this.getMinutesByString(x),
-            free: true,
-            freeHour: x,
-            note: null,
-            status: 0,
-            timestamp: "",
-            createdOn: "",
+          let freeBook: Booking = {  
+            id:-1,
+            bookingId: '',
+            timestamp: new Date(),
+            createdOn: new Date(),
             canceled: false,
-            email: "",
+            note: '',
+            name: 'Свободен',
+            email: '',
+            phone: '',
             confirmed: false,
             registeredUser: false,
-            duration: 0,
-            bookingId: "",
-          };
+            duration: 0
+          }
           temp.push(freeBook);
         }
       });
@@ -573,14 +563,14 @@ export class BookingComponent implements OnInit {
 
   private checkIfNextHourEmpty(hour: number, minutes: number, count: number) {
     let index = this.bookings.findIndex(
-      (x) => x.hour == hour && minutes == x.minutes
+      (x) => x.timestamp.getHours() == hour && minutes == x.timestamp.getMinutes() 
     );
     if (index + count > this.bookings.length) {
       return 2;
     }
 
     for (let i = 0; i < count; i++) {
-      if (this.bookings[index].id != "-1") {
+      if (this.bookings[index].id != -1) {
         return 1;
       }
       index++;
@@ -590,7 +580,7 @@ export class BookingComponent implements OnInit {
   }
 
   private newEventJson(
-    id: string,
+    id: number,
     name: string,
     phone: string,
     date: Date,
@@ -600,29 +590,22 @@ export class BookingComponent implements OnInit {
     note: string,
     email: string
   ) {
-    let newEvent: Booking = {
-      id: id,
-      name: name,
-      phone: phone,
-      year: date.getFullYear(),
-      month: date.getMonth(),
-      note: note,
-      day: day,
-      hour: hour,
-      minutes: minutes,
-      free: false,
-      freeHour: null,
-      status: 0,
-      timestamp: "",
-      createdOn: "",
+    let newEvent: Booking = {  
+      id:id,
+      bookingId: '',
+      timestamp: new Date(date.getFullYear(), date.getMonth(), day, hour, minutes),
+      createdOn: new Date(),
       canceled: false,
-      email: "",
+      note: '',
+      name: name,
+      email: '',
+      phone: phone,
       confirmed: false,
       registeredUser: false,
-      duration: 0,
-      bookingId: "",
-    };
-    var specificDate: Date = new Date(newEvent.year, newEvent.month, day);
+      duration: 0
+    }
+
+    var specificDate: Date = new Date(newEvent.timestamp.getFullYear(), newEvent.timestamp.getMonth(), day);
     specificDate.setHours(hour);
     specificDate.setMinutes(minutes);
 

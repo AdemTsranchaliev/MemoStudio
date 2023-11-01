@@ -76,6 +76,7 @@ import { AuthInterceptor } from "./shared/interceptors/auth.interceptor";
 import { AccountService } from "./shared/services/account.service";
 import { TermsConditionsComponent } from "./terms-conditions/terms-conditions.component";
 import { FacilityService } from "./shared/services/facility.service";
+import { CalendarOverviewComponent } from './calendar/calendar-overview/calendar-overview.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -112,6 +113,7 @@ registerLocaleData(localeBg, "bg");
     SelfBookingStepAddComponent,
     ImgPreviewComponent,
     TermsConditionsComponent,
+    CalendarOverviewComponent,
   ],
   imports: [
     BrowserModule,

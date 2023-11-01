@@ -31,7 +31,7 @@ namespace Memo_Studio.Controllers
                 var dateString = bookingModel.GetDateTimeInMessageFormat();
                 await messageService.SendMessage(bookingModel.User.ViberId, $"Запазихте час за \n{dateString}");
             }
-            
+
             return Ok();
         }
 
@@ -72,7 +72,7 @@ namespace Memo_Studio.Controllers
         [HttpGet("month-statistics/{month}/{year}")]
         public async Task<IActionResult> MonthDaysStatistic(int month, int year, [FromQuery] Guid facilityId)
         {
-            if (facilityId==null)
+            if (facilityId == Guid.Empty)
             {
                 facilityId = this.GetFacilityId();
             }

@@ -15,6 +15,7 @@ import { HomeInfoComponent } from "./home-info/home-info.component";
 import { ChangeForgottenPasswordComponent } from "./auth-user/change-forgotten-password/change-forgotten-password.component";
 import { ViberConfirmationComponent } from "./shared/dialogs/viber-confirmation/viber-confirmation.component";
 import { TermsConditionsComponent } from "./terms-conditions/terms-conditions.component";
+import { CalendarOverviewComponent } from "./calendar/calendar-overview/calendar-overview.component";
 
 const routes: Routes = [
   { path: "home-information", component: HomeInfoComponent },
@@ -41,6 +42,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: "terms-conditions", component: TermsConditionsComponent },
+  { path: "test", component: CalendarOverviewComponent },
   { path: "profile", component: ProfileComponent, canActivate: [AuthGuard] },
   { path: "**", redirectTo: "booking" },
 ];

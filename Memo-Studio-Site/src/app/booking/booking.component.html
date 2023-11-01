@@ -158,9 +158,8 @@
 
               <!-- Render Olny Free Hours -->
               <div *ngIf="!booking.bookingId" style="cursor: pointer">
-                <div class="border border-primary rounded shadow p-2 text-dark text-center"
-                  (click)="newEvent(booking.freeHour)">
-                  {{ booking.freeHour }} ч.
+                <div class="border border-primary rounded shadow p-2 text-dark text-center" (click)="newEvent('1')">
+                  1 ч.
                 </div>
               </div>
             </div>

@@ -1,9 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { BookingDto } from "src/app/booking/booking-dto-model";
 import { Booking } from "src/app/shared/models/booking.model";
 import { BASE_URL_DEV } from "../routes";
+import { MonthStatistics } from "../models/booking/month-statistics.model";
+
 const httpOptions = {
   headers: {
     "Content-Type": "application/json",
@@ -17,16 +17,16 @@ const httpOptions = {
   providedIn: "root",
 })
 export class BookingService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getReservationForDate(date: Date, booking: Booking[]) {
     let result: Booking[] = [];
 
     booking.forEach((element) => {
       if (
-        element.day == date.getDate() &&
-        element.month == date.getMonth() &&
-        element.year == date.getFullYear()
+        element.timestamp.getDay() == date.getDate() &&
+        element.timestamp.getMonth() == date.getMonth() &&
+        element.timestamp.getFullYear() == date.getFullYear()
       ) {
         result.push(element);
       }
@@ -35,7 +35,7 @@ export class BookingService {
     return result;
   }
 
-  removeReservation(id: string) {
+  removeReservation(id: number) {
     let data = localStorage.getItem("myData");
     if (data != null && data != "") {
       let modelArray: Booking[] = JSON.parse(data!);
@@ -49,12 +49,12 @@ export class BookingService {
 
   public getBookingsByDate(date: Date) {
     const year = date.getUTCFullYear();
-    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-    const day = String(date.getUTCDate()).padStart(2, '0');
-    const hours = String(date.getUTCHours()).padStart(2, '0');
-    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
-    const seconds = String(date.getUTCSeconds()).padStart(2, '0');
-    const milliseconds = String(date.getUTCMilliseconds()).padStart(7, '0');
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    const hours = String(date.getUTCHours()).padStart(2, "0");
+    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+    const seconds = String(date.getUTCSeconds()).padStart(2, "0");
+    const milliseconds = String(date.getUTCMilliseconds()).padStart(7, "0");
 
     const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
 
@@ -76,7 +76,7 @@ export class BookingService {
   }
 
   public getBookingsByMonthStatistics(month: any, year: any) {
-    return this.http.get<Booking[]>(
+    return this.http.get<MonthStatistics[]>(
       `${BASE_URL_DEV}/Booking/month-statistics/${month}/${year}`,
       httpOptions
     );
