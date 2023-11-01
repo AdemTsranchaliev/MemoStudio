@@ -5,9 +5,6 @@
     <article class="col-4 img-container mb-4">
       <img *ngIf="user?.profilePictureBase64" [src]="user?.profilePictureBase64" alt="" />
       <img *ngIf="!user?.profilePictureBase64" src="assets/images/default-user.png" alt="" />
-      <button class="m-3" mat-raised-button color="primary" (click)="openDialog()">
-        Редакция на профилна снимка
-      </button>
     </article>
     <div class="col-8">
       <p>Име на обект: {{user?.facilityName}}</p>
@@ -17,6 +14,9 @@
       <p>Имейл: {{user?.email}}</p>
     </div>
   </div>
+  <button class="m-3" mat-raised-button color="primary" (click)="openDialog()">
+    Редакция на профилна снимка
+  </button>
   <mat-divider></mat-divider>
   <h4 class="ml-2 my-3">Редакция на информацията</h4>
   <form [formGroup]="formGroup">

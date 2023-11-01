@@ -4,7 +4,9 @@
 
   <div>
     <div class="d-flex justify-content-between align-items-center">
-      <h4 class="ms-2 my-3">Имейл <i class="fas fa-envelope"></i></h4>
+      <h4 class="ms-2 my-3">
+        <i class="fas fa-envelope gmail-icon"></i> Имейл
+      </h4>
       <mat-slide-toggle [(ngModel)]="settings.allowEmailNotification">
         <span *ngIf="settings.allowEmailNotification">Включено</span>
         <span *ngIf="!settings.allowEmailNotification">Изключено</span>
@@ -12,24 +14,28 @@
     </div>
 
     <mat-divider></mat-divider>
-    <div style="background-color: #f6f6f6;" class="p-3">
+    <div style="background-color: #f6f6f6" class="p-3">
       <p style="font-size: small" class="text-muted">
-        Ако активирате имейл уведомления, ще получавате електронни съобщения за вашите резервации директно във вашия
-        имейл.
+        Ако активирате имейл уведомления, ще получавате електронни съобщения за
+        вашите резервации директно във вашият имейл.
       </p>
       <div class="d-flex justify-content-between align-items-center">
         <mat-form-field class="w-100 mt-2">
           <mat-label>Имейл за получаване на известия</mat-label>
-          <input matInput placeholder="Имейл" name="name" formControlName="name" value="ademcran4aliew@gmail.com" />
+          <input
+            matInput
+            placeholder="Имейл"
+            name="name"
+            value="ademcran4aliew@gmail.com"
+          />
         </mat-form-field>
       </div>
     </div>
-
   </div>
 
   <div>
     <div class="d-flex justify-content-between align-items-center">
-      <h4 class="ms-2 my-3">Вайбър <i class="fab fa-viber"></i></h4>
+      <h4 class="ms-2 my-3"><i class="fab fa-viber viber-icon"></i> Вайбър</h4>
       <mat-slide-toggle [(ngModel)]="settings.allowViberNotification">
         <span *ngIf="settings.allowViberNotification">Включено</span>
         <span *ngIf="!settings.allowViberNotification">Изключено</span>
@@ -37,16 +43,46 @@
     </div>
 
     <mat-divider></mat-divider>
-    <div style="background-color: #f6f6f6;" class="p-3">
+    <div style="background-color: #f6f6f6" class="p-3">
+      <p style="font-size: small" class="text-muted pb-2">
+        Ако активирате вайбър уведомления, ще получавате съобщения за вашите
+        резервации директно във вашият вайбър.
+      </p>
+
+      <article class="row justify-content-between align-items-center pb-3">
+        <p style="font-size: small" class="col-md-9 text-muted">
+          За да активирате личният Ви вайбър чат бот, за да получавате известия
+          за вашите резервации, първо сканирайте във вайбър QR кода или
+          <a (click)="openViberLink()" class="text-primary cursor-pointer">
+            НАТИСНЕТЕ ТУК
+          </a>
+          за да се свържете.
+        </p>
+        <article class="col-md-3 text-center">
+          <img src="assets/images/viber-QR.png" alt="Снимка..." />
+        </article>
+      </article>
 
       <p style="font-size: small" class="text-muted">
-        Ако активирате вайбър уведомления, ще получавате електронни съобщения за вашите резервации директно във вашия
-        вайбър.
+        След като се свържете с личният Ви чат бот във вайбър, трябва да
+        натиснете бутона "Вайбър Код". Ще Ви се отвори прозорец, на който ще
+        получите 6 (шест) цифрен код (имате 3 минути да поставите кода, ако не
+        успеете, системата автоматично ще генерира нов код), този код трябва да
+        го поставите във вайбър чата, за се установи, че това сте Вие. След това
+        системата ще Ви активира и ще започнете да получавате съобщения, след
+        успешно направени резервации.
       </p>
-      <h6 class="text-success" *ngIf="settings.isViberSetUp">Вашият профил беше успешно свързан със Viber профила ви.
+
+      <h6 class="text-success" *ngIf="settings.isViberSetUp">
+        Вашият профил беше успешно свързан с Viber профила Ви.
       </h6>
-      <button mat-stroked-button color="primary" (click)="openDialog()" *ngIf="!settings.isViberSetUp">
-        Свържи с Вайбър
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="openDialog()"
+        *ngIf="!settings.isViberSetUp"
+      >
+        Вайбър Код
       </button>
     </div>
   </div>
