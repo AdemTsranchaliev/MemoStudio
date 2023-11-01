@@ -30,4 +30,8 @@ export class AccountService {
   public getNotificationSettings() {
     return this.http.get<NotificationSettings>(`${BASE_URL_DEV}/account/notification-settings`);
   }
+
+  public updateNotificationSettings(model: NotificationSettings) {
+    return this.http.post(`${BASE_URL_DEV}/account/notification-settings`,model);
+  }
 }

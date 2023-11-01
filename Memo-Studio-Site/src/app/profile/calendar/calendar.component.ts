@@ -7,6 +7,7 @@ import {
   FormControl,
   FormArray,
 } from "@angular/forms";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { FacilitySettingsViewModel } from "src/app/shared/models/facility/facility-setting-model";
 import { FacilityService } from "src/app/shared/services/facility.service";
 
@@ -26,7 +27,10 @@ export class CalendarComponent implements OnInit {
   public workingDaysFormArray: FormArray;
   public durations: number[] = [5, 15, 30, 60, 90, 120];
 
-  constructor(private facilityService: FacilityService) {}
+  constructor(
+    private facilityService: FacilityService,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.facilityService.getFacilitySettings().subscribe((x) => {
@@ -58,7 +62,12 @@ export class CalendarComponent implements OnInit {
 
       this.facilityService
         .updateFacilitySettings(resultToSend)
-        .subscribe((x) => {});
+        .subscribe((x) => {
+          this.snackBar.open("Данните бяха успешно запазени!", "Затвори", {
+            duration: 8000,
+            panelClass: ["custom-snackbar"],
+          });
+        });
     }
   }
 

@@ -15,6 +15,7 @@ namespace Memo_Studio_Library.Services.Interfaces
 		public Task ChangePassword(ChangePasswordViewModel model, string email);
 		public Task ResetPassword(ResetPasswordViewModel model);
 		public Task<NotificationSettingsViewModel> GetUserNotificationSettingsByEmailAsync(string email);
+		public Task UpdateUserNotificationSettingsByEmailAsync(string email, NotificationSettingsRequestViewModel model);
 
         public Task<AccountViewModel> GetUserByEmailAsync(string email);
 		public Task UpdateAccountInformation(AccountRequestViewModel model, string email);

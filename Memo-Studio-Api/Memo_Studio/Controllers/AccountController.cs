@@ -250,6 +250,29 @@ namespace Memo_Studio.Controllers
                 return BadRequest("Нещо се обърка. Моля опитайте отново.");
             }
         }
+
+        [Authorize]
+        [HttpPost("notification-settings")]
+        public async Task<IActionResult> UpdateUserNotificationSettings([FromBody] NotificationSettingsRequestViewModel model)
+        {
+            try
+            {
+                var currentUserEmail = GetEmail();
+
+                if (currentUserEmail == null)
+                {
+                    return Unauthorized();
+                }
+
+                await accountService.UpdateUserNotificationSettingsByEmailAsync(currentUserEmail, model);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Нещо се обърка. Моля опитайте отново.");
+            }
+        }
     }
 }
 

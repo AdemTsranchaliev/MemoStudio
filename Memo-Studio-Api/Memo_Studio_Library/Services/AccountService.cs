@@ -6,9 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Jpeg;
-using SixLabors.ImageSharp.Processing;
 
 namespace Memo_Studio_Library.Services
 {
@@ -195,6 +192,22 @@ namespace Memo_Studio_Library.Services
             };
 
             return result;
+        }
+
+        public async Task UpdateUserNotificationSettingsByEmailAsync(string email, NotificationSettingsRequestViewModel model)
+        {
+            var user = await userManager.Users
+                .Include(u => u.UserFalicities)
+                .ThenInclude(u => u.Facility)
+                .FirstOrDefaultAsync(u => u.Email == email);
+
+            if (user == null)
+                throw new Exception("Невалидна заявка");
+
+            user.AllowViberNotification = model.AllowViberNotification;
+            user.AllowEmailNotification = model.AllowEmailNotification;
+
+            await userManager.UpdateAsync(user);
         }
 
         public async Task UpdateAccountInformation(AccountRequestViewModel model, string email)
