@@ -1,6 +1,8 @@
-import { Component, OnInit, AfterViewInit, ViewChild, LOCALE_ID, Inject } from "@angular/core";
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, LOCALE_ID, Inject } from "@angular/core";
 import { DatePipe } from '@angular/common';
 import SwiperCore, { Navigation, Pagination, Swiper } from "swiper";
+import { SelfBookingService } from "../shared/services/selfBooking.service";
+import { Subscription } from "rxjs";
 SwiperCore.use([Navigation, Pagination]);
 
 export class DateModel {
@@ -8,6 +10,7 @@ export class DateModel {
   public DayOfWeek: string;
   public month: string;
   public isDisabled: boolean;
+  public isClicked: boolean;
 }
 
 @Component({
@@ -15,21 +18,41 @@ export class DateModel {
   templateUrl: "./studio-datetime-picker.component.html",
   styleUrls: ["./studio-datetime-picker.component.css"],
 })
-export class StudioDatetimePickerComponent implements OnInit, AfterViewInit {
+export class StudioDatetimePickerComponent implements OnInit, AfterViewInit, OnDestroy {
+  private subscriptions: Subscription[] = [];
   @ViewChild("swiper") swiper: any;
   days: DateModel[] = [];
   daysOfWeek = ["ПОН", "ВТО", "СРЯ", "ЧЕТ", "ПЕТ", "СЪБ", "НЕД"];
   swiperInstance: any; // Store the Swiper instance
   initialSlideIndex: number = 0;
+  selectedDay: DateModel | null = null;
 
   constructor(
     private datePipe: DatePipe,
-    @Inject(LOCALE_ID) private locale: string
+    @Inject(LOCALE_ID) private locale: string,
+    private selfBookingService: SelfBookingService
   ) { }
 
   ngOnInit(): void {
-    this.generateDates(); // Call a function to generate date objects
+    this.getDates();
+
     this.disablePastDates();
+
+
+    // Find and set the current day STYLE!
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+
+    for (const day of this.days) {
+      if (this.isCurrentDay(day.date)) {
+        this.selectedDay = day;
+        break; // Once found, no need to continue searching
+      }
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((el) => el.unsubscribe());
   }
 
   ngAfterViewInit(): void {
@@ -87,35 +110,22 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  generateDates(): void {
-    const today = new Date();
+  getDates(): void {
+    // ====== When API ready uncomment! =======
+    // const datesSubscription = this.selfBookingService.getDays().subscribe(x => {
+    //   this.days = x;
+    // });
+    // this.subscriptions.push(datesSubscription);
 
-    // Define the number of months to generate dates for
-    const numMonthsToShow = 3; // You can adjust this as needed
-
-    for (let monthOffset = 0; monthOffset < numMonthsToShow; monthOffset++) {
-      const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth() + monthOffset, 1);
-      const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + monthOffset + 1, 0);
-
-      for (let day = firstDayOfMonth; day <= lastDayOfMonth; day.setDate(day.getDate() + 1)) {
-        const monthName = this.datePipe.transform(day, 'LLLL', this.locale);
-        this.days.push({
-          date: new Date(day),
-          DayOfWeek: this.daysOfWeek[day.getDay()],
-          month: monthName,
-          isDisabled: false,
-        });
-      }
-    }
+    this.days = this.selfBookingService.getDays();
   }
-
 
   isCurrentDay(date: Date): boolean {
     const currentDate = new Date();
     return this.datePipe.transform(date, 'yyyy-MM-dd') === this.datePipe.transform(currentDate, 'yyyy-MM-dd');
   }
 
-  // =========== Not in use now | If need to make next dates/months/years disabled ===========
+  // =========== Not in use now | make next dates/months/years disabled ===========
   isNextMonth(date: Date) {
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0); // Set time to midnight for accurate comparison
@@ -145,8 +155,16 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit {
   }
 
   loadFreeHours(day: DateModel) {
-    if (day.isDisabled == false) {
-      console.log('>>> Load Data');
+    if (!day.isDisabled) {
+      if (this.selectedDay) {
+        this.selectedDay.isClicked = false; // Remove the style from the previously selected day
+      }
+
+      day.isClicked = true; // Apply the style to the clicked day
+      this.selectedDay = day; // Update the selected day
+
+      // Add your logic for loading free hours here
+      console.log('>>> Load Data for', day.date);
     }
   }
 

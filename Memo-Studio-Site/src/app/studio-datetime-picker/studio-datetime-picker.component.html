@@ -5,7 +5,7 @@
         class="swiper-slide rounded bg-white shadow"
         *ngFor="let day of days"
         [ngClass]="{
-          'current-day': isCurrentDay(day.date),
+          'current-day': day === selectedDay,
           'past-day': day.isDisabled
         }"
         (click)="loadFreeHours(day)"

@@ -1,70 +1,40 @@
-import { Component, ElementRef, HostListener, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Subscription } from "rxjs";
+import { SelfBookingService } from "../shared/services/selfBooking.service";
 
 @Component({
   selector: "app-self-booking",
   templateUrl: "./self-booking.component.html",
   styleUrls: ["./self-booking.component.css"],
 })
-export class SelfBookingComponent implements OnInit {
-  date = {
-    startValue: null,
-    endValue: null,
-    rangeDates: [] as Date[],
-  };
-
+export class SelfBookingComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription[] = [];
   timeIntervals: string[] = [];
-  numbers: number[] = [];
-  scrollContainer: HTMLElement;
-  maxNumber = 100;
-  pageSize = 10;
-
   nextStep: unknown; // Will be OBJ with the data for the booking!
 
   constructor(
-    private elementRef: ElementRef,
+    private selfBookingService: SelfBookingService,
   ) { }
 
   ngOnInit(): void {
-    this.scrollContainer =
-      this.elementRef.nativeElement.querySelector(".scroll-container");
-    this.loadNumbers();
-
-
-    // ============== Will be removed when API is ready! ==============
-    const startTime = 8 * 60; // 8:00 in minutes
-    const endTime = 17 * 60; // 17:00 in minutes
-    const interval = 30; // 30-minute interval
-
-    for (let minutes = startTime; minutes <= endTime; minutes += interval) {
-      const hour = Math.floor(minutes / 60);
-      const minute = minutes % 60;
-      const time = `${hour.toString().padStart(2, "0")}:${minute
-        .toString()
-        .padStart(2, "0")}`;
-      this.timeIntervals.push(time);
-    }
+    this.loadFreeHours();
   }
 
-  @HostListener("window:resize", ["$event"])
-  onResize(event: Event) {
-    this.loadNumbers();
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((el) => el.unsubscribe());
   }
 
-  // ============== Will be removed when API is ready! ==============
-  loadNumbers() {
-    for (
-      let i = this.numbers.length;
-      i < this.numbers.length + this.pageSize;
-      i++
-    ) {
-      if (i >= this.maxNumber) {
-        break;
-      }
-      this.numbers.push(i + 1);
-    }
+  loadFreeHours(): void {
+    // ====== When API ready uncomment! =======
+    // const loadHoursSubscription = this.selfBookingService.getFreeHours().subscribe(x => {
+    //   this.timeIntervals = x;
+    // });
+    // this.subscriptions.push(loadHoursSubscription);
+
+    this.timeIntervals = this.selfBookingService.getFreeHours();
   }
 
-  // ============ When API ready need to OBJ and have more data to set the next step ============
+  // ============ When API ready need OBJ and have more data to set the next step ============
   setNexStep(timeInterval) {
     this.nextStep = timeInterval; // will be adjusted
   }
