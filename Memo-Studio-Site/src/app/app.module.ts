@@ -77,6 +77,8 @@ import { AccountService } from "./shared/services/account.service";
 import { TermsConditionsComponent } from "./terms-conditions/terms-conditions.component";
 import { FacilityService } from "./shared/services/facility.service";
 import { CalendarOverviewComponent } from './calendar/calendar-overview/calendar-overview.component';
+import { ReservationCalendarComponent } from "./calendar/calendar.component";
+import { ReservationListComponent } from './calendar/reservation-list/reservation-list.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -114,6 +116,8 @@ registerLocaleData(localeBg, "bg");
     ImgPreviewComponent,
     TermsConditionsComponent,
     CalendarOverviewComponent,
+    ReservationCalendarComponent,
+    ReservationListComponent
   ],
   imports: [
     BrowserModule,

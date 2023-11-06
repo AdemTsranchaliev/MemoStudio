@@ -1,0 +1,329 @@
+<ul class="nav nav-tabs" style="background-color: white !important">
+    <li class="nav-item" style="width: 33.33%">
+        <p class="nav-link text-center" id="all-res" [ngClass]="{
+          active: selectedFilter == 1,
+          'not-active-tab': selectedFilter != 1
+        }" (click)="showBookings(1)">
+            Всички
+        </p>
+    </li>
+    <li class="nav-item" style="width: 33.33%">
+        <p class="nav-link text-center" id="free-res" [ngClass]="{
+          active: selectedFilter == 2,
+          'not-active-tab': selectedFilter != 2
+        }" (click)="showBookings(2)">
+            Свободни
+        </p>
+    </li>
+    <li class="nav-item" style="width: 33.33%">
+        <p class="nav-link text-center" [ngClass]="{
+          active: selectedFilter == 3,
+          'not-active-tab': selectedFilter != 3
+        }" id="busy-res" (click)="showBookings(3)">
+            Заети
+        </p>
+    </li>
+</ul>
+
+<div class="alert alert-warning m-4" role="alert" *ngIf="
+      bookings.length == 0 && !isDayPast && isServerDown == false
+    ">
+    Все още няма заети часове за {{ this.date.getDate() }}
+    {{ date.toLocaleString('bg-BG', { month: 'long' }) }}
+    {{ date.getFullYear() }}г.
+</div>
+<div class="alert alert-warning m-4" role="alert" *ngIf="isDayPast">
+    Тази дата е минала и нямате право на действия.
+</div>
+<div class="alert alert-warning m-4" role="alert" *ngIf="currentDay && !currentDay?.isWorking && !isDayPast">
+    ПОЧИВЕН ДЕН
+</div>
+
+<!-- Display Hours -->
+<div class="event-card" *ngFor="let booking of bookings">
+    <!-- Render Olny Reserved Hours -->
+    <div *ngIf="booking.bookingId">
+        <mat-accordion>
+            <mat-expansion-panel class="event-expansion-panel" hideToggle>
+                <mat-expansion-panel-header class="reservation-container">
+                    <mat-panel-title>
+                        {{ booking.timestamp | date : 'HH:mm' }} ч.
+                    </mat-panel-title>
+
+                    <mat-panel-description>
+                        <div class="d-flex justify-content-between">
+                            <span class="truncate-text margin-right">
+                                {{ truncateText(booking.name || 'NULL DATA', 6) }}
+                            </span>
+
+                            <span class="">
+                                <a href="tel:{{ booking.phone }}">
+                                    {{ booking.phone || 'NULL DATA' }}
+                                </a>
+                            </span>
+
+                            <span>
+                                <i class="fa ml-1 col-1" style="cursor: pointer" data-toggle="modal"
+                                    data-target="#exampleModalCenter" (click)="
+                      openRemoveBookingConfirmation(booking.bookingId)
+                    ">&#xf00d;</i>
+                            </span>
+                        </div>
+                    </mat-panel-description>
+
+                    <!-- Show style if reservation have Notes -->
+                    <span class="element-notes" *ngIf="booking?.note"></span>
+                </mat-expansion-panel-header>
+                <div class="row">
+                    <span class="col-12 a-start margin-b">
+                        Име: {{ booking.name }}
+                    </span>
+                    <span class="col-12 a-start" *ngIf="booking?.note">
+                        Бележка: {{ booking?.note }}
+                    </span>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+
+    <!-- Render Olny Free Hours -->
+    <div *ngIf="!booking.bookingId" style="cursor: pointer">
+        <div class="border border-primary rounded shadow p-2 text-dark text-center" (click)="newEvent('1')">
+            {{booking.timestamp | date:'hh:mm'}}
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Изтриване</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Сигурни ли сте, че искате да изтриете тази резервация?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Отказ
+                </button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="removeBooking()">
+                    Потвърди
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal - will be removed -->
+<div class="modal fade" id="modalNote" tabindex="-1" role="dialog" aria-labelledby="modalNote" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalNote">
+                    Забележка - {{ noteModal?.name }}
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>{{ noteModal?.note }}</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Затвори
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalCancel" tabindex="-1" role="dialog" aria-labelledby="modalCancel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalNote">
+                    Почивен ден - {{ date.getDate() }}.{{ date.getMonth() }}.{{
+                    date.getFullYear()
+                    }}
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>Всички часове в този ден ще бъдат отменени.</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cancelDay()">
+                    ПОТВЪРДИ
+                </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Затвори
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loader -->
+<div class="events-container text-primary text-center mt-5" *ngIf="loader && isServerDown == false">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Зареждане...</span>
+    </div>
+</div>
+
+<div class="text-center center-transform" *ngIf="isServerDown == true">
+    <span class="server-down-msg">Няма връзка до сървъра!</span>
+</div>
+
+<!-- Dialogs -->
+<div class="dialog bg-white" id="dialog">
+    <p class="text-center mb-3 mt-2" style="color: black">
+        Добави час -
+        <b>{{ this.date.getDate() }}
+            {{ date.toLocaleString('bg-BG', { month: 'long' }) }}
+            {{ date.getFullYear() }}г.
+        </b>
+    </p>
+
+    <!-- Add New Hour -->
+    <form class="form mb-0 mt-0 p-2" id="form">
+        <div class="form-container mb-0 mt-0 pb-0 pt-0" align="center">
+            <form>
+                <mat-form-field class="example-full-width mb-4">
+                    <mat-label>Име</mat-label>
+                    <input matInput id="name" type="text" [formControl]="nameControl" [matAutocomplete]="auto" />
+                    <div class="mt-2 border-top" [ngClass]="loadInputUnderline()"></div>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                            {{ option.name }} - {{ option.phoneNumber }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width mb-4">
+                    <mat-label>Телефон</mat-label>
+                    <input matInput id="phone" type="text" [formControl]="phoneControl" [matAutocomplete]="auto2" />
+                    <div class="mt-2 border-top" [ngClass]="loadInputUnderline()"></div>
+                    <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+                        <mat-option *ngFor="let option of filteredPhoneOptions | async" [value]="option">
+                            {{ option.name }} - {{ option.phoneNumber }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width mb-4">
+                    <mat-label>Имейл</mat-label>
+                    <input matInput id="email" type="text" [formControl]="emailControl" [matAutocomplete]="autoEmail" />
+                    <div class="mt-2 border-top" [ngClass]="loadInputUnderline()"></div>
+                    <mat-autocomplete #autoEmail="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+                        <mat-option *ngFor="let option of filteredEmailOptions | async" [value]="option">
+                            {{ option.email }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </form>
+
+            <mat-form-field class="example-full-width mb-4">
+                <mat-label>Продължителност</mat-label>
+                <mat-select id="selectedDuration" [(ngModel)]="selectedDuration"
+                    [ngModelOptions]="{ standalone: true }">
+                    <mat-option value="1">30 мин. - продължителност</mat-option>
+                    <mat-option value="2">1 час - продължителност</mat-option>
+                    <mat-option value="3">1:30 часа - продължителност</mat-option>
+                    <mat-option value="4">2 часа - продължителност</mat-option>
+                    <mat-option value="5">2:30 часа - продължителност</mat-option>
+                    <mat-option value="6">3 часа - продължителност</mat-option>
+                    <mat-option value="7">3:30 часа - продължителност</mat-option>
+                    <mat-option value="8">4 часа - продължителност</mat-option>
+                    <mat-option value="9">4:30 часа - продължителност</mat-option>
+                    <mat-option value="10">5 часа - продължителност</mat-option>
+                    <mat-option value="11">5:30 часа - продължителност</mat-option>
+                    <mat-option value="12">6 часа - продължителност</mat-option>
+                    <mat-option value="13">6:30 часа - продължителност</mat-option>
+                    <mat-option value="14">7 часа - продължителност</mat-option>
+                </mat-select>
+                <div class="mt-2 border-top" [ngClass]="loadInputUnderline()"></div>
+            </mat-form-field>
+
+         <!--    <mat-form-field class="example-full-width mb-4">
+                <mat-label>Избери час</mat-label>
+                <mat-select id="selectedHour" [(ngModel)]="selectedHour" [ngModelOptions]="{ standalone: true }">
+                    <mat-option *ngFor="let hour of generateTimes(startTime,endTime,30)" value="{{ hour }}"
+                        [disabled]="checkIfBookingExist(hour)">
+                        {{ hour }}
+                    </mat-option>
+                </mat-select>
+                <div class="mt-2 border-top" [ngClass]="loadInputUnderline()"></div>
+            </mat-form-field>
+-->
+            <div class="example-full-width mb-4">
+                <mat-form-field class="example-full-width mb-0 mt-0 pb-0 pt-0">
+                    <mat-label>Бележка</mat-label>
+                    <input matInput id="note" type="text" [formControl]="noteControl" />
+                    <div class="mt-2 border-top" [ngClass]="loadInputUnderline()"></div>
+                </mat-form-field>
+                <div class="pt-5">
+                    <button id="cancel-button" class="button bg-light-blue mr-3 action-btn" (click)="cancelEvent(1)">
+                        Отказ
+                    </button>
+                    <button id="ok-button" class="button bg-light-blue mr-3 action-btn" (click)="bookHour()">
+                        Добави
+                    </button>
+                </div>
+            </div> 
+        </div>
+    </form> 
+</div>
+
+<div class="dialog" id="dialog2">
+    <p class="text-center mb-0 mt-2" style="color: black">
+        ПРОМЕНИ ДЕН -
+        <b>{{ this.date.getDate() }}
+            {{ date.toLocaleString('bg-BG', { month: 'long' }) }}
+            {{ date.getFullYear() }}г.
+        </b>
+    </p>
+
+    <form class="form mb-0 mt-0 pb-0 pt-0" id="form">
+        <div class="form-container mb-0 mt-0 pb-0 pt-0" align="center">
+            <div class="alert alert-warning pb-0 pt-0 mt-0 mb-0" *ngIf="workingDayAddError == 1">
+                Началото на работния ден, не може да бъде по-голямо от края!
+            </div>
+
+            <div class="form-group pl-3 pr-3">
+                <p class="text-left pb-0 mb-0">Работен ден - начало</p>
+                <select class="form-control" id="selectedStartHour" [(ngModel)]="selectedStartHour"
+                    [ngModelOptions]="{ standalone: true }">
+                    <option value="{{ i }}" *ngFor="let hour of generateTimes(startTime,endTime,30); let i = index">
+                        {{ hour | date : 'HH:mm' }} ч.
+                    </option>
+                </select>
+            </div>
+            <div class="form-group pl-3 pr-3">
+                <p class="text-left pb-0 mb-0">Работен ден - край</p>
+                <select class="form-control" id="selectedEndHour" [(ngModel)]="selectedEndHour"
+                    [ngModelOptions]="{ standalone: true }">
+                    <option value="{{ i }}" *ngFor="let hour of generateTimes(startTime,endTime,30); let i = index">
+                        {{ hour | date : 'HH:mm' }} ч.
+                    </option>
+                </select>
+            </div>
+
+            <input type="button" value="Отказ" class="button mr-3" id="cancel-button" (click)="cancelEvent(2)" />
+            <input type="button" value="Редактирай" class="button" id="ok-button" (click)="addDaySpecifications()" />
+
+            <!-- <input type="button" value="ПОЧИВЕН ДЕН" class="btn btn-danger w-75 mt-3 text-center"
+                                    id="ok-button" (click)='showHolidayDayModal()'> -->
+        </div>
+    </form>
+</div>

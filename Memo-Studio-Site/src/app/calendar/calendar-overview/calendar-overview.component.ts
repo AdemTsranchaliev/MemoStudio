@@ -10,21 +10,12 @@ declare const $: any;
   styleUrls: ["./calendar-overview.component.css"],
 })
 export class CalendarOverviewComponent implements OnInit {
-  constructor(private bookingService: BookingService) {}
-  ngOnInit(): void {
-    this.initCalendar(this.date);
-    this.getBookingsByMonthStatistics();
-  }
-
   public monthStatistics: MonthStatistics[] = [];
   public calendarRows = [];
   public date: Date = new Date();
-  public year: number;
   public dayCount: number;
   public isServerDown: boolean;
   public isDayPast: boolean;
-  public firstDay: number = 0;
-  public monthClicked: number = new Date().getMonth() + 1;
 
   public readonly weekDays: string[] = [
     "Нд",
@@ -49,6 +40,16 @@ export class CalendarOverviewComponent implements OnInit {
     "Ное",
     "Дек",
   ];
+
+  constructor(private bookingService: BookingService) {}
+
+  ngOnInit(): void {
+    this.initCalendar(this.date);
+    this.getBookingsByMonthStatistics();
+  }
+
+  public showBookings(id: number) {}
+
   public dateClick(day: number) {
     this.date.setDate(day);
     // this.showEventContainer();
@@ -58,7 +59,6 @@ export class CalendarOverviewComponent implements OnInit {
   public monthClick(month: number) {
     // this.showEventContainer();
     this.date.setMonth(month);
-    this.monthClicked = month + 1;
     this.getBookingsByMonthStatistics();
   }
 
@@ -76,33 +76,32 @@ export class CalendarOverviewComponent implements OnInit {
     this.getBookingsByMonthStatistics();
   }
 
-  isPastDay(status: number): boolean {
+  public isPastDay(status: number): boolean {
     return status == DayStausEnum.Past;
   }
 
-  isFreeDay(status: number): boolean {
+  public isFreeDay(status: number): boolean {
     return status == DayStausEnum.Closed;
   }
 
-  isFullDay(status: number) {
+  public isFullDay(status: number) {
     return status == DayStausEnum.Full;
   }
+
   public editDay() {
     $("#dialog2").show(250);
   }
-  public initCalendar(date: Date): void {
+
+  private initCalendar(date: Date): void {
     this.calendarRows = [];
     let tempDate = date.getDate();
     const month = date.getMonth();
-    this.year = date.getFullYear();
-    this.dayCount = this.daysInMonth(month, this.year);
+    this.dayCount = this.daysInMonth(month, date.getFullYear());
 
     date.setDate(1);
-
-    this.firstDay = date.getDay();
     this.date.setDate(tempDate);
 
-    const firstDayOfMonth = new Date(this.year, month);
+    const firstDayOfMonth = new Date(date.getFullYear(), month);
     const dayNames = [
       "Sunday",
       "Monday",
@@ -146,15 +145,21 @@ export class CalendarOverviewComponent implements OnInit {
     }, 1);
     this.showBookings(1);
   }
-  getBookingsByMonthStatistics() {
+
+  private getBookingsByMonthStatistics() {
+    console.log(this.date.getMonth());
     this.bookingService
-      .getBookingsByMonthStatistics(this.monthClicked, this.year)
+      .getBookingsByMonthStatistics(
+        this.date.getMonth() + 1,
+        this.date.getFullYear()
+      )
       .subscribe((x) => {
         this.monthStatistics = x;
 
         this.initCalendar(this.date);
       });
   }
+
   private markPastDates() {
     var currentDate = new Date();
     if (
@@ -175,8 +180,8 @@ export class CalendarOverviewComponent implements OnInit {
       this.date.getMonth() < currentDate.getMonth()
     ) {
       this.isDayPast = true;
-      for (let i = 0; i < 35 + this.firstDay; i++) {
-        const day = i - this.firstDay + 1;
+      for (let i = 0; i < 35 + this.date.getDay(); i++) {
+        const day = i - this.date.getDay() + 1;
         if (i == this.date.getDate()) continue;
 
         $(`#day-${i}`).addClass("past-date");
@@ -186,8 +191,6 @@ export class CalendarOverviewComponent implements OnInit {
     } else {
       this.isDayPast = false;
     }
-  }
-  public showBookings(id: number) {
   }
   private daysInMonth(month: number, year: number): number {
     const monthStart: Date = new Date(year, month, 1);

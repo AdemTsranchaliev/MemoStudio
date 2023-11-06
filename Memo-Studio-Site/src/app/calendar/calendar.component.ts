@@ -5,11 +5,16 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
-export class CalendarComponent implements OnInit {
+export class ReservationCalendarComponent implements OnInit {
 
+  public isDayPast: boolean = false;
+  public isServerDown: boolean = false;
+  public loader: boolean = false;
   constructor() { }
 
   ngOnInit(): void {
   }
+
+  editDay(){}
 
 }
