@@ -79,6 +79,8 @@ import { FacilityService } from "./shared/services/facility.service";
 import { CalendarOverviewComponent } from './calendar/calendar-overview/calendar-overview.component';
 import { ReservationCalendarComponent } from "./calendar/calendar.component";
 import { ReservationListComponent } from './calendar/reservation-list/reservation-list.component';
+import { DateTimeService } from "./shared/services/date-time.service";
+import { TruncatePipe } from "./shared/pipes/truncate.pipe";
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -117,7 +119,9 @@ registerLocaleData(localeBg, "bg");
     TermsConditionsComponent,
     CalendarOverviewComponent,
     ReservationCalendarComponent,
-    ReservationListComponent
+    ReservationListComponent,
+    //Pipe
+    TruncatePipe
   ],
   imports: [
     BrowserModule,
@@ -161,6 +165,7 @@ registerLocaleData(localeBg, "bg");
     UtilityService,
     ViberService,
     FacilityService,
+    DateTimeService,
     //Interceptors
     LoaderService,
     {

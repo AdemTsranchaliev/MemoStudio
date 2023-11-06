@@ -1,10 +1,16 @@
 import { Component, OnInit } from "@angular/core";
-import { FormControl } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { Observable } from "rxjs";
 import { Booking } from "src/app/shared/models/booking.model";
 import { Day } from "src/app/shared/models/day.model";
 import { User } from "src/app/shared/models/user.model";
 import { BookingService } from "src/app/shared/services/booking.service";
+import { DateTimeService } from "src/app/shared/services/date-time.service";
 import { DayService } from "src/app/shared/services/day.service";
 declare const $: any;
 
@@ -14,7 +20,17 @@ declare const $: any;
   styleUrls: ["./reservation-list.component.css"],
 })
 export class ReservationListComponent implements OnInit {
-  selectedFilter: number = 1;
+  public selectedFilter: number = 1;
+  public dayConfiguration: Day;
+  public bookingForm: FormGroup = new FormGroup({
+    name: new FormControl("", Validators.required),
+    phone: new FormControl("", Validators.required),
+    duration: new FormControl(30, Validators.required),
+    email: new FormControl("", [Validators.required, Validators.email]),
+    timestamp: new FormControl(null, [Validators.required]),
+    note: new FormControl(""),
+  });
+
   date: Date = new Date();
   bookingsOrigin: Booking[] = [];
   public currentDay: Day;
@@ -23,12 +39,8 @@ export class ReservationListComponent implements OnInit {
   isDayPast: boolean = false;
   isServerDown: boolean = false;
   deleteBookingId: string;
-  selectedHour: string;
   public noteModal: Booking;
-  nameControl = new FormControl("");
-  phoneControl = new FormControl("");
-  emailControl = new FormControl("");
-  noteControl = new FormControl("");
+
   selectedStartHour: number = 17;
   selectedEndHour: number = 35;
   workingDayAddError: number = -1;
@@ -37,162 +49,124 @@ export class ReservationListComponent implements OnInit {
   filteredEmailOptions: Observable<User[]>;
   selectedPhone: string;
   selectedUserId: string;
-  public selectedDuration: number = 1;
-  startTime = new Date(0,0,0,8,0);
-  endTime = new Date(0,0,0,8,0);
-
-  public showBookings(id: number) {
-    this.selectedFilter = id;
-
-    this.bookingService.getBookingsByDate(this.date).subscribe((x) => {
-      this.bookingsOrigin = x;
-
-      this.dayService.getDayByDate(this.date).subscribe((x) => {
-        this.currentDay = x;
-        this.bookings = this.getBookingsByBusiness(id);
-        this.loader = false;
-      });
-    });
-  }
+  startTime = new Date(0, 0, 0, 8, 0);
+  endTime = new Date(0, 0, 0, 18, 0);
 
   constructor(
     private bookingService: BookingService,
-    private dayService: DayService
+    private dayService: DayService,
+    private fb: FormBuilder,
+    public dateTimeService: DateTimeService
   ) {}
 
   ngOnInit(): void {
     this.showBookings(1);
   }
 
-  private getBookingsByBusiness(id: number) {
-    let temp: Booking[] = [];
-    if (!this.currentDay || this.currentDay?.isWorking) {
-      this.generateTimes(
-        new Date(0, 0, 0, 8, 0),
-        new Date(0, 0, 0, 18, 0),
-        30
-      ).forEach((x) => {
-        if (this.checkIfBookingExist(x) && (id == 1 || id == 3)) {
-          temp.push(this.getBooking(x));
-        } else if (
-          !this.checkIfBookingExist(x) &&
-          (id == 1 || id == 2) &&
-          !this.isDayPast
-        ) {
-          let freeBook: Booking = {
-            id: -1,
-            bookingId: "",
-            timestamp: x,
-            createdOn: new Date(),
-            canceled: false,
-            note: "",
-            name: "Свободен",
-            email: "",
-            phone: "",
-            confirmed: false,
-            registeredUser: false,
-            duration: 0,
-          };
-          temp.push(freeBook);
-        }
+  public showBookings(id: number) {
+    this.selectedFilter = id;
+
+    this.bookingService.getBookingsByDate(this.date).subscribe((x) => {
+      this.bookingsOrigin = x;
+      console.log(x)
+      this.dayService.getDayByDate(this.date).subscribe((x) => {
+        this.dayConfiguration = x;
+        this.bookings = this.getBookingsByBusiness(id);
+        this.loader = false;
       });
-    }
-    return temp;
+    });
   }
 
-  public generateTimes(
-    startDate: Date,
-    endDate: Date,
-    intervalMinutes: number
-  ): Date[] {
-    const times: Date[] = [];
-    const start = new Date(startDate);
-    const end = new Date(endDate);
+  //REF
+  private getBookingsByBusiness(filterId: number) {
+    let bookingsToShow: Booking[] = [];
 
-    while (start <= end) {
-      times.push(new Date(start)); // Create a new Date object to avoid modifying the original
-      start.setMinutes(start.getMinutes() + intervalMinutes);
+    if (!this.currentDay || this.currentDay?.isWorking) {
+      this.dateTimeService
+        .generateTimeSlots(this.startTime, this.endTime, 30)
+        .forEach((timeSlot) => {
+          if (
+            this.checkIfBookingExist(timeSlot) &&
+            (filterId == FilterTypes.All || filterId == FilterTypes.Bussy)
+          ) {
+            bookingsToShow.push(this.getBookingByTimeSlot(timeSlot));
+          } else if (
+            !this.checkIfBookingExist(timeSlot) &&
+            (filterId == FilterTypes.All || filterId == FilterTypes.Free) &&
+            !this.isDayPast
+          ) {
+            var booking = new Booking();
+            booking.timestamp = timeSlot;
+            bookingsToShow.push(booking);
+          }
+        });
     }
-
-    return times;
+    return bookingsToShow;
   }
 
-  public checkIfBookingExist(hour) {
-    console.log(hour)
+  //REF
+  public checkIfBookingExist(date: Date) {
     return (
-      this.bookingsOrigin.findIndex((x) => {
-        const date = new Date(x.timestamp);
-
-        const hoursStr = String(date.getHours());
-        const hoursPad = hoursStr.padStart(2, "0");
-
-        const minutesStr = String(date.getUTCMinutes());
-        const minutesPad = minutesStr.padStart(2, "0");
-
-        var ttt = hour == this.getHour(hoursPad, minutesPad);
-
-        return ttt;
-      }) != -1
+      this.bookingsOrigin.findIndex(
+        (x) =>
+          this.dateTimeService.compareHoursAndMinutes(date, new Date(x.timestamp)) == 0
+      ) != -1
     );
   }
 
-  public getHour(hour: string, minutes: string) {
-    return `${hour.padStart(2, "0")}:${minutes.padStart(2, "0")}`;
-  }
-  private getBooking(hour) {
-    let index = this.bookingsOrigin.findIndex((x) => {
-      const date = new Date(x.timestamp);
+  //REF
+  private getBookingByTimeSlot(date) {
+    let index = this.bookingsOrigin.findIndex(
+      (x) => this.dateTimeService.compareHoursAndMinutes(date, new Date(x.timestamp)) == 0
+    );
 
-      const hoursStr = String(date.getHours());
-      const hoursPad = hoursStr.padStart(2, "0");
-
-      const minutesStr = String(date.getUTCMinutes());
-      const minutesPad = minutesStr.padStart(2, "0");
-
-      return hour == this.getHour(hoursPad, minutesPad);
-    });
+    if (index == -1) {
+      return null;
+    }
 
     return this.bookingsOrigin[index];
-  }
-  truncateText(text: string, limit: number): string {
-    if (text.length > limit) {
-      return text.substring(0, limit) + "...";
-    }
-    return text;
   }
 
   public openRemoveBookingConfirmation(id: string) {
     this.deleteBookingId = id;
   }
 
-  public newEvent(preDefinedHour: string) {
-    if (preDefinedHour != null) {
-      this.selectedHour = preDefinedHour;
+  public newEvent(preDefinedHour: Date) {
+    if (preDefinedHour) {
+      this.bookingForm.patchValue({
+        timestamp: preDefinedHour,
+      });
     }
 
-    $("input").click(function () {
-      $().removeClass("error-input");
-    });
+    this.showHideElement('dialog',true)
+    this.showHideElement('dialog2',false)
+    // $("input").click(function () {
+    //   $().removeClass("error-input");
+    // });
 
-    $("#dialog input[type=text]").val("");
-    $("#dialog input[type=number]").val("");
-    $(".events-container").hide(250);
-    $("#dialog2").hide(250);
-    $("#dialog").show(250);
+    // $("#dialog input[type=text]").val("");
+    // $("#dialog input[type=number]").val("");
+    // $(".events-container").hide(250);
+    // $("#dialog2").hide(250);
+    // $("#dialog").show(250);
   }
 
+  //REF
   public removeBooking() {
     this.loader = true;
+
     this.bookingService.deleteBooking(this.deleteBookingId).subscribe((x) => {
       this.bookingsOrigin = this.bookingService.getReservationForDate(
         this.date,
         this.bookingsOrigin
       );
       this.bookings = [...this.bookingsOrigin];
-      this.showBookings(1);
+      this.showBookings(FilterTypes.All);
+
       this.loader = false;
     });
   }
+
   public cancelDay() {
     if (this.currentDay && this.currentDay.dayDate) {
       this.currentDay.isWorking = false;
@@ -212,6 +186,7 @@ export class ReservationListComponent implements OnInit {
       this.showBookings(1);
     });
   }
+
   public addDaySpecifications() {
     if (this.selectedStartHour > this.selectedEndHour) {
       this.workingDayAddError = 1;
@@ -248,14 +223,10 @@ export class ReservationListComponent implements OnInit {
       });
     }
   }
+
   public cancelEvent(id: number) {
     if (id == 1) {
-      this.nameControl.setValue("");
-      this.phoneControl.setValue("");
-      this.emailControl.setValue("");
-      this.noteControl.setValue("");
-      this.selectedPhone = null;
-      this.selectedHour = null;
+      this.bookingForm.reset();
       $("#name").removeClass("error-input");
       $("#count").removeClass("error-input");
       $("#dialog").hide(250);
@@ -265,16 +236,15 @@ export class ReservationListComponent implements OnInit {
       $(".events-container").show(250);
     }
   }
-  loadInputUnderline() {
-    return "border-primary";
-  }
+
   public onOptionSelected(event: any): void {
     var selectedValue: User = event.option.value;
-    this.phoneControl.setValue(selectedValue.phoneNumber);
-    this.nameControl.setValue(selectedValue.name);
-    this.emailControl.setValue(selectedValue.email);
+    // this.phoneControl.setValue(selectedValue.phoneNumber);
+    // this.nameControl.setValue(selectedValue.name);
+    // this.emailControl.setValue(selectedValue.email);
     this.selectedUserId = selectedValue.userId;
   }
+
   public bookHour() {
     // if (
     //   this.nameControl.value == "" ||
@@ -292,18 +262,14 @@ export class ReservationListComponent implements OnInit {
     // } else {
     //   this.raiseError = false;
     // }
-
     // let date = this.date;
     // let name = this.nameControl.value.trim();
     // let phone = this.phoneControl.value.trim();
     // let email = this.emailControl.value.trim();
     // let note = this.noteControl.value.trim();
-
     // let hour = parseInt(this.selectedHour.split(":")[0]);
     // let minutes = parseInt(this.selectedHour.split(":")[1]);
-
     // $("#dialog").hide(250);
-
     // let resultOfEmptyHoursCheck = this.checkIfNextHourEmpty(
     //   hour,
     //   minutes,
@@ -322,7 +288,6 @@ export class ReservationListComponent implements OnInit {
     // } else {
     //   this.error = -1;
     //   let id = this.generateGuidString();
-
     //   this.newEventJson(
     //     1,
     //     name,
@@ -342,7 +307,6 @@ export class ReservationListComponent implements OnInit {
     //       minutes = 30;
     //     }
     //   }
-
     //   this.nameControl.setValue("");
     //   this.phoneControl.setValue("");
     //   this.emailControl.setValue("");
@@ -351,9 +315,26 @@ export class ReservationListComponent implements OnInit {
     //   this.selectedHour = null;
     //   this.selectedUserId = null;
     // }
-
     // date.setDate(this.date.getDate());
     // this.getBookingsByMonthStatistics();
     // this.dateClick(this.date.getDate());
   }
+
+  private showHideElement(elementId, show){
+    const elementToToggle = document.querySelector(`#${elementId}`) as HTMLElement;
+
+    if (elementToToggle) {
+      if (show) {
+        elementToToggle.style.display = 'block';
+      } else {
+        elementToToggle.style.display = 'none';
+      }
+    }
+  }
+}
+
+export enum FilterTypes {
+  All = 1,
+  Free = 2,
+  Bussy = 3,
 }
