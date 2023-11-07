@@ -1,4 +1,4 @@
-.custom-field {
+.custom-field-select {
   position: relative;
   font-size: 14px;
   border-top: 20px solid transparent;
@@ -7,7 +7,8 @@
   --field-padding: 12px;
 }
 
-.custom-field input {
+.custom-field-select select {
+  z-index: 1;
   border: none;
   -webkit-appearance: none;
   -ms-appearance: none;
@@ -22,7 +23,7 @@
   height: 50px; /* Manage Input Height */
 }
 
-.custom-field .placeholder {
+.custom-field-select .placeholder-select {
   position: absolute;
   left: var(--field-padding);
   width: calc(100% - (var(--field-padding) * 2));
@@ -38,35 +39,35 @@
   transition: top 0.2s linear, color 0.2s linear, font-size 0.2s linear;
 }
 
-.custom-field input.dirty + .placeholder,
-.custom-field input:focus + .placeholder,
-.custom-field input:not(:placeholder-shown) + .placeholder {
+.custom-field-select select.dirty + .placeholder-select,
+.custom-field-select select:focus + .placeholder-select,
+.custom-field-select select:not(:placeholder-shown) + .placeholder-select {
   top: -10px;
   font-size: 10px;
   color: #007bff;
 }
 
-.custom-field input {
+.custom-field-select select {
   background: none;
   border: 2px solid #ddd;
   transition: border-color 0.3s ease;
 }
 
-.custom-field input + .placeholder {
+.custom-field-select select + .placeholder-select {
   left: 8px;
   padding: 0 5px;
 }
 
-.custom-field input.dirty,
-.custom-field input:not(:placeholder-shown),
-.custom-field input:focus {
+.custom-field-select select.dirty,
+.custom-field-select select:not(:placeholder-shown),
+.custom-field-select select:focus {
   border-color: #007bff;
   transition-delay: 0.1s;
 }
 
-.custom-field input.dirty + .placeholder,
-.custom-field input:not(:placeholder-shown) + .placeholder,
-.custom-field input:focus + .placeholder {
+.custom-field-select select.dirty + .placeholder-select,
+.custom-field-select select:not(:placeholder-shown) + .placeholder-select,
+.custom-field-select select:focus + .placeholder-select {
   top: 0;
   font-size: 10px;
   color: #007bff;
@@ -75,22 +76,22 @@
 }
 
 /* Error Rules */
-.custom-field input.ng-invalid {
+.custom-field-select select.ng-invalid {
   border-color: red; /* Change the border color to red for invalid fields */
 }
 
-.custom-field input.ng-invalid + .placeholder {
+.custom-field-select select.ng-invalid + .placeholder-select {
   color: red; /* Change the placeholder color to red for invalid fields */
 }
 
 /* Disabled */
-.custom-field input:disabled {
+.custom-field-select select:disabled {
   color: gray; /* Apply gray style to the Input text when input is disabled */
   border-color: gray; /* Change the border color to red for invalid fields */
   border-style: dashed;
 }
 
-.custom-field input:disabled + .placeholder {
+.custom-field-select select:disabled + .placeholder-select {
   color: gray; /* Apply gray style to the Paceholder text when input is disabled */
 }
 

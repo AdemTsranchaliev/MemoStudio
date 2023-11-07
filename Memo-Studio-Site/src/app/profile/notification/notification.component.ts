@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { Subscription, Observable } from "rxjs";
 import {
@@ -27,10 +28,15 @@ export class NotificationComponent implements OnInit {
     isViberSetUp: false,
   };
 
+  public notificationForm: FormGroup = this.formBuilder.group({
+    email: ["Demo@asdasd.com", [Validators.required, Validators.email]],
+  });
+
   constructor(
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit(): void {

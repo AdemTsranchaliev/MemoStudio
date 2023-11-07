@@ -19,16 +19,20 @@
         Ако активирате имейл уведомления, ще получавате електронни съобщения за
         вашите резервации директно във вашият имейл.
       </p>
-      <div class="d-flex justify-content-between align-items-center">
-        <mat-form-field class="w-100 mt-2">
-          <mat-label>Имейл за получаване на известия</mat-label>
-          <input
-            matInput
-            placeholder="Имейл"
-            name="name"
-            value="ademcran4aliew@gmail.com"
-          />
-        </mat-form-field>
+      <div>
+        <form [formGroup]="notificationForm">
+          <label class="custom-field w-100 mt-2">
+            <input
+              class="w-100"
+              placeholder=" "
+              name="email"
+              formControlName="email"
+            />
+            <span class="placeholder cursor-text">
+              Имейл за получаване на известия
+            </span>
+          </label>
+        </form>
       </div>
     </div>
   </div>
@@ -88,7 +92,12 @@
   </div>
 
   <div class="text-right m-4">
-    <button (click)="saveChanges()" type="button" mat-raised-button color="primary">
+    <button
+      (click)="saveChanges()"
+      type="button"
+      mat-raised-button
+      color="primary"
+    >
       Запази промени
     </button>
   </div>

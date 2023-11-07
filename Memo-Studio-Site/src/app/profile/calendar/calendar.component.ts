@@ -12,7 +12,7 @@ import { FacilitySettingsViewModel } from "src/app/shared/models/facility/facili
 import { FacilityService } from "src/app/shared/services/facility.service";
 
 @Component({
-  selector: "app-calendar",
+  selector: "app-calendar-profile",
   templateUrl: "./calendar.component.html",
   styleUrls: ["./calendar.component.css"],
 })
@@ -30,12 +30,11 @@ export class CalendarComponent implements OnInit {
   constructor(
     private facilityService: FacilityService,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.facilityService.getFacilitySettings().subscribe((x) => {
       this.bookingForm.patchValue(x);
-      console.log(x);
       const workingDaysArray = JSON.parse(x.workingDaysJson);
       this.workingDaysFormArray = this.bookingForm.get(
         "workingDays"

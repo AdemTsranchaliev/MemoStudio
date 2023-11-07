@@ -9,27 +9,36 @@
     <mat-divider class="py-2"></mat-divider>
     <div class="row">
       <div class="col-sm-6">
-        <mat-form-field class="w-100">
-          <mat-label>Начален час</mat-label>
-          <mat-select formControlName="startPeriod">
-            <mat-option *ngFor="let time of generateHours()" [value]="time">
+        <label class="custom-field-select w-100">
+          <select placeholder=" " formControlName="startPeriod" class="w-100">
+            <option *ngFor="let time of generateHours()" [value]="time">
               {{ time }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+            </option>
+          </select>
+          <span class="placeholder-select cursor-text">Начален час</span>
+        </label>
       </div>
 
       <div class="col-sm-6">
-        <mat-form-field class="w-100">
-          <mat-label>Краен час</mat-label>
-          <mat-select formControlName="endPeriod">
-            <mat-option *ngFor="let time of generateHours()" [value]="time">
+        <label class="custom-field-select w-100">
+          <select placeholder=" " formControlName="endPeriod" class="w-100">
+            <option *ngFor="let time of generateHours()" [value]="time">
               {{ time }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+            </option>
+          </select>
+          <span class="placeholder-select cursor-text">Краен час</span>
+        </label>
       </div>
     </div>
+
+    <label class="custom-field-select w-100">
+      <select class="w-100" placeholder=" " formControlName="interval">
+        <option *ngFor="let duration of durations" [value]="duration">
+          {{ duration }}
+        </option>
+      </select>
+      <span class="placeholder-select cursor-text">Интервал на часовете</span>
+    </label>
 
     <mat-form-field class="w-100">
       <mat-label>Интервал на часовете</mat-label>
@@ -40,7 +49,10 @@
       </mat-select>
     </mat-form-field>
 
-    <app-selection-list [workingDays]="workingDaysFormArray" [title]="'Работни дни'"></app-selection-list>
+    <app-selection-list
+      [workingDays]="workingDaysFormArray"
+      [title]="'Работни дни'"
+    ></app-selection-list>
 
     <mat-checkbox class="mt-3" formControlName="allowUserBooking">
       Позволи потребителите да запазват часове

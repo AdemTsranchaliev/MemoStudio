@@ -8,8 +8,8 @@
       <div class="col-md-9">
         <app-general *ngIf="activeTab == 1" [ngClass]="{ 'unactive-tab-content': activeTab != 1 }"></app-general>
         <app-security *ngIf="activeTab == 2" [ngClass]="{ 'unactive-tab-content': activeTab != 2 }"></app-security>
-        <app-calendar *ngIf="activeTab == 3" [ngClass]="{ 'unactive-tab-content': activeTab != 3 }">
-        </app-calendar>
+        <app-calendar-profile *ngIf="activeTab == 3" [ngClass]="{ 'unactive-tab-content': activeTab != 3 }">
+        </app-calendar-profile>
         <app-notification *ngIf="activeTab == 4" [ngClass]="{ 'unactive-tab-content': activeTab != 4 }">
         </app-notification>
       </div>
