@@ -94,7 +94,7 @@ export class BookingComponent implements OnInit {
   public isDayPast: boolean = false;
   public calendarRows = [];
   public year: number = new Date().getFullYear();
-  public isServerDown: boolean;
+  public isServerDown: boolean = false; // need to adjust in ngOnInit
   public monthStatistics: MonthStatistics[] = [];
   public monthClicked: number = new Date().getMonth() + 1;
 
@@ -105,7 +105,7 @@ export class BookingComponent implements OnInit {
     private dayService: DayService, // private bookingViewService: BookingViewService
     private serverStatusService: ServerStatusService,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Check server status
@@ -321,6 +321,7 @@ export class BookingComponent implements OnInit {
       minutes,
       parseInt(this.selectedDuration.toString())
     );
+
     if (resultOfEmptyHoursCheck == 1) {
       this.error = 1;
       alert(
@@ -516,8 +517,8 @@ export class BookingComponent implements OnInit {
           (id == 1 || id == 2) &&
           !this.isDayPast
         ) {
-          let freeBook: Booking = {  
-            id:-1,
+          let freeBook: Booking = {
+            id: -1,
             bookingId: '',
             timestamp: new Date(),
             createdOn: new Date(),
@@ -562,14 +563,19 @@ export class BookingComponent implements OnInit {
   }
 
   private checkIfNextHourEmpty(hour: number, minutes: number, count: number) {
-    let index = this.bookings.findIndex(
-      (x) => x.timestamp.getHours() == hour && minutes == x.timestamp.getMinutes() 
-    );
+    let index = 2; // ======== Current HACK ========
+
+    // let index = this.bookings.findIndex(
+    //   (x) => x.timestamp.getHours() == hour && minutes == x.timestamp.getMinutes()
+    // );
+
     if (index + count > this.bookings.length) {
       return 2;
     }
 
+    // Here will break because cant find INDEX!, the timestamp returns the CURRENT time!
     for (let i = 0; i < count; i++) {
+      // if (this.bookings[index].id != -1) {
       if (this.bookings[index].id != -1) {
         return 1;
       }
@@ -590,8 +596,8 @@ export class BookingComponent implements OnInit {
     note: string,
     email: string
   ) {
-    let newEvent: Booking = {  
-      id:id,
+    let newEvent: Booking = {
+      id: id,
       bookingId: '',
       timestamp: new Date(date.getFullYear(), date.getMonth(), day, hour, minutes),
       createdOn: new Date(),
