@@ -12303,3 +12303,7 @@ h5,
   background-color: white !important;
   color: black !important;
 }
+
+.border-rad-10 {
+  border-radius: 10px !important;
+}

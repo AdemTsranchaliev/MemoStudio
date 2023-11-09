@@ -1,0 +1,82 @@
+/* Import Swiper styles */
+@import '~swiper/swiper-bundle.min.css';
+@import '~swiper/swiper.min.css';
+
+/* Add this CSS to hide horizontal overflow */
+.swiper-parent-container {
+  overflow-x: hidden;
+}
+
+/* Styles for the swiper container */
+.swiper-container {
+  position: relative;
+}
+
+.swiper-wrapper {
+  padding-bottom: 30px;
+}
+
+.sw-buttons-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+/* Styles for the swiper slides */
+.swiper-slide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-sizing: border-box;
+  height: 66px;
+  cursor: pointer;
+}
+
+/* Styles for the navigation buttons (optional) */
+.swiper-button-prev {
+  align-self: flex-start;
+  transform: translateY(-145%);
+  width: 20px;
+  color: blue;
+  cursor: pointer;
+  z-index: 2;
+  position: absolute;
+}
+
+.swiper-button-next {
+  align-self: flex-end;
+  transform: translateY(-145%);
+  width: 20px;
+  color: blue;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.current-day {
+  color: blue;
+  border-color: blue;
+  cursor: pointer;
+}
+
+.past-day {
+  color: darkgray;
+  cursor: default;
+}
+
+@media (max-width: 576px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none;
+  }
+}
+
+.day-item-number {
+  /* font-size: 20px; */
+  font-weight: 500;
+}
