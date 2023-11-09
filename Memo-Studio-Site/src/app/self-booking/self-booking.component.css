@@ -192,3 +192,7 @@ thead tr:nth-child(3) th {
 ::ng-deep .mat-horizontal-stepper-header-container {
   display: none !important;
 }
+
+::ng-deep .mat-horizontal-content-container {
+  overflow: visible !important;
+}

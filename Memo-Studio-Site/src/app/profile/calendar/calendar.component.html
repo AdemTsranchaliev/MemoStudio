@@ -40,15 +40,6 @@
       <span class="placeholder-select cursor-text">Интервал на часовете</span>
     </label>
 
-    <mat-form-field class="w-100">
-      <mat-label>Интервал на часовете</mat-label>
-      <mat-select formControlName="interval">
-        <mat-option *ngFor="let duration of durations" [value]="duration">
-          {{ duration }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
     <app-selection-list
       [workingDays]="workingDaysFormArray"
       [title]="'Работни дни'"

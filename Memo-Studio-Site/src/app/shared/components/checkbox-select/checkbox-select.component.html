@@ -1,0 +1,22 @@
+<div class="position-relative my-4" #dropdown>
+  <div class="select-btn" (click)="toggleDropdown()" [class.open]="isOpen">
+    <span class="btn-text">{{ btnText }}</span>
+    <span class="arrow-dwn">
+      <i class="fa-solid fa-chevron-down"></i>
+    </span>
+  </div>
+
+  <ul class="list-items" *ngIf="isOpen">
+    <li
+      class="item"
+      *ngFor="let service of serviceList"
+      (click)="toggleItem(service)"
+      [class.checked]="checkedItems.includes(service)"
+    >
+      <span class="checkbox">
+        <i class="fa-solid fa-check check-icon"></i>
+      </span>
+      <span class="item-text">{{ service }}</span>
+    </li>
+  </ul>
+</div>

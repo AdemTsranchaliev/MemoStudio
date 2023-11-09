@@ -7,45 +7,77 @@
     Грешна парола или имейл
   </div>
   <form [formGroup]="loginForm">
-    <mat-form-field class="w-100 mt-4">
-      <mat-label>Имейл</mat-label>
-      <input matInput id="email" type="email" formControlName="email" />
-      <mat-error *ngIf="
+    <div>
+      <label class="custom-field w-100 mt-4">
+        <input
+          type="email"
+          id="email"
+          class="w-100"
+          placeholder=" "
+          formControlName="email"
+        />
+        <span class="placeholder cursor-text">Имейл</span>
+      </label>
+      <mat-error
+        *ngIf="
           utilityService.HasError(loginForm, 'email', 'required') &&
           utilityService.IsTouched(loginForm, 'email')
-        ">
+        "
+      >
         Това поле е задължително.
       </mat-error>
-      <mat-error *ngIf="
+      <mat-error
+        *ngIf="
           utilityService.HasError(loginForm, 'email', 'email') &&
           utilityService.IsTouched(loginForm, 'email')
-        ">
+        "
+      >
         Моля въведете валиден имейл адрес.
       </mat-error>
-    </mat-form-field>
-    <mat-form-field class="w-100 mt-3 mb-4">
-      <mat-label>Парола</mat-label>
-      <input matInput id="password" type="password" formControlName="password" />
-      <mat-error *ngIf="
+    </div>
+
+    <div>
+      <label class="custom-field w-100 mt-4">
+        <input
+          type="password"
+          id="password"
+          class="w-100"
+          placeholder=" "
+          formControlName="password"
+        />
+        <span class="placeholder cursor-text">Парола</span>
+      </label>
+      <mat-error
+        *ngIf="
           utilityService.HasError(loginForm, 'password', 'required') &&
           utilityService.IsTouched(loginForm, 'password')
-        ">
+        "
+      >
         Това поле е задължително.
       </mat-error>
-      <mat-error *ngIf="
+      <mat-error
+        *ngIf="
           utilityService.HasError(loginForm, 'password', 'minLength') &&
           utilityService.IsTouched(loginForm, 'password')
-        ">
+        "
+      >
         Паролата, трябва да бъде поне 3 символа.
       </mat-error>
-    </mat-form-field>
+    </div>
 
     <div class="d-flex mb-5 align-items-center">
       <mat-checkbox formControlName="rememberMe">Запомни ме</mat-checkbox>
-      <span class="ml-auto"><a routerLink="forgotten-password" class="forgot-pass">Забравена парола</a></span>
+      <span class="ml-auto"
+        ><a routerLink="forgotten-password" class="forgot-pass"
+          >Забравена парола</a
+        ></span
+      >
     </div>
 
-    <a (click)="onSubmit()" class="btn btn-pill text-white btn-block btn-primary">
+    <a
+      (click)="onSubmit()"
+      class="btn btn-pill text-white btn-block btn-primary"
+    >
       ВХОД
     </a>
 

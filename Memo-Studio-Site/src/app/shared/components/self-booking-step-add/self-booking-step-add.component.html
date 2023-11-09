@@ -23,56 +23,42 @@
     </div>
 
     <form class="col-12 col-md-8 mt-2" [formGroup]="bookingForm">
-      <mat-form-field class="w-100">
-        <mat-label>Име</mat-label>
-        <input matInput type="text" formControlName="firstName" />
-        <button
-          *ngIf="bookingForm.get('firstName').value"
-          matSuffix
-          mat-icon-button
-          aria-label="Clear"
-          (click)="bookingForm.get('firstName').reset()"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
+      <label class="custom-field w-100">
+        <input
+          type="text"
+          class="w-100"
+          placeholder=" "
+          name="firstName"
+          formControlName="firstName"
+        />
+        <span class="placeholder cursor-text">Име</span>
+      </label>
 
-      <mat-form-field class="w-100">
-        <mat-label>Фамилия</mat-label>
-        <input matInput type="text" formControlName="lastName" />
-        <button
-          *ngIf="bookingForm.get('lastName').value"
-          matSuffix
-          mat-icon-button
-          aria-label="Clear"
-          (click)="bookingForm.get('lastName').reset()"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
+      <label class="custom-field w-100">
+        <input
+          type="text"
+          class="w-100"
+          placeholder=" "
+          name="lastName"
+          formControlName="lastName"
+        />
+        <span class="placeholder cursor-text">Фамилия</span>
+      </label>
 
-      <mat-form-field class="w-100">
-        <mat-label>Телефон</mat-label>
-        <input matInput type="text" formControlName="phone" />
-        <button
-          *ngIf="bookingForm.get('phone').value"
-          matSuffix
-          mat-icon-button
-          aria-label="Clear"
-          (click)="bookingForm.get('phone').reset()"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
+      <label class="custom-field w-100">
+        <input
+          class="w-100"
+          placeholder=" "
+          name="phone"
+          formControlName="phone"
+        />
+        <span class="placeholder cursor-text">Телефон</span>
+      </label>
 
-      <mat-form-field class="w-100">
-        <mat-label>Услуги</mat-label>
-        <mat-select formControlName="services" multiple>
-          <mat-option *ngFor="let service of serviceList" [value]="service">{{
-            service
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <app-checkbox-select
+        [serviceList]="serviceList"
+        (checkboxSelectEvent)="handleCheckboxSelectEvent($event)"
+      ></app-checkbox-select>
     </form>
   </div>
 

@@ -11,10 +11,15 @@
     <div class="col-md-6"></div>
   </div>
   <div class="row">
-    <mat-form-field class="w-25">
-      <mat-label>Филтър по име</mat-label>
-      <input class="w-100" matInput (keyup)="applyFilter($event)" placeholder="Иван Иванов.." #input />
-    </mat-form-field>
+    <label class="custom-field w-100">
+      <input
+        #input
+        (keyup)="applyFilter($event)"
+        class="w-100"
+        placeholder=" "
+      />
+      <span class="placeholder cursor-text">Филтър по име</span>
+    </label>
 
     <div class="w-100 custom-shadow">
       <table mat-table class="w-100" [dataSource]="dataSource" matSort matSortDirection="desc">
