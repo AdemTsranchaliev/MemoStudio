@@ -198,6 +198,3 @@ thead tr:nth-child(3) th {
   display: none !important;
 }
 
-::ng-deep .mat-horizontal-content-container {
-  overflow: visible !important;
-}

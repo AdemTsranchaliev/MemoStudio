@@ -1,11 +1,11 @@
-import { Component, Input, Output, ElementRef, ViewChild, HostListener, EventEmitter } from '@angular/core';
+import { Component, Input, Output, ElementRef, ViewChild, HostListener, EventEmitter, Renderer2, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-checkbox-select',
   templateUrl: './checkbox-select.component.html',
   styleUrls: ['./checkbox-select.component.css']
 })
-export class CheckboxSelectComponent {
+export class CheckboxSelectComponent implements OnInit {
   @Input() serviceList: string[] = [];
   @Output() checkboxSelectEvent = new EventEmitter<string[]>();
 
@@ -13,6 +13,12 @@ export class CheckboxSelectComponent {
   isOpen = false;
   checkedItems: string[] = [];
   btnText = "Иберете услуга";
+
+  constructor(
+    private renderer: Renderer2,
+  ) { }
+
+  ngOnInit(): void { }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {
@@ -23,6 +29,18 @@ export class CheckboxSelectComponent {
 
   toggleDropdown(): void {
     this.isOpen = !this.isOpen;
+
+    // Get the mat-horizontal-content-container element
+    const matHorizontalContentContainer = document.querySelector('.mat-horizontal-content-container');
+
+    // Apply styles based on the dropdown state
+    if (matHorizontalContentContainer) {
+      if (this.isOpen) {
+        this.renderer.setStyle(matHorizontalContentContainer, 'overflow', 'visible');
+      } else {
+        this.renderer.setStyle(matHorizontalContentContainer, 'overflow', 'hidden');
+      }
+    }
   }
 
   toggleItem(item: string) {
