@@ -82,11 +82,6 @@ import { ReservationListComponent } from './calendar/reservation-list/reservatio
 import { DateTimeService } from "./shared/services/date-time.service";
 import { TruncatePipe } from "./shared/pipes/truncate.pipe";
 import { CheckboxSelectComponent } from './shared/components/checkbox-select/checkbox-select.component';
-
-// Demo
-import { SelfBookingRedisgnComponent } from './self-booking-redisgn/self-booking-redisgn.component';
-import { StudioDatetimePickerDemoComponent } from "./studio-datetime-picker-demo/studio-datetime-picker-demo.component";
-import { SelfBookingStepAddDemoComponent } from "./shared/components/self-booking-step-add-demo/self-booking-step-add-demo.component";
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -129,9 +124,6 @@ registerLocaleData(localeBg, "bg");
     //Pipe
     TruncatePipe,
     CheckboxSelectComponent,
-    SelfBookingRedisgnComponent,
-    StudioDatetimePickerDemoComponent,
-    SelfBookingStepAddDemoComponent,
   ],
   imports: [
     BrowserModule,

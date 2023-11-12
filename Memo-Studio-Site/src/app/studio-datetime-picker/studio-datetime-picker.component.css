@@ -42,16 +42,17 @@
 .swiper-button-prev {
   align-self: flex-start;
   transform: translateY(-145%);
-  width: 30px;
+  width: 20px;
   color: blue;
-  font-size: 30px;
   cursor: pointer;
+  z-index: 2;
+  position: absolute;
 }
 
 .swiper-button-next {
   align-self: flex-end;
   transform: translateY(-145%);
-  width: 30px;
+  width: 20px;
   color: blue;
   font-size: 30px;
   cursor: pointer;
@@ -76,6 +77,6 @@
 }
 
 .day-item-number {
-  font-size: 20px;
-  font-weight: bold;
+  /* font-size: 20px; */
+  font-weight: 500;
 }

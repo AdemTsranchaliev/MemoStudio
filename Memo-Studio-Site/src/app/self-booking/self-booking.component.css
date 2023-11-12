@@ -187,12 +187,13 @@ thead tr:nth-child(3) th {
   transform: scale(1.05);
 }
 
+.clock-icon {
+  font-size: 18px !important;
+  margin-top: 4px;
+}
+
 /* Stepper */
 
 ::ng-deep .mat-horizontal-stepper-header-container {
   display: none !important;
-}
-
-::ng-deep .mat-horizontal-content-container {
-  overflow: visible !important;
 }

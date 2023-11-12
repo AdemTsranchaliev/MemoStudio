@@ -22,7 +22,7 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit, OnD
   private subscriptions: Subscription[] = [];
   @ViewChild("swiper") swiper: any;
   days: DateModel[] = [];
-  daysOfWeek = ["ПОН", "ВТО", "СРЯ", "ЧЕТ", "ПЕТ", "СЪБ", "НЕД"];
+  // daysOfWeek = ["ПОН", "ВТО", "СРЯ", "ЧЕТ", "ПЕТ", "СЪБ", "НЕД"];
   swiperInstance: any; // Store the Swiper instance
   initialSlideIndex: number = 0;
   selectedDay: DateModel | null = null;
@@ -62,8 +62,8 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit, OnD
 
   initializeSwiper(): void {
     this.swiperInstance = new Swiper(this.swiper.nativeElement, {
-      slidesPerView: 7,
-      spaceBetween: 18,
+      slidesPerView: 5,
+      spaceBetween: 19,
       initialSlide: this.initialSlideIndex,
       navigation: {
         nextEl: ".swiper-button-next",
@@ -76,16 +76,16 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit, OnD
       },
       breakpoints: {
         1400: {
-          slidesPerView: 7,
+          slidesPerView: 5,
         },
         1200: {
-          slidesPerView: 7,
+          slidesPerView: 5,
         },
         991: {
-          slidesPerView: 7,
+          slidesPerView: 5,
         },
         770: {
-          slidesPerView: 7,
+          slidesPerView: 5,
         },
         576: {
           slidesPerView: 3,
@@ -185,5 +185,12 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit, OnD
     }
 
     return 0; // Default to the first day if current day is not found
+  }
+
+  // Custom Pipe
+  capitalizeFirst(value: string): string {
+    if (!value) return value;
+
+    return value.charAt(0).toUpperCase() + value.slice(1);
   }
 }

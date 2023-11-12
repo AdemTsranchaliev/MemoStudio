@@ -17,12 +17,8 @@ import { ViberConfirmationComponent } from "./shared/dialogs/viber-confirmation/
 import { TermsConditionsComponent } from "./terms-conditions/terms-conditions.component";
 import { CalendarOverviewComponent } from "./calendar/calendar-overview/calendar-overview.component";
 import { ReservationCalendarComponent } from "./calendar/calendar.component";
-import { SelfBookingRedisgnComponent } from "./self-booking-redisgn/self-booking-redisgn.component";
 
 const routes: Routes = [
-  {
-    path: "self-booking-redisgn", component: SelfBookingRedisgnComponent, canActivate: [AuthGuard],
-  },
   { path: "home-information", component: HomeInfoComponent },
   { path: "booking", component: BookingComponent, canActivate: [AuthGuard] },
   {
