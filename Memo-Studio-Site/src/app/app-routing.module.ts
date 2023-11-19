@@ -43,7 +43,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: "terms-conditions", component: TermsConditionsComponent },
-  { path: "test", component: CalendarOverviewComponent },
   { path: "calendar", component: ReservationCalendarComponent },
   { path: "profile", component: ProfileComponent, canActivate: [AuthGuard] },
   { path: "**", redirectTo: "booking" },

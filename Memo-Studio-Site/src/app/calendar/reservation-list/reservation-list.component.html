@@ -47,7 +47,7 @@
             <mat-expansion-panel class="event-expansion-panel" hideToggle>
                 <mat-expansion-panel-header class="reservation-container">
                     <mat-panel-title>
-                        {{ booking.timestamp | date : 'hh:mm' }} ч.
+                        {{ booking.timestamp | date : 'HH:mm' }} ч.
                     </mat-panel-title>
 
                     <mat-panel-description>
@@ -89,8 +89,8 @@
     <!-- Render Olny Free Hours -->
     <div *ngIf="!booking.bookingId" style="cursor: pointer">
         <div class="border border-primary rounded shadow p-2 text-dark text-center"
-            (click)="newEvent(booking.timestamp)">
-            {{booking.timestamp | date:'hh:mm'}}
+            (click)="openBookingDialog(booking.timestamp)">
+            {{booking.timestamp | date:'HH:mm'}}
         </div>
     </div>
 </div>
@@ -187,7 +187,7 @@
 </div>
 
 <!-- Dialogs -->
-<div class="dialog bg-white" id="dialog">
+<div class="dialog bg-white" id="bookingDialog">
     <p class="text-center mb-3 mt-2" style="color: black">
         Добави час -
         <b>{{ this.date.getDate() }}
@@ -283,7 +283,7 @@
     </form>
 </div>
 
-<div class="dialog" id="dialog2">
+<div class="dialog" id="customDayConfigurationDialog">
     <p class="text-center mb-0 mt-2" style="color: black">
         ПРОМЕНИ ДЕН -
         <b>{{ this.date.getDate() }}
@@ -292,7 +292,7 @@
         </b>
     </p>
 
-    <form class="form mb-0 mt-0 pb-0 pt-0" id="form">
+    <form class="form mb-0 mt-0 pb-0 pt-0" id="form" [formGroup]="customDayConfigurationForm">
         <div class="form-container mb-0 mt-0 pb-0 pt-0" align="center">
             <div class="alert alert-warning pb-0 pt-0 mt-0 mb-0" *ngIf="workingDayAddError == 1">
                 Началото на работния ден, не може да бъде по-голямо от края!
@@ -300,25 +300,43 @@
 
             <div class="form-group pl-3 pr-3">
                 <p class="text-left pb-0 mb-0">Работен ден - начало</p>
-                <select class="form-control" id="selectedStartHour" [(ngModel)]="selectedStartHour"
-                    [ngModelOptions]="{ standalone: true }">
-                    <option value="{{ i }}"
-                        *ngFor="let hour of dateTimeService.generateTimeSlots(startTime,endTime,30); let i = index">
+                <select class="form-control" name="periodStart" formControlName="periodStart">
+                    <option value="{{ i }}" *ngFor="let hour of timeSlots; let i = index">
                         {{ hour | date : 'HH:mm' }} ч.
                     </option>
                 </select>
             </div>
             <div class="form-group pl-3 pr-3">
                 <p class="text-left pb-0 mb-0">Работен ден - край</p>
-                <select class="form-control" id="selectedEndHour" [(ngModel)]="selectedEndHour"
-                    [ngModelOptions]="{ standalone: true }">
-                    <option value="{{ i }}"
-                        *ngFor="let hour of dateTimeService.generateTimeSlots(startTime,endTime,30); let i = index">
+                <select class="form-control" name="periodEnd" formControlName="periodEnd">
+                    <option value="{{ i }}" *ngFor="let hour of timeSlots; let i = index">
                         {{ hour | date : 'HH:mm' }} ч.
                     </option>
                 </select>
             </div>
 
+            <div class="form-group pl-3 pr-3 mt-4">
+                <mat-form-field class="w-100 mb-4">
+                    <mat-label>Продължителност</mat-label>
+                    <mat-select formControlName="interval">
+                        <mat-option value="1">30 мин. - продължителност</mat-option>
+                        <mat-option value="2">1 час - продължителност</mat-option>
+                        <mat-option value="3">1:30 часа - продължителност</mat-option>
+                        <mat-option value="4">2 часа - продължителност</mat-option>
+                        <mat-option value="5">2:30 часа - продължителност</mat-option>
+                        <mat-option value="6">3 часа - продължителност</mat-option>
+                        <mat-option value="7">3:30 часа - продължителност</mat-option>
+                        <mat-option value="8">4 часа - продължителност</mat-option>
+                        <mat-option value="9">4:30 часа - продължителност</mat-option>
+                        <mat-option value="10">5 часа - продължителност</mat-option>
+                        <mat-option value="11">5:30 часа - продължителност</mat-option>
+                        <mat-option value="12">6 часа - продължителност</mat-option>
+                        <mat-option value="13">6:30 часа - продължителност</mat-option>
+                        <mat-option value="14">7 часа - продължителност</mat-option>
+                    </mat-select>
+                    <div class="mt-2 border-top border-primary"></div>
+                </mat-form-field>
+            </div>
             <input type="button" value="Отказ" class="button mr-3" id="cancel-button" (click)="cancelEvent(2)" />
             <input type="button" value="Редактирай" class="button" id="ok-button" (click)="addDaySpecifications()" />
 

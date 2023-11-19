@@ -140,8 +140,8 @@ namespace Memo_Studio_Library.Services
                 var result = new FacilitySettingsViewModel
                 {
                     AllowUserBooking = facilitySettings.AllowUserBooking,
-                    EndPeriod = facilitySettings.EndPeriod.ToString("HH:mm"),
-                    StartPeriod = facilitySettings.StartPeriod.ToString("HH:mm"),
+                    EndPeriod = facilitySettings.EndPeriod,
+                    StartPeriod = facilitySettings.StartPeriod,
                     Interval = facilitySettings.Interval,
                     WorkingDaysJson = facilitySettings.WorkingDays
                 };
@@ -165,17 +165,20 @@ namespace Memo_Studio_Library.Services
                 {
                     return;
                 }
+                facilitySettings.EndPeriod = model.EndPeriod;
+                facilitySettings.StartPeriod = model.StartPeriod;
 
-                if (TimeSpan.TryParse(model.EndPeriod, out TimeSpan endPeriodParsedTime))
-                {
-                    DateTime combinedDateTime = DateTime.Now.Date.Add(endPeriodParsedTime);
-                    facilitySettings.EndPeriod = combinedDateTime;
-                }
-                if (TimeSpan.TryParse(model.StartPeriod, out TimeSpan startPeriodParsedTime))
-                {
-                    DateTime combinedDateTime = DateTime.Now.Date.Add(startPeriodParsedTime);
-                    facilitySettings.StartPeriod = combinedDateTime;
-                }
+
+                //if (TimeSpan.TryParse(model.EndPeriod, out TimeSpan endPeriodParsedTime))
+                //{
+                //    DateTime combinedDateTime = DateTime.Now.Date.Add(endPeriodParsedTime);
+                //    facilitySettings.EndPeriod = combinedDateTime;
+                //}
+                //if (TimeSpan.TryParse(model.StartPeriod, out TimeSpan startPeriodParsedTime))
+                //{
+                //    DateTime combinedDateTime = DateTime.Now.Date.Add(startPeriodParsedTime);
+                //    facilitySettings.StartPeriod = combinedDateTime;
+                //}
 
                 facilitySettings.WorkingDays = model.WorkingDaysJson;
                 facilitySettings.Interval = model.Interval;

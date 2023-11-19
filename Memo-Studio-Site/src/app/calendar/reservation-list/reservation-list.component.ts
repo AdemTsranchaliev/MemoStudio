@@ -1,4 +1,12 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from "@angular/core";
 import {
   FormBuilder,
   FormControl,
@@ -9,6 +17,7 @@ import { Observable } from "rxjs";
 import { Booking } from "src/app/shared/models/booking.model";
 import { Day } from "src/app/shared/models/day.model";
 import { User } from "src/app/shared/models/user.model";
+import { AuthenticatinService } from "src/app/shared/services/authenticatin.service";
 import { BookingService } from "src/app/shared/services/booking.service";
 import { DateTimeService } from "src/app/shared/services/date-time.service";
 import { DayService } from "src/app/shared/services/day.service";
@@ -19,20 +28,31 @@ declare const $: any;
   templateUrl: "./reservation-list.component.html",
   styleUrls: ["./reservation-list.component.css"],
 })
-export class ReservationListComponent implements OnInit {
-  public selectedFilter: number = 1;
-  public dayConfiguration: Day;
+export class ReservationListComponent implements OnInit, OnChanges {
+  @Input() bookingsOrigin: Booking[] = [];
+  @Input() facilityConfiguration: any; //set type
+  @Input() date: Date = new Date();
+  @Output() dateChange: EventEmitter<Date> = new EventEmitter();
+
+  public selectedFilter: number = FilterTypes.All;
+  public timeSlots: Date[] = [];
+
   public bookingForm: FormGroup = new FormGroup({
     name: new FormControl("", Validators.required),
     phone: new FormControl("", Validators.required),
     duration: new FormControl(30, Validators.required),
     email: new FormControl("", [Validators.required, Validators.email]),
     timestamp: new FormControl(null, [Validators.required]),
+    facilityId: new FormControl(null),
     note: new FormControl(""),
   });
 
-  date: Date = new Date();
-  bookingsOrigin: Booking[] = [];
+  public customDayConfigurationForm: FormGroup = new FormGroup({
+    periodStart: new FormControl("", Validators.required),
+    periodEnd: new FormControl("", Validators.required),
+    interval: new FormControl(30, Validators.required),
+  });
+
   public currentDay: Day;
   bookings: Booking[] = [];
   loader: boolean = false;
@@ -41,105 +61,63 @@ export class ReservationListComponent implements OnInit {
   deleteBookingId: string;
   public noteModal: Booking;
 
-  selectedStartHour: number = 17;
-  selectedEndHour: number = 35;
   workingDayAddError: number = -1;
   filteredOptions: Observable<User[]>;
   filteredPhoneOptions: Observable<User[]>;
   filteredEmailOptions: Observable<User[]>;
   selectedPhone: string;
   selectedUserId: string;
-  startTime = new Date(0, 0, 0, 8, 0);
-  endTime = new Date(0, 0, 0, 18, 0);
 
   constructor(
     private bookingService: BookingService,
     private dayService: DayService,
-    private fb: FormBuilder,
+    private authService: AuthenticatinService,
     public dateTimeService: DateTimeService
   ) {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    //Load time slots
+    this.timeSlots = this.dateTimeService.generateTimeSlots(
+      this.facilityConfiguration?.startPeriod,
+      this.facilityConfiguration?.endPeriod,
+      this.facilityConfiguration?.interval
+    );
+
+    this.showBookings(FilterTypes.All);
+  }
+
   ngOnInit(): void {
-    this.showBookings(1);
+    this.showBookings(FilterTypes.All);
   }
 
   public showBookings(id: number) {
     this.selectedFilter = id;
 
-    this.bookingService.getBookingsByDate(this.date).subscribe((x) => {
-      this.bookingsOrigin = x;
-      console.log(x)
-      this.dayService.getDayByDate(this.date).subscribe((x) => {
-        this.dayConfiguration = x;
-        this.bookings = this.getBookingsByBusiness(id);
-        this.loader = false;
-      });
+    this.dayService.getDayByDate(this.date).subscribe((x) => {
+      if (x) {
+        //TODO: SET DAY
+      }
+      this.bookings = this.getBookingsByBusiness(id);
     });
-  }
-
-  //REF
-  private getBookingsByBusiness(filterId: number) {
-    let bookingsToShow: Booking[] = [];
-
-    if (!this.currentDay || this.currentDay?.isWorking) {
-      this.dateTimeService
-        .generateTimeSlots(this.startTime, this.endTime, 30)
-        .forEach((timeSlot) => {
-          if (
-            this.checkIfBookingExist(timeSlot) &&
-            (filterId == FilterTypes.All || filterId == FilterTypes.Bussy)
-          ) {
-            bookingsToShow.push(this.getBookingByTimeSlot(timeSlot));
-          } else if (
-            !this.checkIfBookingExist(timeSlot) &&
-            (filterId == FilterTypes.All || filterId == FilterTypes.Free) &&
-            !this.isDayPast
-          ) {
-            var booking = new Booking();
-            booking.timestamp = timeSlot;
-            bookingsToShow.push(booking);
-          }
-        });
-    }
-    return bookingsToShow;
-  }
-
-  //REF
-  public checkIfBookingExist(date: Date) {
-    return (
-      this.bookingsOrigin.findIndex(
-        (x) =>
-          this.dateTimeService.compareHoursAndMinutes(date, new Date(x.timestamp)) == 0
-      ) != -1
-    );
-  }
-
-  //REF
-  private getBookingByTimeSlot(date) {
-    let index = this.bookingsOrigin.findIndex(
-      (x) => this.dateTimeService.compareHoursAndMinutes(date, new Date(x.timestamp)) == 0
-    );
-
-    if (index == -1) {
-      return null;
-    }
-
-    return this.bookingsOrigin[index];
   }
 
   public openRemoveBookingConfirmation(id: string) {
     this.deleteBookingId = id;
   }
 
-  public newEvent(preDefinedHour: Date) {
+  public openBookingDialog(preDefinedHour: Date) {
     if (preDefinedHour) {
+      var currentDate = new Date(this.date);
+      currentDate.setHours(preDefinedHour.getHours());
+      currentDate.setMinutes(preDefinedHour.getMinutes());
+      currentDate.setSeconds(0);
       this.bookingForm.patchValue({
-        timestamp: preDefinedHour,
+        timestamp: currentDate,
+        facilityId: this.authService.getFacilityId()
       });
     }
-
-    this.showHideElement('dialog',true)
-    this.showHideElement('dialog2',false)
+    this.showHideElement("customDayConfigurationDialog", false);
+    this.showHideElement("bookingDialog", true);
     // $("input").click(function () {
     //   $().removeClass("error-input");
     // });
@@ -188,53 +166,52 @@ export class ReservationListComponent implements OnInit {
   }
 
   public addDaySpecifications() {
-    if (this.selectedStartHour > this.selectedEndHour) {
-      this.workingDayAddError = 1;
-    } else {
-      this.workingDayAddError = -1;
-
-      var startTime = new Date(0, 0, 0);
-      var endTime = new Date(0, 0, 0);
-
-      if (this.selectedStartHour % 2 == 0) {
-        startTime.setHours(this.selectedStartHour / 2);
-      } else {
-        startTime.setHours((this.selectedStartHour - 1) / 2);
-        startTime.setMinutes(30);
-      }
-      if (this.selectedEndHour % 2 == 0) {
-        endTime.setHours(this.selectedEndHour / 2);
-      } else {
-        endTime.setHours((this.selectedEndHour - 1) / 2);
-        endTime.setMinutes(30);
-      }
-
-      this.currentDay = {
-        dayDate: this.date,
-        startPeriod: startTime,
-        endPeriod: endTime,
-        isWorking: true,
-        employeeId: localStorage.getItem("clientId"),
-      };
-
-      this.dayService.addDay(this.currentDay).subscribe((x) => {
-        $("#dialog2").hide(250);
-        this.showBookings(1);
-      });
-    }
+    // if (this.selectedStartHour > this.selectedEndHour) {
+    //   this.workingDayAddError = 1;
+    // } else {
+    //   this.workingDayAddError = -1;
+    //   var startTime = new Date(0, 0, 0);
+    //   var endTime = new Date(0, 0, 0);
+    //   if (this.selectedStartHour % 2 == 0) {
+    //     startTime.setHours(this.selectedStartHour / 2);
+    //   } else {
+    //     startTime.setHours((this.selectedStartHour - 1) / 2);
+    //     startTime.setMinutes(30);
+    //   }
+    //   if (this.selectedEndHour % 2 == 0) {
+    //     endTime.setHours(this.selectedEndHour / 2);
+    //   } else {
+    //     endTime.setHours((this.selectedEndHour - 1) / 2);
+    //     endTime.setMinutes(30);
+    //   }
+    //   this.currentDay = {
+    //     dayDate: this.date,
+    //     startPeriod: startTime,
+    //     endPeriod: endTime,
+    //     isWorking: true,
+    //     employeeId: localStorage.getItem("clientId"),
+    //   };
+    //   this.dayService.addDay(this.currentDay).subscribe((x) => {
+    //     $("#dialog2").hide(250);
+    //     this.showBookings(1);
+    //   });
+    // }
   }
 
   public cancelEvent(id: number) {
-    if (id == 1) {
-      this.bookingForm.reset();
-      $("#name").removeClass("error-input");
-      $("#count").removeClass("error-input");
-      $("#dialog").hide(250);
-      $(".events-container").show(250);
-    } else {
-      $("#dialog2").hide(250);
-      $(".events-container").show(250);
-    }
+    this.resetForm(this.bookingForm);
+    this.showHideElement("customDayConfigurationDialog", false);
+    this.showHideElement("bookingDialog", false);
+    // if (id == 1) {
+    //   this.bookingForm.reset();
+    //   $("#name").removeClass("error-input");
+    //   $("#count").removeClass("error-input");
+    //   $("#dialog").hide(250);
+    //   $(".events-container").show(250);
+    // } else {
+    //   $("#dialog2").hide(250);
+    //   $(".events-container").show(250);
+    // }
   }
 
   public onOptionSelected(event: any): void {
@@ -246,90 +223,123 @@ export class ReservationListComponent implements OnInit {
   }
 
   public bookHour() {
-    // if (
-    //   this.nameControl.value == "" ||
-    //   this.phoneControl.value == "" ||
-    //   this.emailControl.value == "" ||
-    //   this.selectedUserId == "" ||
-    //   this.selectedHour == ""
-    // ) {
-    //   this.raiseError = true;
-    //   this.snackBar.open("Моля попълнете всички полета!", "Затвори", {
-    //     duration: 8000,
-    //     panelClass: ["custom-snackbar"],
-    //   });
-    //   return;
-    // } else {
-    //   this.raiseError = false;
-    // }
-    // let date = this.date;
-    // let name = this.nameControl.value.trim();
-    // let phone = this.phoneControl.value.trim();
-    // let email = this.emailControl.value.trim();
-    // let note = this.noteControl.value.trim();
-    // let hour = parseInt(this.selectedHour.split(":")[0]);
-    // let minutes = parseInt(this.selectedHour.split(":")[1]);
-    // $("#dialog").hide(250);
-    // let resultOfEmptyHoursCheck = this.checkIfNextHourEmpty(
-    //   hour,
-    //   minutes,
-    //   parseInt(this.selectedDuration.toString())
-    // );
-    // if (resultOfEmptyHoursCheck == 1) {
-    //   this.error = 1;
-    //   alert(
-    //     "Няма достатъчно свободни часове, моля променете продължителността или часа на резервация"
-    //   );
-    // } else if (resultOfEmptyHoursCheck == 2) {
-    //   this.error = 2;
-    //   alert(
-    //     "Няма достатъчно свободни часове, моля променете продължителността или часа на резервация"
-    //   );
-    // } else {
-    //   this.error = -1;
-    //   let id = this.generateGuidString();
-    //   this.newEventJson(
-    //     1,
-    //     name,
-    //     phone,
-    //     date,
-    //     this.date.getDate(),
-    //     hour,
-    //     minutes,
-    //     note,
-    //     email
-    //   );
-    //   for (let i = 0; i < this.selectedDuration; i++) {
-    //     if (minutes == 30) {
-    //       hour++;
-    //       minutes = 0;
-    //     } else {
-    //       minutes = 30;
-    //     }
-    //   }
-    //   this.nameControl.setValue("");
-    //   this.phoneControl.setValue("");
-    //   this.emailControl.setValue("");
-    //   this.noteControl.setValue("");
-    //   this.selectedPhone = null;
-    //   this.selectedHour = null;
-    //   this.selectedUserId = null;
-    // }
-    // date.setDate(this.date.getDate());
-    // this.getBookingsByMonthStatistics();
-    // this.dateClick(this.date.getDate());
+    let resultOfEmptyHoursCheck = 0
+      console.log(this.bookingForm.value)
+    if (resultOfEmptyHoursCheck == 1) {
+      alert(
+        "Няма достатъчно свободни часове, моля променете продължителността или часа на резервация"
+      );
+    } else if (resultOfEmptyHoursCheck == 2) {
+      alert(
+        "Няма достатъчно свободни часове, моля променете продължителността или часа на резервация"
+      );
+    } else {
+      this.bookingService.addBooking(this.bookingForm.value).subscribe((x) => {
+        this.showHideElement("customDayConfigurationDialog", false);
+        this.showHideElement("bookingDialog", false);
+
+        this.resetForm(this.bookingForm);
+      });
+    }
+
+    this.dateChange.emit(this.date);
   }
 
-  private showHideElement(elementId, show){
-    const elementToToggle = document.querySelector(`#${elementId}`) as HTMLElement;
+  private showHideElement(elementId, show) {
+    const elementToToggle = document.querySelector(
+      `#${elementId}`
+    ) as HTMLElement;
 
     if (elementToToggle) {
       if (show) {
-        elementToToggle.style.display = 'block';
+        elementToToggle.style.display = "block";
       } else {
-        elementToToggle.style.display = 'none';
+        elementToToggle.style.display = "none";
       }
     }
+  }
+
+  //REF
+  private getBookingsByBusiness(filterId: number) {
+    let bookingsToShow: Booking[] = [];
+
+    if (!this.currentDay || this.currentDay?.isWorking) {
+      this.timeSlots.forEach((timeSlot) => {
+        if (
+          this.checkIfBookingExist(timeSlot) &&
+          (filterId == FilterTypes.All || filterId == FilterTypes.Bussy)
+        ) {
+          bookingsToShow.push(this.getBookingByTimeSlot(timeSlot));
+        } else if (
+          !this.checkIfBookingExist(timeSlot) &&
+          (filterId == FilterTypes.All || filterId == FilterTypes.Free) &&
+          !this.isDayPast
+        ) {
+          var booking = new Booking();
+          booking.timestamp = timeSlot;
+          bookingsToShow.push(booking);
+        }
+      });
+    }
+    return bookingsToShow;
+  }
+
+  //REF
+  private getBookingByTimeSlot(date) {
+    let index = this.bookingsOrigin.findIndex(
+      (x) =>
+        this.dateTimeService.compareHoursAndMinutes(
+          date,
+          new Date(x.timestamp)
+        ) == 0
+    );
+
+    if (index == -1) {
+      return null;
+    }
+
+    return this.bookingsOrigin[index];
+  }
+  //REF
+  private checkIfBookingExist(date: Date) {
+    return (
+      this.bookingsOrigin.findIndex(
+        (x) =>
+          this.dateTimeService.compareHoursAndMinutes(
+            date,
+            new Date(x.timestamp)
+          ) == 0
+      ) != -1
+    );
+  }
+
+  private resetForm(form: FormGroup) {
+    form.reset();
+    Object.keys(form.controls).forEach((key) => {
+      form.controls[key].setErrors(null);
+    });
+  }
+
+  private checkIfNextHourEmpty(date: Date, interval: number) {
+    let index = this.bookings.findIndex(
+      (x) =>
+        x.timestamp.getHours() == date.getHours() &&
+        x.timestamp.getMinutes() == date.getMinutes()
+    );
+
+    if (index + interval > this.timeSlots.length) {
+      return 2;
+    }
+
+    //TODO finish the check for duration
+    // for (let i = 0; i < interval; i++) {
+    //   if (this.bookings[index]?.id) {
+    //     return 1;
+    //   }
+    //   index++;
+    // }
+
+    return 0;
   }
 }
 

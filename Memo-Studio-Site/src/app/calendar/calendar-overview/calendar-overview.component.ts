@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { MonthStatistics } from "src/app/shared/models/booking/month-statistics.model";
 import { DayStausEnum } from "src/app/shared/models/dayStatus.model";
 import { BookingService } from "src/app/shared/services/booking.service";
@@ -10,6 +10,8 @@ declare const $: any;
   styleUrls: ["./calendar-overview.component.css"],
 })
 export class CalendarOverviewComponent implements OnInit {
+  @Output() dateChange: EventEmitter<Date> = new EventEmitter();
+
   public monthStatistics: MonthStatistics[] = [];
   public calendarRows = [];
   public date: Date = new Date();
@@ -52,6 +54,7 @@ export class CalendarOverviewComponent implements OnInit {
 
   public dateClick(day: number) {
     this.date.setDate(day);
+    this.dateChange.emit(this.date);
     // this.showEventContainer();
     // this.showBookings(1);
   }
@@ -59,6 +62,7 @@ export class CalendarOverviewComponent implements OnInit {
   public monthClick(month: number) {
     // this.showEventContainer();
     this.date.setMonth(month);
+    this.dateChange.emit(this.date);
     this.getBookingsByMonthStatistics();
   }
 
@@ -66,6 +70,7 @@ export class CalendarOverviewComponent implements OnInit {
     // this.hideDialogs();
     const newYear = this.date.getFullYear() + 1;
     this.date.setFullYear(newYear);
+    this.dateChange.emit(this.date);
     this.getBookingsByMonthStatistics();
   }
 
@@ -73,6 +78,7 @@ export class CalendarOverviewComponent implements OnInit {
     // this.hideDialogs();
     const newYear = this.date.getFullYear() - 1;
     this.date.setFullYear(newYear);
+    this.dateChange.emit(this.date);
     this.getBookingsByMonthStatistics();
   }
 
@@ -139,7 +145,7 @@ export class CalendarOverviewComponent implements OnInit {
       fillerCount = 0;
     }
 
-    this.dateClick(this.date.getDate());
+    //this.dateClick(this.date.getDate());
     setTimeout(() => {
       this.markPastDates();
     }, 1);
@@ -147,7 +153,6 @@ export class CalendarOverviewComponent implements OnInit {
   }
 
   private getBookingsByMonthStatistics() {
-    console.log(this.date.getMonth());
     this.bookingService
       .getBookingsByMonthStatistics(
         this.date.getMonth() + 1,

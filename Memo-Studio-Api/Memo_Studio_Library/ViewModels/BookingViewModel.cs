@@ -3,7 +3,7 @@ namespace Memo_Studio_Library
 {
     public class BookingViewModel
 	{
-        public DateTime DateTime { get; set; }
+        public DateTime Timestamp { get; set; }
 
         public Guid? UserId { get; set; }
 

@@ -8,7 +8,7 @@
           <div class="content w-100 mt-0">
             <!-- Calendar -->
             <div class="calendar-container margin-b">
-              <app-calendar-overview></app-calendar-overview>
+              <app-calendar-overview (dateChange)="dateChange($event)"></app-calendar-overview>
   
               <!-- Edit & Add Apointment Butons -->
               <div class="text-center custom-calendar-edit-btn" *ngIf="isServerDown == false">
@@ -18,7 +18,7 @@
               </div>
             </div>
             <div class="events-container" *ngIf="!loader && isServerDown == false">
-              <app-reservation-list></app-reservation-list>
+              <app-reservation-list [bookingsOrigin]="bookingsOrigin" [facilityConfiguration]="facilityConfiguration"></app-reservation-list>
             </div>
             <!-- Tabs -->
             <!-- <div class="events-container" *ngIf="!loader && isServerDown == false">

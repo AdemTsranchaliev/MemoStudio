@@ -35,7 +35,7 @@ namespace Memo_Studio_Library
             var newBooking = new Booking
             {
                 CreatedOn = DateTime.Now,
-                Timestamp = booking.DateTime.ToLocalTime(),
+                Timestamp = booking.Timestamp.ToLocalTime(),
                 FacilityId = facility.Id,
                 Note = booking.Note,
                 Duration = booking.Duration,
@@ -55,7 +55,8 @@ namespace Memo_Studio_Library
             }
 
             var result = await context.Bookings.AddAsync(newBooking);
-            await context.SaveChangesAsync();
+           
+            var test = await context.SaveChangesAsync();
 
             context.Entry(result.Entity).Reference(b => b.User).Load();
 
@@ -70,9 +71,9 @@ namespace Memo_Studio_Library
                 var end = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day,23,59,59);
 
                 return await context.Bookings
-                    .Include(x => x.User)
                     .Include(x=>x.Facility)
                     .Where(x=>x.Timestamp >= start && x.Timestamp <= end && x.Facility.FacilityId==facilityId && !x.Canceled)
+                    //.Include(x => x.User)
                     .ToListAsync();
             }
         }

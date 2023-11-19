@@ -9,23 +9,27 @@ export class DateTimeService {
     endPeriod: Date,
     intervalMinute: number
   ) {
-
-    if (intervalMinute <= 0 || intervalMinute > 60) {
+    
+    //new instances of the dates
+    var startPeriodTemp = new Date(startPeriod)
+    var endPeriodTemp = new Date(endPeriod)
+  
+    if (intervalMinute <= 0 || intervalMinute > 90) {
       throw new Error("Invalid interval values");
     }
 
-    if (startPeriod > endPeriod) {
+    if (startPeriodTemp > endPeriodTemp) {
       throw new Error("Start period cannot be greater than end period");
     }
 
     const timeSlots: Date[] = [];
-    let currentPeriod = new Date(startPeriod);
-
-    while (currentPeriod <= endPeriod) {
+    let currentPeriod = startPeriodTemp;
+    
+    while (currentPeriod <= endPeriodTemp) {
       timeSlots.push(new Date(currentPeriod));
       currentPeriod.setMinutes(currentPeriod.getMinutes() + intervalMinute);
     }
-
+    
     return timeSlots;
   }
 
@@ -36,18 +40,10 @@ export class DateTimeService {
     const hour2 = date2.getHours();
     const minute2 = date2.getMinutes();
 
-    if (hour1 < hour2) {
-      return -1;
-    } else if (hour1 > hour2) {
+    if (hour1 == hour2 && minute1 == minute2) {
+      return 0;
+    } else  {
       return 1;
-    } else {
-      if (minute1 < minute2) {
-        return -1;
-      } else if (minute1 > minute2) {
-        return 1;
-      } else {
-        return 0;
-      }
-    }
+    } 
   }
 }
