@@ -21,42 +21,40 @@
   <h4 class="ml-2 my-3">Редакция на информацията</h4>
   <form [formGroup]="formGroup">
     <div class="card-body">
-      <mat-form-field class="w-100 mt-2">
-        <mat-label>Име</mat-label>
-        <input matInput placeholder="Вашето име" name="name" formControlName="name" />
-      </mat-form-field>
+      <label class="custom-field w-100 mt-2">
+        <input class="w-100" placeholder=" " name="name" formControlName="name" />
+        <span class="placeholder cursor-text">Име</span>
+      </label>
 
-      <mat-form-field class="w-100">
-        <mat-label>Фамилия</mat-label>
-        <input matInput placeholder="Вашата фамилия" name="surname" formControlName="surname" />
-      </mat-form-field>
+      <label class="custom-field w-100 mt-2">
+        <input class="w-100" placeholder=" " name="surname" formControlName="surname" />
+        <span class="placeholder cursor-text">Фамилия</span>
+      </label>
 
-      <mat-form-field class="w-100">
-        <mat-label>Телефон</mat-label>
-        <input matInput placeholder="Вашият телефон" name="phone" formControlName="phone" />
-      </mat-form-field>
+      <label class="custom-field w-100 mt-2">
+        <input class="w-100" placeholder=" " name="phone" formControlName="phone" />
+        <span class="placeholder cursor-text">Телефон</span>
+      </label>
 
-      <mat-form-field class="w-100">
-        <mat-label>Имейл</mat-label>
-        <input matInput placeholder="Вашият имейл" formControlName="email" name="email"/>
+      <label class="custom-field w-100 mt-2">
+        <input class="w-100" placeholder=" " name="email" formControlName="email" />
+        <span class="placeholder cursor-text">Имейл</span>
         <!-- <mat-hint>
           Имейлът Ви не е потвърден. Моля проверете вашата пощта.
           <a href="javascript:void(0)">Повторно изпращане на потвърждение.</a>
         </mat-hint> -->
-      </mat-form-field>
+      </label>
 
-      <mat-form-field class="w-100">
-        <mat-label>Име на обект</mat-label>
-        <input matInput placeholder="Име на обект" name="facilityName" formControlName="facilityName" />
+      <label class="custom-field w-100 mt-2">
+        <input class="w-100" placeholder=" " name="facilityName" formControlName="facilityName" />
+        <span class="placeholder cursor-text">Име на обект</span>
         <!-- <mat-hint align="start">Името, което ще се появява, когато някой запазва час. Ако това поле е празно, ще се
           появяват двете ви имена.</mat-hint> -->
-      </mat-form-field>
+      </label>
     </div>
 
     <div class="text-right m-4">
       <button [disabled]="!formGroup.valid" type="submit" mat-raised-button color="primary" (click)="saveGeneralInformation()">Запази промени</button>
-      <!-- &nbsp;
-      <button mat-stroked-button color="primary">Отказ</button> -->
     </div>
   </form>
 

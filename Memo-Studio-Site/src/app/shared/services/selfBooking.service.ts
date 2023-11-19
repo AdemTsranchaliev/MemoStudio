@@ -28,7 +28,8 @@ export class DateModel {
 export class SelfBookingService {
     // ========== Will be REMOVED when API is ready ==========
     days: DateModel[] = [];
-    daysOfWeek = ["ПОН", "ВТО", "СРЯ", "ЧЕТ", "ПЕТ", "СЪБ", "НЕД"];
+    // daysOfWeek = ["ПОН", "ВТО", "СРЯ", "ЧЕТ", "ПЕТ", "СЪБ", "НЕД"];
+    daysOfWeek = ["Понеделник", "Вторник", "Сряда", "Четвъртък", "Петък", "Събота", "Неделя"];
     timeIntervals: string[] = [];
 
     constructor(

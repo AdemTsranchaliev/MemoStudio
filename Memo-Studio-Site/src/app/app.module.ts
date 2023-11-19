@@ -42,7 +42,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatCardModule } from "@angular/material/card";
 import { ImageCropperModule } from "ngx-image-cropper";
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 // Import BG Language - Use from Pipe
 import localeBg from "@angular/common/locales/bg";
@@ -81,6 +81,7 @@ import { ReservationCalendarComponent } from "./calendar/calendar.component";
 import { ReservationListComponent } from './calendar/reservation-list/reservation-list.component';
 import { DateTimeService } from "./shared/services/date-time.service";
 import { TruncatePipe } from "./shared/pipes/truncate.pipe";
+import { CheckboxSelectComponent } from './shared/components/checkbox-select/checkbox-select.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -121,7 +122,8 @@ registerLocaleData(localeBg, "bg");
     ReservationCalendarComponent,
     ReservationListComponent,
     //Pipe
-    TruncatePipe
+    TruncatePipe,
+    CheckboxSelectComponent,
   ],
   imports: [
     BrowserModule,
@@ -152,7 +154,7 @@ registerLocaleData(localeBg, "bg");
     MatStepperModule,
     ImageCropperModule,
     AppRoutingModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -181,4 +183,4 @@ registerLocaleData(localeBg, "bg");
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

@@ -10,21 +10,24 @@
         }"
         (click)="loadFreeHours(day)"
       >
+        <div class="d-flex">
+          <span
+            style="font-weight: 500"
+            [ngClass]="{ 'text-dark': !day.isDisabled }"
+          >
+            {{ capitalizeFirst(day.date | date : 'EEEE') }}
+          </span>
+        </div>
         <div
           class="day-item-number"
-          [ngClass]="{ 'text-primary': !day.isDisabled }"
+          [ngClass]="{ 'text-secondary': !day.isDisabled }"
         >
           {{ day.date | date : 'dd' }}
           <span
             style="font-size: small"
-            [ngClass]="{ 'text-primary': !day.isDisabled }"
+            [ngClass]="{ 'text-secondary': !day.isDisabled }"
           >
             {{ day.month | slice : 0 : 3 | uppercase }}
-          </span>
-        </div>
-        <div class="d-flex">
-          <span [ngClass]="{ 'text-primary': !day.isDisabled }">
-            {{ day.date | date : 'EEEE' | slice : 0 : 3 | uppercase }}
           </span>
         </div>
       </div>

@@ -1,0 +1,100 @@
+.custom-field {
+  position: relative;
+  font-size: 14px;
+  border-top: 20px solid transparent;
+  margin-bottom: 5px;
+  display: inline-block;
+  --field-padding: 12px;
+}
+
+.custom-field input {
+  border: none;
+  -webkit-appearance: none;
+  -ms-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: #f2f2f2;
+  padding: var(--field-padding);
+  border-radius: 3px;
+  width: 250px;
+  outline: none;
+  font-size: 14px;
+  height: 50px; /* Manage Input Height */
+}
+
+.custom-field .placeholder {
+  position: absolute;
+  left: var(--field-padding);
+  width: calc(100% - (var(--field-padding) * 2));
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  /* ======= Never Delete! ======= */
+  pointer-events: none; /* ============ Never the target, allow to click through! ============ */
+  color: #aaa;
+  transition: top 0.2s linear, color 0.2s linear, font-size 0.2s linear;
+}
+
+.custom-field input.dirty + .placeholder,
+.custom-field input:focus + .placeholder,
+.custom-field input:not(:placeholder-shown) + .placeholder {
+  top: -10px;
+  font-size: 10px;
+  color: #007bff;
+}
+
+.custom-field input {
+  background: none;
+  border: 2px solid #ddd;
+  transition: border-color 0.3s ease;
+}
+
+.custom-field input + .placeholder {
+  left: 8px;
+  padding: 0 5px;
+}
+
+.custom-field input.dirty,
+.custom-field input:not(:placeholder-shown),
+.custom-field input:focus {
+  border-color: #007bff;
+  transition-delay: 0.1s;
+}
+
+.custom-field input.dirty + .placeholder,
+.custom-field input:not(:placeholder-shown) + .placeholder,
+.custom-field input:focus + .placeholder {
+  top: 0;
+  font-size: 10px;
+  color: #007bff;
+  background: #fff;
+  width: auto;
+}
+
+/* Error Rules */
+.custom-field input.ng-invalid {
+  border-color: red; /* Change the border color to red for invalid fields */
+}
+
+.custom-field input.ng-invalid + .placeholder {
+  color: red; /* Change the placeholder color to red for invalid fields */
+}
+
+/* Disabled */
+.custom-field input:disabled {
+  color: gray; /* Apply gray style to the Input text when input is disabled */
+  border-color: gray; /* Change the border color to red for invalid fields */
+  border-style: dashed;
+}
+
+.custom-field input:disabled + .placeholder {
+  color: gray; /* Apply gray style to the Paceholder text when input is disabled */
+}
+
+/* Cursor Text */
+.cursor-text {
+  cursor: text; /* Default Input Cursor Style While Hover */
+}

@@ -7,9 +7,17 @@
     Грешна парола или имейл
   </div>
   <form [formGroup]="registerForm">
-    <mat-form-field class="w-100 mt-2">
-      <mat-label>Име</mat-label>
-      <input matInput id="name" type="text" formControlName="name" />
+    <div>
+      <label class="custom-field w-100 mt-2">
+        <input
+          type="text"
+          id="name"
+          class="w-100"
+          placeholder=" "
+          formControlName="name"
+        />
+        <span class="placeholder cursor-text">Име</span>
+      </label>
       <mat-error
         *ngIf="
           utilityService.HasError(registerForm, 'name', 'required') &&
@@ -18,10 +26,19 @@
       >
         Това поле е задължително.
       </mat-error>
-    </mat-form-field>
-    <mat-form-field class="w-100 mt-2">
-      <mat-label>Фамилия</mat-label>
-      <input matInput id="surname" type="text" formControlName="surname" />
+    </div>
+
+    <div>
+      <label class="custom-field w-100 mt-2">
+        <input
+          type="text"
+          id="surname"
+          class="w-100"
+          placeholder=" "
+          formControlName="surname"
+        />
+        <span class="placeholder cursor-text">Фамилия</span>
+      </label>
       <mat-error
         *ngIf="
           utilityService.HasError(registerForm, 'surname', 'required') &&
@@ -30,10 +47,19 @@
       >
         Това поле е задължително.
       </mat-error>
-    </mat-form-field>
-    <mat-form-field class="w-100 mt-2">
-      <mat-label>Имейл</mat-label>
-      <input matInput id="email" type="email" formControlName="email" />
+    </div>
+
+    <div>
+      <label class="custom-field w-100 mt-2">
+        <input
+          type="email"
+          id="email"
+          class="w-100"
+          placeholder=" "
+          formControlName="email"
+        />
+        <span class="placeholder cursor-text">Имейл</span>
+      </label>
       <mat-error
         *ngIf="
           utilityService.HasError(registerForm, 'email', 'required') &&
@@ -50,10 +76,19 @@
       >
         Моля въведете валиден имейл адрес.
       </mat-error>
-    </mat-form-field>
-    <mat-form-field class="w-100 mt-2">
-      <mat-label>Телефон</mat-label>
-      <input matInput id="phone" type="phone" formControlName="phone" />
+    </div>
+
+    <div>
+      <label class="custom-field w-100 mt-2">
+        <input
+          type="phone"
+          id="phone"
+          class="w-100"
+          placeholder=" "
+          formControlName="phone"
+        />
+        <span class="placeholder cursor-text">Телефон</span>
+      </label>
       <mat-error
         *ngIf="
           utilityService.HasError(registerForm, 'phone', 'required') &&
@@ -70,15 +105,19 @@
       >
         Невалиден телефонен номер.
       </mat-error>
-    </mat-form-field>
-    <mat-form-field class="w-100 mt-2">
-      <mat-label>Парола</mat-label>
-      <input
-        matInput
-        id="password"
-        type="password"
-        formControlName="password"
-      />
+    </div>
+
+    <div>
+      <label class="custom-field w-100 mt-2">
+        <input
+          type="password"
+          id="password"
+          class="w-100"
+          placeholder=" "
+          formControlName="password"
+        />
+        <span class="placeholder cursor-text">Парола</span>
+      </label>
       <mat-error
         *ngIf="
           utilityService.HasError(registerForm, 'password', 'required') &&
@@ -95,15 +134,19 @@
       >
         Паролата, трябва да бъде поне 3 символа.
       </mat-error>
-    </mat-form-field>
-    <mat-form-field class="w-100 mt-2">
-      <mat-label>Повтори парола</mat-label>
-      <input
-        matInput
-        id="confirmPassword"
-        type="password"
-        formControlName="confirmPassword"
-      />
+    </div>
+
+    <div>
+      <label class="custom-field w-100 mt-2">
+        <input
+          type="password"
+          id="confirmPassword"
+          class="w-100"
+          placeholder=" "
+          formControlName="confirmPassword"
+        />
+        <span class="placeholder cursor-text">Повтори паролата</span>
+      </label>
       <mat-error
         *ngIf="
           registerForm.get('password').hasError('required') &&
@@ -113,7 +156,8 @@
         Това поле е задължително.
       </mat-error>
       <mat-error> Паролите не съвпадат </mat-error>
-    </mat-form-field>
+    </div>
+
     <div class="d-flex mb-5 mt-3 align-items-center">
       <mat-checkbox formControlName="acceptPolicy"
         >Приемам политиките за поверителност</mat-checkbox
