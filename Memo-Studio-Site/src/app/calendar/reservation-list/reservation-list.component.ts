@@ -113,7 +113,7 @@ export class ReservationListComponent implements OnInit, OnChanges {
       currentDate.setSeconds(0);
       this.bookingForm.patchValue({
         timestamp: currentDate,
-        facilityId: this.authService.getFacilityId()
+        facilityId: this.authService.getFacilityId(),
       });
     }
     this.showHideElement("customDayConfigurationDialog", false);
@@ -134,12 +134,8 @@ export class ReservationListComponent implements OnInit, OnChanges {
     this.loader = true;
 
     this.bookingService.deleteBooking(this.deleteBookingId).subscribe((x) => {
-      this.bookingsOrigin = this.bookingService.getReservationForDate(
-        this.date,
-        this.bookingsOrigin
-      );
-      this.bookings = [...this.bookingsOrigin];
-      this.showBookings(FilterTypes.All);
+      
+      this.dateChange.emit(this.date);
 
       this.loader = false;
     });
@@ -222,9 +218,16 @@ export class ReservationListComponent implements OnInit, OnChanges {
     this.selectedUserId = selectedValue.userId;
   }
 
+  truncateText(text: string, limit: number): string {
+    if (text.length > limit) {
+      return text.substring(0, limit) + "...";
+    }
+    return text;
+  }
+
   public bookHour() {
-    let resultOfEmptyHoursCheck = 0
-      console.log(this.bookingForm.value)
+    let resultOfEmptyHoursCheck = 0;
+    console.log(this.bookingForm.value);
     if (resultOfEmptyHoursCheck == 1) {
       alert(
         "Няма достатъчно свободни часове, моля променете продължителността или часа на резервация"
@@ -239,10 +242,9 @@ export class ReservationListComponent implements OnInit, OnChanges {
         this.showHideElement("bookingDialog", false);
 
         this.resetForm(this.bookingForm);
+        this.dateChange.emit(this.date);
       });
     }
-
-    this.dateChange.emit(this.date);
   }
 
   private showHideElement(elementId, show) {

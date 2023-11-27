@@ -12,7 +12,7 @@ namespace Memo_Studio_Library
 		public Task<Booking> RemoveBooking(Guid bookingId, Guid facilityId);
 		public Task<string> GetViberIdByBookingId(int id);
 		public Task<List<Booking>> GetBookingByReservationId(string id);
-		public Task<List<MonthDaysStatisticsResponse>> GetMonthDaysStatistics(Guid facilityId, int month, int year);
+        public Task<List<MonthDaysStatisticsResponse>> GetMonthDaysStatistics(Guid facilityId, int month, int year);
     }
 }
 

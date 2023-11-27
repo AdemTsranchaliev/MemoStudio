@@ -14,12 +14,14 @@ namespace Memo_Studio_Library
 	{
         private readonly StudioContext context;
         private readonly IFacilityService facilityService;
+        private readonly IBookingService bookingService;
         private readonly IUserService userService;
 
-        public BookingService(StudioContext context, IFacilityService facilityService, IUserService userService)
+        public BookingService(StudioContext context, IFacilityService facilityService, IBookingService bookingService,IUserService userService)
 		{
             this.context = context;
             this.facilityService = facilityService;
+            this.bookingService = bookingService;
             this.userService = userService;
         }
 
@@ -32,6 +34,7 @@ namespace Memo_Studio_Library
                 return null;
             }
 
+
             var newBooking = new Booking
             {
                 CreatedOn = DateTime.Now,
@@ -42,6 +45,12 @@ namespace Memo_Studio_Library
                 BookingId = Guid.NewGuid()
             };
 
+            var dateToSearch = booking.Timestamp.ToLocalTime();
+
+
+            var bookingsToSearch = await bookingService.GetBookingsByDate(booking.Timestamp.ToLocalTime(), facility.FacilityId);
+
+            //bookingsToSearch.Where(x=>x.t)
 
             if (booking?.UserId!=null)
             {

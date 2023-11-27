@@ -18,7 +18,7 @@ export class ReservationCalendarComponent implements OnInit {
   public loader: boolean = false;
   bookingsOrigin: Booking[] = [];
   public currentDay: Day;
-  date: Date = new Date();
+  public date: Date = new Date();
   public facilityConfiguration: any;
 
   bookings: Booking[] = [];

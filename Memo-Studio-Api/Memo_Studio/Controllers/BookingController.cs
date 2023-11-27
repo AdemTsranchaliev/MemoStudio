@@ -24,15 +24,24 @@ namespace Memo_Studio.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> AddBooking([FromBody] BookingViewModel booking)
         {
-            var bookingModel = await bookingService.AddBookign(booking);
-
-            if (bookingModel.User.ViberId != null)
+            try
             {
-                var dateString = bookingModel.GetDateTimeInMessageFormat();
-                await messageService.SendMessage(bookingModel.User.ViberId, $"Запазихте час за \n{dateString}");
+                var bookingModel = await bookingService.AddBookign(booking);
+
+                if (bookingModel?.User?.ViberId != null)
+                {
+                    var dateString = bookingModel.GetDateTimeInMessageFormat();
+                    await messageService.SendMessage(bookingModel.User.ViberId, $"Запазихте час за \n{dateString}");
+                }
+
+            }
+            catch(Exception ex)
+            {
+                return BadRequest();
             }
 
             return Ok();
+
         }
 
         [Authorize]
@@ -51,7 +60,7 @@ namespace Memo_Studio.Controllers
         [HttpDelete("{bookingId}")]
         public async Task<IActionResult> RemoveBooking(Guid bookingId, [FromQuery] Guid facilityId)
         {
-            if (facilityId == null)
+            if (facilityId == Guid.Empty)
             {
                 facilityId = this.GetFacilityId();
             }
@@ -60,7 +69,7 @@ namespace Memo_Studio.Controllers
 
             var date = booking.GetDateTimeInMessageFormat();
 
-            if (booking.User.ViberId != null)
+            if (booking?.User?.ViberId != null)
             {
                 await messageService.SendMessage(booking.User.ViberId, $"Вашият час за \n{date} беше отменен.");
             }
