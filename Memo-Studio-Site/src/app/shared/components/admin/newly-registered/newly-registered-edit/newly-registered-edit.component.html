@@ -1,0 +1,76 @@
+<section class="container container-edit">
+  <article class="row justify-content-end p-1">
+    <article class="col-12">
+      <h6>
+        <span class="cursor-pointer" (click)="navigate('admin-dashboard')">
+          Dashboard
+        </span>
+        /
+        <span class="cursor-pointer" (click)="navigate('newly-registered')">
+          Newly Registered
+        </span>
+        /
+        <u>User Details</u>
+      </h6>
+    </article>
+  </article>
+
+  <article>
+    <form
+      [formGroup]="newlyRegisteredEditForm"
+      class="row justify-content-between"
+    >
+      <div class="col-6">
+        <label class="custom-field w-100">
+          <input
+            class="w-100"
+            placeholder=" "
+            name="firstName"
+            formControlName="firstName"
+          />
+          <span class="placeholder cursor-text">First Name</span>
+        </label>
+      </div>
+
+      <div class="col-6">
+        <label class="custom-field w-100">
+          <input
+            class="w-100"
+            placeholder=" "
+            name="lastName"
+            formControlName="lastName"
+          />
+          <span class="placeholder cursor-text">Last Name</span>
+        </label>
+      </div>
+
+      <div class="col-6">
+        <label class="custom-field w-100">
+          <input
+            class="w-100"
+            placeholder=" "
+            name="phone"
+            formControlName="phone"
+          />
+          <span class="placeholder cursor-text">Phone Number</span>
+        </label>
+      </div>
+
+      <div class="col-6">
+        <label class="custom-field w-100">
+          <input
+            class="w-100"
+            placeholder=" "
+            name="email"
+            formControlName="email"
+          />
+          <span class="placeholder cursor-text">Email</span>
+        </label>
+      </div>
+
+      <div class="col-12 text-center my-4">
+        <button (click)="onSubmit()" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </article>
+</section>

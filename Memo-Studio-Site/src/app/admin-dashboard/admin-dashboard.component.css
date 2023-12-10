@@ -1,0 +1,15 @@
+.admin-container {
+  margin-top: 100px;
+}
+
+.statistics-card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.statistics-card:hover {
+  transform: translateY(-3px);
+}
+
+.icons {
+  font-size: 30px;
+}

@@ -82,6 +82,13 @@ import { ReservationListComponent } from './calendar/reservation-list/reservatio
 import { DateTimeService } from "./shared/services/date-time.service";
 import { TruncatePipe } from "./shared/pipes/truncate.pipe";
 import { CheckboxSelectComponent } from './shared/components/checkbox-select/checkbox-select.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { NewlyRegisteredListComponent } from './shared/components/admin/newly-registered/newly-registered-list/newly-registered-list.component';
+import { NewlyRegisteredEditComponent } from './shared/components/admin/newly-registered/newly-registered-edit/newly-registered-edit.component';
+import { CatchedErrorsListComponent } from './shared/components/admin/catched-errors/catched-errors-list/catched-errors-list.component';
+import { CatchedErrorsEditComponent } from './shared/components/admin/catched-errors/catched-errors-edit/catched-errors-edit.component';
+import { AllUsersListComponent } from './shared/components/admin/all-users/all-users-list/all-users-list.component';
+import { AllUsersEditComponent } from './shared/components/admin/all-users/all-users-edit/all-users-edit.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -124,6 +131,13 @@ registerLocaleData(localeBg, "bg");
     //Pipe
     TruncatePipe,
     CheckboxSelectComponent,
+    AdminDashboardComponent,
+    NewlyRegisteredListComponent,
+    NewlyRegisteredEditComponent,
+    CatchedErrorsListComponent,
+    CatchedErrorsEditComponent,
+    AllUsersListComponent,
+    AllUsersEditComponent,
   ],
   imports: [
     BrowserModule,

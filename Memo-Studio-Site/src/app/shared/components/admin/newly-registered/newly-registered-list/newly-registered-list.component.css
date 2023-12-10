@@ -1,0 +1,14 @@
+.container-list {
+  margin-top: 150px;
+}
+
+.fixed-layout {
+  table-layout: fixed;
+}
+
+.fixed-layout th,
+.fixed-layout td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

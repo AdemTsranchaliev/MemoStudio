@@ -1,0 +1,55 @@
+<section class="admin-container p-5">
+  <article class="row justify-content-center p-1">
+    <article class="col-md-3 col-sm-12">
+      <h5>PRELIMINARY STATISTICAL MAPS</h5>
+      <h6><u>ADMIN DASHBOARD</u> / CONTENT</h6>
+    </article>
+    <article class="col-3"></article>
+    <article class="col-3"></article>
+  </article>
+
+  <article class="row justify-content-center my-4">
+    <article
+      class="col-md-3 col-sm-6 border shadow rounded py-3 m-2 cursor-pointer statistics-card"
+      (click)="navigate('newly-registered')"
+    >
+      <div class="row align-items-center">
+        <div class="col-8">
+          <h5 class="mb-0 text-info">9</h5>
+          <h5 class="mt-0 text-info">New Users</h5>
+        </div>
+        <div class="col-4 text-center">
+          <i class="fas fa-handshake icons text-info"></i>
+        </div>
+      </div>
+    </article>
+    <article
+      class="col-md-3 col-sm-6 border shadow rounded py-3 mx-2 my-2 cursor-pointer statistics-card"
+      (click)="navigate('all-users')"
+    >
+      <div class="row align-items-center">
+        <div class="col-8">
+          <h5 class="mb-0 text-primary">51</h5>
+          <h5 class="mt-0 text-primary">All users</h5>
+        </div>
+        <div class="col-4 text-center">
+          <i class="fas fa-users icons text-primary"></i>
+        </div>
+      </div>
+    </article>
+    <article
+      class="col-md-3 col-sm-6 border shadow rounded py-3 mx-2 my-2 cursor-pointer statistics-card"
+      (click)="navigate('catched-errors')"
+    >
+      <div class="row align-items-center">
+        <div class="col-8">
+          <h5 class="mb-0 text-danger">37</h5>
+          <h5 class="mt-0 text-danger">Recorded Errors</h5>
+        </div>
+        <div class="col-4 text-center">
+          <i class="fas fa-bomb icons text-danger"></i>
+        </div>
+      </div>
+    </article>
+  </article>
+</section>

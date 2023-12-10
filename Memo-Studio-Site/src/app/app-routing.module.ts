@@ -17,9 +17,21 @@ import { ViberConfirmationComponent } from "./shared/dialogs/viber-confirmation/
 import { TermsConditionsComponent } from "./terms-conditions/terms-conditions.component";
 import { CalendarOverviewComponent } from "./calendar/calendar-overview/calendar-overview.component";
 import { ReservationCalendarComponent } from "./calendar/calendar.component";
+import { AdminDashboardComponent } from "./admin-dashboard/admin-dashboard.component";
+import { NewlyRegisteredEditComponent } from "./shared/components/admin/newly-registered/newly-registered-edit/newly-registered-edit.component";
+import { NewlyRegisteredListComponent } from "./shared/components/admin/newly-registered/newly-registered-list/newly-registered-list.component";
+import { CatchedErrorsListComponent } from "./shared/components/admin/catched-errors/catched-errors-list/catched-errors-list.component";
+import { AllUsersListComponent } from "./shared/components/admin/all-users/all-users-list/all-users-list.component";
+import { AllUsersEditComponent } from "./shared/components/admin/all-users/all-users-edit/all-users-edit.component";
 
 const routes: Routes = [
   { path: "home-information", component: HomeInfoComponent },
+  { path: "admin-dashboard", component: AdminDashboardComponent },
+  { path: "newly-registered", component: NewlyRegisteredListComponent },
+  { path: "newly-registered-details/:id", component: NewlyRegisteredEditComponent },
+  { path: "all-users", component: AllUsersListComponent },
+  { path: "all-users/user-details/:id", component: AllUsersEditComponent },
+  { path: "catched-errors", component: CatchedErrorsListComponent },
   { path: "booking", component: BookingComponent, canActivate: [AuthGuard] },
   {
     path: "self-booking",
