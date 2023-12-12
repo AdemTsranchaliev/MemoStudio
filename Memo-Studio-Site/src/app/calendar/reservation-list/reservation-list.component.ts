@@ -134,7 +134,6 @@ export class ReservationListComponent implements OnInit, OnChanges {
     this.loader = true;
 
     this.bookingService.deleteBooking(this.deleteBookingId).subscribe((x) => {
-      
       this.dateChange.emit(this.date);
 
       this.loader = false;
@@ -227,7 +226,6 @@ export class ReservationListComponent implements OnInit, OnChanges {
 
   public bookHour() {
     let resultOfEmptyHoursCheck = 0;
-    console.log(this.bookingForm.value);
     if (resultOfEmptyHoursCheck == 1) {
       alert(
         "Няма достатъчно свободни часове, моля променете продължителността или часа на резервация"
@@ -266,12 +264,29 @@ export class ReservationListComponent implements OnInit, OnChanges {
     let bookingsToShow: Booking[] = [];
 
     if (!this.currentDay || this.currentDay?.isWorking) {
+      var tempDuration = 0;
+      var currentBooking;
+
       this.timeSlots.forEach((timeSlot) => {
-        if (
-          this.checkIfBookingExist(timeSlot) &&
-          (filterId == FilterTypes.All || filterId == FilterTypes.Bussy)
-        ) {
-          bookingsToShow.push(this.getBookingByTimeSlot(timeSlot));
+        if (this.checkIfBookingExist(timeSlot) && (filterId == FilterTypes.All || filterId == FilterTypes.Bussy) || tempDuration>0) {
+          var bookingTemp: Booking;
+
+          if(tempDuration > 0){
+            bookingTemp = {...currentBooking};
+          }
+          else{
+             bookingTemp = {...this.getBookingByTimeSlot(timeSlot)};
+          }
+          
+          if(tempDuration==0&&bookingTemp){
+            tempDuration = bookingTemp.duration - this.facilityConfiguration.interval;
+            currentBooking = bookingTemp;
+          }
+          else{
+            tempDuration = tempDuration - this.facilityConfiguration.interval;
+          }
+          bookingTemp.timestamp = timeSlot;
+          bookingsToShow.push(bookingTemp);
         } else if (
           !this.checkIfBookingExist(timeSlot) &&
           (filterId == FilterTypes.All || filterId == FilterTypes.Free) &&

@@ -6,6 +6,7 @@ import { DayService } from "../shared/services/day.service";
 import { Booking } from "../shared/models/booking.model";
 import { Day } from "../shared/models/day.model";
 import { FacilityService } from "../shared/services/facility.service";
+declare const $: any;
 
 @Component({
   selector: "app-calendar",
@@ -43,9 +44,10 @@ export class ReservationCalendarComponent implements OnInit {
 
     this.bookingService.getBookingsByDate(this.date).subscribe((x) => {
       this.bookingsOrigin = x;
-      console.log(x)
     });
   }
 
-  editDay() {}
+  editDay() {
+    $("#customDayConfigurationDialog").show(250);
+  }
 }

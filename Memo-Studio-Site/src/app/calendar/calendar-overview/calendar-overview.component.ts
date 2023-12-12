@@ -11,6 +11,7 @@ declare const $: any;
 })
 export class CalendarOverviewComponent implements OnInit {
   @Output() dateChange: EventEmitter<Date> = new EventEmitter();
+  @Output() editDayButtonClick: EventEmitter<any> = new EventEmitter();
 
   public monthStatistics: MonthStatistics[] = [];
   public calendarRows = [];
@@ -95,6 +96,7 @@ export class CalendarOverviewComponent implements OnInit {
   }
 
   public editDay() {
+    this.editDayButtonClick.emit();
     $("#dialog2").show(250);
   }
 
