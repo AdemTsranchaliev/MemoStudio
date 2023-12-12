@@ -93,6 +93,7 @@ import { UserHomeComponent } from './user-home/user-home.component';
 import { UpcomingBookingComponent } from './shared/components/user/upcoming-booking/upcoming-booking.component';
 import { CancelBookingComponent } from './shared/dialogs/cancel-booking/cancel-booking.component';
 import { PreBookingComponent } from './shared/components/user/pre-booking/pre-booking.component';
+import { FinishBussinesRegistrationComponent } from './finish-bussines-registration/finish-bussines-registration.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -146,6 +147,7 @@ registerLocaleData(localeBg, "bg");
     UpcomingBookingComponent,
     CancelBookingComponent,
     PreBookingComponent,
+    FinishBussinesRegistrationComponent,
   ],
   imports: [
     BrowserModule,

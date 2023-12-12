@@ -26,6 +26,7 @@ import { AllUsersEditComponent } from "./shared/components/admin/all-users/all-u
 import { UserHomeComponent } from "./user-home/user-home.component";
 import { UpcomingBookingComponent } from "./shared/components/user/upcoming-booking/upcoming-booking.component";
 import { PreBookingComponent } from "./shared/components/user/pre-booking/pre-booking.component";
+import { FinishBussinesRegistrationComponent } from "./finish-bussines-registration/finish-bussines-registration.component";
 
 const routes: Routes = [
   { path: "home-information", component: HomeInfoComponent },
@@ -55,6 +56,7 @@ const routes: Routes = [
   { path: "pre-booking", component: PreBookingComponent },
   { path: "email-confirm", component: EmailConfirmationComponent },
   { path: "change-password", component: ChangeForgottenPasswordComponent },
+  { path: "finish-registration", component: FinishBussinesRegistrationComponent },
   {
     path: "user",
     component: UserDetailsComponent,
