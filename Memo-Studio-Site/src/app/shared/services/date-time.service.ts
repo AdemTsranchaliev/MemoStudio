@@ -9,11 +9,10 @@ export class DateTimeService {
     endPeriod: Date,
     intervalMinute: number
   ) {
-    
     //new instances of the dates
-    var startPeriodTemp = new Date(startPeriod)
-    var endPeriodTemp = new Date(endPeriod)
-  
+    var startPeriodTemp = new Date(startPeriod);
+    var endPeriodTemp = new Date(endPeriod);
+
     if (intervalMinute <= 0 || intervalMinute > 90) {
       throw new Error("Invalid interval values");
     }
@@ -24,17 +23,16 @@ export class DateTimeService {
 
     const timeSlots: Date[] = [];
     let currentPeriod = startPeriodTemp;
-    
+
     while (currentPeriod <= endPeriodTemp) {
       timeSlots.push(new Date(currentPeriod));
       currentPeriod.setMinutes(currentPeriod.getMinutes() + intervalMinute);
     }
-    
+
     return timeSlots;
   }
 
   public compareHoursAndMinutes(date1: Date, date2: Date): number {
-
     const hour1 = date1.getHours();
     const minute1 = date1.getMinutes();
     const hour2 = date2.getHours();
@@ -42,8 +40,8 @@ export class DateTimeService {
 
     if (hour1 == hour2 && minute1 == minute2) {
       return 0;
-    } else  {
+    } else {
       return 1;
-    } 
+    }
   }
 }

@@ -10,7 +10,7 @@ import { Subscription } from "rxjs";
 import { AuthenticatinService } from "src/app/shared/services/authenticatin.service";
 import { UtilityService } from "src/app/shared/services/utility.service";
 import { AuthenticationComponent } from "../authentication.component";
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 function passwordMatchValidator(control: AbstractControl) {
   const password = control.get("password").value;
@@ -51,8 +51,8 @@ export class RegisterComponent implements OnInit {
     private authService: AuthenticatinService,
     public utilityService: UtilityService,
     private parentComponent: AuthenticationComponent,
-    private snackBar: MatSnackBar,
-  ) { }
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     if (this.authService.isAuthenticated()) {
@@ -75,7 +75,7 @@ export class RegisterComponent implements OnInit {
     const loginSubscription = this.authService.register(model).subscribe({
       next: (x: string) => {
         this.registerForm.reset();
-        this.snackBar.open('Регистрацията Ви бе успешна!', 'Затвори', {
+        this.snackBar.open("Регистрацията Ви бе успешна!", "Затвори", {
           duration: 8000,
           panelClass: ["custom-snackbar"],
         });
