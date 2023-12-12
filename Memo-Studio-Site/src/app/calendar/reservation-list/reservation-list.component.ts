@@ -230,7 +230,7 @@ export class ReservationListComponent implements OnInit, OnChanges {
     let resultOfEmptyHoursCheck = this.checkIfNextHourEmpty(new Date(this.bookingForm.get('timestamp').value),this.bookingForm.get('duration').value);
     if (resultOfEmptyHoursCheck) {
       alert(
-        "Няма достатъчно свободни часове, моля променете продължителността или часа на резервация"
+        "Няма достатъчно свободни часове за избраната процедура, моля изберете друг час или услуга"
       );
     }
     else {
@@ -341,6 +341,10 @@ export class ReservationListComponent implements OnInit, OnChanges {
     var timeSlotCountCheck = duration/this.facilityConfiguration.interval;
 
     if(timeSlotCountCheck > 1){
+      if(timeSlotCountCheck+indexInTimeSlots>=this.timeSlots.length){
+        return true;
+      }
+      
       for(var i = indexInTimeSlots+1; i<indexInTimeSlots+timeSlotCountCheck; i++){
         if(this.checkIfBookingExist(this.timeSlots[i])){
           return true;
