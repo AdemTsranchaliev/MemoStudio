@@ -1,5 +1,5 @@
-.users-container {
-  margin-top: 150px;
+.user-upcoming-container {
+  margin-top: 100px;
 }
 
 .fixed-layout {
@@ -13,11 +13,11 @@
   white-space: nowrap;
 }
 
-.checkbox-filter {
-  margin-top: 8px;
-  transform: scale(1.5);
-}
-
 .ms-10 {
   margin-left: 25px;
+}
+
+.businessProfile {
+  max-width: 38px;
+  border-radius: 100%;
 }

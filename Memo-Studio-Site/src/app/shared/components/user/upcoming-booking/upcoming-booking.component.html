@@ -1,0 +1,73 @@
+<section class="container user-upcoming-container">
+  <article class="row justify-content-end p-1">
+    <article class="col-12">
+      <h6>
+        <span class="cursor-pointer" (click)="navigate('user-home/54654654')">
+          Начало
+        </span>
+        /
+        <u>Предстоящи резервации</u>
+      </h6>
+    </article>
+  </article>
+
+  <div>
+    <table
+      class="w-100 fixed-layout"
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+    >
+      <!-- Date Column -->
+      <ng-container matColumnDef="data">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Дата</th>
+        <td mat-cell *matCellDef="let row">{{ date | date }}</td>
+      </ng-container>
+
+      <!-- Service Column -->
+      <ng-container matColumnDef="service">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Услуга</th>
+        <td mat-cell *matCellDef="let row">{{ 'Подстрижка' }}</td>
+      </ng-container>
+
+      <!-- Business Column -->
+      <ng-container matColumnDef="business">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Предприятие</th>
+        <td mat-cell *matCellDef="let row">{{ 'Салон БГ' }}</td>
+      </ng-container>
+
+      <!-- Business Profile Column -->
+      <ng-container matColumnDef="businessProfile">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+        <td mat-cell *matCellDef="let row">
+          <img
+            class="businessProfile"
+            src="assets/images/avatar-1.jpg"
+            alt=""
+          />
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+        <td mat-cell *matCellDef="let row">
+          <button
+            class="btn btn-outline-danger py-0 mx-2"
+            (click)="onBookingCancel()"
+          >
+            Отказ
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      aria-label="Select page of users"
+    ></mat-paginator>
+  </div>
+</section>

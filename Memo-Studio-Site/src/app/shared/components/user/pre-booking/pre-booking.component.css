@@ -1,0 +1,22 @@
+.user-pre-booking-container {
+  margin-top: 100px;
+}
+
+.businessProfile {
+  max-width: 150px;
+  border-radius: 100%;
+  padding: 8px;
+  background-color: #eeeeee;
+}
+
+.fs-30 {
+  font-size: 30px;
+}
+
+.business-card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.business-card:hover {
+  transform: translateY(-3px);
+}

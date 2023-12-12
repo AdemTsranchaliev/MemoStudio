@@ -23,6 +23,9 @@ import { NewlyRegisteredListComponent } from "./shared/components/admin/newly-re
 import { CatchedErrorsListComponent } from "./shared/components/admin/catched-errors/catched-errors-list/catched-errors-list.component";
 import { AllUsersListComponent } from "./shared/components/admin/all-users/all-users-list/all-users-list.component";
 import { AllUsersEditComponent } from "./shared/components/admin/all-users/all-users-edit/all-users-edit.component";
+import { UserHomeComponent } from "./user-home/user-home.component";
+import { UpcomingBookingComponent } from "./shared/components/user/upcoming-booking/upcoming-booking.component";
+import { PreBookingComponent } from "./shared/components/user/pre-booking/pre-booking.component";
 
 const routes: Routes = [
   { path: "home-information", component: HomeInfoComponent },
@@ -47,6 +50,9 @@ const routes: Routes = [
   { path: "login", component: AuthenticationComponent },
   { path: "forgotten-password", component: ForgottenPasswordComponent },
   { path: "users", component: UsersListComponent, canActivate: [AuthGuard] },
+  { path: "user-home/:id", component: UserHomeComponent },
+  { path: "upcoming", component: UpcomingBookingComponent },
+  { path: "pre-booking", component: PreBookingComponent },
   { path: "email-confirm", component: EmailConfirmationComponent },
   { path: "change-password", component: ChangeForgottenPasswordComponent },
   {

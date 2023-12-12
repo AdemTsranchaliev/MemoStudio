@@ -33,6 +33,14 @@ export class NewlyRegisteredEditComponent implements OnInit {
     console.log('>>> Submited', model);
   }
 
+  onApproveClick() {
+    console.log('>>> Approved');
+  }
+
+  onRejectClick() {
+    console.log('>>> Reject');
+  }
+
   navigate(param: string) {
     this.router.navigate([`/${param}`]);
   }

@@ -89,6 +89,10 @@ import { CatchedErrorsListComponent } from './shared/components/admin/catched-er
 import { CatchedErrorsEditComponent } from './shared/components/admin/catched-errors/catched-errors-edit/catched-errors-edit.component';
 import { AllUsersListComponent } from './shared/components/admin/all-users/all-users-list/all-users-list.component';
 import { AllUsersEditComponent } from './shared/components/admin/all-users/all-users-edit/all-users-edit.component';
+import { UserHomeComponent } from './user-home/user-home.component';
+import { UpcomingBookingComponent } from './shared/components/user/upcoming-booking/upcoming-booking.component';
+import { CancelBookingComponent } from './shared/dialogs/cancel-booking/cancel-booking.component';
+import { PreBookingComponent } from './shared/components/user/pre-booking/pre-booking.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -138,6 +142,10 @@ registerLocaleData(localeBg, "bg");
     CatchedErrorsEditComponent,
     AllUsersListComponent,
     AllUsersEditComponent,
+    UserHomeComponent,
+    UpcomingBookingComponent,
+    CancelBookingComponent,
+    PreBookingComponent,
   ],
   imports: [
     BrowserModule,
