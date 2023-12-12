@@ -10,9 +10,9 @@
     <div class="row">
       <div class="col-sm-6">
         <label class="custom-field-select w-100">
-          <select placeholder=" " formControlName="startPeriod" class="w-100">
-            <option *ngFor="let time of generateHours()" [value]="time">
-              {{ time }}
+          <select placeholder=" " [(ngModel)]="startPeriodIndex" class="w-100" [ngModelOptions]="{standalone: true}" (change)="dateChange(true)">
+            <option *ngFor="let time of timeSlots; let i=index" value="{{i}}">
+              {{ time | date : 'HH:mm' }} ч.
             </option>
           </select>
           <span class="placeholder-select cursor-text">Начален час</span>
@@ -21,9 +21,9 @@
 
       <div class="col-sm-6">
         <label class="custom-field-select w-100">
-          <select placeholder=" " formControlName="endPeriod" class="w-100">
-            <option *ngFor="let time of generateHours()" [value]="time">
-              {{ time }}
+          <select placeholder=" " [(ngModel)]="endPeriodIndex" class="w-100" [ngModelOptions]="{standalone: true}" (change)="dateChange(false)">
+            <option *ngFor="let time of timeSlots; let i=index" value="{{i}}">
+              {{ time | date : 'HH:mm' }} ч.
             </option>
           </select>
           <span class="placeholder-select cursor-text">Краен час</span>
@@ -40,10 +40,7 @@
       <span class="placeholder-select cursor-text">Интервал на часовете</span>
     </label>
 
-    <app-selection-list
-      [workingDays]="workingDaysFormArray"
-      [title]="'Работни дни'"
-    ></app-selection-list>
+    <app-selection-list [workingDays]="workingDaysFormArray" [title]="'Работни дни'"></app-selection-list>
 
     <mat-checkbox class="mt-3" formControlName="allowUserBooking">
       Позволи потребителите да запазват часове

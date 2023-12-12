@@ -165,9 +165,8 @@ namespace Memo_Studio_Library.Services
                 {
                     return;
                 }
-                facilitySettings.EndPeriod = model.EndPeriod;
-                facilitySettings.StartPeriod = model.StartPeriod;
-
+                facilitySettings.EndPeriod = new DateTime(0,0,0,model.EndPeriod.ToLocalTime().Hour,model.StartPeriod.ToLocalTime().Minute,0);
+                facilitySettings.StartPeriod = new DateTime(0,0,0,model.StartPeriod.ToLocalTime().Hour,model.StartPeriod.ToLocalTime().Minute,0);
 
                 //if (TimeSpan.TryParse(model.EndPeriod, out TimeSpan endPeriodParsedTime))
                 //{

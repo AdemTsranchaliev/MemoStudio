@@ -225,15 +225,15 @@ export class ReservationListComponent implements OnInit, OnChanges {
   }
 
   public bookHour() {
-    
-
-    let resultOfEmptyHoursCheck = this.checkIfNextHourEmpty(new Date(this.bookingForm.get('timestamp').value),this.bookingForm.get('duration').value);
+    let resultOfEmptyHoursCheck = this.checkIfNextHourEmpty(
+      new Date(this.bookingForm.get("timestamp").value),
+      this.bookingForm.get("duration").value
+    );
     if (resultOfEmptyHoursCheck) {
       alert(
         "Няма достатъчно свободни часове за избраната процедура, моля изберете друг час или услуга"
       );
-    }
-    else {
+    } else {
       this.bookingService.addBooking(this.bookingForm.value).subscribe((x) => {
         this.showHideElement("customDayConfigurationDialog", false);
         this.showHideElement("bookingDialog", false);
@@ -267,21 +267,24 @@ export class ReservationListComponent implements OnInit, OnChanges {
       var currentBooking;
 
       this.timeSlots.forEach((timeSlot) => {
-        if (this.checkIfBookingExist(timeSlot) && (filterId == FilterTypes.All || filterId == FilterTypes.Bussy) || tempDuration>0) {
+        if (
+          (this.checkIfBookingExist(timeSlot) &&
+            (filterId == FilterTypes.All || filterId == FilterTypes.Bussy)) ||
+          tempDuration > 0
+        ) {
           var bookingTemp: Booking;
 
-          if(tempDuration > 0){
-            bookingTemp = {...currentBooking};
+          if (tempDuration > 0) {
+            bookingTemp = { ...currentBooking };
+          } else {
+            bookingTemp = { ...this.getBookingByTimeSlot(timeSlot) };
           }
-          else{
-             bookingTemp = {...this.getBookingByTimeSlot(timeSlot)};
-          }
-          
-          if(tempDuration==0&&bookingTemp){
-            tempDuration = bookingTemp.duration - this.facilityConfiguration.interval;
+
+          if (tempDuration == 0 && bookingTemp) {
+            tempDuration =
+              bookingTemp.duration - this.facilityConfiguration.interval;
             currentBooking = bookingTemp;
-          }
-          else{
+          } else {
             tempDuration = tempDuration - this.facilityConfiguration.interval;
           }
           bookingTemp.timestamp = timeSlot;
@@ -337,21 +340,27 @@ export class ReservationListComponent implements OnInit, OnChanges {
   }
 
   private checkIfNextHourEmpty(date: Date, duration: number) {
-    var indexInTimeSlots = this.timeSlots.findIndex(x=>this.dateTimeService.compareHoursAndMinutes(date,x)==0);
-    var timeSlotCountCheck = duration/this.facilityConfiguration.interval;
+    var indexInTimeSlots = this.timeSlots.findIndex(
+      (x) => this.dateTimeService.compareHoursAndMinutes(date, x) == 0
+    );
+    var timeSlotCountCheck = duration / this.facilityConfiguration.interval;
 
-    if(timeSlotCountCheck > 1){
-      if(timeSlotCountCheck+indexInTimeSlots>=this.timeSlots.length){
+    if (timeSlotCountCheck > 1) {
+      if (timeSlotCountCheck + indexInTimeSlots >= this.timeSlots.length) {
         return true;
       }
-      
-      for(var i = indexInTimeSlots+1; i<indexInTimeSlots+timeSlotCountCheck; i++){
-        if(this.checkIfBookingExist(this.timeSlots[i])){
+
+      for (
+        var i = indexInTimeSlots + 1;
+        i < indexInTimeSlots + timeSlotCountCheck;
+        i++
+      ) {
+        if (this.checkIfBookingExist(this.timeSlots[i])) {
           return true;
         }
       }
     }
-    
+
     return false;
   }
 }

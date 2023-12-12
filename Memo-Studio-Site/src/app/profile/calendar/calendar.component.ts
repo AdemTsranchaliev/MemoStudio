@@ -9,6 +9,7 @@ import {
 } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { FacilitySettingsViewModel } from "src/app/shared/models/facility/facility-setting-model";
+import { DateTimeService } from "src/app/shared/services/date-time.service";
 import { FacilityService } from "src/app/shared/services/facility.service";
 
 @Component({
@@ -18,23 +19,33 @@ import { FacilityService } from "src/app/shared/services/facility.service";
 })
 export class CalendarComponent implements OnInit {
   public bookingForm: FormGroup = new FormGroup({
-    startPeriod: new FormControl(""), // Initialize with an empty string or the default value
-    endPeriod: new FormControl(""),
+    startPeriod: new FormControl(null), // Initialize with an empty string or the default value
+    endPeriod: new FormControl(null),
     interval: new FormControl(""),
     workingDays: new FormArray([]),
     allowUserBooking: new FormControl(false), // Initialize with a default value
   });
+
   public workingDaysFormArray: FormArray;
   public durations: number[] = [5, 15, 30, 60, 90, 120];
+  public startPeriodIndex: number;
+  public endPeriodIndex: number;
+  public timeSlots: Date[] = [];
 
   constructor(
     private facilityService: FacilityService,
-    private snackBar: MatSnackBar
-  ) { }
+    private snackBar: MatSnackBar,
+    public dateTimeService: DateTimeService
+  ) {}
 
   ngOnInit(): void {
     this.facilityService.getFacilitySettings().subscribe((x) => {
       this.bookingForm.patchValue(x);
+
+      this.timeSlots = this.generateHours(x.startPeriod, x.endPeriod);
+      this.startPeriodIndex = this.timeSlots.findIndex(y=>this.dateTimeService.compareHoursAndMinutes(y,new Date(x.startPeriod))==0)
+      this.endPeriodIndex = this.timeSlots.findIndex(y=>this.dateTimeService.compareHoursAndMinutes(y,new Date(x.endPeriod))==0)
+
       const workingDaysArray = JSON.parse(x.workingDaysJson);
       this.workingDaysFormArray = this.bookingForm.get(
         "workingDays"
@@ -70,17 +81,25 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  public generateHours() {
-    var hours = [];
-    for (let hour = 0; hour <= 23; hour++) {
-      for (let minute = 0; minute <= 30; minute += 30) {
-        const hourString = hour.toString().padStart(2, "0");
-        const minuteString = minute === 0 ? "00" : "30";
-        hours.push(`${hourString}:${minuteString}`);
-      }
-    }
+  public generateHours(from: Date, to: Date) {
+    var start = new Date(from);
+    var end = new Date(to);
 
-    return hours;
+    start.setHours(0);
+    start.setMinutes(0);
+    end.setHours(23);
+    end.setMinutes(59);
+
+    return this.dateTimeService.generateTimeSlots(start, end, 30);
+  }
+
+  public dateChange(isStartPeriod: boolean){
+    if(isStartPeriod){
+      this.bookingForm.get("startPeriod").setValue(this.timeSlots[this.startPeriodIndex]);
+    }
+    else{
+      this.bookingForm.get("endPeriod").setValue(this.timeSlots[this.endPeriodIndex]);
+    }
   }
 
   private createWorkingDayFormGroup(workingDay: any) {
