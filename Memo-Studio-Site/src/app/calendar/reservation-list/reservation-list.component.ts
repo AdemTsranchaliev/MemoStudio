@@ -225,16 +225,15 @@ export class ReservationListComponent implements OnInit, OnChanges {
   }
 
   public bookHour() {
-    let resultOfEmptyHoursCheck = 0;
-    if (resultOfEmptyHoursCheck == 1) {
+    
+
+    let resultOfEmptyHoursCheck = this.checkIfNextHourEmpty(new Date(this.bookingForm.get('timestamp').value),this.bookingForm.get('duration').value);
+    if (resultOfEmptyHoursCheck) {
       alert(
         "Няма достатъчно свободни часове, моля променете продължителността или часа на резервация"
       );
-    } else if (resultOfEmptyHoursCheck == 2) {
-      alert(
-        "Няма достатъчно свободни часове, моля променете продължителността или часа на резервация"
-      );
-    } else {
+    }
+    else {
       this.bookingService.addBooking(this.bookingForm.value).subscribe((x) => {
         this.showHideElement("customDayConfigurationDialog", false);
         this.showHideElement("bookingDialog", false);
@@ -337,26 +336,19 @@ export class ReservationListComponent implements OnInit, OnChanges {
     });
   }
 
-  private checkIfNextHourEmpty(date: Date, interval: number) {
-    let index = this.bookings.findIndex(
-      (x) =>
-        x.timestamp.getHours() == date.getHours() &&
-        x.timestamp.getMinutes() == date.getMinutes()
-    );
+  private checkIfNextHourEmpty(date: Date, duration: number) {
+    var indexInTimeSlots = this.timeSlots.findIndex(x=>this.dateTimeService.compareHoursAndMinutes(date,x)==0);
+    var timeSlotCountCheck = duration/this.facilityConfiguration.interval;
 
-    if (index + interval > this.timeSlots.length) {
-      return 2;
+    if(timeSlotCountCheck > 1){
+      for(var i = indexInTimeSlots+1; i<indexInTimeSlots+timeSlotCountCheck; i++){
+        if(this.checkIfBookingExist(this.timeSlots[i])){
+          return true;
+        }
+      }
     }
-
-    //TODO finish the check for duration
-    // for (let i = 0; i < interval; i++) {
-    //   if (this.bookings[index]?.id) {
-    //     return 1;
-    //   }
-    //   index++;
-    // }
-
-    return 0;
+    
+    return false;
   }
 }
 
