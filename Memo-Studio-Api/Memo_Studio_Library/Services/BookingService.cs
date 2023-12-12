@@ -16,7 +16,7 @@ namespace Memo_Studio_Library
         private readonly IFacilityService facilityService;
         private readonly IUserService userService;
 
-        public BookingService(StudioContext context, IFacilityService facilityService, IUserService userService)
+        public BookingService(StudioContext context, IFacilityService facilityService,IUserService userService)
 		{
             this.context = context;
             this.facilityService = facilityService;
