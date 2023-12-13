@@ -76,6 +76,11 @@ export class AuthenticatinService {
     return this.http.post(`${BASE_URL_DEV}/account/change-password`, content);
   }
 
+  public resetPassword(content) {
+    console.log(content)
+    return this.http.post(`${BASE_URL_DEV}/account/reset-password`, content);
+  }
+
   public getFacilityId() {
     let token = localStorage.getItem("AUTH_TOKEN");
     const [headerEncoded, payloadEncoded] = token.split(".");

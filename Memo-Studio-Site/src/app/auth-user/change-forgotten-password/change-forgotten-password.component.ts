@@ -11,7 +11,7 @@ import { AuthenticatinService } from "src/app/shared/services/authenticatin.serv
 import { UtilityService } from "src/app/shared/services/utility.service";
 
 function passwordMatchValidator(control: AbstractControl) {
-  const password = control.get("password").value;
+  const password = control.get("newPassword").value;
   const confirmPassword = control.get("confirmPassword").value;
 
   if (password !== confirmPassword) {
@@ -32,9 +32,9 @@ export class ChangeForgottenPasswordComponent implements OnInit {
   public registerForm: FormGroup = this.formBuilder.group(
     {
       email: ["", [Validators.required]],
-      oldPassword: ["", [Validators.required]],
-      password: ["", [Validators.required, Validators.minLength(6)]],
+      newPassword: ["", [Validators.required, Validators.minLength(6)]],
       confirmPassword: ["", Validators.required],
+      token: ["", Validators.required],
     },
     { validator: passwordMatchValidator }
   );
@@ -56,7 +56,7 @@ export class ChangeForgottenPasswordComponent implements OnInit {
       this.route.navigate(["/"]);
     }
     this.registerForm.get("email").setValue(email);
-    this.registerForm.get("oldPassword").setValue(token);
+    this.registerForm.get("token").setValue(token);
   }
 
   ngOnDestroy() {
@@ -72,7 +72,7 @@ export class ChangeForgottenPasswordComponent implements OnInit {
 
     var model = Object.assign({}, this.registerForm.value);
     const loginSubscription = this.authService
-      .changeForgottenPassword(model)
+      .resetPassword(model)
       .subscribe({
         next: () => {
           this.requestStatus = 1;

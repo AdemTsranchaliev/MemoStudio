@@ -32,7 +32,10 @@ const routes: Routes = [
   { path: "home-information", component: HomeInfoComponent },
   { path: "admin-dashboard", component: AdminDashboardComponent },
   { path: "newly-registered", component: NewlyRegisteredListComponent },
-  { path: "newly-registered-details/:id", component: NewlyRegisteredEditComponent },
+  {
+    path: "newly-registered-details/:id",
+    component: NewlyRegisteredEditComponent,
+  },
   { path: "all-users", component: AllUsersListComponent },
   { path: "all-users/user-details/:id", component: AllUsersEditComponent },
   { path: "catched-errors", component: CatchedErrorsListComponent },
@@ -56,7 +59,10 @@ const routes: Routes = [
   { path: "pre-booking", component: PreBookingComponent },
   { path: "email-confirm", component: EmailConfirmationComponent },
   { path: "change-password", component: ChangeForgottenPasswordComponent },
-  { path: "finish-registration", component: FinishBussinesRegistrationComponent },
+  {
+    path: "finish-registration",
+    component: FinishBussinesRegistrationComponent,
+  },
   {
     path: "user",
     component: UserDetailsComponent,
@@ -72,4 +78,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

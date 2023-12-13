@@ -18,7 +18,7 @@ import { BreakpointObserver, BreakpointState, Breakpoints } from "@angular/cdk/l
 import { MatDialog } from "@angular/material/dialog";
 
 @Component({
-  selector: "app-calendar-profile",
+  selector: "app-finish-bussines-registration",
   templateUrl: "./finish-bussines-registration.component.html",
   styleUrls: ["./finish-bussines-registration.component.css"],
 })
