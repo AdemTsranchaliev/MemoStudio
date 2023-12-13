@@ -94,6 +94,10 @@ import { UpcomingBookingComponent } from './shared/components/user/upcoming-book
 import { CancelBookingComponent } from './shared/dialogs/cancel-booking/cancel-booking.component';
 import { PreBookingComponent } from './shared/components/user/pre-booking/pre-booking.component';
 import { FinishBussinesRegistrationComponent } from './finish-bussines-registration/finish-bussines-registration.component';
+// Update Calendar Beahaviour Via Animation
+import { UserCalendarComponent } from './shared/components/user/user-calendar/user-calendar.component';
+import { UserCalendarOverviewComponent } from './shared/components/user/user-calendar/user-calendar-overview/user-calendar-overview.component';
+import { UserReservationListComponent } from './shared/components/user/user-calendar/user-reservation-list/user-reservation-list.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -148,6 +152,9 @@ registerLocaleData(localeBg, "bg");
     CancelBookingComponent,
     PreBookingComponent,
     FinishBussinesRegistrationComponent,
+    UserCalendarComponent,
+    UserCalendarOverviewComponent,
+    UserReservationListComponent,
   ],
   imports: [
     BrowserModule,

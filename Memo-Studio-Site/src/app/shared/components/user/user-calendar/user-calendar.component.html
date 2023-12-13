@@ -1,0 +1,46 @@
+<section class="mt-0 pt-0" style="padding-top: 100px !important">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-5">
+        <div class="content mt-0">
+          <mat-stepper>
+            <mat-step>
+              <!-- Calendar -->
+              <div class="user-calendar-container margin-b">
+                <app-user-calendar-overview
+                  (dateChange)="dateChange($event)"
+                ></app-user-calendar-overview>
+
+                <!-- Edit & Add Apointment Butons -->
+                <div
+                  class="text-center custom-calendar-edit-btn"
+                  *ngIf="isServerDown == false"
+                >
+                  <button
+                    class="button bg-light-blue"
+                    (click)="editDay()"
+                    [disabled]="isDayPast"
+                  >
+                    Редактирай
+                  </button>
+                </div>
+              </div>
+            </mat-step>
+
+            <mat-step>
+              <!-- Reservations -->
+              <div class="user-reservation-container">
+                <app-user-reservation-list
+                  (dateChange)="dateChange($event)"
+                  [bookingsOrigin]="bookingsOrigin"
+                  [facilityConfiguration]="facilityConfiguration"
+                  [date]="date"
+                ></app-user-reservation-list>
+              </div>
+            </mat-step>
+          </mat-stepper>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -11899,7 +11899,7 @@ h5,
   height: 520px;
   position: relative;
   margin: 20px auto;
-  background: #007bff;
+  /* background: #007bff; */
 }
 
 /*  Events display */
@@ -12211,7 +12211,7 @@ h5,
 }
 
 .active-date {
-  background: #2980b9;
+  background: #e4e8fe;
   color: #fff;
 }
 

@@ -27,6 +27,8 @@ import { UserHomeComponent } from "./user-home/user-home.component";
 import { UpcomingBookingComponent } from "./shared/components/user/upcoming-booking/upcoming-booking.component";
 import { PreBookingComponent } from "./shared/components/user/pre-booking/pre-booking.component";
 import { FinishBussinesRegistrationComponent } from "./finish-bussines-registration/finish-bussines-registration.component";
+// Update Calendar Beahaviour Via Animation
+import { UserCalendarComponent } from "./shared/components/user/user-calendar/user-calendar.component";
 
 const routes: Routes = [
   { path: "home-information", component: HomeInfoComponent },
@@ -55,6 +57,7 @@ const routes: Routes = [
   { path: "forgotten-password", component: ForgottenPasswordComponent },
   { path: "users", component: UsersListComponent, canActivate: [AuthGuard] },
   { path: "user-home/:id", component: UserHomeComponent },
+  { path: "user-calendar", component: UserCalendarComponent },
   { path: "upcoming", component: UpcomingBookingComponent },
   { path: "pre-booking", component: PreBookingComponent },
   { path: "email-confirm", component: EmailConfirmationComponent },
@@ -78,4 +81,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
