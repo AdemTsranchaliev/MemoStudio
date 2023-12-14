@@ -98,6 +98,7 @@ import { FinishBussinesRegistrationComponent } from './finish-bussines-registrat
 import { UserCalendarComponent } from './shared/components/user/user-calendar/user-calendar.component';
 import { UserCalendarOverviewComponent } from './shared/components/user/user-calendar/user-calendar-overview/user-calendar-overview.component';
 import { UserReservationListComponent } from './shared/components/user/user-calendar/user-reservation-list/user-reservation-list.component';
+import { BookServiceComponent } from './shared/components/user/book-service/book-service.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -155,6 +156,7 @@ registerLocaleData(localeBg, "bg");
     UserCalendarComponent,
     UserCalendarOverviewComponent,
     UserReservationListComponent,
+    BookServiceComponent,
   ],
   imports: [
     BrowserModule,

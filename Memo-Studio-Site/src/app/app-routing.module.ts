@@ -26,6 +26,7 @@ import { AllUsersEditComponent } from "./shared/components/admin/all-users/all-u
 import { UserHomeComponent } from "./user-home/user-home.component";
 import { UpcomingBookingComponent } from "./shared/components/user/upcoming-booking/upcoming-booking.component";
 import { PreBookingComponent } from "./shared/components/user/pre-booking/pre-booking.component";
+import { BookServiceComponent } from "./shared/components/user/book-service/book-service.component";
 import { FinishBussinesRegistrationComponent } from "./finish-bussines-registration/finish-bussines-registration.component";
 // Update Calendar Beahaviour Via Animation
 import { UserCalendarComponent } from "./shared/components/user/user-calendar/user-calendar.component";
@@ -60,6 +61,7 @@ const routes: Routes = [
   { path: "user-calendar", component: UserCalendarComponent },
   { path: "upcoming", component: UpcomingBookingComponent },
   { path: "pre-booking", component: PreBookingComponent },
+  { path: "book-service", component: BookServiceComponent },
   { path: "email-confirm", component: EmailConfirmationComponent },
   { path: "change-password", component: ChangeForgottenPasswordComponent },
   {

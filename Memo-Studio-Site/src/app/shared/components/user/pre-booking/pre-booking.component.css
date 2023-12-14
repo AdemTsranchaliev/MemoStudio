@@ -13,10 +13,18 @@
   font-size: 30px;
 }
 
+.fs-20 {
+  font-size: 20px;
+}
+
 .business-card {
   transition: transform 0.2s ease-in-out;
 }
 
 .business-card:hover {
   transform: translateY(-3px);
+}
+
+.custom-shadow {
+  box-shadow: 0px 4px 8px 0px #7986cb;
 }
