@@ -6,6 +6,7 @@ import { DayService } from "../../../../shared/services/day.service";
 import { Booking } from "../../../../shared/models/booking.model";
 import { Day } from "../../../../shared/models/day.model";
 import { FacilityService } from "../../../../shared/services/facility.service";
+import { Router } from "@angular/router";
 declare const $: any;
 
 @Component({
@@ -29,7 +30,8 @@ export class UserCalendarComponent implements OnInit {
     private dayService: DayService,
     private facilityService: FacilityService,
     private fb: FormBuilder,
-    public dateTimeService: DateTimeService
+    public dateTimeService: DateTimeService,
+    public router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -49,5 +51,9 @@ export class UserCalendarComponent implements OnInit {
 
   editDay() {
     $("#customDayConfigurationDialog").show(250);
+  }
+
+  navigate(param: string) {
+    this.router.navigate([`/${param}`]);
   }
 }
