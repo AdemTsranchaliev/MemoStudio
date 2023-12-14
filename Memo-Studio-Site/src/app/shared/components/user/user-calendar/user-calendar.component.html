@@ -2,28 +2,14 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-5">
-        <div class="content mt-0">
-          <mat-stepper>
+        <div class="content mt-0 custom-shadow rounded">
+          <mat-stepper class="h-100">
             <mat-step>
               <!-- Calendar -->
               <div class="user-calendar-container margin-b">
                 <app-user-calendar-overview
                   (dateChange)="dateChange($event)"
                 ></app-user-calendar-overview>
-
-                <!-- Edit & Add Apointment Butons -->
-                <div
-                  class="text-center custom-calendar-edit-btn"
-                  *ngIf="isServerDown == false"
-                >
-                  <button
-                    class="button bg-light-blue"
-                    (click)="editDay()"
-                    [disabled]="isDayPast"
-                  >
-                    Редактирай
-                  </button>
-                </div>
               </div>
             </mat-step>
 

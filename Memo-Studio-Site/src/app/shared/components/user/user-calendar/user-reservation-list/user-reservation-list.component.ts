@@ -48,12 +48,6 @@ export class UserReservationListComponent implements OnInit, OnChanges {
     note: new FormControl(""),
   });
 
-  public customDayConfigurationForm: FormGroup = new FormGroup({
-    periodStart: new FormControl("", Validators.required),
-    periodEnd: new FormControl("", Validators.required),
-    interval: new FormControl(30, Validators.required),
-  });
-
   public currentDay: Day;
   bookings: Booking[] = [];
   loader: boolean = false;
@@ -124,15 +118,12 @@ export class UserReservationListComponent implements OnInit, OnChanges {
     }
     this.showHideElement("customDayConfigurationDialog", false);
     this.showHideElement("bookingDialog", true);
-    // $("input").click(function () {
-    //   $().removeClass("error-input");
-    // });
+  }
 
-    // $("#dialog input[type=text]").val("");
-    // $("#dialog input[type=number]").val("");
-    // $(".events-container").hide(250);
-    // $("#dialog2").hide(250);
-    // $("#dialog").show(250);
+  public cancelEvent(id: number) {
+    this.resetForm(this.bookingForm);
+    this.showHideElement("customDayConfigurationDialog", false);
+    this.showHideElement("bookingDialog", false);
   }
 
   //REF
@@ -164,55 +155,6 @@ export class UserReservationListComponent implements OnInit, OnChanges {
       $("#dialog2").hide(250);
       this.showBookings(1);
     });
-  }
-
-  public addDaySpecifications() {
-    // if (this.selectedStartHour > this.selectedEndHour) {
-    //   this.workingDayAddError = 1;
-    // } else {
-    //   this.workingDayAddError = -1;
-    //   var startTime = new Date(0, 0, 0);
-    //   var endTime = new Date(0, 0, 0);
-    //   if (this.selectedStartHour % 2 == 0) {
-    //     startTime.setHours(this.selectedStartHour / 2);
-    //   } else {
-    //     startTime.setHours((this.selectedStartHour - 1) / 2);
-    //     startTime.setMinutes(30);
-    //   }
-    //   if (this.selectedEndHour % 2 == 0) {
-    //     endTime.setHours(this.selectedEndHour / 2);
-    //   } else {
-    //     endTime.setHours((this.selectedEndHour - 1) / 2);
-    //     endTime.setMinutes(30);
-    //   }
-    //   this.currentDay = {
-    //     dayDate: this.date,
-    //     startPeriod: startTime,
-    //     endPeriod: endTime,
-    //     isWorking: true,
-    //     employeeId: localStorage.getItem("clientId"),
-    //   };
-    //   this.dayService.addDay(this.currentDay).subscribe((x) => {
-    //     $("#dialog2").hide(250);
-    //     this.showBookings(1);
-    //   });
-    // }
-  }
-
-  public cancelEvent(id: number) {
-    this.resetForm(this.bookingForm);
-    this.showHideElement("customDayConfigurationDialog", false);
-    this.showHideElement("bookingDialog", false);
-    // if (id == 1) {
-    //   this.bookingForm.reset();
-    //   $("#name").removeClass("error-input");
-    //   $("#count").removeClass("error-input");
-    //   $("#dialog").hide(250);
-    //   $(".events-container").show(250);
-    // } else {
-    //   $("#dialog2").hide(250);
-    //   $(".events-container").show(250);
-    // }
   }
 
   public onOptionSelected(event: any): void {

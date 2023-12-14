@@ -1,4 +1,4 @@
-<div class="calendar">
+<div class="calendar position-relative">
   <div class="year-header">
     <span class="left-button fa fa-chevron-left" id="prev" (click)="prevYear()">
     </span>
@@ -62,15 +62,152 @@
       </table>
     </div>
   </div>
-</div>
 
-<!-- Edit & Add Apointment Butons -->
-<div class="text-center custom-calendar-edit-btn" *ngIf="isServerDown == false">
-  <button
-    class="button bg-light-blue"
-    (click)="editDay()"
-    [disabled]="isDayPast"
-  >
-    Редактирай
-  </button>
+  <!-- Edit & Add Apointment Butons -->
+  <div class="text-center custom-calendar-edit-btn">
+    <button
+      class="btn btn-outline-primary rounded-pill px-5"
+      (click)="editDay()"
+      [disabled]="isDayPast"
+    >
+      Редактирай
+    </button>
+  </div>
+
+  <!-- Edit Current Day -->
+  <div class="dialog" id="customDayConfigurationDialog">
+    <p class="text-center fs-18 my-3" style="color: black">
+      ПРОМЕНИ ДЕН -
+      <b
+        >{{ this.date.getDate() }}
+        {{ date.toLocaleString('bg-BG', { month: 'long' }) }}
+        {{ date.getFullYear() }}г.
+      </b>
+    </p>
+
+    <form id="form" [formGroup]="customDayConfigurationForm">
+      <div class="form-container mb-0 mt-0 pb-0 pt-0" align="center">
+        <div class="alert alert-warning pb-0 pt-0 my-2">
+          Началото на работния ден, не може да бъде по-голямо от края!
+        </div>
+
+        <div class="w-100 mb-4">
+          <!-- <select name="periodStart" formControlName="periodStart">
+            <option
+              value="{{ i }}"
+              *ngFor="let hour of timeSlots; let i = index"
+            >
+              {{ hour | date : 'HH:mm' }} ч.
+            </option>
+          </select> -->
+
+          <label class="custom-field-select w-100">
+            <select
+              class="w-100"
+              placeholder=" "
+              name="periodStart"
+              formControlName="periodStart"
+            >
+              <option selected value="30">30 мин. - продължителност</option>
+              <option value="60">1 час - продължителност</option>
+              <option value="90">1:30 часа - продължителност</option>
+              <option value="120">2 часа - продължителност</option>
+              <option value="150">2:30 часа - продължителност</option>
+              <option value="180">3 часа - продължителност</option>
+              <option value="240">3:30 часа - продължителност</option>
+              <option value="8">4 часа - продължителност</option>
+              <option value="9">4:30 часа - продължителност</option>
+              <option value="10">5 часа - продължителност</option>
+              <option value="11">5:30 часа - продължителност</option>
+              <option value="12">6 часа - продължителност</option>
+              <option value="13">6:30 часа - продължителност</option>
+              <option value="14">7 часа - продължителност</option>
+            </select>
+            <span class="placeholder-select cursor-text"
+              >Работен ден - начало</span
+            >
+          </label>
+        </div>
+
+        <div class="w-100 mb-4">
+          <!-- 
+          <select
+            name="periodEnd"
+            formControlName="periodEnd"
+          >
+            <option
+            value="{{ i }}"
+            *ngFor="let hour of timeSlots; let i = index"
+          >
+            {{ hour | date : 'HH:mm' }} ч.
+          </option>
+          </select> -->
+
+          <label class="custom-field-select w-100">
+            <select
+              class="w-100"
+              placeholder=" "
+              name="periodEnd"
+              formControlName="periodEnd"
+            >
+              <option selected value="30">30 мин. - продължителност</option>
+              <option value="60">1 час - продължителност</option>
+              <option value="90">1:30 часа - продължителност</option>
+              <option value="120">2 часа - продължителност</option>
+              <option value="150">2:30 часа - продължителност</option>
+              <option value="180">3 часа - продължителност</option>
+              <option value="240">3:30 часа - продължителност</option>
+              <option value="8">4 часа - продължителност</option>
+              <option value="9">4:30 часа - продължителност</option>
+              <option value="10">5 часа - продължителност</option>
+              <option value="11">5:30 часа - продължителност</option>
+              <option value="12">6 часа - продължителност</option>
+              <option value="13">6:30 часа - продължителност</option>
+              <option value="14">7 часа - продължителност</option>
+            </select>
+            <span class="placeholder-select cursor-text"
+              >Работен ден - край</span
+            >
+          </label>
+        </div>
+
+        <div class="w-100 mb-4">
+          <label class="custom-field-select w-100">
+            <select class="w-100" placeholder=" " formControlName="interval">
+              <option value="30">30 мин. - продължителност</option>
+              <option value="60">1 час - продължителност</option>
+              <option value="90">1:30 часа - продължителност</option>
+              <option value="120">2 часа - продължителност</option>
+              <option value="150">2:30 часа - продължителност</option>
+              <option value="180">3 часа - продължителност</option>
+              <option value="240">3:30 часа - продължителност</option>
+              <option value="8">4 часа - продължителност</option>
+              <option value="9">4:30 часа - продължителност</option>
+              <option value="10">5 часа - продължителност</option>
+              <option value="11">5:30 часа - продължителност</option>
+              <option value="12">6 часа - продължителност</option>
+              <option value="13">6:30 часа - продължителност</option>
+              <option value="14">7 часа - продължителност</option>
+            </select>
+            <span class="placeholder-select cursor-text">Продължителност</span>
+          </label>
+        </div>
+
+        <div class="py-4 bg-white">
+          <input
+            type="button"
+            value="Отказ"
+            class="btn btn-outline-danger rounded-pill px-5 mr-3"
+            (click)="cancelEvent(2)"
+          />
+          <input
+            type="button"
+            value="Редактирай"
+            class="btn btn-outline-primary rounded-pill px-5"
+            (click)="addDaySpecifications()"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

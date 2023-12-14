@@ -1,8 +1,10 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
 import { MonthStatistics } from "src/app/shared/models/booking/month-statistics.model";
 import { DayStausEnum } from "src/app/shared/models/dayStatus.model";
 import { BookingService } from "src/app/shared/services/booking.service";
 import { MatStepper } from '@angular/material/stepper';
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { DateTimeService } from "src/app/shared/services/date-time.service";
 declare const $: any;
 
 @Component({
@@ -10,7 +12,7 @@ declare const $: any;
   templateUrl: './user-calendar-overview.component.html',
   styleUrls: ['./user-calendar-overview.component.css']
 })
-export class UserCalendarOverviewComponent implements OnInit {
+export class UserCalendarOverviewComponent implements OnInit, OnChanges {
   @Output() dateChange: EventEmitter<Date> = new EventEmitter();
   @Output() editDayButtonClick: EventEmitter<any> = new EventEmitter();
 
@@ -45,14 +47,33 @@ export class UserCalendarOverviewComponent implements OnInit {
     "Дек",
   ];
 
+  public timeSlots: Date[] = [];
+  public customDayConfigurationForm: FormGroup = new FormGroup({
+    periodStart: new FormControl("", Validators.required),
+    periodEnd: new FormControl("", Validators.required),
+    interval: new FormControl(30, Validators.required),
+  });
+
   constructor(
     private bookingService: BookingService,
+    public dateTimeService: DateTimeService,
     private stepper: MatStepper,
   ) { }
 
   ngOnInit(): void {
     this.initCalendar(this.date);
     this.getBookingsByMonthStatistics();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    //Load time slots
+    // this.timeSlots = this.dateTimeService.generateTimeSlots(
+    //   this.facilityConfiguration?.startPeriod,
+    //   this.facilityConfiguration?.endPeriod,
+    //   this.facilityConfiguration?.interval
+    // );
+
+    // this.showBookings(FilterTypes.All);
   }
 
   public showBookings(id: number) { }
@@ -105,7 +126,46 @@ export class UserCalendarOverviewComponent implements OnInit {
 
   public editDay() {
     this.editDayButtonClick.emit();
-    $("#dialog2").show(250);
+    this.showHideElement("customDayConfigurationDialog", true);
+  }
+
+  public cancelEvent(id: number) {
+    this.showHideElement("customDayConfigurationDialog", false);
+    this.showHideElement("bookingDialog", false);
+  }
+
+
+  public addDaySpecifications() {
+    // if (this.selectedStartHour > this.selectedEndHour) {
+    //   this.workingDayAddError = 1;
+    // } else {
+    //   this.workingDayAddError = -1;
+    //   var startTime = new Date(0, 0, 0);
+    //   var endTime = new Date(0, 0, 0);
+    //   if (this.selectedStartHour % 2 == 0) {
+    //     startTime.setHours(this.selectedStartHour / 2);
+    //   } else {
+    //     startTime.setHours((this.selectedStartHour - 1) / 2);
+    //     startTime.setMinutes(30);
+    //   }
+    //   if (this.selectedEndHour % 2 == 0) {
+    //     endTime.setHours(this.selectedEndHour / 2);
+    //   } else {
+    //     endTime.setHours((this.selectedEndHour - 1) / 2);
+    //     endTime.setMinutes(30);
+    //   }
+    //   this.currentDay = {
+    //     dayDate: this.date,
+    //     startPeriod: startTime,
+    //     endPeriod: endTime,
+    //     isWorking: true,
+    //     employeeId: localStorage.getItem("clientId"),
+    //   };
+    //   this.dayService.addDay(this.currentDay).subscribe((x) => {
+    //     $("#dialog2").hide(250);
+    //     this.showBookings(1);
+    //   });
+    // }
   }
 
   private initCalendar(date: Date): void {
@@ -211,5 +271,19 @@ export class UserCalendarOverviewComponent implements OnInit {
     const monthStart: Date = new Date(year, month, 1);
     const monthEnd: Date = new Date(year, month + 1, 1);
     return (monthEnd.getTime() - monthStart.getTime()) / (1000 * 60 * 60 * 24);
+  }
+
+  private showHideElement(elementId, show) {
+    const elementToToggle = document.querySelector(
+      `#${elementId}`
+    ) as HTMLElement;
+
+    if (elementToToggle) {
+      if (show) {
+        elementToToggle.style.display = "block";
+      } else {
+        elementToToggle.style.display = "none";
+      }
+    }
   }
 }

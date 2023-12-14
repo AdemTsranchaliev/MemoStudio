@@ -21,3 +21,7 @@
 .ms-10 {
   margin-left: 25px;
 }
+
+.custom-shadow {
+  box-shadow: 0px 4px 8px 0px #7986cb;
+}

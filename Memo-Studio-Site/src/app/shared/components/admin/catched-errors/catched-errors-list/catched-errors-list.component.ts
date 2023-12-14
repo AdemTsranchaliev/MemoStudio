@@ -74,7 +74,7 @@ export class CatchedErrorsListComponent implements OnInit, AfterViewInit {
   }
 
   openDetais(row) {
-    this.router.navigate(["/newly-registered-details/654654645464654"]);
+    // this.router.navigate(["/newly-registered-details/654654645464654"]);
   }
 
   applyFilter(event: Event) {

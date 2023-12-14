@@ -225,9 +225,9 @@
     <span class="server-down-msg">Няма връзка до сървъра!</span>
   </div>
 
-  <!-- Dialogs -->
+  <!-- Add New Hour -->
   <div class="dialog bg-white" id="bookingDialog">
-    <p class="text-center mb-3 mt-2" style="color: black">
+    <p class="text-center mb-1 mt-2" style="color: black">
       Добави час -
       <b
         >{{ this.date.getDate() }}
@@ -236,18 +236,20 @@
       </b>
     </p>
 
-    <!-- Add New Hour -->
     <form class="form mb-0 mt-0 p-2" [formGroup]="bookingForm">
-      <div class="form-container mb-0 mt-0 pb-0 pt-0" align="center">
-        <mat-form-field class="w-100 mb-4">
-          <mat-label>Име</mat-label>
-          <input
-            matInput
-            type="text"
-            formControlName="name"
-            [matAutocomplete]="auto"
-          />
-          <div class="mt-2 border-top border-primary"></div>
+      <div class="form-container mb-0 mt-0 pb-0 pt-0">
+        <div class="w-100 mb-1">
+          <label class="custom-field w-100">
+            <input
+              class="w-100"
+              placeholder=" "
+              name="name"
+              formControlName="name"
+              [matAutocomplete]="auto"
+            />
+            <span class="placeholder cursor-text">Име</span>
+          </label>
+
           <mat-autocomplete
             #auto="matAutocomplete"
             (optionSelected)="onOptionSelected($event)"
@@ -259,17 +261,20 @@
               {{ option.name }} - {{ option.phoneNumber }}
             </mat-option>
           </mat-autocomplete>
-        </mat-form-field>
+        </div>
 
-        <mat-form-field class="w-100 mb-4">
-          <mat-label>Телефон</mat-label>
-          <input
-            matInput
-            type="text"
-            formControlName="phone"
-            [matAutocomplete]="auto2"
-          />
-          <div class="mt-2 border-top border-primary"></div>
+        <div class="w-100 mb-1">
+          <label class="custom-field w-100">
+            <input
+              class="w-100"
+              placeholder=" "
+              name="phone"
+              formControlName="phone"
+              [matAutocomplete]="auto2"
+            />
+            <span class="placeholder cursor-text">Телефон</span>
+          </label>
+
           <mat-autocomplete
             #auto2="matAutocomplete"
             (optionSelected)="onOptionSelected($event)"
@@ -281,17 +286,20 @@
               {{ option.name }} - {{ option.phoneNumber }}
             </mat-option>
           </mat-autocomplete>
-        </mat-form-field>
+        </div>
 
-        <mat-form-field class="w-100 mb-4">
-          <mat-label>Имейл</mat-label>
-          <input
-            matInput
-            type="text"
-            formControlName="email"
-            [matAutocomplete]="autoEmail"
-          />
-          <div class="mt-2 border-top border-primary"></div>
+        <div class="w-100 mb-1">
+          <label class="custom-field w-100">
+            <input
+              class="w-100"
+              placeholder=" "
+              name="email"
+              formControlName="email"
+              [matAutocomplete]="autoEmail"
+            />
+            <span class="placeholder cursor-text">Имейл</span>
+          </label>
+
           <mat-autocomplete
             #autoEmail="matAutocomplete"
             (optionSelected)="onOptionSelected($event)"
@@ -303,160 +311,57 @@
               {{ option.email }}
             </mat-option>
           </mat-autocomplete>
-        </mat-form-field>
+        </div>
 
-        <mat-form-field class="w-100 mb-4">
-          <mat-label>Продължителност</mat-label>
-          <mat-select formControlName="duration">
-            <mat-option value="30">30 мин. - продължителност</mat-option>
-            <mat-option value="60">1 час - продължителност</mat-option>
-            <mat-option value="90">1:30 часа - продължителност</mat-option>
-            <mat-option value="120">2 часа - продължителност</mat-option>
-            <mat-option value="150">2:30 часа - продължителност</mat-option>
-            <mat-option value="180">3 часа - продължителност</mat-option>
-            <mat-option value="240">3:30 часа - продължителност</mat-option>
-            <mat-option value="8">4 часа - продължителност</mat-option>
-            <mat-option value="9">4:30 часа - продължителност</mat-option>
-            <mat-option value="10">5 часа - продължителност</mat-option>
-            <mat-option value="11">5:30 часа - продължителност</mat-option>
-            <mat-option value="12">6 часа - продължителност</mat-option>
-            <mat-option value="13">6:30 часа - продължителност</mat-option>
-            <mat-option value="14">7 часа - продължителност</mat-option>
-          </mat-select>
-          <div class="mt-2 border-top border-primary"></div>
-        </mat-form-field>
+        <div class="w-100 mb-1">
+          <label class="custom-field-select w-100">
+            <select class="w-100" placeholder=" " formControlName="duration">
+              <option value="30">30 мин. - продължителност</option>
+              <option value="60">1 час - продължителност</option>
+              <option value="90">1:30 часа - продължителност</option>
+              <option value="120">2 часа - продължителност</option>
+              <option value="150">2:30 часа - продължителност</option>
+              <option value="180">3 часа - продължителност</option>
+              <option value="240">3:30 часа - продължителност</option>
+              <option value="8">4 часа - продължителност</option>
+              <option value="9">4:30 часа - продължителност</option>
+              <option value="10">5 часа - продължителност</option>
+              <option value="11">5:30 часа - продължителност</option>
+              <option value="12">6 часа - продължителност</option>
+              <option value="13">6:30 часа - продължителност</option>
+              <option value="14">7 часа - продължителност</option>
+            </select>
+            <span class="placeholder-select cursor-text">Продължителност</span>
+          </label>
+        </div>
 
-        <!-- <mat-form-field class="w-100 mb-4">
-                <mat-label>Избери час</mat-label>
-                <mat-select formControlName="timestamp">
-                    <mat-option *ngFor="let hour of dateTimeService.generateTimeSlots(startTime,endTime,30); trackBy: date; let i = index"
-                        value="{{ hour }}" >
-                        {{ hour | date : 'HH:mm' }} ч.
-                    </mat-option>
-                </mat-select>
-                <div class="mt-2 border-top border-primary"></div>
-            </mat-form-field> -->
-
-        <div class="w-100 mb-4">
-          <mat-form-field class="w-100 mb-0 mt-0 pb-0 pt-0">
-            <mat-label>Бележка</mat-label>
-            <input matInput type="text" formControlName="note" />
-            <div class="mt-2 border-top border-primary"></div>
-          </mat-form-field>
-          <div class="pt-5">
+        <div class="w-100 mb-1">
+          <div class="w-100 mb-0 mt-0 pb-0 pt-0">
+            <label class="custom-field w-100">
+              <input
+                class="w-100"
+                placeholder=" "
+                name="note"
+                formControlName="note"
+              />
+              <span class="placeholder cursor-text">Бележка</span>
+            </label>
+          </div>
+          <div class="text-center mt-3">
             <button
-              id="cancel-button"
-              class="button bg-light-blue mr-3 action-btn"
+              class="btn btn-outline-danger mr-3 rounded-pill px-5"
               (click)="cancelEvent(1)"
             >
               Отказ
             </button>
             <button
-              id="ok-button"
-              class="button bg-light-blue mr-3 action-btn"
+              class="btn btn-outline-primary rounded-pill px-5"
               (click)="bookHour()"
             >
               Добави
             </button>
           </div>
         </div>
-      </div>
-    </form>
-  </div>
-
-  <div class="dialog" id="customDayConfigurationDialog">
-    <p class="text-center mb-0 mt-2" style="color: black">
-      ПРОМЕНИ ДЕН -
-      <b
-        >{{ this.date.getDate() }}
-        {{ date.toLocaleString('bg-BG', { month: 'long' }) }}
-        {{ date.getFullYear() }}г.
-      </b>
-    </p>
-
-    <form
-      class="form mb-0 mt-0 pb-0 pt-0"
-      id="form"
-      [formGroup]="customDayConfigurationForm"
-    >
-      <div class="form-container mb-0 mt-0 pb-0 pt-0" align="center">
-        <div
-          class="alert alert-warning pb-0 pt-0 mt-0 mb-0"
-          *ngIf="workingDayAddError == 1"
-        >
-          Началото на работния ден, не може да бъде по-голямо от края!
-        </div>
-
-        <div class="form-group pl-3 pr-3">
-          <p class="text-left pb-0 mb-0">Работен ден - начало</p>
-          <select
-            class="form-control"
-            name="periodStart"
-            formControlName="periodStart"
-          >
-            <option
-              value="{{ i }}"
-              *ngFor="let hour of timeSlots; let i = index"
-            >
-              {{ hour | date : 'HH:mm' }} ч.
-            </option>
-          </select>
-        </div>
-        <div class="form-group pl-3 pr-3">
-          <p class="text-left pb-0 mb-0">Работен ден - край</p>
-          <select
-            class="form-control"
-            name="periodEnd"
-            formControlName="periodEnd"
-          >
-            <option
-              value="{{ i }}"
-              *ngFor="let hour of timeSlots; let i = index"
-            >
-              {{ hour | date : 'HH:mm' }} ч.
-            </option>
-          </select>
-        </div>
-
-        <div class="form-group pl-3 pr-3 mt-4">
-          <mat-form-field class="w-100 mb-4">
-            <mat-label>Продължителност</mat-label>
-            <mat-select formControlName="interval">
-              <mat-option value="1">30 мин. - продължителност</mat-option>
-              <mat-option value="2">1 час - продължителност</mat-option>
-              <mat-option value="3">1:30 часа - продължителност</mat-option>
-              <mat-option value="4">2 часа - продължителност</mat-option>
-              <mat-option value="5">2:30 часа - продължителност</mat-option>
-              <mat-option value="6">3 часа - продължителност</mat-option>
-              <mat-option value="7">3:30 часа - продължителност</mat-option>
-              <mat-option value="8">4 часа - продължителност</mat-option>
-              <mat-option value="9">4:30 часа - продължителност</mat-option>
-              <mat-option value="10">5 часа - продължителност</mat-option>
-              <mat-option value="11">5:30 часа - продължителност</mat-option>
-              <mat-option value="12">6 часа - продължителност</mat-option>
-              <mat-option value="13">6:30 часа - продължителност</mat-option>
-              <mat-option value="14">7 часа - продължителност</mat-option>
-            </mat-select>
-            <div class="mt-2 border-top border-primary"></div>
-          </mat-form-field>
-        </div>
-        <input
-          type="button"
-          value="Отказ"
-          class="button mr-3"
-          id="cancel-button"
-          (click)="cancelEvent(2)"
-        />
-        <input
-          type="button"
-          value="Редактирай"
-          class="button"
-          id="ok-button"
-          (click)="addDaySpecifications()"
-        />
-
-        <!-- <input type="button" value="ПОЧИВЕН ДЕН" class="btn btn-danger w-75 mt-3 text-center"
-                                    id="ok-button" (click)='showHolidayDayModal()'> -->
       </div>
     </form>
   </div>

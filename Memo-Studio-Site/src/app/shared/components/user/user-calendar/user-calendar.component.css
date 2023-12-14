@@ -247,8 +247,9 @@
   position: relative;
   margin: 0 auto;
   height: 100%;
+  width: 100%;
   font: 13px Helvetica, Arial, san-serif;
-  padding: 20px;
+  /* padding: 20px; */
   float: left;
 }
 
@@ -267,6 +268,10 @@
 
 .user-calendar-container:after {
   clear: both;
+}
+
+.custom-shadow {
+  box-shadow: 0px 4px 8px 0px #7986cb;
 }
 
 /* Reservations wrapper */
