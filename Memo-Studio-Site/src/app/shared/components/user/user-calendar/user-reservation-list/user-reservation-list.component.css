@@ -238,6 +238,10 @@
   left: 33%;
 }
 
+.fw-500 {
+  font-weight: 500;
+}
+
 /* input dialog */
 .dialog {
   z-index: 5;

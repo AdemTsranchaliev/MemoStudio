@@ -76,7 +76,7 @@ const routes: Routes = [
   { path: "terms-conditions", component: TermsConditionsComponent },
   { path: "calendar", component: ReservationCalendarComponent },
   { path: "profile", component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: "**", redirectTo: "booking" },
+  { path: "**", redirectTo: "calendar" },
 ];
 
 @NgModule({

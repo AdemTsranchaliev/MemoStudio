@@ -219,7 +219,7 @@
     <span class="server-down-msg">Няма връзка до сървъра!</span>
   </div>
 
-  <!-- Add New Hour -->
+  <!-- Add New Hour Dialog -->
   <div class="dialog bg-white" id="bookingDialog">
     <p class="text-center mb-1 mt-2" style="color: black">
       Запази час -
@@ -324,7 +324,7 @@
             mat-stroked-button
             color="danger"
             class="mr-3 rounded-pill px-5"
-            (click)="cancelEvent(1)"
+            (click)="cancelEvent('cancel-set')"
           >
             Отказ
           </button>
@@ -333,12 +333,102 @@
             mat-stroked-button
             color="primary"
             class="rounded-pill px-5"
-            (click)="bookHour()"
+            (click)="openPreviewDialog()"
           >
-            Добави
+            Преглед
           </button>
         </div>
       </div>
     </form>
+  </div>
+
+  <!-- Preview Dialog -->
+  <div class="dialog bg-white" id="previewDialog">
+    <div class="text-center mt-2">
+      <h5>Имен на салон!</h5>
+    </div>
+
+    <div class="d-flex px-3">
+      <p class="text-dark fw-500">
+        <i class="far fa-user"></i>
+        Клиент:
+      </p>
+
+      <p class="ml-1">{{ bookingForm.get('name').value }}</p>
+    </div>
+
+    <div class="d-flex px-3">
+      <p class="text-dark fw-500">
+        <i class="far fa-handshake"></i>
+        Услуга:
+      </p>
+
+      <p class="ml-1">Нямаме я към обекта!</p>
+    </div>
+
+    <div class="d-flex px-3">
+      <p class="text-dark fw-500">
+        <i class="fas fa-mobile-alt"></i>
+        Телефон:
+      </p>
+
+      <p class="ml-1">{{ bookingForm.get('phone').value }}</p>
+    </div>
+
+    <div class="d-flex px-3">
+      <p class="text-dark fw-500">
+        <i class="far fa-envelope"></i>
+        Имейл:
+      </p>
+
+      <p class="ml-1">{{ bookingForm.get('email').value }}</p>
+    </div>
+
+    <div class="d-flex px-3">
+      <p class="text-dark fw-500">
+        <i class="fas fa-hourglass-start"></i>
+        Начален час:
+      </p>
+
+      <p class="ml-1">{{ bookingForm.get('timestamp').value | date }}</p>
+    </div>
+
+    <div class="d-flex px-3">
+      <p class="text-dark fw-500">
+        <i class="far fa-clock"></i>
+        Продължителност:
+      </p>
+
+      <p class="ml-1">Нямаме го към обекта!</p>
+    </div>
+
+    <div class="d-flex px-3">
+      <p class="text-dark fw-500">
+        <i class="fas fa-file-signature"></i>
+        Бележка:
+      </p>
+
+      <p class="ml-1">{{ bookingForm.get('note').value }}</p>
+    </div>
+
+    <div class="text-center w-100 mt-5">
+      <button
+        mat-stroked-button
+        color="danger"
+        class="mr-3 rounded-pill px-5"
+        (click)="cancelEvent('cancel-preview')"
+      >
+        Назад
+      </button>
+
+      <button
+        mat-stroked-button
+        color="primary"
+        class="rounded-pill px-5"
+        (click)="bookHour()"
+      >
+        Запази
+      </button>
+    </div>
   </div>
 </div>

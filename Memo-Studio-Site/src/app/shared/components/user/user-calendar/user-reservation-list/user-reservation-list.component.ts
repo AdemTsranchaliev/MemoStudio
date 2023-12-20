@@ -40,7 +40,7 @@ export class UserReservationListComponent implements OnInit, OnChanges {
   public bookingForm: FormGroup = new FormGroup({
     name: new FormControl("", Validators.required),
     phone: new FormControl("", Validators.required),
-    duration: new FormControl(30, Validators.required), // will be removed
+    duration: new FormControl(30, Validators.required), // will be removed?
     email: new FormControl("", [Validators.required, Validators.email]),
     timestamp: new FormControl(null, [Validators.required]),
     facilityId: new FormControl(null),
@@ -113,9 +113,17 @@ export class UserReservationListComponent implements OnInit, OnChanges {
     this.showHideElement("bookingDialog", true);
   }
 
-  public cancelEvent(id: number) {
-    this.resetForm(this.bookingForm);
-    this.showHideElement("bookingDialog", false);
+  public openPreviewDialog() {
+    this.showHideElement("previewDialog", true);
+  }
+
+  public cancelEvent(condition: string) {
+    if (condition == 'cancel-set') {
+      this.resetForm(this.bookingForm);
+      this.showHideElement("bookingDialog", false);
+    } else if (condition == 'cancel-preview') {
+      this.showHideElement("previewDialog", false);
+    }
   }
 
   //REF
@@ -175,6 +183,7 @@ export class UserReservationListComponent implements OnInit, OnChanges {
       );
     } else {
       this.bookingService.addBooking(this.bookingForm.value).subscribe((x) => {
+        this.showHideElement("previewDialog", false);
         this.showHideElement("bookingDialog", false);
 
         this.resetForm(this.bookingForm);
