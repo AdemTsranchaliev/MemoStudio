@@ -1,0 +1,27 @@
+<h1 class="text-center" mat-dialog-title>Добавяне на категория</h1>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="addCategoryForm">
+    <label class="custom-field w-100">
+      <input
+        type="text"
+        class="w-100"
+        placeholder=" "
+        name="newCategory"
+        formControlName="newCategory"
+      />
+      <span class="placeholder cursor-text">Име на новата категория</span>
+    </label>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close>Затвори</button>
+  <button
+    mat-raised-button
+    mat-dialog-close
+    class="bg-primary text-white"
+    (click)="onSubmit()"
+    [disabled]="this.addCategoryForm.get('newCategory').value == ''"
+  >
+    Запази
+  </button>
+</mat-dialog-actions>

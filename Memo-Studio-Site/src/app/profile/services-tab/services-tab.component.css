@@ -1,0 +1,15 @@
+.services-box-shadow {
+  box-shadow: 0px 0px 4px 0px;
+}
+
+.fs-12 {
+  font-size: 12px;
+}
+
+.mt-min-14 {
+  margin-top: -14px;
+}
+
+.ps-14 {
+  padding-left: 14px !important;
+}

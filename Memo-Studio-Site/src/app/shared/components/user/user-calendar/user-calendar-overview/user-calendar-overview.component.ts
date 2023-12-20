@@ -14,7 +14,6 @@ declare const $: any;
 })
 export class UserCalendarOverviewComponent implements OnInit, OnChanges {
   @Output() dateChange: EventEmitter<Date> = new EventEmitter();
-  @Output() editDayButtonClick: EventEmitter<any> = new EventEmitter();
 
   public monthStatistics: MonthStatistics[] = [];
   public calendarRows = [];
@@ -47,13 +46,6 @@ export class UserCalendarOverviewComponent implements OnInit, OnChanges {
     "Дек",
   ];
 
-  public timeSlots: Date[] = [];
-  public customDayConfigurationForm: FormGroup = new FormGroup({
-    periodStart: new FormControl("", Validators.required),
-    periodEnd: new FormControl("", Validators.required),
-    interval: new FormControl(30, Validators.required),
-  });
-
   constructor(
     private bookingService: BookingService,
     public dateTimeService: DateTimeService,
@@ -66,14 +58,6 @@ export class UserCalendarOverviewComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    //Load time slots
-    // this.timeSlots = this.dateTimeService.generateTimeSlots(
-    //   this.facilityConfiguration?.startPeriod,
-    //   this.facilityConfiguration?.endPeriod,
-    //   this.facilityConfiguration?.interval
-    // );
-
-    // this.showBookings(FilterTypes.All);
   }
 
   public showBookings(id: number) { }
@@ -124,13 +108,7 @@ export class UserCalendarOverviewComponent implements OnInit, OnChanges {
     return status == DayStausEnum.Full;
   }
 
-  public editDay() {
-    this.editDayButtonClick.emit();
-    this.showHideElement("customDayConfigurationDialog", true);
-  }
-
   public cancelEvent(id: number) {
-    this.showHideElement("customDayConfigurationDialog", false);
     this.showHideElement("bookingDialog", false);
   }
 

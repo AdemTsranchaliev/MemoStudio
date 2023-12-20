@@ -8,7 +8,7 @@ import { AccountViewModel } from "../shared/models/account/account.model";
 })
 export class ProfileComponent {
   public activeTab: number = 1;
-  public pageTabs: string[] = ["Основни", "Защита", "Календар", "Известия"];
+  public pageTabs: string[] = ['Основни', 'Смяна на парола', 'Известия', 'Услуги', 'Календар'];
 
   handleActiveTabChange(newActiveTab: number) {
     this.activeTab = newActiveTab;

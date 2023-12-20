@@ -43,6 +43,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatCardModule } from "@angular/material/card";
 import { ImageCropperModule } from "ngx-image-cropper";
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatChipsModule } from '@angular/material/chips';
 
 // Import BG Language - Use from Pipe
 import localeBg from "@angular/common/locales/bg";
@@ -99,6 +100,11 @@ import { UserCalendarComponent } from './shared/components/user/user-calendar/us
 import { UserCalendarOverviewComponent } from './shared/components/user/user-calendar/user-calendar-overview/user-calendar-overview.component';
 import { UserReservationListComponent } from './shared/components/user/user-calendar/user-reservation-list/user-reservation-list.component';
 import { BookServiceComponent } from './shared/components/user/book-service/book-service.component';
+import { ServicesTabComponent } from './profile/services-tab/services-tab.component';
+import { ServicesTabCreateCategoryComponent } from './shared/dialogs/services-tab-create-category/services-tab-create-category.component';
+import { ServicesTabEditServiceComponent } from './shared/dialogs/services-tab-edit-service/services-tab-edit-service.component';
+import { CreateServiceComponent } from './shared/dialogs/create-service/create-service.component';
+import { BookCategoryComponent } from './shared/components/user/book-category/book-category.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -157,6 +163,11 @@ registerLocaleData(localeBg, "bg");
     UserCalendarOverviewComponent,
     UserReservationListComponent,
     BookServiceComponent,
+    ServicesTabComponent,
+    ServicesTabCreateCategoryComponent,
+    ServicesTabEditServiceComponent,
+    CreateServiceComponent,
+    BookCategoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -188,6 +199,7 @@ registerLocaleData(localeBg, "bg");
     ImageCropperModule,
     AppRoutingModule,
     MatSlideToggleModule,
+    MatChipsModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

@@ -1,0 +1,84 @@
+<div class="card-body pb-2">
+  <h4>Създаване и редактиране на услуги</h4>
+  <mat-divider class="py-2"></mat-divider>
+
+  <div class="d-flex flex-row-reverse">
+    <button
+      mat-stroked-button
+      color="primary"
+      class="mb-2"
+      (click)="onAddService()"
+    >
+      <mat-icon>add</mat-icon>
+      Добави нова услуга
+    </button>
+  </div>
+
+  <div class="row">
+    <div class="col-12" *ngFor="let category of categories">
+      <!-- Start Category -->
+      <div class="d-flex justify-content-between align-items-center px-1">
+        <h5>
+          {{ category.category }}
+        </h5>
+        <span>
+          <button
+            mat-icon-button
+            color="primary"
+            (click)="editCategory(category)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="deleteCategory(category)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </span>
+      </div>
+      <mat-divider></mat-divider>
+      <!-- End Category -->
+
+      <!-- Start Services -->
+      <div
+        class="d-flex flex-column my-2 services-box-shadow rounded"
+        *ngFor="let service of category.services"
+      >
+        <div
+          class="d-flex justify-content-between align-items-center px-1 ps-14"
+        >
+          <span> {{ service.name }} </span>
+          <span>
+            <span> {{ service.price }} лв. </span>
+
+            <button
+              mat-icon-button
+              color="primary"
+              (click)="editService(category, service)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="deleteService(category, service)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </span>
+        </div>
+
+        <div class="row px-1 ps-14">
+          <div class="col-12 fs-12 mt-min-14">
+            <i class="far fa-clock"></i>
+            12 мин.
+          </div>
+        </div>
+      </div>
+      <!-- End Services -->
+    </div>
+  </div>
+</div>

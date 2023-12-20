@@ -1,10 +1,4 @@
 <div>
-  <div class="px-3 py-2">
-    <button mat-raised-button class="text-center" (click)="stepBack()">
-      <mat-icon>arrow_back</mat-icon> Стъпка назад
-    </button>
-  </div>
-
   <p
     class="alert alert-warning m-3"
     role="alert"
@@ -228,7 +222,7 @@
   <!-- Add New Hour -->
   <div class="dialog bg-white" id="bookingDialog">
     <p class="text-center mb-1 mt-2" style="color: black">
-      Добави час -
+      Запази час -
       <b
         >{{ this.date.getDate() }}
         {{ date.toLocaleString('bg-BG', { month: 'long' }) }}
@@ -247,7 +241,7 @@
               formControlName="name"
               [matAutocomplete]="auto"
             />
-            <span class="placeholder cursor-text">Име</span>
+            <span class="placeholder cursor-text">Име Фамилия</span>
           </label>
 
           <mat-autocomplete
@@ -314,53 +308,35 @@
         </div>
 
         <div class="w-100 mb-1">
-          <label class="custom-field-select w-100">
-            <select class="w-100" placeholder=" " formControlName="duration">
-              <option value="30">30 мин. - продължителност</option>
-              <option value="60">1 час - продължителност</option>
-              <option value="90">1:30 часа - продължителност</option>
-              <option value="120">2 часа - продължителност</option>
-              <option value="150">2:30 часа - продължителност</option>
-              <option value="180">3 часа - продължителност</option>
-              <option value="240">3:30 часа - продължителност</option>
-              <option value="8">4 часа - продължителност</option>
-              <option value="9">4:30 часа - продължителност</option>
-              <option value="10">5 часа - продължителност</option>
-              <option value="11">5:30 часа - продължителност</option>
-              <option value="12">6 часа - продължителност</option>
-              <option value="13">6:30 часа - продължителност</option>
-              <option value="14">7 часа - продължителност</option>
-            </select>
-            <span class="placeholder-select cursor-text">Продължителност</span>
+          <label class="custom-field w-100">
+            <input
+              class="w-100"
+              placeholder=" "
+              name="note"
+              formControlName="note"
+            />
+            <span class="placeholder cursor-text">Бележка</span>
           </label>
         </div>
 
-        <div class="w-100 mb-1">
-          <div class="w-100 mb-0 mt-0 pb-0 pt-0">
-            <label class="custom-field w-100">
-              <input
-                class="w-100"
-                placeholder=" "
-                name="note"
-                formControlName="note"
-              />
-              <span class="placeholder cursor-text">Бележка</span>
-            </label>
-          </div>
-          <div class="text-center mt-3">
-            <button
-              class="btn btn-outline-danger mr-3 rounded-pill px-5"
-              (click)="cancelEvent(1)"
-            >
-              Отказ
-            </button>
-            <button
-              class="btn btn-outline-primary rounded-pill px-5"
-              (click)="bookHour()"
-            >
-              Добави
-            </button>
-          </div>
+        <div class="text-center w-100 mt-5">
+          <button
+            mat-stroked-button
+            color="danger"
+            class="mr-3 rounded-pill px-5"
+            (click)="cancelEvent(1)"
+          >
+            Отказ
+          </button>
+
+          <button
+            mat-stroked-button
+            color="primary"
+            class="rounded-pill px-5"
+            (click)="bookHour()"
+          >
+            Добави
+          </button>
         </div>
       </div>
     </form>

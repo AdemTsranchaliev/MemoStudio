@@ -13,7 +13,6 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { MatStepper } from "@angular/material/stepper";
 import { Observable } from "rxjs";
 import { Booking } from "src/app/shared/models/booking.model";
 import { Day } from "src/app/shared/models/day.model";
@@ -41,7 +40,7 @@ export class UserReservationListComponent implements OnInit, OnChanges {
   public bookingForm: FormGroup = new FormGroup({
     name: new FormControl("", Validators.required),
     phone: new FormControl("", Validators.required),
-    duration: new FormControl(30, Validators.required),
+    duration: new FormControl(30, Validators.required), // will be removed
     email: new FormControl("", [Validators.required, Validators.email]),
     timestamp: new FormControl(null, [Validators.required]),
     facilityId: new FormControl(null),
@@ -68,7 +67,6 @@ export class UserReservationListComponent implements OnInit, OnChanges {
     private dayService: DayService,
     private authService: AuthenticatinService,
     public dateTimeService: DateTimeService,
-    private stepper: MatStepper,
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -97,10 +95,6 @@ export class UserReservationListComponent implements OnInit, OnChanges {
     });
   }
 
-  public stepBack() {
-    this.stepper.previous();
-  }
-
   public openRemoveBookingConfirmation(id: string) {
     this.deleteBookingId = id;
   }
@@ -116,13 +110,11 @@ export class UserReservationListComponent implements OnInit, OnChanges {
         facilityId: this.authService.getFacilityId(),
       });
     }
-    this.showHideElement("customDayConfigurationDialog", false);
     this.showHideElement("bookingDialog", true);
   }
 
   public cancelEvent(id: number) {
     this.resetForm(this.bookingForm);
-    this.showHideElement("customDayConfigurationDialog", false);
     this.showHideElement("bookingDialog", false);
   }
 
@@ -183,7 +175,6 @@ export class UserReservationListComponent implements OnInit, OnChanges {
       );
     } else {
       this.bookingService.addBooking(this.bookingForm.value).subscribe((x) => {
-        this.showHideElement("customDayConfigurationDialog", false);
         this.showHideElement("bookingDialog", false);
 
         this.resetForm(this.bookingForm);

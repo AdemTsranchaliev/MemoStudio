@@ -285,6 +285,12 @@
   display: none !important;
 }
 
+.step-back-btn {
+  position: absolute;
+  top: -50px;
+  left: 0;
+}
+
 /* ============== Media Query ============== */
 
 @media (max-width: 576px) {
