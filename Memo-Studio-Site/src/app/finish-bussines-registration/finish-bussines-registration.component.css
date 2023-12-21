@@ -1,9 +1,58 @@
+/* Card */
+.card-body {
+  padding: 4px;
+}
+
 .img-container {
-    width: 150px;
+  width: 150px;
+}
+
+.img-container img {
+  width: 100%;
+  border-radius: 50%;
+}
+
+/* Stepper */
+::ng-deep .mat-horizontal-content-container {
+  padding: 0 !important;
+}
+
+::ng-deep .mat-horizontal-stepper-header-container {
+  display: none !important;
+}
+
+/* Checkbox */
+::ng-deep .mat-checkbox-label {
+  white-space: normal;
+  overflow: hidden;
+}
+
+/* Whole Card X marin axis */
+.mx-230 {
+  margin: 0 230px;
+}
+
+/* Responsive adjustments using media queries */
+@media (max-width: 1200px) {
+  .mx-230 {
+    margin: 0 150px; /* Adjust the margin for the breakpoint */
   }
-  
-  .img-container img {
-    width: 100%;
-    border-radius: 50%;
+}
+
+@media (max-width: 992px) {
+  .mx-230 {
+    margin: 0 100px; /* Adjust the margin for the breakpoint */
   }
-  
+}
+
+@media (max-width: 768px) {
+  .mx-230 {
+    margin: 0 50px; /* Adjust the margin for the breakpoint */
+  }
+}
+
+@media (max-width: 576px) {
+  .mx-230 {
+    margin: 0; /* Set margin to zero for mobile breakpoint */
+  }
+}

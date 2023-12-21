@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,6 +14,7 @@ import { CreateServiceComponent } from 'src/app/shared/dialogs/create-service/cr
 })
 export class ServicesTabComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
+  @Input() hasHeader: boolean;
 
   private currentSize: string;
   public isExtraSmall: Observable<BreakpointState> =

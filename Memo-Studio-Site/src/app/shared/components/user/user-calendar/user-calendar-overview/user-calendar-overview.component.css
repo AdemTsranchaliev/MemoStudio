@@ -16,5 +16,9 @@
 
 /*  Dates table */
 .table-date {
-  padding: 10px;
+  padding: 8px 10px;
+}
+
+.cal-months-table {
+  text-align: center;
 }

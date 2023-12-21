@@ -1,6 +1,8 @@
 <div class="card-body pb-2">
-  <h4>Създаване и редактиране на услуги</h4>
-  <mat-divider class="py-2"></mat-divider>
+  <div *ngIf="hasHeader">
+    <h4>Създаване и редактиране на услуги</h4>
+    <mat-divider class="py-2"></mat-divider>
+  </div>
 
   <div class="d-flex flex-row-reverse">
     <button

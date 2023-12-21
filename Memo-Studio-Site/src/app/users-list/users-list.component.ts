@@ -7,6 +7,8 @@ import { User } from "../shared/models/user.model";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { UserDetailsComponent } from "../shared/dialogs/user-details/user-details.component";
 import { AuthenticatinService } from "../shared/services/authenticatin.service";
+import { BreakpointObserver, BreakpointState, Breakpoints } from "@angular/cdk/layout";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-users-list",
@@ -17,6 +19,10 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  private currentSize: string;
+  public isExtraSmall: Observable<BreakpointState> =
+    this.breakpointObserver.observe(Breakpoints.XSmall);
+
   columndefs: any[] = ["name", "phoneNumber", "operation"];
   dataSource: MatTableDataSource<User>;
   users: User[] = [];
@@ -24,8 +30,9 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   constructor(
     private userService: UserService,
     private authService: AuthenticatinService,
-    public dialog: MatDialog
-  ) {}
+    public dialog: MatDialog,
+    private breakpointObserver: BreakpointObserver,
+  ) { }
 
   ngOnInit(): void {
     this.userService
@@ -51,7 +58,17 @@ export class UsersListComponent implements OnInit, AfterViewInit {
       data: userId
     });
 
-    dialogRef.afterClosed().subscribe((result) => {});
+    const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
+      this.currentSize = size.matches ? "small" : "large";
+
+      if (size.matches) {
+        dialogRef.updateSize("100%");
+      } else {
+        dialogRef.updateSize("50%");
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   applyFilter(event: Event) {
