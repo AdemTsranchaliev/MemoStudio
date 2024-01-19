@@ -1,7 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { MonthStatistics } from "src/app/shared/models/booking/month-statistics.model";
 import { DayStausEnum } from "src/app/shared/models/dayStatus.model";
 import { BookingService } from "src/app/shared/services/booking.service";
+import { DateCalendar } from "../date.model";
 declare const $: any;
 
 @Component({
@@ -10,15 +11,16 @@ declare const $: any;
   styleUrls: ["./calendar-overview.component.css"],
 })
 export class CalendarOverviewComponent implements OnInit {
-  @Output() dateChange: EventEmitter<Date> = new EventEmitter();
+  @Output() dateChange: EventEmitter<DateCalendar> = new EventEmitter();
   @Output() editDayButtonClick: EventEmitter<any> = new EventEmitter();
+  @Input() isDayPast: boolean;
 
   public monthStatistics: MonthStatistics[] = [];
   public calendarRows = [];
   public date: Date = new Date();
   public dayCount: number;
   public isServerDown: boolean;
-  public isDayPast: boolean;
+  public test: any[] = [];
 
   public readonly weekDays: string[] = [
     "Нд",
@@ -55,32 +57,31 @@ export class CalendarOverviewComponent implements OnInit {
 
   public dateClick(day: number) {
     this.date.setDate(day);
-    this.dateChange.emit(this.date);
-    // this.showEventContainer();
-    // this.showBookings(1);
+    this.checkIfDayIsPast();
+    this.dateChange.emit(<DateCalendar>{date: this.date, isPastDate: this.isDayPast});
   }
 
   public monthClick(month: number) {
-    // this.showEventContainer();
     this.date.setMonth(month);
-    this.dateChange.emit(this.date);
     this.getBookingsByMonthStatistics();
+    this.checkIfDayIsPast();
+    this.dateChange.emit(<DateCalendar>{date: this.date, isPastDate: this.isDayPast});
   }
 
   public nextYear() {
-    // this.hideDialogs();
     const newYear = this.date.getFullYear() + 1;
     this.date.setFullYear(newYear);
-    this.dateChange.emit(this.date);
     this.getBookingsByMonthStatistics();
+    this.checkIfDayIsPast();
+    this.dateChange.emit(<DateCalendar>{date: this.date, isPastDate: this.isDayPast});
   }
 
   public prevYear() {
-    // this.hideDialogs();
     const newYear = this.date.getFullYear() - 1;
     this.date.setFullYear(newYear);
-    this.dateChange.emit(this.date);
     this.getBookingsByMonthStatistics();
+    this.checkIfDayIsPast();
+    this.dateChange.emit(<DateCalendar>{date: this.date, isPastDate: this.isDayPast});
   }
 
   public isPastDay(status: number): boolean {
@@ -162,7 +163,7 @@ export class CalendarOverviewComponent implements OnInit {
       )
       .subscribe((x) => {
         this.monthStatistics = x;
-
+        this.test = [...x];
         this.initCalendar(this.date);
       });
   }
@@ -175,18 +176,13 @@ export class CalendarOverviewComponent implements OnInit {
     ) {
       for (let i = 1; i < currentDate.getDate(); i++) {
         if (i == this.date.getDate()) {
-          this.isDayPast = true;
           continue;
         }
-      }
-      if (currentDate.getDate() <= this.date.getDate()) {
-        this.isDayPast = false;
       }
     } else if (
       this.date.getFullYear() <= currentDate.getFullYear() &&
       this.date.getMonth() < currentDate.getMonth()
     ) {
-      this.isDayPast = true;
       for (let i = 0; i < 35 + this.date.getDay(); i++) {
         const day = i - this.date.getDay() + 1;
         if (i == this.date.getDate()) continue;
@@ -196,12 +192,16 @@ export class CalendarOverviewComponent implements OnInit {
         if (element) element.classList.add("past-date");
       }
     } else {
-      this.isDayPast = false;
     }
   }
   private daysInMonth(month: number, year: number): number {
     const monthStart: Date = new Date(year, month, 1);
     const monthEnd: Date = new Date(year, month + 1, 1);
     return (monthEnd.getTime() - monthStart.getTime()) / (1000 * 60 * 60 * 24);
+  }
+
+  private checkIfDayIsPast() {
+    this.isDayPast =
+      this.test.find((x) => x.day == this.date.getDate())?.status == 3;
   }
 }

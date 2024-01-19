@@ -40,6 +40,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() facilityConfiguration: any; //set type
   @Input() autocompleteNames: [] = [];
   @Input() date: Date = new Date();
+  @Input() isDayPast: boolean;
   @Output() dateChange: EventEmitter<Date> = new EventEmitter();
 
   private subscriptions: Subscription[] = [];
@@ -48,12 +49,12 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
   public timeSlots: Date[] = [];
   options: any[] = [];
   durationArr: any[] = [
-    { duration: '30', value: 30 },
-    { duration: '1', value: 60 },
-    { duration: '1:30', value: 90 },
-    { duration: '2', value: 120 },
-    { duration: '2:20', value: 150 },
-    { duration: '3', value: 180 },
+    { duration: "30", value: 30 },
+    { duration: "1", value: 60 },
+    { duration: "1:30", value: 90 },
+    { duration: "2", value: 120 },
+    { duration: "2:20", value: 150 },
+    { duration: "3", value: 180 },
   ];
 
   public bookingForm: FormGroup = this.formBuilder.group({
@@ -76,7 +77,6 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
   public currentDay: Day;
   bookings: Booking[] = [];
   loader: boolean = false;
-  isDayPast: boolean = false;
   isServerDown: boolean = false;
   deleteBookingId: string;
   public noteModal: Booking;

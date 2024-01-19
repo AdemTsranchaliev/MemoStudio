@@ -6088,16 +6088,12 @@ a.badge-dark.focus {
 }
 
 .alert-warning {
-  color: darkred;
-  border-color: blue;
 }
 
 .alert-warning hr {
-  border-top-color: #ffe8a1;
 }
 
 .alert-warning .alert-link {
-  color: #533f03;
 }
 
 .alert-danger {
