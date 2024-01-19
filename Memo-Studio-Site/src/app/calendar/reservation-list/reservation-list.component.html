@@ -25,13 +25,16 @@
   </li>
 </ul>
 
-<p class="alert alert-warning m-3" role="alert" *ngIf="bookings.length == 0 && !isDayPast && isServerDown == false">
+<p class="alert alert-secondary m-3" role="alert" *ngIf="bookings.length == 0 && !isDayPast && isServerDown == false">
   Все още няма заети часове за {{ this.date.getDate() }}
   {{ date.toLocaleString('bg-BG', { month: 'long' }) }}
   {{ date.getFullYear() }}г.
 </p>
-<div class="alert alert-info text-center p-2" role="alert" *ngIf="isDayPast">
+<div class="alert alert-info text-center m-2" role="alert" *ngIf="isDayPast">
   Изминала дата, нямате право на действие.
+</div>
+<div class="alert alert-secondary text-center m-2" role="alert" *ngIf="bookings.length==0&&isDayPast">
+  За този ден няма резервирани часове.
 </div>
 <div class="alert alert-warning m-4" role="alert" *ngIf="currentDay && !currentDay?.isWorking && !isDayPast">
   ПОЧИВЕН ДЕН
