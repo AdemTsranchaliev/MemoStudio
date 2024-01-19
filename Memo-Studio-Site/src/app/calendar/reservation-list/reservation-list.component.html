@@ -30,8 +30,8 @@
   {{ date.toLocaleString('bg-BG', { month: 'long' }) }}
   {{ date.getFullYear() }}г.
 </p>
-<div class="alert alert-warning m-4" role="alert" *ngIf="isDayPast">
-  Тази дата е минала и нямате право на действия.
+<div class="alert alert-info text-center p-2" role="alert" *ngIf="isDayPast">
+  Изминала дата, нямате право на действие.
 </div>
 <div class="alert alert-warning m-4" role="alert" *ngIf="currentDay && !currentDay?.isWorking && !isDayPast">
   ПОЧИВЕН ДЕН
@@ -60,7 +60,7 @@
                 </a>
               </span>
 
-              <span>
+              <span *ngIf="!isDayPast">
                 <i class="fa ml-1 col-1" style="cursor: pointer" data-toggle="modal" data-target="#exampleModalCenter"
                   (click)="openRemoveBookingConfirmation(booking.bookingId)">&#xf00d;</i>
               </span>

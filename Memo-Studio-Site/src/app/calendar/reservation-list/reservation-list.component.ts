@@ -36,18 +36,19 @@ export class ReservationListComponent implements OnInit, OnChanges {
   @Input() facilityConfiguration: any; //set type
   @Input() autocompleteNames: [] = [];
   @Input() date: Date = new Date();
+  @Input() isDayPast: boolean;
   @Output() dateChange: EventEmitter<Date> = new EventEmitter();
 
   public selectedFilter: number = FilterTypes.All;
   public timeSlots: Date[] = [];
   options: any[] = [];
   durationArr: any[] = [
-    { duration: '30', value: 30 },
-    { duration: '1', value: 60 },
-    { duration: '1:30', value: 90 },
-    { duration: '2', value: 120 },
-    { duration: '2:20', value: 150 },
-    { duration: '3', value: 180 },
+    { duration: "30", value: 30 },
+    { duration: "1", value: 60 },
+    { duration: "1:30", value: 90 },
+    { duration: "2", value: 120 },
+    { duration: "2:20", value: 150 },
+    { duration: "3", value: 180 },
   ];
 
   public bookingForm: FormGroup = this.formBuilder.group({
@@ -69,7 +70,6 @@ export class ReservationListComponent implements OnInit, OnChanges {
   public currentDay: Day;
   bookings: Booking[] = [];
   loader: boolean = false;
-  isDayPast: boolean = false;
   isServerDown: boolean = false;
   deleteBookingId: string;
   public noteModal: Booking;
@@ -88,8 +88,8 @@ export class ReservationListComponent implements OnInit, OnChanges {
     public dateTimeService: DateTimeService,
     private userService: UserService,
     private formBuilder: FormBuilder,
-    public utilityService: UtilityService,
-  ) { }
+    public utilityService: UtilityService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     //Load time slots
@@ -141,7 +141,7 @@ export class ReservationListComponent implements OnInit, OnChanges {
         facilityId: this.authService.getFacilityId(),
       });
     }
-    this.bookingForm.get('duration').setValue(30);
+    this.bookingForm.get("duration").setValue(30);
     this.showHideElement("customDayConfigurationDialog", false);
     this.showHideElement("bookingDialog", true);
     // $("input").click(function () {
@@ -237,14 +237,14 @@ export class ReservationListComponent implements OnInit, OnChanges {
 
   public onOptionSelected(event: any): void {
     var selectedValue: any = event.option.value;
-    this.bookingForm.get('name').setValue(selectedValue.name);
-    this.bookingForm.get('phone').setValue(selectedValue.phone);
-    this.bookingForm.get('email').setValue(selectedValue.email);
+    this.bookingForm.get("name").setValue(selectedValue.name);
+    this.bookingForm.get("phone").setValue(selectedValue.phone);
+    this.bookingForm.get("email").setValue(selectedValue.email);
     this.selectedUserId = selectedValue.userId;
   }
 
   private InitDropdownFilters() {
-    this.filteredOptions = this.bookingForm.get('name').valueChanges.pipe(
+    this.filteredOptions = this.bookingForm.get("name").valueChanges.pipe(
       startWith(""),
       map((value) => {
         const name = typeof value === "string" ? value : value?.name;
@@ -252,7 +252,7 @@ export class ReservationListComponent implements OnInit, OnChanges {
       })
     );
 
-    this.filteredPhoneOptions = this.bookingForm.get('phone').valueChanges.pipe(
+    this.filteredPhoneOptions = this.bookingForm.get("phone").valueChanges.pipe(
       startWith(""),
       map((value) => {
         const phone = typeof value === "string" ? value : value?.phone;
@@ -262,7 +262,7 @@ export class ReservationListComponent implements OnInit, OnChanges {
       })
     );
 
-    this.filteredEmailOptions = this.bookingForm.get('email').valueChanges.pipe(
+    this.filteredEmailOptions = this.bookingForm.get("email").valueChanges.pipe(
       startWith(""),
       map((value) => {
         const email = typeof value === "string" ? value : value?.email;
