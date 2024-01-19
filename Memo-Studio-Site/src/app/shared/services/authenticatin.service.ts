@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 import { BASE_URL_DEV, BASE_URL_PROD } from "../routes";
-const AUTHTOKEN = 'AUTH_TOKEN';
+const AUTHTOKEN = "AUTH_TOKEN";
 
 @Injectable({
   providedIn: "root",
@@ -11,7 +11,7 @@ const AUTHTOKEN = 'AUTH_TOKEN';
 export class AuthenticatinService {
   user: null | undefined = undefined;
 
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient) {}
 
   public isAuthenticated(): boolean {
     return this.getToken() ? true : false;
@@ -34,7 +34,7 @@ export class AuthenticatinService {
     });
     const token = this.getToken();
 
-    if (token!= null) {
+    if (token != null) {
       headers = headers.set("X-Parse-Session-Token", `${token}`);
     }
 
@@ -77,7 +77,6 @@ export class AuthenticatinService {
   }
 
   public resetPassword(content) {
-    console.log(content)
     return this.http.post(`${BASE_URL_DEV}/account/reset-password`, content);
   }
 

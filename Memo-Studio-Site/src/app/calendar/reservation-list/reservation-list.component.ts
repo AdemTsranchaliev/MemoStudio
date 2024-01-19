@@ -33,6 +33,7 @@ declare const $: any;
 export class ReservationListComponent implements OnInit, OnChanges {
   @Input() bookingsOrigin: Booking[] = [];
   @Input() facilityConfiguration: any; //set type
+  @Input() autocompleteNames: [] = [];
   @Input() date: Date = new Date();
   @Output() dateChange: EventEmitter<Date> = new EventEmitter();
 
@@ -73,9 +74,9 @@ export class ReservationListComponent implements OnInit, OnChanges {
   public noteModal: Booking;
 
   workingDayAddError: number = -1;
-  filteredOptions: Observable<User[]>;
-  filteredPhoneOptions: Observable<User[]>;
-  filteredEmailOptions: Observable<User[]>;
+  filteredOptions: Observable<any[]>;
+  filteredPhoneOptions: Observable<any[]>;
+  filteredEmailOptions: Observable<any[]>;
   selectedPhone: string;
   selectedUserId: string;
 
@@ -96,6 +97,9 @@ export class ReservationListComponent implements OnInit, OnChanges {
       this.facilityConfiguration?.interval
     );
 
+    this.filteredOptions = of(this.autocompleteNames);
+    this.filteredPhoneOptions = of(this.autocompleteNames);
+    this.filteredEmailOptions = of(this.autocompleteNames);
     this.showBookings(FilterTypes.All);
   }
 

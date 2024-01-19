@@ -11,7 +11,7 @@ namespace Memo_Studio_Library
 
         public int Duration { get; set; }
 
-        public string Note { get; set; }
+        public string? Note { get; set; }
 
         public string? Name { get; set; }
 

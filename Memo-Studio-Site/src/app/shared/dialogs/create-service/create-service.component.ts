@@ -1,14 +1,24 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Observable, Subscription } from 'rxjs';
-import { ServicesTabCreateCategoryComponent } from '../services-tab-create-category/services-tab-create-category.component';
-import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
+import { Component, Inject, OnInit, OnDestroy } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from "@angular/material/dialog";
+import { Observable, Subscription } from "rxjs";
+import { ServicesTabCreateCategoryComponent } from "../services-tab-create-category/services-tab-create-category.component";
+import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from "@angular/cdk/layout";
+import { HttpClient } from "@angular/common/http";
+import { BASE_URL_DEV } from "../../routes";
 
 @Component({
-  selector: 'app-create-service',
-  templateUrl: './create-service.component.html',
-  styleUrls: ['./create-service.component.css']
+  selector: "app-create-service",
+  templateUrl: "./create-service.component.html",
+  styleUrls: ["./create-service.component.css"],
 })
 export class CreateServiceComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
@@ -18,10 +28,11 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
     this.breakpointObserver.observe(Breakpoints.XSmall);
 
   public createServiceForm: FormGroup = this.formBuilder.group({
-    serviceName: ["", [Validators.required]],
-    price: ["", [Validators.required]],
+    name: ["", [Validators.required]],
+    price: [""],
     category: ["", [Validators.required]],
-    time: ["", [Validators.required]],
+    duration: ["", [Validators.required]],
+    description: ["test desc"],
   });
 
   categoriesSelect: string[] = [];
@@ -33,8 +44,9 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<CreateServiceComponent>,
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
-    private breakpointObserver: BreakpointObserver,
-  ) { }
+    private http: HttpClient,
+    private breakpointObserver: BreakpointObserver
+  ) {}
 
   ngOnInit(): void {
     this.categories = this.data.categories;
@@ -46,8 +58,8 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
   }
 
   onCategoryChange() {
-    const selectedCategory = this.createServiceForm.get('category').value;
-    if (selectedCategory === 'addCategory') {
+    const selectedCategory = this.createServiceForm.get("category").value;
+    if (selectedCategory === "addCategory") {
       this.addNewCategory();
     }
   }
@@ -55,7 +67,7 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
   addNewCategory() {
     const dialogRef = this.dialog.open(ServicesTabCreateCategoryComponent, {
       width: "100vw",
-      data: {}
+      data: {},
     });
 
     const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
@@ -72,15 +84,18 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.categoriesSelect.push(result);
-        this.createServiceForm.get('category').setValue(result);
+        this.createServiceForm.get("category").setValue(result);
       } else {
         // Set the default option when no category is added
-        this.createServiceForm.get('category').setValue('');
+        this.createServiceForm.get("category").setValue("");
       }
     });
   }
 
   onAddService() {
+
+    this.http.post(`${BASE_URL_DEV}/facility/service`, this.createServiceForm.value).subscribe((response) => {});
+
     if (this.createServiceForm.invalid) {
       return;
     }
@@ -88,14 +103,16 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
     const { category, price, serviceName } = this.createServiceForm.value;
 
     // Find the index of the selected category in the categories array
-    const categoryIndex = this.categories.findIndex(cat => cat.category === category);
+    const categoryIndex = this.categories.findIndex(
+      (cat) => cat.category === category
+    );
 
     if (categoryIndex !== -1) {
       // Category exists, push the new service to it
       this.categories[categoryIndex].services.push({
         id: Math.random(),
         name: serviceName,
-        price
+        price,
       });
     } else {
       // Category doesn't exist, create a new category and push the new service to it
@@ -106,15 +123,18 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
           {
             id: Math.random(),
             name: serviceName,
-            price
-          }
-        ]
+            price,
+          },
+        ],
       };
-
+      this.http.post(`${BASE_URL_DEV}/facility/service`, this.createServiceForm.value).subscribe((response) => {},(err)=>{console.log(err)});
       this.categories.push(newCategory);
     }
 
-    this.dialogRef.close({ categories: this.categories, categoriesSelect: this.categoriesSelect });
+    this.dialogRef.close({
+      categories: this.categories,
+      categoriesSelect: this.categoriesSelect,
+    });
 
     // Clear the form after adding the service
     this.createServiceForm.reset();

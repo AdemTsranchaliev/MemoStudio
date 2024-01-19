@@ -7,6 +7,10 @@ namespace Memo_Studio_Library.Data.Models
 {
 	public class FacilityRole : BaseModel
 	{
+		public FacilityRole()
+		{
+			UserFalicities = new List<UserFalicity>();
+		}
 		public string Name { get; set; }
 
 		public List<UserFalicity> UserFalicities { get; set; }

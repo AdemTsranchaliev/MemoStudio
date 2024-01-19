@@ -21,6 +21,7 @@ export class ReservationCalendarComponent implements OnInit {
   public currentDay: Day;
   public date: Date = new Date();
   public facilityConfiguration: any;
+  public autocompleteNames: [] = [];
 
   bookings: Booking[] = [];
 
@@ -36,6 +37,9 @@ export class ReservationCalendarComponent implements OnInit {
     this.facilityService.getFacilitySettings().subscribe((x) => {
       this.facilityConfiguration = x;
       this.dateChange(this.date);
+    });
+    this.facilityService.getFacilityUsers().subscribe(x=>{
+      this.autocompleteNames = x;
     });
   }
 

@@ -104,7 +104,16 @@
       <mat-error> Паролите не съвпадат </mat-error>
     </div>
 
-    <div class="d-flex mb-5 mt-3 align-items-center">
+    <div class="d-flex mb-1 mt-3 align-items-center">
+      <mat-checkbox formControlName="acceptPolicy">Регистрирам се като бизнес</mat-checkbox>
+      <mat-error *ngIf="
+          utilityService.HasError(registerForm, 'acceptPolicy', 'required') &&
+          utilityService.IsTouched(registerForm, 'privacyPolicy')
+        ">
+        Това поле е задължително.
+      </mat-error>
+    </div>
+    <div class="d-flex mb-4 mt-1 align-items-center">
       <mat-checkbox formControlName="acceptPolicy">Приемам политиките за поверителност</mat-checkbox>
       <mat-error *ngIf="
           utilityService.HasError(registerForm, 'acceptPolicy', 'required') &&

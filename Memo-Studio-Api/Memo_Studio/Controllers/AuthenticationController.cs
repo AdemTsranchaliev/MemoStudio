@@ -29,31 +29,42 @@ namespace Memo_Studio.Controllers
         [HttpPost]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateViewModel model)
         {
-            if (string.IsNullOrEmpty(model.Email))
+            try
             {
-                throw new ArgumentNullException();
-            }
+                if (string.IsNullOrEmpty(model.Email))
+                {
+                    throw new ArgumentNullException("Моля попълнете всички полета");
+                }
 
-            var user = await userService.GetUserByEmailAsync(model.Email);
+                var user = await userService.GetUserByEmailAsync(model.Email);
 
-            if (user==null)
-            {
-                return new NotFoundResult();
-            }
-            if (!user.EmailConfirmed)
-            {
-                return BadRequest("Имейлът ви не е потвърден. Моля проверете имейла си и го потвърдете.");
-            }
+                if (user == null)
+                {
+                    return new NotFoundResult();
+                }
+                if (!user.EmailConfirmed)
+                {
+                    throw new ArgumentException("Имейлът ви не е потвърден. Моля проверете имейла си и го потвърдете");
+                }
 
-            var result = await signInManager.CheckPasswordSignInAsync(user, model.Password, false);
-            if (result.Succeeded)
-            {
-                var token = tokenService.GenerateBearerToken(user);
-                return Ok(token);
+                var result = await signInManager.CheckPasswordSignInAsync(user, model.Password, false);
+                if (result.Succeeded)
+                {
+                    var token = tokenService.GenerateBearerToken(user);
+                    return Ok(token);
+                }
+                else
+                {
+                    throw new ArgumentException("Паролата или имейлът са невалидни");
+                }
             }
-            else
+            catch (ArgumentException ex)
             {
-                return BadRequest();
+                throw new ArgumentException(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Сървърна грешка 500, моля свържете се с поддръжката");
             }
         }
 	}

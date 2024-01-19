@@ -27,16 +27,17 @@ export class LoginComponent implements OnInit, AfterViewInit {
     private router: Router,
     private authService: AuthenticatinService,
     public utilityService: UtilityService
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     this.showPage = true;
   }
 
   ngOnInit(): void {
-    if (this.authService.isAuthenticated()) {
-      this.router.navigate(["/"]);
-    }
+    console.log("login");
+    // if (this.authService.isAuthenticated()) {
+    //   this.router.navigate(["/"]);
+    // }
   }
 
   ngOnDestroy() {

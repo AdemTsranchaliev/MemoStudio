@@ -71,19 +71,17 @@ export class ChangeForgottenPasswordComponent implements OnInit {
     this.requestStatus = -1;
 
     var model = Object.assign({}, this.registerForm.value);
-    const loginSubscription = this.authService
-      .resetPassword(model)
-      .subscribe({
-        next: () => {
-          this.requestStatus = 1;
-          setTimeout(() => {
-            this.route.navigate(["/login"]);
-          }, 3000); 
-        },
-        error: (err) => {
-          this.requestStatus = 2;
-        },
-      });
+    const loginSubscription = this.authService.resetPassword(model).subscribe({
+      next: () => {
+        this.requestStatus = 1;
+        setTimeout(() => {
+          this.route.navigate(["/login"]);
+        }, 3000);
+      },
+      error: (err) => {
+        this.requestStatus = 2;
+      },
+    });
     this.subscriptions.push(loginSubscription);
   }
 }

@@ -10,8 +10,7 @@ public class BaseController : ControllerBase
 
         if (string.IsNullOrEmpty(authorizationHeader) || !authorizationHeader.StartsWith("Bearer "))
         {
-            
-            return null;
+            throw new UnauthorizedAccessException();
         }
 
         string token = authorizationHeader.Substring(7);
@@ -43,9 +42,9 @@ public class BaseController : ControllerBase
 
             return payloadProperties;
         }
-        catch (Exception ex)
+        catch
         {
-            return null;
+            throw new Exception("Сървърна грешка 500, моля свържете се с поддръжка");
         }
     }
 
@@ -55,7 +54,7 @@ public class BaseController : ControllerBase
 
         if (payloadProperties == null)
         {
-            
+
         }
 
         if (payloadProperties.ContainsKey("FacilityId"))

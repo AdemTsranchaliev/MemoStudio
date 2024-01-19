@@ -13,6 +13,10 @@ namespace Memo_Studio_Library.Services.Interfaces
         public Task<List<FacilityUserNotificationsViewModel>> GetUserNotifications(Guid facilityId, Guid userId);
         public Task<FacilitySettingsViewModel> GetFacilitySettings(Guid facilityId);
         public Task UpdateFacilitySettings(FacilitySettingsViewModel model, Guid facilityId);
+        public Task UpsertServiceCategory(ServiceCategoryViewModel model, Guid facilityId);
+        public Task<List<ServiceCategoryResponse>> GetServices(Guid facilityId);
+        public Task AddService(ServiceViewModel model, Guid facilityId);
+        public Task<List<BookingUsersAutocompleteViewModel>> GetFacilityUsers(Guid facilityId);
     }
 }
 

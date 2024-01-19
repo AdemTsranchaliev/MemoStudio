@@ -7,8 +7,13 @@ import { User } from "../shared/models/user.model";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { UserDetailsComponent } from "../shared/dialogs/user-details/user-details.component";
 import { AuthenticatinService } from "../shared/services/authenticatin.service";
-import { BreakpointObserver, BreakpointState, Breakpoints } from "@angular/cdk/layout";
+import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from "@angular/cdk/layout";
 import { Observable } from "rxjs";
+import { FacilityService } from "../shared/services/facility.service";
 
 @Component({
   selector: "app-users-list",
@@ -23,28 +28,31 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   public isExtraSmall: Observable<BreakpointState> =
     this.breakpointObserver.observe(Breakpoints.XSmall);
 
-  columndefs: any[] = ["name", "phoneNumber", "operation"];
+  columndefs: any[] = ["name", "phone", "email", "registeredUser","operation"];
   dataSource: MatTableDataSource<User>;
   users: User[] = [];
+  subscribedUsers: any[] = [];
 
   constructor(
     private userService: UserService,
     private authService: AuthenticatinService,
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
-  ) { }
+    private facilityService: FacilityService
+  ) {}
 
   ngOnInit(): void {
-    this.userService
-      .getAllUsers()
-      .subscribe((x) => {
-        // If 404/Error -> show to the user that thre is no data
-        this.users = x;
+    this.facilityService.getFacilityUsers().subscribe(x=>{
+      this.subscribedUsers = x;
+    });
+    this.userService.getAllUsers().subscribe((x) => {
+      // If 404/Error -> show to the user that thre is no data
+      this.users = x;
 
-        this.dataSource = new MatTableDataSource(this.users);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      });
+      this.dataSource = new MatTableDataSource(this.users);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
 
   ngAfterViewInit() {
@@ -55,7 +63,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   openDialog(userId: string) {
     const dialogRef = this.dialog.open(UserDetailsComponent, {
       width: "100vw",
-      data: userId
+      data: userId,
     });
 
     const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
@@ -68,7 +76,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe((result) => { });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   applyFilter(event: Event) {
