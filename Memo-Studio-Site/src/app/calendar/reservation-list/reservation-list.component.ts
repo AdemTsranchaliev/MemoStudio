@@ -83,7 +83,7 @@ export class ReservationListComponent implements OnInit, OnChanges {
       this.facilityConfiguration?.endPeriod,
       this.facilityConfiguration?.interval
     );
-    console.log(this.autocompleteNames)
+
     this.filteredOptions = of(this.autocompleteNames);
     this.filteredPhoneOptions = of(this.autocompleteNames);
     this.filteredEmailOptions = of(this.autocompleteNames);

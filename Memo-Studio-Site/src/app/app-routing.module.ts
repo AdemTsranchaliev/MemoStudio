@@ -32,17 +32,36 @@ import { FinishBussinesRegistrationComponent } from "./finish-bussines-registrat
 import { UserCalendarComponent } from "./shared/components/user/user-calendar/user-calendar.component";
 
 const routes: Routes = [
-  { path: "home-information", component: HomeInfoComponent },
-  { path: "admin-dashboard", component: AdminDashboardComponent },
-  { path: "newly-registered", component: NewlyRegisteredListComponent },
+  {
+    path: "home-information",
+    component: HomeInfoComponent
+  },
+  {
+    path: "admin-dashboard",
+    component: AdminDashboardComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "newly-registered",
+    component: NewlyRegisteredListComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: "newly-registered-details/:id",
     component: NewlyRegisteredEditComponent,
+    canActivate: [AuthGuard],
   },
-  { path: "all-users", component: AllUsersListComponent },
-  { path: "all-users/user-details/:id", component: AllUsersEditComponent },
+  {
+    path: "all-users",
+    component: AllUsersListComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "all-users/user-details/:id",
+    component: AllUsersEditComponent,
+    canActivate: [AuthGuard],
+  },
   { path: "catched-errors", component: CatchedErrorsListComponent },
-  { path: "booking", component: BookingComponent, canActivate: [AuthGuard] },
   {
     path: "self-booking",
     component: SelfBookingComponent,
@@ -53,20 +72,49 @@ const routes: Routes = [
     component: BookingConfirmationListComponent,
     canActivate: [AuthGuard],
   },
-  { path: "viber-confirmation", component: ViberConfirmationComponent },
+  {
+    path: "viber-confirmation",
+    component: ViberConfirmationComponent,
+    canActivate: [AuthGuard],
+  },
   { path: "login", component: AuthenticationComponent },
   { path: "forgotten-password", component: ForgottenPasswordComponent },
   { path: "users", component: UsersListComponent, canActivate: [AuthGuard] },
-  { path: "user-home/:id", component: UserHomeComponent },
-  { path: "user-calendar", component: UserCalendarComponent },
-  { path: "upcoming", component: UpcomingBookingComponent },
-  { path: "pre-booking", component: PreBookingComponent },
-  { path: "book-service", component: BookServiceComponent },
+  {
+    path: "user-home/:id",
+    component: UserHomeComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "user-calendar",
+    component: UserCalendarComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "upcoming",
+    component: UpcomingBookingComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "pre-booking",
+    component: PreBookingComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "book-service",
+    component: BookServiceComponent,
+    canActivate: [AuthGuard],
+  },
   { path: "email-confirm", component: EmailConfirmationComponent },
-  { path: "change-password", component: ChangeForgottenPasswordComponent },
+  {
+    path: "change-password",
+    component: ChangeForgottenPasswordComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: "finish-registration",
     component: FinishBussinesRegistrationComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: "user",
@@ -74,7 +122,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: "terms-conditions", component: TermsConditionsComponent },
-  { path: "calendar", component: ReservationCalendarComponent },
+  {
+    path: "calendar",
+    component: ReservationCalendarComponent,
+    canActivate: [AuthGuard],
+  },
   { path: "profile", component: ProfileComponent, canActivate: [AuthGuard] },
   { path: "**", redirectTo: "calendar" },
 ];

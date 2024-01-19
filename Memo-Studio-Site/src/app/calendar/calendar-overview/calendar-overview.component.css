@@ -1,0 +1,252 @@
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  
+  ::ng-deep .mat-form-field-underline {
+    display: none;
+  }
+  
+  .not-active-tab {
+    color: #007bff !important;
+    cursor: pointer !important;
+  }
+  
+  .primary-background {
+    background-color: #dddddd !important;
+  }
+  
+  .cdk-overlay-pane {
+    min-width: 200px !important;
+  }
+  
+  .mat-select-panel {
+    min-width: auto !important;
+  }
+  
+  ::ng-deep .mat-form-field-wrapper {
+    margin-bottom: -1.25em;
+  }
+  
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    background-color: white !important;
+    border-radius: 5px !important;
+  }
+  
+  ::ng-deep .mat-form-field-infix {
+    border-top: 0px !important;
+  }
+  
+  .past-date {
+    color: black;
+  }
+  
+  /* ========== New Logic ========== */
+  
+  .calendar {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  .header {
+    margin-bottom: 10px;
+  }
+  
+  .day {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-basis: calc(100% / 7);
+    /* Added to set each day to occupy 1/7th of the container */
+    box-sizing: border-box;
+    text-align: center;
+  }
+  
+  .week-days:first-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+  
+  .week-days:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+  
+  .days {
+    display: flex;
+    /* Added to wrap the days into multiple rows */
+    flex-wrap: wrap;
+  }
+  
+  .day-digit {
+    border-radius: 50%;
+    padding: 4px 10px;
+  }
+  
+  .today {
+    background-color: #e4e8fe;
+  }
+  
+  .other-month {
+    color: #888888;
+  }
+  
+  .not-other-month {
+    color: blue;
+  }
+  
+  .has-event {
+    /* Change the color for days with events */
+    color: #000000;
+  }
+  
+  .cursor-pointer {
+    cursor: pointer;
+  }
+  
+  /* Alignment */
+  
+  .margin-right {
+    margin-right: 16px;
+  }
+  
+  .margin-b {
+    margin-bottom: 10px;
+  }
+  
+  .a-start {
+    text-align: start;
+  }
+  
+  .events-container {
+    background-color: white;
+  }
+  
+  /* Salon Name Underline Animation */
+  .salon-name-decoration {
+    position: relative;
+    /* Ensure relative positioning */
+    text-decoration: none;
+    /* Start with no underline */
+    color: black;
+    /* Set the text color */
+  }
+  
+  .salon-name-decoration::after {
+    content: '';
+    /* Create a pseudo-element for the underline */
+    position: absolute;
+    left: 0;
+    bottom: -12px;
+    height: 2px;
+    /* Set the thickness of the underline */
+    width: 0;
+    /* Start with zero width */
+    background-color: #007bff;
+    /* Set the color of the underline */
+    transition: width 0.5s ease-in-out;
+    /* Add a smooth transition effect */
+  }
+  
+  @keyframes text-decoration-animation {
+    0% {
+      width: 0;
+    }
+  
+    99.9% {
+      width: 100%;
+    }
+  
+    100% {
+      width: 100%;
+    }
+  }
+  
+  /* Apply the animation to the element */
+  .salon-name-decoration.animation-onload::after {
+    animation: text-decoration-animation 1s ease-in-out;
+    width: 100%;
+  }
+  
+  /* Flag - If reservation have Notes */
+  .reservation-container {
+    position: relative;
+  }
+  
+  .element-notes {
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    padding: 4px;
+    border-radius: 50%;
+    background-color: blue;
+  }
+  
+  /* Tabs */
+  .event-expansion-panel {
+    border: 1px solid blue;
+    border-radius: 4px;
+  }
+  
+  .active-date {
+    background-color: #e4e8fe;
+  }
+  
+  .past-day-date {
+    color: gray !important;
+  }
+  
+  /* Style truncated text */
+  .truncate-text {
+    /* Set a fixed width for each item */
+    width: 60px;
+    /* Prevent text from wrapping to multiple lines */
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: left;
+  }
+  
+  .free-day {
+    color: gray !important;
+    text-decoration: line-through solid black 1px;
+  }
+  
+  .full-day {
+    color: red !important;
+    /* decorate with crossed line */
+  }
+  
+  .action-btn {
+    padding: 5px 35px;
+  }
+  
+  .center-transform {
+    padding-top: 220px;
+  }
+  
+  .server-down-msg {
+    font-size: 28px;
+    color: black;
+  }
+  
+  .custom-calendar-edit-btn {
+    position: absolute;
+    bottom: 10px;
+    left: 33%;
+  }
+  
+  /* ============== Media Query ============== */
+  
+  @media (max-width: 576px) {
+    .table-date {
+      height: 52px;
+    }
+  }
+  
