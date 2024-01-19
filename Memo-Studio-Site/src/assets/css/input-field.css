@@ -75,13 +75,16 @@
 }
 
 /* Error Rules */
-.custom-field input.ng-invalid {
-  border-color: red; /* Change the border color to red for invalid fields */
-}
+/* Change the border color to red for invalid fields */
+/* .custom-field input.ng-invalid {
+  border-color: red; 
+} */
 
-.custom-field input.ng-invalid + .placeholder {
-  color: red; /* Change the placeholder color to red for invalid fields */
-}
+/* Change the placeholder color to red for invalid fields */
+/* .custom-field input.ng-invalid + .placeholder {
+  color: red; 
+} */
+/* Check by all errror options -> ng-invalid ng-dirty ng-touched */
 
 /* Disabled */
 .custom-field input:disabled {

@@ -14,6 +14,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { Observable, of } from "rxjs";
+import { map, startWith } from "rxjs/operators";
 import { Booking } from "src/app/shared/models/booking.model";
 import { Day } from "src/app/shared/models/day.model";
 import { User } from "src/app/shared/models/user.model";
@@ -21,6 +22,8 @@ import { AuthenticatinService } from "src/app/shared/services/authenticatin.serv
 import { BookingService } from "src/app/shared/services/booking.service";
 import { DateTimeService } from "src/app/shared/services/date-time.service";
 import { DayService } from "src/app/shared/services/day.service";
+import { UserService } from "src/app/shared/services/user.service";
+import { UtilityService } from "src/app/shared/services/utility.service";
 declare const $: any;
 
 @Component({
@@ -37,15 +40,24 @@ export class ReservationListComponent implements OnInit, OnChanges {
 
   public selectedFilter: number = FilterTypes.All;
   public timeSlots: Date[] = [];
+  options: any[] = [];
+  durationArr: any[] = [
+    { duration: '30', value: 30 },
+    { duration: '1', value: 60 },
+    { duration: '1:30', value: 90 },
+    { duration: '2', value: 120 },
+    { duration: '2:20', value: 150 },
+    { duration: '3', value: 180 },
+  ];
 
-  public bookingForm: FormGroup = new FormGroup({
-    name: new FormControl("", Validators.required),
-    phone: new FormControl("", Validators.required),
-    duration: new FormControl(30, Validators.required),
-    email: new FormControl("", [Validators.required, Validators.email]),
-    timestamp: new FormControl(null, [Validators.required]),
-    facilityId: new FormControl(null),
-    note: new FormControl(""),
+  public bookingForm: FormGroup = this.formBuilder.group({
+    name: ["", Validators.required],
+    phone: ["", Validators.required],
+    duration: [30, Validators.required],
+    email: ["", [, Validators.email, Validators.required]],
+    timestamp: [null, Validators.required],
+    facilityId: [null, Validators.required],
+    note: [""],
   });
 
   public customDayConfigurationForm: FormGroup = new FormGroup({
@@ -73,8 +85,11 @@ export class ReservationListComponent implements OnInit, OnChanges {
     private bookingService: BookingService,
     private dayService: DayService,
     private authService: AuthenticatinService,
-    public dateTimeService: DateTimeService
-  ) {}
+    public dateTimeService: DateTimeService,
+    private userService: UserService,
+    private formBuilder: FormBuilder,
+    public utilityService: UtilityService,
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     //Load time slots
@@ -92,6 +107,12 @@ export class ReservationListComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.showBookings(FilterTypes.All);
+
+    this.userService.getAllUsers().subscribe((x) => {
+      this.options = x;
+    });
+
+    this.InitDropdownFilters();
   }
 
   public showBookings(id: number) {
@@ -120,6 +141,7 @@ export class ReservationListComponent implements OnInit, OnChanges {
         facilityId: this.authService.getFacilityId(),
       });
     }
+    this.bookingForm.get('duration').setValue(30);
     this.showHideElement("customDayConfigurationDialog", false);
     this.showHideElement("bookingDialog", true);
     // $("input").click(function () {
@@ -214,11 +236,75 @@ export class ReservationListComponent implements OnInit, OnChanges {
   }
 
   public onOptionSelected(event: any): void {
-    var selectedValue: User = event.option.value;
-    // this.phoneControl.setValue(selectedValue.phoneNumber);
-    // this.nameControl.setValue(selectedValue.name);
-    // this.emailControl.setValue(selectedValue.email);
+    var selectedValue: any = event.option.value;
+    this.bookingForm.get('name').setValue(selectedValue.name);
+    this.bookingForm.get('phone').setValue(selectedValue.phone);
+    this.bookingForm.get('email').setValue(selectedValue.email);
     this.selectedUserId = selectedValue.userId;
+  }
+
+  private InitDropdownFilters() {
+    this.filteredOptions = this.bookingForm.get('name').valueChanges.pipe(
+      startWith(""),
+      map((value) => {
+        const name = typeof value === "string" ? value : value?.name;
+        return name ? this._filter(name as string) : this.options.slice();
+      })
+    );
+
+    this.filteredPhoneOptions = this.bookingForm.get('phone').valueChanges.pipe(
+      startWith(""),
+      map((value) => {
+        const phone = typeof value === "string" ? value : value?.phone;
+        return phone
+          ? this._filterPhone(phone as string)
+          : this.options.slice();
+      })
+    );
+
+    this.filteredEmailOptions = this.bookingForm.get('email').valueChanges.pipe(
+      startWith(""),
+      map((value) => {
+        const email = typeof value === "string" ? value : value?.email;
+        return email
+          ? this._filterEmail(email as string)
+          : this.options.slice();
+      })
+    );
+  }
+
+  private _filter(name: string): User[] {
+    const filterValue = name.toLowerCase();
+
+    return this.options.filter((option) => {
+      if (option.name) {
+        return option.name.toLowerCase().includes(filterValue);
+      }
+      return null;
+    });
+  }
+
+  private _filterPhone(name: string): any {
+    const filterValue = name.toLowerCase();
+    var result = this.options.filter((option) => {
+      if (option.phone) {
+        return option.phone.toLowerCase().startsWith(filterValue);
+      }
+      return null;
+    });
+    return result;
+  }
+
+  private _filterEmail(name: string): User[] {
+    const filterValue = name.toLowerCase();
+    var result = this.options.filter((option) => {
+      if (option.email) {
+        return option.email.toLowerCase().startsWith(filterValue);
+      }
+      return null;
+    });
+
+    return result;
   }
 
   truncateText(text: string, limit: number): string {
