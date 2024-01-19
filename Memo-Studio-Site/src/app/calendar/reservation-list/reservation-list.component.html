@@ -198,6 +198,13 @@
           <span class="placeholder cursor-text">Име Фамилия</span>
         </label>
 
+        <mat-error class="fs-11" *ngIf="
+        utilityService.HasError(bookingForm, 'name', 'required') &&
+        utilityService.IsTouched(bookingForm, 'name')
+      ">
+          Това поле е задължително.
+        </mat-error>
+
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
           <mat-option class="custom-mat-option border-bottom" *ngFor="let option of filteredOptions | async"
             [value]="option">
@@ -220,6 +227,12 @@
           <span class="placeholder cursor-text">Телефон</span>
         </label>
 
+        <mat-error class="fs-11" *ngIf="
+        utilityService.HasError(bookingForm, 'phone', 'required') &&
+        utilityService.IsTouched(bookingForm, 'phone')
+      ">
+          Това поле е задължително.
+        </mat-error>
         <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="onOptionSelected($event)">
           <mat-option *ngFor="let option of filteredPhoneOptions | async" [value]="option">
             {{ option.name }} - {{ option.phoneNumber }}
@@ -232,6 +245,14 @@
           <input class="w-100" placeholder=" " name="email" formControlName="email" [matAutocomplete]="autoEmail" />
           <span class="placeholder cursor-text">Имейл</span>
         </label>
+
+
+        <mat-error class="fs-11" *ngIf="
+        utilityService.HasError(bookingForm, 'email', 'required') &&
+        utilityService.IsTouched(bookingForm, 'email')
+      ">
+          Това поле е задължително.
+        </mat-error>
 
         <mat-autocomplete #autoEmail="matAutocomplete" (optionSelected)="onOptionSelected($event)">
           <mat-option *ngFor="let option of filteredEmailOptions | async" [value]="option">
@@ -249,6 +270,14 @@
           </select>
           <span class="placeholder-select cursor-text">Продължителност</span>
         </label>
+
+
+        <mat-error class="fs-11" *ngIf="
+        utilityService.HasError(bookingForm, 'duration', 'required') &&
+        utilityService.IsTouched(bookingForm, 'duration')
+      ">
+          Това поле е задължително.
+        </mat-error>
       </div>
 
       <!-- <mat-form-field class="w-100 mb-4">

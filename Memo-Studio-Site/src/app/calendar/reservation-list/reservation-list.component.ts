@@ -23,6 +23,7 @@ import { BookingService } from "src/app/shared/services/booking.service";
 import { DateTimeService } from "src/app/shared/services/date-time.service";
 import { DayService } from "src/app/shared/services/day.service";
 import { UserService } from "src/app/shared/services/user.service";
+import { UtilityService } from "src/app/shared/services/utility.service";
 declare const $: any;
 
 @Component({
@@ -87,6 +88,7 @@ export class ReservationListComponent implements OnInit, OnChanges {
     public dateTimeService: DateTimeService,
     private userService: UserService,
     private formBuilder: FormBuilder,
+    public utilityService: UtilityService,
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
