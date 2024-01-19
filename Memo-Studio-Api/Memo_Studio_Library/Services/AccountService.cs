@@ -32,6 +32,7 @@ namespace Memo_Studio_Library.Services
                        {"token", token },
                        {"email", user.Email }
                     };
+
                 var clientUrl = $"http://localhost:4200/#/";
                 var route = "email-confirm";
 
@@ -44,7 +45,7 @@ namespace Memo_Studio_Library.Services
             }
             catch(Exception ex)
             {
-                throw new Exception("err");
+                throw new Exception("Грешка при генерирането на код за");
             }
 
         }
@@ -56,10 +57,9 @@ namespace Memo_Studio_Library.Services
             if (user == null)
                 throw new Exception("Невалидна заявка");
 
-            if (user.EmailConfirmed)
-            {
+            if (user.EmailConfirmed)     
                 throw new Exception("Имейлът вече е потвърден.");
-            }
+            
 
             var result = await userManager.ConfirmEmailAsync(user, request.Token);
 
@@ -87,10 +87,19 @@ namespace Memo_Studio_Library.Services
 
             if (result.Succeeded)
             {
-                await facilityService.CreateFacility(user);
                 await this.SendEmailConfirmationAsync(user);
 
+                if (model.IsBussines)
+                {
+                    await facilityService.CreateFacility(user);
+                }
             }
+            else
+            {
+                throw new ArgumentException("Сървръна грешка 500, моля опитайте отново или се свържете с поддръжката");
+            }
+
+
         }
 
         public async Task SendChangePasswordEmailAsync(string email)
@@ -100,24 +109,31 @@ namespace Memo_Studio_Library.Services
             if (user == null)
                 throw new Exception("Невалидна заявка");
 
-            var token = await userManager.GeneratePasswordResetTokenAsync(user);
+            try
+            {
+                var token = await userManager.GeneratePasswordResetTokenAsync(user);
 
-            var param = new Dictionary<string, string>
+                var param = new Dictionary<string, string>
                     {
                        {"token", token },
                        {"email", user.Email }
                     };
-            var clientUrl = $"http://localhost:4200/#/";
-            var route = "change-password";
-            string routeWithParams = QueryHelpers.AddQueryString(route, param);
 
-            string emailTitle = "Забравивили сте паролата си?";
-            string emailDescription = "Получихме искане Ви за подмяна на вашата парола. Нека започваме, натиснете на бутона по-долу за да Ви отведе в станицата за подмяна на паролата.";
-            string emailButton = "Напред";
-            var link = string.Concat(clientUrl, routeWithParams);
+                var clientUrl = $"http://localhost:4200/#/";
+                var route = "change-password";
+                string routeWithParams = QueryHelpers.AddQueryString(route, param);
 
-            mailService.Send(user.Email, "Смяна на забравена парола", emailTitle, emailDescription, emailButton, link);
+                string emailTitle = "Забравивили сте паролата си?";
+                string emailDescription = "Получихме искане Ви за подмяна на вашата парола. Нека започваме, натиснете на бутона по-долу за да Ви отведе в станицата за подмяна на паролата.";
+                string emailButton = "Напред";
+                var link = string.Concat(clientUrl, routeWithParams);
 
+                mailService.Send(user.Email, "Смяна на забравена парола", emailTitle, emailDescription, emailButton, link);
+            }
+            catch
+            {
+                throw new Exception("Грешка при изпращането на имейл за възстановяването на паролата. Моля свържете се с поддръжката");
+            }
         }
 
         public async Task ResetPassword(ResetPasswordViewModel model)
@@ -131,7 +147,7 @@ namespace Memo_Studio_Library.Services
 
             if (!result.Succeeded)
             {
-                throw new Exception("Excpetion");
+                throw new Exception("Грешка при смяната на паролата. Моля свържете сес поддръжката.");
             }
         }
 
@@ -146,7 +162,7 @@ namespace Memo_Studio_Library.Services
 
             if (!result.Succeeded)
             {
-                throw new Exception("Excpetion");
+                throw new Exception("Грешка при смяната на парола. Моля опитайте отново.");
             }
         }
 
@@ -204,10 +220,17 @@ namespace Memo_Studio_Library.Services
             if (user == null)
                 throw new Exception("Невалидна заявка");
 
-            user.AllowViberNotification = model.AllowViberNotification;
-            user.AllowEmailNotification = model.AllowEmailNotification;
+            try
+            {
+                user.AllowViberNotification = model.AllowViberNotification;
+                user.AllowEmailNotification = model.AllowEmailNotification;
 
-            await userManager.UpdateAsync(user);
+                await userManager.UpdateAsync(user);
+            }
+            catch
+            {
+                throw new Exception("Грешка при запазването на данните. Моля опитайте отново.");
+            }
         }
 
         public async Task UpdateAccountInformation(AccountRequestViewModel model, string email)
@@ -220,12 +243,18 @@ namespace Memo_Studio_Library.Services
             if (user == null)
                 throw new Exception("Невалидна заявка");
 
-            user.Name = $"{model.Name} {model.Surname}";
-            user.PhoneNumber = model.Phone;
-            user.UserFalicities.FirstOrDefault().Facility.Name = model.FacilityName;
+            try
+            {
+                user.Name = $"{model.Name} {model.Surname}";
+                user.PhoneNumber = model.Phone;
+                user.UserFalicities.FirstOrDefault().Facility.Name = model.FacilityName;
 
-            await userManager.UpdateAsync(user);
-            
+                await userManager.UpdateAsync(user);
+            }
+            catch
+            {
+                throw new Exception("Грешка при запазването на данните. Моля опитайте отново.");
+            }
         }
 
         public async Task UploadProfilePicture(IFormFile file, string email)
@@ -236,10 +265,16 @@ namespace Memo_Studio_Library.Services
             if (user == null)
                 throw new Exception("Невалидна заявка");
 
+            try
+            {
+                user.ImageBase64Code = await this.UploadImage(file);
 
-            user.ImageBase64Code = await this.UploadImage(file);
-
-            await userManager.UpdateAsync(user);
+                await userManager.UpdateAsync(user);
+            }
+            catch
+            {
+                throw new Exception("Грешка при запазването на данните. Моля опитайте отново.");
+            }
         }
 
         private async Task<string> UploadImage(IFormFile file)
@@ -251,7 +286,6 @@ namespace Memo_Studio_Library.Services
 
             try
             {
-                // Define a folder where you want to save the uploaded files
                 var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
 
                 if (!Directory.Exists(uploadFolder))
@@ -272,7 +306,7 @@ namespace Memo_Studio_Library.Services
             }
             catch (Exception ex)
             {
-                throw new Exception();
+                throw new Exception("Грешка при запазването на изображението");
             }
         }
 

@@ -62,12 +62,45 @@ namespace Memo_Studio.Controllers
         }
 
         [Authorize]
-        [HttpPost("facility-settings")]
-        public async Task<IActionResult> GetFacilitySettings([FromBody] FacilitySettingsViewModel model)
+        [HttpGet("facility-users")]
+        public async Task<IActionResult> GetFacilityUsers()
         {
             var facilityId = this.GetFacilityId();
 
-            await facilityService.UpdateFacilitySettings(model, facilityId);
+            var result = await facilityService.GetFacilityUsers(facilityId);
+
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpPost("service-category")]
+        public async Task<IActionResult> AddServiceCategory([FromBody] ServiceCategoryViewModel model)
+        {
+            var facilityId = this.GetFacilityId();
+
+            await facilityService.UpsertServiceCategory(model, facilityId);
+
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpGet("service")]
+        public async Task<IActionResult> GetServices()
+        {
+            var facilityId = this.GetFacilityId();
+
+            var result = await facilityService.GetServices(facilityId);
+
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpPost("service")]
+        public async Task<IActionResult> AddServices([FromBody] ServiceViewModel model)
+        {
+            var facilityId = this.GetFacilityId();
+
+            await facilityService.AddService(model, facilityId);
 
             return Ok();
         }

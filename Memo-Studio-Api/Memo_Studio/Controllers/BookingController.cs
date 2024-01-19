@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Memo_Studio_Library;
+using Memo_Studio_Library.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +12,14 @@ namespace Memo_Studio.Controllers
     {
         private readonly IBookingService bookingService;
         private readonly IMessageService messageService;
+        private readonly IMailService mailService;
         private readonly IMapper mapper;
 
-        public BookingController(IBookingService bookingService, IMessageService messageService, IMapper mapper)
+        public BookingController(IBookingService bookingService, IMessageService messageService, IMailService mailService, IMapper mapper)
         {
             this.bookingService = bookingService;
             this.messageService = messageService;
+            this.mailService = mailService;
             this.mapper = mapper;
         }
 
@@ -26,22 +29,14 @@ namespace Memo_Studio.Controllers
         {
             try
             {
-                var bookingModel = await bookingService.AddBookign(booking);
+                await bookingService.AddBookign(booking);
 
-                if (bookingModel?.User?.ViberId != null)
-                {
-                    var dateString = bookingModel.GetDateTimeInMessageFormat();
-                    await messageService.SendMessage(bookingModel.User.ViberId, $"Запазихте час за \n{dateString}");
-                }
-
+                return Ok();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
-
-            return Ok();
-
         }
 
         [Authorize]

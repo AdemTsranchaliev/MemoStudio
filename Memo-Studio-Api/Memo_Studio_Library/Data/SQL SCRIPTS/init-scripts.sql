@@ -110,3 +110,24 @@ CREATE TABLE ViberCodes (
     UserId INT NOT NULL,
     FOREIGN KEY (UserId) REFERENCES [dbo].[User](Id)
 );
+
+-- Create the ServiceCategory table
+CREATE TABLE ServiceCategory (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Name NVARCHAR(max) NOT NULL,
+    FacilityId INT NOT NULL,
+    CONSTRAINT FK_ServiceCategory_Facility FOREIGN KEY (FacilityId) REFERENCES Facility (Id)
+);
+
+-- Create the Service table
+CREATE TABLE Service (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Name NVARCHAR(max) NOT NULL,
+    Price FLOAT NULL,
+    Description NVARCHAR(max) NULL,
+    Duration INT NOT NULL,
+    FacilityId INT NOT NULL,
+    ServiceCategoryId INT NOT NULL,
+    CONSTRAINT FK_Service_Facility FOREIGN KEY (FacilityId) REFERENCES Facility (Id),
+    CONSTRAINT FK_Service_ServiceCategory FOREIGN KEY (ServiceCategoryId) REFERENCES ServiceCategory (Id)
+);

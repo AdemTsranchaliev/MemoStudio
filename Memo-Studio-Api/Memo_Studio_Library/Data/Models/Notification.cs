@@ -19,11 +19,11 @@ namespace Memo_Studio_Library.Data.Models
 
 		public int FacilityId { get; set; }
 
-		public Booking Booking { get; set; }
+		public Booking? Booking { get; set; }
 
-		public Facility Facility { get; set; }
+		public Facility? Facility { get; set; }
 
-		public User User { get; set; }
+		public User? User { get; set; }
     }
 }
 

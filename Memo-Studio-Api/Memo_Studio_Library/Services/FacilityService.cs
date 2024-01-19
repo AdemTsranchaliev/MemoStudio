@@ -41,12 +41,11 @@ namespace Memo_Studio_Library.Services
                 };
 
                 await context.UserFalicities.AddAsync(facilityUser);
-
                 await context.SaveChangesAsync();
             }
             catch(Exception ex)
             {
-                int i = 0;
+                throw new Exception("Получи се грешка при запазването на данните. Моля опитайте отново.");
             }
         }
 
@@ -168,17 +167,6 @@ namespace Memo_Studio_Library.Services
                 facilitySettings.EndPeriod = new DateTime(0,0,0,model.EndPeriod.ToLocalTime().Hour,model.StartPeriod.ToLocalTime().Minute,0);
                 facilitySettings.StartPeriod = new DateTime(0,0,0,model.StartPeriod.ToLocalTime().Hour,model.StartPeriod.ToLocalTime().Minute,0);
 
-                //if (TimeSpan.TryParse(model.EndPeriod, out TimeSpan endPeriodParsedTime))
-                //{
-                //    DateTime combinedDateTime = DateTime.Now.Date.Add(endPeriodParsedTime);
-                //    facilitySettings.EndPeriod = combinedDateTime;
-                //}
-                //if (TimeSpan.TryParse(model.StartPeriod, out TimeSpan startPeriodParsedTime))
-                //{
-                //    DateTime combinedDateTime = DateTime.Now.Date.Add(startPeriodParsedTime);
-                //    facilitySettings.StartPeriod = combinedDateTime;
-                //}
-
                 facilitySettings.WorkingDays = model.WorkingDaysJson;
                 facilitySettings.Interval = model.Interval;
                 facilitySettings.AllowUserBooking = model.AllowUserBooking;
@@ -189,6 +177,171 @@ namespace Memo_Studio_Library.Services
             catch (Exception ex)
             {
                 throw new Exception();
+            }
+        }
+
+        public async Task UpsertServiceCategory(ServiceCategoryViewModel model, Guid facilityId)
+        {
+            try
+            {
+                var facility = await context.Facilities
+                    .Include(x => x.ServiceCategories)
+                    .FirstOrDefaultAsync(x => x.FacilityId == facilityId);
+
+                if (facility == null)
+                {
+                    return;
+                }
+
+                var serviceCategory = facility.ServiceCategories.FirstOrDefault(x => x.Id == model.Id);
+
+                if (serviceCategory == null)
+                {
+                    var newModel = new ServiceCategory
+                    {
+                        Name = model.Name,
+                        FacilityId = facility.Id
+                    };
+
+                    await context.ServiceCategories.AddAsync(newModel);
+                }
+                else
+                {
+                    serviceCategory.Name = model.Name;
+                    context.ServiceCategories.Update(serviceCategory);
+                }
+
+                await context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Нещо се обърка, моля свържете се с поддръжката.");
+            }
+        }
+
+        public async Task AddService(ServiceViewModel model, Guid facilityId)
+        {
+            try
+            {
+                var facility = await context.Facilities
+                    .Include(x => x.ServiceCategories)
+                    .ThenInclude(y => y.Services)
+                    .FirstOrDefaultAsync(x => x.FacilityId == facilityId);
+
+                if (facility == null)
+                {
+                    return;
+                }
+
+                var newService = new Service
+                {
+                    Description = model.Description,
+                    Name = model.Name,
+                    Duration = model.Duration,
+                    FacilityId = facility.Id,
+                    Price = model.Price,
+                    ServiceCategoryId = 1 //model.ServiceCategoryId
+                };
+
+                await context.Services.AddAsync(newService);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Нещо се обърка, моля свържете се с поддръжката.");
+            }
+        }
+
+        public async Task<List<BookingUsersAutocompleteViewModel>> GetFacilityUsers(Guid facilityId)
+        {
+            try
+            {
+                var facility = await context.Facilities
+                    .Include(x => x.Bookings)
+                        .ThenInclude(x => x.User)
+                    .FirstOrDefaultAsync(x => x.FacilityId == facilityId);
+
+                facility.Bookings = facility.Bookings.Where(x => x.Name!=null&&x.Phone!=null).ToList();
+
+                var result = new List<BookingUsersAutocompleteViewModel>();
+                foreach (var booking in facility?.Bookings)
+                {
+                    if (!result.Any(x=>x.Name==booking.Name&&x.Phone==booking.Phone&&x?.UserId==null)
+                        ||!result.Any(x=>x?.UserId==booking?.User?.UserId.ToString()))
+                    {
+                        var record = new BookingUsersAutocompleteViewModel
+                        {
+                            Name = booking.Name,
+                            Email = booking.Email,
+                            Phone = booking.Phone
+                        };
+
+                        if (booking.UserId!=null)
+                        {
+                            record.RegisteredUser = true;
+                            record.UserId = booking?.User.UserId.ToString();
+                        }
+
+                        result.Add(record);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Нещо се обърка, моля свържете се с поддръжката.");
+            }
+        }
+
+        public async Task<List<ServiceCategoryResponse>> GetServices(Guid facilityId)
+        {
+            try
+            {
+                var facility = await context.Facilities
+                    .Include(x => x.ServiceCategories)
+                    .ThenInclude(y => y.Services)
+                    .FirstOrDefaultAsync(x => x.FacilityId == facilityId);
+
+                if (facility == null)
+                {
+                    return null;
+                }
+                var result = new List<ServiceCategoryResponse>();
+
+                foreach (var category in facility.ServiceCategories)
+                {
+                    var tempCategory = new ServiceCategoryResponse
+                    {
+                        Id=category.Id,
+                        Name = category.Name,
+                        FacilityId = category.FacilityId,
+                    };
+
+                    foreach (var service in category.Services)
+                    {
+                        var tempService = new ServiceResponse
+                        {
+                            ServiceCategoryId=category.Id,
+                            Price = service.Price,
+                            Description = service.Description,
+                            Duration = service.Duration,
+                            Id = service.Id,
+                            Name = service.Name,
+                            FacilityId = service.FacilityId
+                        };
+
+                        tempCategory.Services.Add(tempService);
+                    }
+
+                    result.Add(tempCategory);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Нещо се обърка, моля свържете се с поддръжката.");
             }
         }
     }

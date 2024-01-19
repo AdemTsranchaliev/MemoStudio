@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection.Metadata;
 using Memo_Studio_Library.Data.Models;
+using Memo_Studio_Library.Data.Models.Configurations;
 using Memo_Studio_Library.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +24,8 @@ public class StudioContext : DbContext
         modelBuilder.ApplyConfiguration(new NotificationConfig());
         modelBuilder.ApplyConfiguration(new UserConfig());
         modelBuilder.ApplyConfiguration(new UserFalicityConfig());
+        modelBuilder.ApplyConfiguration(new ServiceConfig());
+        modelBuilder.ApplyConfiguration(new ServiceCategoryConfig());
 
     }
 
@@ -53,4 +56,6 @@ public class StudioContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<UserFalicity> UserFalicities { get; set; }
     public DbSet<ViberCode> ViberCodes { get; set; }
+    public DbSet<Service> Services { get; set; }
+    public DbSet<ServiceCategory> ServiceCategories { get; set; }
 }

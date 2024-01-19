@@ -23,7 +23,7 @@ namespace Memo_Studio_Library.Services
             var descriptor = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim("FacilityId", user.UserFalicities.FirstOrDefault().Facility.FacilityId.ToString()),
+                new Claim("FacilityId", user.UserFalicities.FirstOrDefault(x=>x.FacilityRoleId==1)?.Facility.FacilityId.ToString()),
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"]!));

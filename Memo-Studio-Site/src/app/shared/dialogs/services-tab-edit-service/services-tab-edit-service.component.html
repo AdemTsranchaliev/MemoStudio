@@ -3,25 +3,12 @@
   <form [formGroup]="addServiceForm">
     <div class="row align-items-center">
       <label class="col-md-6 col-sm-12 custom-field w-100">
-        <input
-          type="text"
-          class="w-100"
-          placeholder=" "
-          name="newService"
-          formControlName="newService"
-        />
+        <input type="text" class="w-100" placeholder=" " name="newService" formControlName="newService" />
         <span class="placeholder cursor-text">Редактиране на услуга</span>
       </label>
 
       <label class="col-md-6 col-sm-12 custom-field w-100">
-        <input
-          type="number"
-          min="0"
-          class="w-100"
-          placeholder=" "
-          name="newPrice"
-          formControlName="newPrice"
-        />
+        <input type="number" min="0" class="w-100" placeholder=" " name="newPrice" formControlName="newPrice" />
         <span class="placeholder cursor-text">Редактиране на цена</span>
       </label>
     </div>
@@ -29,13 +16,8 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-raised-button mat-dialog-close>Затвори</button>
-  <button
-    mat-raised-button
-    mat-dialog-close
-    class="bg-primary text-white"
-    (click)="onSubmit()"
-    [disabled]="this.addServiceForm.invalid"
-  >
+  <button mat-raised-button mat-dialog-close class="bg-primary text-white" (click)="onSubmit()"
+    [disabled]="this.addServiceForm.invalid">
     Запази
   </button>
 </mat-dialog-actions>

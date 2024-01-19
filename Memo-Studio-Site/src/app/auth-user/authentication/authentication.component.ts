@@ -11,9 +11,9 @@ export class AuthenticationComponent implements OnInit {
   @ViewChild("tabGroup") tabGroup: MatTabGroup;
   selected = new FormControl(0);
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   setSelectedTabIndex(index: number) {
     this.tabGroup.selectedIndex = index;

@@ -14,9 +14,9 @@ namespace Memo_Studio_Library.Data.Models
 
         public int FacilityRoleId { get; set; }
 
-		public User User { get; set; }
-		public Facility Facility { get; set; }
-		public FacilityRole FacilityRole { get; set; }
+		public User? User { get; set; }
+		public Facility? Facility { get; set; }
+		public FacilityRole? FacilityRole { get; set; }
     }
 }
 

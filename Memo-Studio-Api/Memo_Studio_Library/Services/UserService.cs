@@ -70,7 +70,7 @@ namespace Memo_Studio_Library
             {
                 var user = await context.Users
                     .Include(x=>x.UserFalicities)
-                    .ThenInclude(x=>x.Facility)
+                        .ThenInclude(x=>x.Facility)
                     .FirstOrDefaultAsync(x=>x.Email==email);
 
                 return user;

@@ -38,11 +38,16 @@ namespace Memo_Studio.Controllers
             try
             {
                 await accountService.RegisterAsync(model);
+
                 return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
-                return BadRequest("Нещо се обърка. Моля опитайте отново.");
+                return BadRequest("Сървърна грешка 500, моля опитайте отново.");
             }
         }
 
@@ -57,7 +62,7 @@ namespace Memo_Studio.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Нещо се обърка. Моля опитайте отново.");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -70,9 +75,9 @@ namespace Memo_Studio.Controllers
                 await accountService.SendChangePasswordEmailAsync(model.Email);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest("Нещо се обърка. Моля опитайте отново.");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -87,7 +92,7 @@ namespace Memo_Studio.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Нещо се обърка. Моля опитайте отново.");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -103,7 +108,7 @@ namespace Memo_Studio.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Нещо се обърка. Моля опитайте отново.");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -126,7 +131,7 @@ namespace Memo_Studio.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Нещо се обърка. Моля опитайте отново.");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -149,7 +154,7 @@ namespace Memo_Studio.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Нещо се обърка. Моля опитайте отново.");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -172,7 +177,7 @@ namespace Memo_Studio.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Нещо се обърка. Моля опитайте отново.");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -195,7 +200,7 @@ namespace Memo_Studio.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Нещо се обърка. Моля опитайте отново.");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -224,7 +229,7 @@ namespace Memo_Studio.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Нещо се обърка. Моля опитайте отново.");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -247,7 +252,7 @@ namespace Memo_Studio.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Нещо се обърка. Моля опитайте отново.");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -270,7 +275,7 @@ namespace Memo_Studio.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Нещо се обърка. Моля опитайте отново.");
+                return BadRequest(ex.Message);
             }
         }
     }

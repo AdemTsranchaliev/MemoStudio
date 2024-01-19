@@ -55,9 +55,9 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.authService.isAuthenticated()) {
-      this.router.navigate(["/"]);
-    }
+    // if (this.authService.isAuthenticated()) {
+    //   this.router.navigate(["/"]);
+    // }
   }
 
   ngOnDestroy() {

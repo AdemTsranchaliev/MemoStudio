@@ -23,6 +23,12 @@ export class FacilityService {
     );
   }
 
+  public getFacilityUsers() {
+    return this.http.get<any>(
+      `${BASE_URL_DEV}/Facility/facility-users`
+    );
+  }
+
   public updateFacilitySettings(params) {
     return this.http.post(`${BASE_URL_DEV}/Facility/facility-settings`, params);
   }

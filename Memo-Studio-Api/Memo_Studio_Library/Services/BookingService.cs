@@ -5,6 +5,7 @@ using Memo_Studio_Library.Models;
 using Memo_Studio_Library.Services;
 using Memo_Studio_Library.Services.Interfaces;
 using Memo_Studio_Library.ViewModels.Booking;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
@@ -15,23 +16,26 @@ namespace Memo_Studio_Library
         private readonly StudioContext context;
         private readonly IFacilityService facilityService;
         private readonly IUserService userService;
+        private readonly IMessageService messageService;
+        private readonly IMailService mailService;
 
-        public BookingService(StudioContext context, IFacilityService facilityService,IUserService userService)
+        public BookingService(StudioContext context, IFacilityService facilityService,IUserService userService, IMessageService messageService, IMailService mailService)
 		{
             this.context = context;
             this.facilityService = facilityService;
             this.userService = userService;
+            this.messageService = messageService;
+            this.mailService = mailService;
         }
 
-        public async Task<Booking> AddBookign(BookingViewModel booking)
+        public async Task AddBookign(BookingViewModel booking)
         {
             var facility = await facilityService.GetFacilityById(booking.FacilityId);
 
             if (facility==null)
             {
-                return null;
+                throw new Exception("");
             }
-
 
             var newBooking = new Booking
             {
@@ -43,31 +47,59 @@ namespace Memo_Studio_Library
                 BookingId = Guid.NewGuid()
             };
 
-            var dateToSearch = booking.Timestamp.ToLocalTime();
-
-
-            var bookingsToSearch = await this.GetBookingsByDate(booking.Timestamp.ToLocalTime(), facility.FacilityId);
-
-            //bookingsToSearch.Where(x=>x.t)
-
-            if (booking?.UserId!=null)
+            try
             {
-                var user = await userService.GetUserById(booking.UserId.Value);
+                //TODO MAKE IT UTC
+                var dateToSearch = booking.Timestamp.ToLocalTime();
 
-                newBooking.UserId = user.Id;
+                //TODO MAKE IT UTC
+                //TODO IS THAT NEEDED
+                var bookingsToSearch = await this.GetBookingsByDate(booking.Timestamp.ToLocalTime(), facility.FacilityId);
+
+                if (booking?.UserId != null)
+                {
+                    var user = await userService.GetUserById(booking.UserId.Value);
+
+                    newBooking.UserId = user.Id;
+                }
+                else
+                {
+                    newBooking.SetUnregisteredUser(booking?.Name, booking?.Email, booking?.Phone);
+                }
+
+                var result = await context.Bookings.AddAsync(newBooking);
+
+                var saveResult = await context.SaveChangesAsync();
+
+                if (saveResult>0)
+                {
+                    context.Entry(result.Entity).Reference(b => b.User).Load();
+
+                    var dateString = result.Entity.GetDateTimeInMessageFormat();
+
+                    if (result.Entity?.User!=null)
+                    {
+                        mailService.Send(result.Entity?.User.Email!, "", "Запазихте нов час", $"Запазихте час за \n{dateString}","test","test");
+                    }
+                    else
+                    {
+                        mailService.Send(booking.Email!, "", "Запазихте нов час", $"Запазихте час за \n{dateString}", "test", "test");
+                    }
+                    if (result.Entity?.User?.ViberId != null)
+                    {
+                        await messageService.SendMessage(result.Entity.User.ViberId, $"Запазихте час за \n{dateString}");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Грешка при запазването на данните. Моля опитайте отново");
+                }
+
             }
-            else
+            catch
             {
-                newBooking.SetUnregisteredUser(booking.Name,booking.Email,booking.Phone);
+                throw new Exception("Грешка при запазването на данните. Моля опитайте отново");
             }
-
-            var result = await context.Bookings.AddAsync(newBooking);
-           
-            var test = await context.SaveChangesAsync();
-
-            context.Entry(result.Entity).Reference(b => b.User).Load();
-
-            return result.Entity;
         }
 
         public async Task<List<Booking>> GetBookingsByDate(DateTime dateTime, Guid facilityId)

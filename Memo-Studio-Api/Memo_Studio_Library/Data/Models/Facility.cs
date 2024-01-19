@@ -14,6 +14,13 @@ namespace Memo_Studio_Library.Data.Models
 			StartPeriod = new DateTime(1900, 1, 1, 8, 0, 0);
 			EndPeriod = new DateTime(1900, 1, 1, 17, 0, 0);
 			Interval = 30;
+			Notifications = new List<Notification>();
+			UserFalicities = new List<UserFalicity>();
+			Bookings = new List<Booking>();
+			Days = new List<Day>();
+			Services = new List<Service>();
+			ServiceCategories = new List<ServiceCategory>();
+
         }
 		
 		public Guid FacilityId { get; set; }
@@ -39,6 +46,10 @@ namespace Memo_Studio_Library.Data.Models
 		public List<Booking> Bookings { get; set; }
 
 		public List<Day> Days { get; set; }
+
+		public List<Service> Services { get; set; }
+
+		public List<ServiceCategory> ServiceCategories { get; set; }
 
 		public List<BusinessHoursViewModel> GetBussinesHours()
 		{
