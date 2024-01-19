@@ -136,14 +136,3 @@ CREATE TABLE Service (
 
 
 
-
-
-TO EXECUTE AFTER THAT REMOVE IT
-
--- Alter the Booking table to add ServiceId column
-ALTER TABLE Booking
-ADD ServiceId INT NOT NULL;
-
--- Add foreign key constraint for ServiceId
-ALTER TABLE Booking
-ADD CONSTRAINT FK_Booking_Service FOREIGN KEY (ServiceId) REFERENCES Service (Id);

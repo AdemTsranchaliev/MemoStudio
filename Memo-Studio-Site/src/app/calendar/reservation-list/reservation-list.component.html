@@ -1,50 +1,31 @@
 <ul class="nav nav-tabs" style="background-color: white !important">
   <li class="nav-item" style="width: 33.33%">
-    <p
-      class="nav-link text-center"
-      id="all-res"
-      [ngClass]="{
+    <p class="nav-link text-center" id="all-res" [ngClass]="{
         active: selectedFilter == 1,
         'not-active-tab': selectedFilter != 1
-      }"
-      (click)="showBookings(1)"
-    >
+      }" (click)="showBookings(1)">
       Всички
     </p>
   </li>
   <li class="nav-item" style="width: 33.33%">
-    <p
-      class="nav-link text-center"
-      id="free-res"
-      [ngClass]="{
+    <p class="nav-link text-center" id="free-res" [ngClass]="{
         active: selectedFilter == 2,
         'not-active-tab': selectedFilter != 2
-      }"
-      (click)="showBookings(2)"
-    >
+      }" (click)="showBookings(2)">
       Свободни
     </p>
   </li>
   <li class="nav-item" style="width: 33.33%">
-    <p
-      class="nav-link text-center"
-      [ngClass]="{
+    <p class="nav-link text-center" [ngClass]="{
         active: selectedFilter == 3,
         'not-active-tab': selectedFilter != 3
-      }"
-      id="busy-res"
-      (click)="showBookings(3)"
-    >
+      }" id="busy-res" (click)="showBookings(3)">
       Заети
     </p>
   </li>
 </ul>
 
-<p
-  class="alert alert-warning m-3"
-  role="alert"
-  *ngIf="bookings.length == 0 && !isDayPast && isServerDown == false"
->
+<p class="alert alert-warning m-3" role="alert" *ngIf="bookings.length == 0 && !isDayPast && isServerDown == false">
   Все още няма заети часове за {{ this.date.getDate() }}
   {{ date.toLocaleString('bg-BG', { month: 'long' }) }}
   {{ date.getFullYear() }}г.
@@ -52,11 +33,7 @@
 <div class="alert alert-warning m-4" role="alert" *ngIf="isDayPast">
   Тази дата е минала и нямате право на действия.
 </div>
-<div
-  class="alert alert-warning m-4"
-  role="alert"
-  *ngIf="currentDay && !currentDay?.isWorking && !isDayPast"
->
+<div class="alert alert-warning m-4" role="alert" *ngIf="currentDay && !currentDay?.isWorking && !isDayPast">
   ПОЧИВЕН ДЕН
 </div>
 
@@ -84,14 +61,8 @@
               </span>
 
               <span>
-                <i
-                  class="fa ml-1 col-1"
-                  style="cursor: pointer"
-                  data-toggle="modal"
-                  data-target="#exampleModalCenter"
-                  (click)="openRemoveBookingConfirmation(booking.bookingId)"
-                  >&#xf00d;</i
-                >
+                <i class="fa ml-1 col-1" style="cursor: pointer" data-toggle="modal" data-target="#exampleModalCenter"
+                  (click)="openRemoveBookingConfirmation(booking.bookingId)">&#xf00d;</i>
               </span>
             </div>
           </mat-panel-description>
@@ -111,34 +82,21 @@
 
   <!-- Render Olny Free Hours -->
   <div *ngIf="!booking.bookingId" style="cursor: pointer">
-    <div
-      class="border border-primary rounded shadow p-2 text-dark text-center"
-      (click)="openBookingDialog(booking.timestamp)"
-    >
+    <div class="border border-primary rounded shadow p-2 text-dark text-center"
+      (click)="openBookingDialog(booking.timestamp)">
       {{ booking.timestamp | date : 'HH:mm' }}
     </div>
   </div>
 </div>
 
 <!-- Modal -->
-<div
-  class="modal fade"
-  id="exampleModalCenter"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="exampleModalCenterTitle"
-  aria-hidden="true"
->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Изтриване</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -149,12 +107,7 @@
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
           Отказ
         </button>
-        <button
-          type="button"
-          class="btn btn-danger"
-          data-dismiss="modal"
-          (click)="removeBooking()"
-        >
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="removeBooking()">
           Потвърди
         </button>
       </div>
@@ -163,26 +116,14 @@
 </div>
 
 <!-- Modal - will be removed -->
-<div
-  class="modal fade"
-  id="modalNote"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="modalNote"
-  aria-hidden="true"
->
+<div class="modal fade" id="modalNote" tabindex="-1" role="dialog" aria-labelledby="modalNote" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modalNote">
           Забележка - {{ noteModal?.name }}
         </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -199,28 +140,16 @@
 </div>
 
 <!-- Modal -->
-<div
-  class="modal fade"
-  id="modalCancel"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="modalCancel"
-  aria-hidden="true"
->
+<div class="modal fade" id="modalCancel" tabindex="-1" role="dialog" aria-labelledby="modalCancel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modalNote">
           Почивен ден - {{ date.getDate() }}.{{ date.getMonth() }}.{{
-            date.getFullYear()
+          date.getFullYear()
           }}
         </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -228,12 +157,7 @@
         <h4>Всички часове в този ден ще бъдат отменени.</h4>
       </div>
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-danger"
-          data-dismiss="modal"
-          (click)="cancelDay()"
-        >
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cancelDay()">
           ПОТВЪРДИ
         </button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -245,10 +169,7 @@
 </div>
 
 <!-- Loader -->
-<div
-  class="events-container text-primary text-center mt-5"
-  *ngIf="loader && isServerDown == false"
->
+<div class="events-container text-primary text-center mt-5" *ngIf="loader && isServerDown == false">
   <div class="spinner-border" role="status">
     <span class="sr-only">Зареждане...</span>
   </div>
@@ -262,8 +183,7 @@
 <div class="dialog bg-white" id="bookingDialog">
   <p class="text-center mb-3 mt-2" style="color: black">
     Добави час -
-    <b
-      >{{ this.date.getDate() }}
+    <b>{{ this.date.getDate() }}
       {{ date.toLocaleString('bg-BG', { month: 'long' }) }}
       {{ date.getFullYear() }}г.
     </b>
@@ -272,103 +192,58 @@
   <!-- Add New Hour -->
   <form class="form mb-0 mt-0 p-2" [formGroup]="bookingForm">
     <div class="form-container mb-0 mt-0 pb-0 pt-0">
-      <div class="w-100 mb-2">
+      <div class="w-100 mb-1">
         <label class="custom-field w-100">
-          <input
-            class="w-100"
-            placeholder=" "
-            name="name"
-            formControlName="name"
-            [matAutocomplete]="auto"
-          />
+          <input class="w-100" placeholder=" " name="name" formControlName="name" [matAutocomplete]="auto" />
           <span class="placeholder cursor-text">Име Фамилия</span>
         </label>
 
-        <mat-autocomplete
-          #auto="matAutocomplete"
-          (optionSelected)="onOptionSelected($event)"
-        >
-          <mat-option
-            *ngFor="let option of filteredOptions | async"
-            [value]="option"
-          >
-            {{ option.name }} - {{ option.phoneNumber }}
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+          <mat-option class="custom-mat-option border-bottom" *ngFor="let option of filteredOptions | async"
+            [value]="option">
+            <span>
+              {{ option.name }} - {{ option.phone }}
+            </span>
+            <br />
+            <span>
+              <small>
+                {{ option.email }}
+              </small>
+            </span>
           </mat-option>
         </mat-autocomplete>
       </div>
 
-      <div class="w-100 mb-2">
+      <div class="w-100 mb-1">
         <label class="custom-field w-100">
-          <input
-            class="w-100"
-            placeholder=" "
-            name="phone"
-            formControlName="phone"
-            [matAutocomplete]="auto2"
-          />
+          <input class="w-100" placeholder=" " name="phone" formControlName="phone" [matAutocomplete]="auto2" />
           <span class="placeholder cursor-text">Телефон</span>
         </label>
 
-        <mat-autocomplete
-          #auto2="matAutocomplete"
-          (optionSelected)="onOptionSelected($event)"
-        >
-          <mat-option
-            *ngFor="let option of filteredPhoneOptions | async"
-            [value]="option"
-          >
+        <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+          <mat-option *ngFor="let option of filteredPhoneOptions | async" [value]="option">
             {{ option.name }} - {{ option.phoneNumber }}
           </mat-option>
         </mat-autocomplete>
       </div>
 
-      <div class="w-100 mb-2">
+      <div class="w-100 mb-1">
         <label class="custom-field w-100">
-          <input
-            class="w-100"
-            placeholder=" "
-            name="email"
-            formControlName="email"
-            [matAutocomplete]="autoEmail"
-          />
+          <input class="w-100" placeholder=" " name="email" formControlName="email" [matAutocomplete]="autoEmail" />
           <span class="placeholder cursor-text">Имейл</span>
         </label>
 
-        <mat-autocomplete
-          #autoEmail="matAutocomplete"
-          (optionSelected)="onOptionSelected($event)"
-        >
-          <mat-option
-            *ngFor="let option of filteredEmailOptions | async"
-            [value]="option"
-          >
+        <mat-autocomplete #autoEmail="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+          <mat-option *ngFor="let option of filteredEmailOptions | async" [value]="option">
             {{ option.email }}
           </mat-option>
         </mat-autocomplete>
       </div>
 
-      <div class="w-100 mb-2">
+      <div class="w-100 mb-1">
         <label class="custom-field-select w-100">
           <select formControlName="duration" placeholder=" " class="w-100">
-            <!-- <option value="30">30 мин. - продължителност</option>
-                        <option value="60">1 час - продължителност</option>
-                        <option value="90">1:30 часа - продължителност</option>
-                        <option value="120">2 часа - продължителност</option>
-                        <option value="150">2:30 часа - продължителност</option>
-                        <option value="180">3 часа - продължителност</option>
-                        <option value="240">3:30 часа - продължителност</option>
-                        <option value="8">4 часа - продължителност</option>
-                        <option value="9">4:30 часа - продължителност</option>
-                        <option value="10">5 часа - продължителност</option>
-                        <option value="11">5:30 часа - продължителност</option>
-                        <option value="12">6 часа - продължителност</option>
-                        <option value="13">6:30 часа - продължителност</option>
-                        <option value="14">7 часа - продължителност</option> -->
-
-            <option
-              *ngFor="let time of durationArr; let i = index"
-              value="{{ time.value }}"
-            >
+            <option *ngFor="let time of durationArr; let i = index" value="{{ time.value }}">
               {{ time.duration }} часа - продължителност
             </option>
           </select>
@@ -387,32 +262,19 @@
                 <div class="mt-2 border-top border-primary"></div>
             </mat-form-field> -->
 
-      <div class="w-100 mb-2">
+      <div class="w-100 mb-1">
         <div class="w-100 mb-0 mt-0 pb-0 pt-0">
           <label class="custom-field w-100">
-            <input
-              class="w-100"
-              placeholder=" "
-              name="note"
-              formControlName="note"
-            />
+            <input class="w-100" placeholder=" " name="note" formControlName="note" />
             <span class="placeholder cursor-text">Бележка</span>
           </label>
         </div>
 
         <div class="pt-1 text-center">
-          <button
-            id="cancel-button"
-            class="button bg-light-blue mr-3 action-btn"
-            (click)="cancelEvent(1)"
-          >
+          <button id="cancel-button" class="button bg-light-blue mr-3 action-btn" (click)="cancelEvent(1)">
             Отказ
           </button>
-          <button
-            id="ok-button"
-            class="button bg-light-blue mr-3 action-btn"
-            (click)="bookHour()"
-          >
+          <button id="ok-button" class="button bg-light-blue mr-3 action-btn" (click)="bookHour()">
             Добави
           </button>
         </div>
@@ -424,46 +286,30 @@
 <div class="dialog" id="customDayConfigurationDialog">
   <p class="text-center mb-0 mt-2" style="color: black">
     ПРОМЕНИ ДЕН -
-    <b
-      >{{ this.date.getDate() }}
+    <b>{{ this.date.getDate() }}
       {{ date.toLocaleString('bg-BG', { month: 'long' }) }}
       {{ date.getFullYear() }}г.
     </b>
   </p>
 
-  <form
-    class="form mb-0 mt-0 pb-0 pt-0"
-    id="form"
-    [formGroup]="customDayConfigurationForm"
-  >
+  <form class="form mb-0 mt-0 pb-0 pt-0" id="form" [formGroup]="customDayConfigurationForm">
     <div class="form-container mb-0 mt-0 pb-0 pt-0" align="center">
-      <div
-        class="alert alert-warning pb-0 pt-0 mt-0 mb-0"
-        *ngIf="workingDayAddError == 1"
-      >
+      <div class="alert alert-warning pb-0 pt-0 mt-0 mb-0" *ngIf="workingDayAddError == 1">
         Началото на работния ден, не може да бъде по-голямо от края!
       </div>
 
       <div class="form-group pl-3 pr-3">
         <p class="text-left pb-0 mb-0">Работен ден - начало</p>
-        <select
-          class="form-control"
-          name="periodStart"
-          formControlName="periodStart"
-        >
-          <option value="{{ i }}" *ngFor="let hour of timeSlots; let i = index">
+        <select class="form-control" name="periodStart" formControlName="periodStart">
+          <option *ngFor="let hour of timeSlots; let i = index" value="{{ i }}">
             {{ hour | date : 'HH:mm' }} ч.
           </option>
         </select>
       </div>
       <div class="form-group pl-3 pr-3">
         <p class="text-left pb-0 mb-0">Работен ден - край</p>
-        <select
-          class="form-control"
-          name="periodEnd"
-          formControlName="periodEnd"
-        >
-          <option value="{{ i }}" *ngFor="let hour of timeSlots; let i = index">
+        <select class="form-control" name="periodEnd" formControlName="periodEnd">
+          <option *ngFor="let hour of timeSlots; let i = index" value="{{ i }}">
             {{ hour | date : 'HH:mm' }} ч.
           </option>
         </select>
@@ -491,20 +337,8 @@
           <div class="mt-2 border-top border-primary"></div>
         </mat-form-field>
       </div>
-      <input
-        type="button"
-        value="Отказ"
-        class="button mr-3"
-        id="cancel-button"
-        (click)="cancelEvent(2)"
-      />
-      <input
-        type="button"
-        value="Редактирай"
-        class="button"
-        id="ok-button"
-        (click)="addDaySpecifications()"
-      />
+      <input type="button" value="Отказ" class="button mr-3" id="cancel-button" (click)="cancelEvent(2)" />
+      <input type="button" value="Редактирай" class="button" id="ok-button" (click)="addDaySpecifications()" />
 
       <!-- <input type="button" value="ПОЧИВЕН ДЕН" class="btn btn-danger w-75 mt-3 text-center"
                                     id="ok-button" (click)='showHolidayDayModal()'> -->

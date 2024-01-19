@@ -106,15 +106,22 @@ namespace Memo_Studio_Library
         {
             using (var context = new StudioContext())
             {
-                var start = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day,0,0,0);
-                var end = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day,23,59,59);
+                try {
+                    var start = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0);
+                    var end = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 23, 59, 59);
 
-                return await context.Bookings
-                    .Include(x=>x.Facility)
-                    .Where(x=>x.Timestamp >= start && x.Timestamp <= end && x.Facility.FacilityId==facilityId && !x.Canceled)
-                    //.Include(x => x.User)
-                    .ToListAsync();
-            }
+                    return await context.Bookings
+                        .Include(x => x.Facility)
+                        .Where(x => x.Timestamp >= start && x.Timestamp <= end && x.Facility.FacilityId == facilityId && !x.Canceled)
+                        //.Include(x => x.User)
+                        .ToListAsync();
+                }
+                catch (Exception ex) {
+                    int i = 0;
+                    return null;
+                }
+            } 
+
         }
 
         public List<Booking> GetBookingsByRange(DateTime periodStart, DateTime periodEnd)

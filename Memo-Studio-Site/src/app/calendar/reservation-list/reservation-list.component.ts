@@ -13,8 +13,8 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { Observable } from "rxjs";
-import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from "rxjs/operators";
+import { Observable, of } from "rxjs";
+import { map, startWith } from "rxjs/operators";
 import { Booking } from "src/app/shared/models/booking.model";
 import { Day } from "src/app/shared/models/day.model";
 import { User } from "src/app/shared/models/user.model";
@@ -39,7 +39,7 @@ export class ReservationListComponent implements OnInit, OnChanges {
 
   public selectedFilter: number = FilterTypes.All;
   public timeSlots: Date[] = [];
-  options: User[] = [];
+  options: any[] = [];
   durationArr: any[] = [
     { duration: '30', value: 30 },
     { duration: '1', value: 60 },
@@ -50,12 +50,12 @@ export class ReservationListComponent implements OnInit, OnChanges {
   ];
 
   public bookingForm: FormGroup = this.formBuilder.group({
-    name: ["",],
-    phone: ["",],
-    duration: [30,],
-    email: ["", [, Validators.email]],
-    timestamp: [null,],
-    facilityId: [null],
+    name: ["", Validators.required],
+    phone: ["", Validators.required],
+    duration: [30, Validators.required],
+    email: ["", [, Validators.email, Validators.required]],
+    timestamp: [null, Validators.required],
+    facilityId: [null, Validators.required],
     note: [""],
   });
 
@@ -139,6 +139,7 @@ export class ReservationListComponent implements OnInit, OnChanges {
         facilityId: this.authService.getFacilityId(),
       });
     }
+    this.bookingForm.get('duration').setValue(30);
     this.showHideElement("customDayConfigurationDialog", false);
     this.showHideElement("bookingDialog", true);
     // $("input").click(function () {
@@ -233,9 +234,9 @@ export class ReservationListComponent implements OnInit, OnChanges {
   }
 
   public onOptionSelected(event: any): void {
-    var selectedValue: User = event.option.value;
+    var selectedValue: any = event.option.value;
     this.bookingForm.get('name').setValue(selectedValue.name);
-    this.bookingForm.get('phone').setValue(selectedValue.phoneNumber);
+    this.bookingForm.get('phone').setValue(selectedValue.phone);
     this.bookingForm.get('email').setValue(selectedValue.email);
     this.selectedUserId = selectedValue.userId;
   }
@@ -281,11 +282,11 @@ export class ReservationListComponent implements OnInit, OnChanges {
     });
   }
 
-  private _filterPhone(name: string): User[] {
+  private _filterPhone(name: string): any {
     const filterValue = name.toLowerCase();
     var result = this.options.filter((option) => {
-      if (option.phoneNumber) {
-        return option.phoneNumber.toLowerCase().startsWith(filterValue);
+      if (option.phone) {
+        return option.phone.toLowerCase().startsWith(filterValue);
       }
       return null;
     });
