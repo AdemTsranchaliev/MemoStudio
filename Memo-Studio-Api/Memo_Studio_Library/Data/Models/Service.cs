@@ -1,4 +1,6 @@
 ﻿using System;
+using Memo_Studio_Library.Models;
+
 namespace Memo_Studio_Library.Data.Models
 {
 	public class Service
@@ -17,7 +19,9 @@ namespace Memo_Studio_Library.Data.Models
 
 		public int Duration { get; set; }
 
-        public int FacilityId { get; set; }
+		public List<Booking> Bookings { get; set; }
+
+		public int FacilityId { get; set; }
         public Facility? Facility { get; set; }
 
         public ServiceCategory? ServiceCategory { get; set; }

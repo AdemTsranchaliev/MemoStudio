@@ -8,6 +8,11 @@ namespace Memo_Studio_Library.Models
 {
 	public class Booking : BaseModel
     {
+        public Booking()
+        {
+            Notifications = new List<Notification>();
+        }
+
         public Guid BookingId { get; set; }
 
         public DateTime Timestamp { get; set; }
@@ -34,7 +39,10 @@ namespace Memo_Studio_Library.Models
         public User? User { get; set; }
 
         public int FacilityId { get; set; }
-        public Facility Facility { get; set; }
+        public Facility? Facility { get; set; }
+
+        public int ServiceId { get; set; }
+        public Service? Service { get; set; }
 
         public List<Notification> Notifications { get; set; }
 
