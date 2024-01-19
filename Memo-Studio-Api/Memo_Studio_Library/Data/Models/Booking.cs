@@ -41,7 +41,7 @@ namespace Memo_Studio_Library.Models
         public int FacilityId { get; set; }
         public Facility? Facility { get; set; }
 
-        public int ServiceId { get; set; }
+        public int? ServiceId { get; set; }
         public Service? Service { get; set; }
 
         public List<Notification> Notifications { get; set; }
