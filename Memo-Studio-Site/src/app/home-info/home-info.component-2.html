@@ -1,0 +1,116 @@
+<section class="hero-landing px-4">
+  <article class="row align-items-center text-center">
+    <article class="col-md-6 mb-5">
+      <h2>Резервационна система за бизнес</h2>
+      <p>
+        Софтуер за онлайн резервации с календари на персонала, SMS напомняния,
+        клиентска база данни и маркетингови инструменти.
+      </p>
+      <button
+        mat-stroked-button
+        color="primary"
+        class="fs-20 rounded-pill px-5"
+      >
+        Започнете безплатен период
+      </button>
+    </article>
+
+    <article class="col-md-6">
+      <!-- <img class="w-75" src="assets/images/calendar-home.png" alt="" /> -->
+      <img class="w-100" src="assets/images/mobile.png" alt="" />
+    </article>
+  </article>
+</section>
+
+<section class="my-5">
+  <article class="container">
+    <article class="row align-items-center text-center">
+      <article class="col-md-6 position-relative bubble-background">
+        <img class="iphone-frame-img" src="assets/images/iphone.png" alt="" />
+        <img
+          class="user-calendar-img"
+          src="assets/images/calendar-home.png"
+          alt=""
+        />
+      </article>
+
+      <article class="col-md-6 mb-5">
+        <h2>Приемайте онлайн резервации от популярни платформи</h2>
+        <p>
+          Позволете на клиентите да резервират вашите услуги на вашия уебсайт,
+          Planfy.com и много популярни платформи като Facebook, Instagram и
+          Twitter.
+        </p>
+        <p>
+          Предложете по-лесно изживяване при резервации за клиентите си, като им
+          позволите да резервират вашите услуги на телефоните си за секунди.
+        </p>
+        <p>
+          Дори след работно време можете да получите повече резервации, като
+          използвате приложението за самообслужване на клиента. Клиентите могат
+          да видят наличността ви и да резервират услуги 24/7. Всичко се
+          основава на точната наличност на персонал.
+        </p>
+      </article>
+    </article>
+  </article>
+</section>
+
+<section class="bg-white pt-5">
+  <div class="container">
+    <h1 class="text-start custom-title">Frequently Asked Questions</h1>
+    <div class="row align-items-center">
+      <article class="col-lg-5 col-12">
+        <img src="assets/images/faq_graphic.jpg" class="img-fluid" alt="..." />
+      </article>
+
+      <article class="col-lg-7 col-12">
+        <mat-accordion>
+          <mat-expansion-panel
+            (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title> This is the expansion title </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <p>This is the primary content of the panel.</p>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel
+            (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title> Self aware panel </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <p>I'm visible because I am open</p>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel
+            (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title> Self aware panel </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <p>I'm visible because I am open</p>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel
+            (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title> Self aware panel </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <p>I'm visible because I am open</p>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </article>
+    </div>
+  </div>
+</section>
