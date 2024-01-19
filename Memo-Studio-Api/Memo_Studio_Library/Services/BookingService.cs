@@ -7,6 +7,7 @@ using Memo_Studio_Library.Services.Interfaces;
 using Memo_Studio_Library.ViewModels.Booking;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
 
 namespace Memo_Studio_Library
@@ -44,6 +45,8 @@ namespace Memo_Studio_Library
                 FacilityId = facility.Id,
                 Note = booking.Note,
                 Duration = booking.Duration,
+                OwnerReservation = true,
+                ServiceId = booking.ServiceId,
                 BookingId = Guid.NewGuid()
             };
 
@@ -53,8 +56,6 @@ namespace Memo_Studio_Library
                 var dateToSearch = booking.Timestamp.ToLocalTime();
 
                 //TODO MAKE IT UTC
-                //TODO IS THAT NEEDED
-                var bookingsToSearch = await this.GetBookingsByDate(booking.Timestamp.ToLocalTime(), facility.FacilityId);
 
                 if (booking?.UserId != null)
                 {
@@ -74,6 +75,8 @@ namespace Memo_Studio_Library
                 if (saveResult>0)
                 {
                     context.Entry(result.Entity).Reference(b => b.User).Load();
+                    context.Entry(result.Entity).Reference(b => b.Facility).Load();
+                    context.Entry(result.Entity).Reference(b => b.Service).Load();
 
                     var dateString = result.Entity.GetDateTimeInMessageFormat();
 
@@ -83,7 +86,9 @@ namespace Memo_Studio_Library
                     }
                     else
                     {
-                        mailService.Send(booking.Email!, "", "Запазихте нов час", $"Запазихте час за \n{dateString}", "test", "test");
+                        var mailSubject = GetSubject(result);
+                        var message = GetEmailContent(result);
+                        mailService.Send(booking.Email!, "", mailSubject, message, "", "");
                     }
                     if (result.Entity?.User?.ViberId != null)
                     {
@@ -229,10 +234,10 @@ namespace Memo_Studio_Library
             var businessHours = JsonConvert.DeserializeObject<List<BusinessHoursViewModel>>(facility.WorkingDays);
 
             var daysInMonth = DateTime.DaysInMonth(year, month);
-
+            var nowTime = DateTime.Now;
             for (int dayOfMonth = 1; dayOfMonth <= daysInMonth; dayOfMonth++)
             {
-                if (dayOfMonth<DateTime.Now.Day)
+                if (year< nowTime.Year || month< nowTime.Month || (dayOfMonth < nowTime.Day && month==nowTime.Month&&year==nowTime.Year))
                 {
                     result.Add(new MonthDaysStatisticsResponse(dayOfMonth, (int)DayStatusEnum.Past));
                     continue;
@@ -316,6 +321,18 @@ namespace Memo_Studio_Library
             intervalCount = totalMinutes / intervalMinutes;
 
             return intervalCount;
+        }
+
+        private string GetSubject(EntityEntry<Booking> booking)
+        {
+            return $"Потвърждение за Резервация: Студио '{booking.Entity.Facility.Name}'";
+        }
+
+        private string GetEmailContent(EntityEntry<Booking> booking)
+        {
+            var bookingDate = booking.Entity.GetDateTimeInMessageFormat();
+            var category = booking.Entity.ServiceId != null ? "за "+booking.Entity?.Service.Name+" " : "";
+            return $"<p>Здравейте <b>{booking.Entity.Name}</b>,</p>\n\n<p>Благодарим ви, че използвахте нашето приложение за вашата резервация. Вашата резервация {category}в студио <b>'{booking.Entity.Facility.Name}'</b> е успешно потвърдено.</p>\n\n<p>Дата на резервация: <b>'{bookingDate}'</b></p>\n\n<p>Очакваме ви с нетърпение!</p>\n\n<p>С уважение,<br>Екипът на Bookie</p>";
         }
     }
 }

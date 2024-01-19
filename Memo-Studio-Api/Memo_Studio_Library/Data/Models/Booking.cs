@@ -35,7 +35,7 @@ namespace Memo_Studio_Library.Models
 
         public int Duration { get; set; }
 
-        public bool OwnerReservation { get; set; }
+        public bool? OwnerReservation { get; set; }
 
         public int? UserId { get; set; }
         public User? User { get; set; }

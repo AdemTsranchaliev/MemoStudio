@@ -136,3 +136,8 @@ CREATE TABLE Service (
 
 
 
+!!!!!!!  EXECTUTE AND DELETE !!!!!!!
+
+
+ALTER TABLE Booking
+ADD OwnerReservation BIT NULL;

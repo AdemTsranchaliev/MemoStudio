@@ -9,6 +9,8 @@ namespace Memo_Studio_Library
 
         public Guid FacilityId { get; set; }
 
+        public int? ServiceId { get; set; }
+
         public int Duration { get; set; }
 
         public string? Note { get; set; }
