@@ -1,8 +1,10 @@
+import { BreakpointObserver, BreakpointState, Breakpoints } from "@angular/cdk/layout";
 import {
   Component,
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
@@ -13,8 +15,10 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { Observable, of } from "rxjs";
+import { MatDialog } from "@angular/material/dialog";
+import { Observable, Subscription, of } from "rxjs";
 import { map, startWith } from "rxjs/operators";
+import { ReservationListBookHourComponent } from "src/app/shared/dialogs/reservation-list-book-hour/reservation-list-book-hour.component";
 import { Booking } from "src/app/shared/models/booking.model";
 import { Day } from "src/app/shared/models/day.model";
 import { User } from "src/app/shared/models/user.model";
@@ -31,12 +35,14 @@ declare const $: any;
   templateUrl: "./reservation-list.component.html",
   styleUrls: ["./reservation-list.component.css"],
 })
-export class ReservationListComponent implements OnInit, OnChanges {
+export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() bookingsOrigin: Booking[] = [];
   @Input() facilityConfiguration: any; //set type
   @Input() autocompleteNames: [] = [];
   @Input() date: Date = new Date();
   @Output() dateChange: EventEmitter<Date> = new EventEmitter();
+
+  private subscriptions: Subscription[] = [];
 
   public selectedFilter: number = FilterTypes.All;
   public timeSlots: Date[] = [];
@@ -54,6 +60,7 @@ export class ReservationListComponent implements OnInit, OnChanges {
     name: ["", Validators.required],
     phone: ["", Validators.required],
     duration: [30, Validators.required],
+    hour: ["", Validators.required],
     email: ["", [, Validators.email, Validators.required]],
     timestamp: [null, Validators.required],
     facilityId: [null, Validators.required],
@@ -79,7 +86,10 @@ export class ReservationListComponent implements OnInit, OnChanges {
   filteredPhoneOptions: Observable<any[]>;
   filteredEmailOptions: Observable<any[]>;
   selectedPhone: string;
-  selectedUserId: string;
+
+  private currentSize: string;
+  public isExtraSmall: Observable<BreakpointState> =
+    this.breakpointObserver.observe(Breakpoints.XSmall);
 
   constructor(
     private bookingService: BookingService,
@@ -89,6 +99,8 @@ export class ReservationListComponent implements OnInit, OnChanges {
     private userService: UserService,
     private formBuilder: FormBuilder,
     public utilityService: UtilityService,
+    public dialog: MatDialog,
+    private breakpointObserver: BreakpointObserver
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -111,8 +123,10 @@ export class ReservationListComponent implements OnInit, OnChanges {
     this.userService.getAllUsers().subscribe((x) => {
       this.options = x;
     });
+  }
 
-    this.InitDropdownFilters();
+  ngOnDestroy() {
+    this.subscriptions.forEach((el) => el.unsubscribe());
   }
 
   public showBookings(id: number) {
@@ -136,23 +150,17 @@ export class ReservationListComponent implements OnInit, OnChanges {
       currentDate.setHours(preDefinedHour.getHours());
       currentDate.setMinutes(preDefinedHour.getMinutes());
       currentDate.setSeconds(0);
+
       this.bookingForm.patchValue({
         timestamp: currentDate,
         facilityId: this.authService.getFacilityId(),
+        duration: 30,
+        hour: preDefinedHour
       });
     }
-    this.bookingForm.get('duration').setValue(30);
-    this.showHideElement("customDayConfigurationDialog", false);
-    this.showHideElement("bookingDialog", true);
-    // $("input").click(function () {
-    //   $().removeClass("error-input");
-    // });
 
-    // $("#dialog input[type=text]").val("");
-    // $("#dialog input[type=number]").val("");
-    // $(".events-container").hide(250);
-    // $("#dialog2").hide(250);
-    // $("#dialog").show(250);
+    this.showHideElement("customDayConfigurationDialog", false);
+    this.openAddNewHourDialog();
   }
 
   //REF
@@ -223,88 +231,6 @@ export class ReservationListComponent implements OnInit, OnChanges {
     this.resetForm(this.bookingForm);
     this.showHideElement("customDayConfigurationDialog", false);
     this.showHideElement("bookingDialog", false);
-    // if (id == 1) {
-    //   this.bookingForm.reset();
-    //   $("#name").removeClass("error-input");
-    //   $("#count").removeClass("error-input");
-    //   $("#dialog").hide(250);
-    //   $(".events-container").show(250);
-    // } else {
-    //   $("#dialog2").hide(250);
-    //   $(".events-container").show(250);
-    // }
-  }
-
-  public onOptionSelected(event: any): void {
-    var selectedValue: any = event.option.value;
-    this.bookingForm.get('name').setValue(selectedValue.name);
-    this.bookingForm.get('phone').setValue(selectedValue.phone);
-    this.bookingForm.get('email').setValue(selectedValue.email);
-    this.selectedUserId = selectedValue.userId;
-  }
-
-  private InitDropdownFilters() {
-    this.filteredOptions = this.bookingForm.get('name').valueChanges.pipe(
-      startWith(""),
-      map((value) => {
-        const name = typeof value === "string" ? value : value?.name;
-        return name ? this._filter(name as string) : this.options.slice();
-      })
-    );
-
-    this.filteredPhoneOptions = this.bookingForm.get('phone').valueChanges.pipe(
-      startWith(""),
-      map((value) => {
-        const phone = typeof value === "string" ? value : value?.phone;
-        return phone
-          ? this._filterPhone(phone as string)
-          : this.options.slice();
-      })
-    );
-
-    this.filteredEmailOptions = this.bookingForm.get('email').valueChanges.pipe(
-      startWith(""),
-      map((value) => {
-        const email = typeof value === "string" ? value : value?.email;
-        return email
-          ? this._filterEmail(email as string)
-          : this.options.slice();
-      })
-    );
-  }
-
-  private _filter(name: string): User[] {
-    const filterValue = name.toLowerCase();
-
-    return this.options.filter((option) => {
-      if (option.name) {
-        return option.name.toLowerCase().includes(filterValue);
-      }
-      return null;
-    });
-  }
-
-  private _filterPhone(name: string): any {
-    const filterValue = name.toLowerCase();
-    var result = this.options.filter((option) => {
-      if (option.phone) {
-        return option.phone.toLowerCase().startsWith(filterValue);
-      }
-      return null;
-    });
-    return result;
-  }
-
-  private _filterEmail(name: string): User[] {
-    const filterValue = name.toLowerCase();
-    var result = this.options.filter((option) => {
-      if (option.email) {
-        return option.email.toLowerCase().startsWith(filterValue);
-      }
-      return null;
-    });
-
-    return result;
   }
 
   truncateText(text: string, limit: number): string {
@@ -314,7 +240,7 @@ export class ReservationListComponent implements OnInit, OnChanges {
     return text;
   }
 
-  public bookHour() {
+  public bookHour(currentForm) {
     let resultOfEmptyHoursCheck = this.checkIfNextHourEmpty(
       new Date(this.bookingForm.get("timestamp").value),
       this.bookingForm.get("duration").value
@@ -324,7 +250,7 @@ export class ReservationListComponent implements OnInit, OnChanges {
         "Няма достатъчно свободни часове за избраната процедура, моля изберете друг час или услуга"
       );
     } else {
-      this.bookingService.addBooking(this.bookingForm.value).subscribe((x) => {
+      this.bookingService.addBooking(currentForm.value).subscribe((x) => {
         this.showHideElement("customDayConfigurationDialog", false);
         this.showHideElement("bookingDialog", false);
 
@@ -452,6 +378,40 @@ export class ReservationListComponent implements OnInit, OnChanges {
     }
 
     return false;
+  }
+
+
+  openAddNewHourDialog() {
+    const dialogRef = this.dialog.open(ReservationListBookHourComponent, {
+      width: "100vw",
+      data: {
+        date: this.date,
+        bookingForm: this.bookingForm,
+        filteredOptions: this.filteredOptions,
+        filteredPhoneOptions: this.filteredPhoneOptions,
+        filteredEmailOptions: this.filteredEmailOptions,
+        bookings: this.bookings,
+        durationArr: this.durationArr,
+        options: this.options,
+      },
+    });
+
+    const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
+      this.currentSize = size.matches ? "small" : "large";
+
+      if (size.matches) {
+        dialogRef.updateSize("90%");
+      } else {
+        dialogRef.updateSize("50%");
+      }
+    });
+    this.subscriptions.push(smallDialogSubscription);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result.bookingForm) {
+        this.bookHour(result.bookingForm);
+      }
+    });
   }
 }
 

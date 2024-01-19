@@ -105,6 +105,7 @@ import { ServicesTabCreateCategoryComponent } from './shared/dialogs/services-ta
 import { ServicesTabEditServiceComponent } from './shared/dialogs/services-tab-edit-service/services-tab-edit-service.component';
 import { CreateServiceComponent } from './shared/dialogs/create-service/create-service.component';
 import { BookCategoryComponent } from './shared/components/user/book-category/book-category.component';
+import { ReservationListBookHourComponent } from './shared/dialogs/reservation-list-book-hour/reservation-list-book-hour.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -168,6 +169,7 @@ registerLocaleData(localeBg, "bg");
     ServicesTabEditServiceComponent,
     CreateServiceComponent,
     BookCategoryComponent,
+    ReservationListBookHourComponent,
   ],
   imports: [
     BrowserModule,

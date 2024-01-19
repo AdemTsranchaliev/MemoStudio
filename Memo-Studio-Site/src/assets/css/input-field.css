@@ -76,15 +76,22 @@
 
 /* Error Rules */
 /* Change the border color to red for invalid fields */
-/* .custom-field input.ng-invalid {
+/* .custom-field input.ng-touched {
   border-color: red; 
 } */
 
 /* Change the placeholder color to red for invalid fields */
-/* .custom-field input.ng-invalid + .placeholder {
+/* .custom-field input.ng-touched + .placeholder {
   color: red; 
 } */
-/* Check by all errror options -> ng-invalid ng-dirty ng-touched */
+
+.invalid-field input {
+  border-color: red;
+}
+
+.invalid-field input + .placeholder {
+  color: red;
+}
 
 /* Disabled */
 .custom-field input:disabled {

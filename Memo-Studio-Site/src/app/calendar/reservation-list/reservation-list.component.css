@@ -242,15 +242,6 @@
   left: 33%;
 }
 
-.fs-11 {
-  font-size: 11px;
-}
-
-/* Add this to your component's CSS or styles file */
-.custom-mat-option {
-  line-height: 20px;
-}
-
 /* ============== Media Query ============== */
 
 @media (max-width: 576px) {

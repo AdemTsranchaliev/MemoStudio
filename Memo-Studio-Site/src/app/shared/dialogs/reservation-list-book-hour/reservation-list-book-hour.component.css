@@ -1,0 +1,12 @@
+.fs-11 {
+  font-size: 11px;
+}
+
+.m-bot-min-10 {
+  margin-bottom: -15px;
+}
+
+/* Add this to your component's CSS or styles file */
+.custom-mat-option {
+  line-height: 20px;
+}
