@@ -72,8 +72,10 @@ CREATE TABLE Booking (
     RegisteredUser BIT NOT NULL,
     UserId INT NULL,
     FacilityId INT NOT NULL,
+    ServiceId INT NULL, -- Add ServiceId column
     CONSTRAINT FK_Booking_User FOREIGN KEY (UserId) REFERENCES [User] (Id),
-    CONSTRAINT FK_Booking_Facility FOREIGN KEY (FacilityId) REFERENCES Facility (Id)
+    CONSTRAINT FK_Booking_Facility FOREIGN KEY (FacilityId) REFERENCES Facility (Id),
+    CONSTRAINT FK_Booking_Service FOREIGN KEY (ServiceId) REFERENCES Service (Id)
 );
 
 -- Create the UserFalicity table
@@ -131,3 +133,17 @@ CREATE TABLE Service (
     CONSTRAINT FK_Service_Facility FOREIGN KEY (FacilityId) REFERENCES Facility (Id),
     CONSTRAINT FK_Service_ServiceCategory FOREIGN KEY (ServiceCategoryId) REFERENCES ServiceCategory (Id)
 );
+
+
+
+
+
+TO EXECUTE AFTER THAT REMOVE IT
+
+-- Alter the Booking table to add ServiceId column
+ALTER TABLE Booking
+ADD ServiceId INT NOT NULL;
+
+-- Add foreign key constraint for ServiceId
+ALTER TABLE Booking
+ADD CONSTRAINT FK_Booking_Service FOREIGN KEY (ServiceId) REFERENCES Service (Id);

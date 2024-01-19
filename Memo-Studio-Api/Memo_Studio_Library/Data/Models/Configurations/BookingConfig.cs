@@ -23,8 +23,10 @@ public class BookingConfig : IEntityTypeConfiguration<Booking>
         builder.Property(p => p.RegisteredUser).IsRequired();
         builder.Property(p => p.UserId).IsRequired(false);
         builder.Property(p => p.FacilityId).IsRequired();
+        builder.Property(p => p.ServiceId).IsRequired();
 
         builder.HasOne(x => x.User).WithMany(x => x.Bookings).HasForeignKey(x => x.UserId);
         builder.HasOne(x => x.Facility).WithMany(x => x.Bookings).HasForeignKey(x => x.FacilityId);
+        builder.HasOne(x => x.Service).WithMany(x => x.Bookings).HasForeignKey(x => x.ServiceId);
     }
 }

@@ -261,13 +261,13 @@ namespace Memo_Studio_Library.Services
                         .ThenInclude(x => x.User)
                     .FirstOrDefaultAsync(x => x.FacilityId == facilityId);
 
-                facility.Bookings = facility.Bookings.Where(x => x.Name!=null&&x.Phone!=null).ToList();
+                facility.Bookings = facility.Bookings.Where(x => !string.IsNullOrEmpty(x.Name) && !string.IsNullOrEmpty(x.Phone)).ToList();
 
                 var result = new List<BookingUsersAutocompleteViewModel>();
                 foreach (var booking in facility?.Bookings)
                 {
-                    if (!result.Any(x=>x.Name==booking.Name&&x.Phone==booking.Phone&&x?.UserId==null)
-                        ||!result.Any(x=>x?.UserId==booking?.User?.UserId.ToString()))
+                    if (!result.Any(x => x.Name == booking.Name && x.Phone == booking.Phone && x?.UserId == null)
+                        || !result.Any(x => x?.UserId == booking?.User?.UserId.ToString()))
                     {
                         var record = new BookingUsersAutocompleteViewModel
                         {
@@ -276,7 +276,7 @@ namespace Memo_Studio_Library.Services
                             Phone = booking.Phone
                         };
 
-                        if (booking.UserId!=null)
+                        if (booking.UserId != null)
                         {
                             record.RegisteredUser = true;
                             record.UserId = booking?.User.UserId.ToString();
