@@ -1,4 +1,8 @@
-import { BreakpointObserver, BreakpointState, Breakpoints } from "@angular/cdk/layout";
+import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from "@angular/cdk/layout";
 import {
   Component,
   EventEmitter,
@@ -28,6 +32,7 @@ import { DateTimeService } from "src/app/shared/services/date-time.service";
 import { DayService } from "src/app/shared/services/day.service";
 import { UserService } from "src/app/shared/services/user.service";
 import { UtilityService } from "src/app/shared/services/utility.service";
+import { DateCalendar } from "../date.model";
 declare const $: any;
 
 @Component({
@@ -41,7 +46,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() autocompleteNames: [] = [];
   @Input() date: Date = new Date();
   @Input() isDayPast: boolean;
-  @Output() dateChange: EventEmitter<Date> = new EventEmitter();
+  @Output() dateChange: EventEmitter<DateCalendar> = new EventEmitter();
 
   private subscriptions: Subscription[] = [];
 
@@ -101,7 +106,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     public utilityService: UtilityService,
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver
-  ) { }
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     //Load time slots
@@ -155,7 +160,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
         timestamp: currentDate,
         facilityId: this.authService.getFacilityId(),
         duration: 30,
-        hour: preDefinedHour
+        hour: preDefinedHour,
       });
     }
 
@@ -168,7 +173,10 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     this.loader = true;
 
     this.bookingService.deleteBooking(this.deleteBookingId).subscribe((x) => {
-      this.dateChange.emit(this.date);
+      this.dateChange.emit(<DateCalendar>{
+        date: this.date,
+        isPastDate: false,
+      });
 
       this.loader = false;
     });
@@ -255,7 +263,10 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
         this.showHideElement("bookingDialog", false);
 
         this.resetForm(this.bookingForm);
-        this.dateChange.emit(this.date);
+        this.dateChange.emit(<DateCalendar>{
+          date: this.date,
+          isPastDate: false,
+        });
       });
     }
   }
@@ -379,7 +390,6 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
 
     return false;
   }
-
 
   openAddNewHourDialog() {
     const dialogRef = this.dialog.open(ReservationListBookHourComponent, {

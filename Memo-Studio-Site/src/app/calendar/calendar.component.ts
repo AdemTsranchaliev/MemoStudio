@@ -35,9 +35,12 @@ export class ReservationCalendarComponent implements OnInit {
   ngOnInit(): void {
     this.facilityService.getFacilitySettings().subscribe((x) => {
       this.facilityConfiguration = x;
-      this.dateChange(<DateCalendar>{date: this.date, isPastDate: this.isPastDate});
+      this.dateChange(<DateCalendar>{
+        date: this.date,
+        isPastDate: this.isPastDate,
+      });
     });
-    this.facilityService.getFacilityUsers().subscribe(x=>{
+    this.facilityService.getFacilityUsers().subscribe((x) => {
       this.autocompleteNames = x;
     });
   }
