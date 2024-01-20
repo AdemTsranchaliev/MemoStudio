@@ -27,6 +27,12 @@ export class ReservationListBookHourComponent implements OnInit {
     this.data.bookingForm.get("email").setValue(selectedValue.email);
   }
 
+  compareFn(option1: any, option2: any): boolean {
+    console.log(option1);
+    console.log(option2);
+    return true;
+  }
+
   private InitDropdownFilters() {
     this.data.filteredOptions = this.data.bookingForm
       .get("name")
@@ -106,7 +112,7 @@ export class ReservationListBookHourComponent implements OnInit {
   }
 
   public onSubmit() {
-    if(this.data.bookingForm.valid){
+    if (this.data.bookingForm.valid) {
       this.dialogRef.close(this.data);
     }
   }

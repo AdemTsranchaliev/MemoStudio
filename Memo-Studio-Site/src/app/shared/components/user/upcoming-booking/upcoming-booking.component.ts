@@ -1,12 +1,16 @@
-import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
-import { AfterViewInit, Component, ViewChild, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { CancelBookingComponent } from '../../../dialogs/cancel-booking/cancel-booking.component'
+import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from "@angular/cdk/layout";
+import { AfterViewInit, Component, ViewChild, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { Observable, Subscription } from "rxjs";
+import { MatDialog } from "@angular/material/dialog";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { CancelBookingComponent } from "../../../dialogs/cancel-booking/cancel-booking.component";
 
 export interface UserData {
   id: string;
@@ -16,46 +20,52 @@ export interface UserData {
 }
 
 const FRUITS: string[] = [
-  'blueberry',
-  'lychee',
-  'kiwi',
-  'mango',
-  'peach',
-  'lime',
-  'pomegranate',
-  'pineapple',
+  "blueberry",
+  "lychee",
+  "kiwi",
+  "mango",
+  "peach",
+  "lime",
+  "pomegranate",
+  "pineapple",
 ];
 const NAMES: string[] = [
-  'Maia',
-  'Asher',
-  'Olivia',
-  'Atticus',
-  'Amelia',
-  'Jack',
-  'Charlotte',
-  'Theodore',
-  'Isla',
-  'Oliver',
-  'Isabella',
-  'Jasper',
-  'Cora',
-  'Levi',
-  'Violet',
-  'Arthur',
-  'Mia',
-  'Thomas',
-  'Elizabeth',
+  "Maia",
+  "Asher",
+  "Olivia",
+  "Atticus",
+  "Amelia",
+  "Jack",
+  "Charlotte",
+  "Theodore",
+  "Isla",
+  "Oliver",
+  "Isabella",
+  "Jasper",
+  "Cora",
+  "Levi",
+  "Violet",
+  "Arthur",
+  "Mia",
+  "Thomas",
+  "Elizabeth",
 ];
 
 @Component({
-  selector: 'app-upcoming-booking',
-  templateUrl: './upcoming-booking.component.html',
-  styleUrls: ['./upcoming-booking.component.css']
+  selector: "app-upcoming-booking",
+  templateUrl: "./upcoming-booking.component.html",
+  styleUrls: ["./upcoming-booking.component.css"],
 })
 export class UpcomingBookingComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<UserData>;
-  displayedColumns: string[] = ['data', 'service', 'business', 'businessProfile', 'actions'];
-  date: Date = new Date;
+  displayedColumns: string[] = [
+    "data",
+    "service",
+    "business",
+    "businessProfile",
+    "actions",
+  ];
+  date: Date = new Date();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -69,7 +79,7 @@ export class UpcomingBookingComponent implements OnInit, AfterViewInit {
   constructor(
     private router: Router,
     private breakpointObserver: BreakpointObserver,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {
     // Create 100 users
     const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
@@ -78,8 +88,7 @@ export class UpcomingBookingComponent implements OnInit, AfterViewInit {
     this.dataSource = new MatTableDataSource(users);
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy() {
     this.subscriptions.forEach((el) => el.unsubscribe());
@@ -93,7 +102,7 @@ export class UpcomingBookingComponent implements OnInit, AfterViewInit {
   onBookingCancel() {
     const dialogRef = this.dialog.open(CancelBookingComponent, {
       width: "100vw",
-      data: {}
+      data: {},
     });
 
     const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
@@ -107,7 +116,7 @@ export class UpcomingBookingComponent implements OnInit, AfterViewInit {
     });
     this.subscriptions.push(smallDialogSubscription);
 
-    dialogRef.afterClosed().subscribe((result) => { });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   navigate(param: string) {
@@ -119,9 +128,9 @@ export class UpcomingBookingComponent implements OnInit, AfterViewInit {
 function createNewUser(id: number): UserData {
   const name =
     NAMES[Math.round(Math.random() * (NAMES.length - 1))] +
-    ' ' +
+    " " +
     NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) +
-    '.';
+    ".";
 
   return {
     id: id.toString(),

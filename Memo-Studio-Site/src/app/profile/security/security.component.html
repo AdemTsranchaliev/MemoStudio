@@ -4,55 +4,29 @@
 
   <form [formGroup]="passwordChangeForm" (ngSubmit)="changePassword()">
     <label class="custom-field w-100">
-      <input
-        type="password"
-        class="w-100"
-        placeholder=" "
-        name="oldPassword"
-        formControlName="oldPassword"
-      />
+      <input type="password" class="w-100" placeholder=" " name="oldPassword" formControlName="oldPassword" />
       <span class="placeholder cursor-text">Стара парола</span>
     </label>
 
     <label class="custom-field w-100">
-      <input
-        type="password"
-        class="w-100"
-        placeholder=" "
-        name="newPassword"
-        formControlName="newPassword"
-      />
+      <input type="password" class="w-100" placeholder=" " name="newPassword" formControlName="newPassword" />
       <span class="placeholder cursor-text">Нова парола</span>
     </label>
-    <mat-error
-      *ngIf="passwordChangeForm.get('newPassword').hasError('minlength')"
-    >
+    <mat-error *ngIf="passwordChangeForm.get('newPassword').hasError('minlength')">
       Новата парола трябва да бъде поне 6 символа.
     </mat-error>
 
     <label class="custom-field w-100">
-      <input
-        type="password"
-        class="w-100"
-        placeholder=" "
-        name="confirmNewPassword"
-        formControlName="confirmNewPassword"
-      />
+      <input type="password" class="w-100" placeholder=" " name="confirmNewPassword"
+        formControlName="confirmNewPassword" />
       <span class="placeholder cursor-text">Повторете новата парола</span>
     </label>
-    <mat-error
-      *ngIf="passwordChangeForm.hasError('mismatch', 'confirmNewPassword')"
-    >
+    <mat-error *ngIf="passwordChangeForm.hasError('mismatch', 'confirmNewPassword')">
       Паролите не съвпадат.
     </mat-error>
 
     <div class="text-right m-4">
-      <button
-        type="submit"
-        mat-raised-button
-        color="primary"
-        [disabled]="!passwordChangeForm.valid"
-      >
+      <button type="submit" mat-raised-button color="primary" [disabled]="!passwordChangeForm.valid">
         Запази промени
       </button>
       &nbsp;

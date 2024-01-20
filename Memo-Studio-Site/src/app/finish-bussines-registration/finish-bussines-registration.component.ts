@@ -1,9 +1,6 @@
-import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import {
   FormGroup,
-  FormBuilder,
-  Validators,
   FormControl,
   FormArray,
 } from "@angular/forms";
@@ -14,7 +11,11 @@ import { FacilityService } from "src/app/shared/services/facility.service";
 import { AccountViewModel } from "../shared/models/account/account.model";
 import { ImgPreviewComponent } from "../shared/dialogs/img-preview/img-preview.component";
 import { Observable } from "rxjs";
-import { BreakpointObserver, BreakpointState, Breakpoints } from "@angular/cdk/layout";
+import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from "@angular/cdk/layout";
 import { MatDialog } from "@angular/material/dialog";
 
 @Component({
@@ -32,7 +33,7 @@ export class FinishBussinesRegistrationComponent implements OnInit {
   });
 
   public isExtraSmall: Observable<BreakpointState> =
-  this.breakpointObserver.observe(Breakpoints.XSmall);
+    this.breakpointObserver.observe(Breakpoints.XSmall);
 
   public workingDaysFormArray: FormArray;
   public durations: number[] = [5, 15, 30, 60, 90, 120];
@@ -42,7 +43,7 @@ export class FinishBussinesRegistrationComponent implements OnInit {
   public user: AccountViewModel;
   private newProfileImg: string;
   private currentSize: string;
-  
+
   constructor(
     private facilityService: FacilityService,
     private snackBar: MatSnackBar,
@@ -56,8 +57,20 @@ export class FinishBussinesRegistrationComponent implements OnInit {
       this.bookingForm.patchValue(x);
 
       this.timeSlots = this.generateHours(x.startPeriod, x.endPeriod);
-      this.startPeriodIndex = this.timeSlots.findIndex(y=>this.dateTimeService.compareHoursAndMinutes(y,new Date(x.startPeriod))==0)
-      this.endPeriodIndex = this.timeSlots.findIndex(y=>this.dateTimeService.compareHoursAndMinutes(y,new Date(x.endPeriod))==0)
+      this.startPeriodIndex = this.timeSlots.findIndex(
+        (y) =>
+          this.dateTimeService.compareHoursAndMinutes(
+            y,
+            new Date(x.startPeriod)
+          ) == 0
+      );
+      this.endPeriodIndex = this.timeSlots.findIndex(
+        (y) =>
+          this.dateTimeService.compareHoursAndMinutes(
+            y,
+            new Date(x.endPeriod)
+          ) == 0
+      );
 
       const workingDaysArray = JSON.parse(x.workingDaysJson);
       this.workingDaysFormArray = this.bookingForm.get(
@@ -125,12 +138,15 @@ export class FinishBussinesRegistrationComponent implements OnInit {
     return this.dateTimeService.generateTimeSlots(start, end, 30);
   }
 
-  public dateChange(isStartPeriod: boolean){
-    if(isStartPeriod){
-      this.bookingForm.get("startPeriod").setValue(this.timeSlots[this.startPeriodIndex]);
-    }
-    else{
-      this.bookingForm.get("endPeriod").setValue(this.timeSlots[this.endPeriodIndex]);
+  public dateChange(isStartPeriod: boolean) {
+    if (isStartPeriod) {
+      this.bookingForm
+        .get("startPeriod")
+        .setValue(this.timeSlots[this.startPeriodIndex]);
+    } else {
+      this.bookingForm
+        .get("endPeriod")
+        .setValue(this.timeSlots[this.endPeriodIndex]);
     }
   }
 

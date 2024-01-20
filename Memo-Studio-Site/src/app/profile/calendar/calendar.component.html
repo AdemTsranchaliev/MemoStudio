@@ -10,7 +10,8 @@
     <div class="row">
       <div class="col-sm-6">
         <label class="custom-field-select w-100">
-          <select placeholder=" " [(ngModel)]="startPeriodIndex" class="w-100" [ngModelOptions]="{standalone: true}" (change)="dateChange(true)">
+          <select placeholder=" " [(ngModel)]="startPeriodIndex" class="w-100" [ngModelOptions]="{standalone: true}"
+            (change)="dateChange(true)">
             <option *ngFor="let time of timeSlots; let i=index" value="{{i}}">
               {{ time | date : 'HH:mm' }} ч.
             </option>
@@ -21,7 +22,8 @@
 
       <div class="col-sm-6">
         <label class="custom-field-select w-100">
-          <select placeholder=" " [(ngModel)]="endPeriodIndex" class="w-100" [ngModelOptions]="{standalone: true}" (change)="dateChange(false)">
+          <select placeholder=" " [(ngModel)]="endPeriodIndex" class="w-100" [ngModelOptions]="{standalone: true}"
+            (change)="dateChange(false)">
             <option *ngFor="let time of timeSlots; let i=index" value="{{i}}">
               {{ time | date : 'HH:mm' }} ч.
             </option>

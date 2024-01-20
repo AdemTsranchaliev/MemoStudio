@@ -142,7 +142,7 @@ strong {
   opacity: 0.85;
 }
 
-.section-overlay + .container {
+.section-overlay+.container {
   position: relative;
 }
 
@@ -174,7 +174,7 @@ strong {
   transform: translateY(-3px);
 }
 
-.custom-block > a {
+.custom-block>a {
   width: 100%;
 }
 
@@ -202,7 +202,7 @@ strong {
   padding: 0;
 }
 
-.custom-block-overlay > a {
+.custom-block-overlay>a {
   height: 100%;
 }
 
@@ -369,7 +369,7 @@ strong {
     width: auto;
   }
 
-  .custom-block-topics-listing > .d-flex,
+  .custom-block-topics-listing>.d-flex,
   .custom-block-topics-listing-info,
   .custom-block-topics-listing a {
     flex-direction: column;

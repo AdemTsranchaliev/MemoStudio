@@ -21,14 +21,9 @@
       <div class="col-12 col-md-10 d-none d-xl-block">
         <nav class="site-navigation position-relative text-right" role="navigation">
           <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-            <li>
-              <a routerLink="admin-dashboard" class="nav-link">Admin</a>
-            </li>
-            <li>
-              <a class="nav-link">|</a>
-            </li>
-            
-            <li class="has-children" *ngIf="authService.isAuthenticated()">
+
+
+            <li class="has-children" *ngIf="false">
               <a routerLink="profile" class="nav-link">
                 За Потребителите!
                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
@@ -53,17 +48,10 @@
                   <a routerLink="self-booking" class="nav-link">Запазване на час</a>
                 </li>
                 <li>
-                  <a routerLink="/terms-conditions" class="nav-link"
-                    >Правила и условия</a
-                  >
+                  <a routerLink="/terms-conditions" class="nav-link">Правила и условия</a>
                 </li>
               </ul>
             </li>
-
-            <li>
-              <a class="nav-link">|</a>
-            </li>
-
             <li>
               <a routerLink="home-information" class="nav-link">Начало</a>
             </li>

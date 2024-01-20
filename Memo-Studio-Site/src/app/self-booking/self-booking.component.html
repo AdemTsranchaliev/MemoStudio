@@ -35,13 +35,9 @@
               </div>
               <div class="card-body p-3 p-sm-5">
                 <div class="row justify-content-start">
-                  <button
-                    *ngFor="let timeInterval of timeIntervals"
-                    class="col-md-2 col-sm-12 my-1 px-2 mx-2 border-rad-10"
-                    mat-stroked-button
-                    matStepperNext
-                    (click)="setNexStep(timeInterval)"
-                  >
+                  <button *ngFor="let timeInterval of timeIntervals"
+                    class="col-md-2 col-sm-12 my-1 px-2 mx-2 border-rad-10" mat-stroked-button matStepperNext
+                    (click)="setNexStep(timeInterval)">
                     <mat-icon class="clock-icon">access_time</mat-icon>
                     {{ timeInterval }} - {{ timeInterval }}
                   </button>
@@ -50,11 +46,7 @@
             </mat-step>
 
             <mat-step class="position-relative">
-              <button
-                class="position-absolute top-0 start-0 fs-1 mt-2"
-                mat-raised-button
-                matStepperPrevious
-              >
+              <button class="position-absolute top-0 start-0 fs-1 mt-2" mat-raised-button matStepperPrevious>
                 <mat-icon>arrow_back</mat-icon>
               </button>
 

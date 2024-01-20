@@ -4,7 +4,7 @@ import {
   BreakpointState,
   Breakpoints,
 } from "@angular/cdk/layout";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { Observable, Subscription } from "rxjs";
 import { ServicesTabCreateCategoryComponent } from "src/app/shared/dialogs/services-tab-create-category/services-tab-create-category.component";

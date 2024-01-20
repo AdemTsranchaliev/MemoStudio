@@ -1,32 +1,18 @@
 <div class="swiper-parent-container">
   <div class="swiper-container" #swiper>
     <div class="swiper-wrapper">
-      <div
-        class="swiper-slide rounded bg-white shadow"
-        *ngFor="let day of days"
-        [ngClass]="{
+      <div class="swiper-slide rounded bg-white shadow" *ngFor="let day of days" [ngClass]="{
           'current-day': day === selectedDay,
           'past-day': day.isDisabled
-        }"
-        (click)="loadFreeHours(day)"
-      >
+        }" (click)="loadFreeHours(day)">
         <div class="d-flex">
-          <span
-            style="font-weight: 500"
-            [ngClass]="{ 'text-dark': !day.isDisabled }"
-          >
+          <span style="font-weight: 500" [ngClass]="{ 'text-dark': !day.isDisabled }">
             {{ capitalizeFirst(day.date | date : 'EEEE') }}
           </span>
         </div>
-        <div
-          class="day-item-number"
-          [ngClass]="{ 'text-secondary': !day.isDisabled }"
-        >
+        <div class="day-item-number" [ngClass]="{ 'text-secondary': !day.isDisabled }">
           {{ day.date | date : 'dd' }}
-          <span
-            style="font-size: small"
-            [ngClass]="{ 'text-secondary': !day.isDisabled }"
-          >
+          <span style="font-size: small" [ngClass]="{ 'text-secondary': !day.isDisabled }">
             {{ day.month | slice : 0 : 3 | uppercase }}
           </span>
         </div>

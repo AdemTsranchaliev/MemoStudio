@@ -12,9 +12,7 @@ export class SelfBookingComponent implements OnInit, OnDestroy {
   timeIntervals: string[] = [];
   nextStep: unknown; // Will be OBJ with the data for the booking!
 
-  constructor(
-    private selfBookingService: SelfBookingService,
-  ) { }
+  constructor(private selfBookingService: SelfBookingService) {}
 
   ngOnInit(): void {
     this.loadFreeHours();
@@ -24,7 +22,7 @@ export class SelfBookingComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((el) => el.unsubscribe());
   }
 
-  loadFreeHours(): void {
+  private loadFreeHours(): void {
     // ====== When API ready uncomment! =======
     // const loadHoursSubscription = this.selfBookingService.getFreeHours().subscribe(x => {
     //   this.timeIntervals = x;
@@ -35,7 +33,7 @@ export class SelfBookingComponent implements OnInit, OnDestroy {
   }
 
   // ============ When API ready need OBJ and have more data to set the next step ============
-  setNexStep(timeInterval) {
+  public setNexStep(timeInterval) {
     this.nextStep = timeInterval; // will be adjusted
   }
 }

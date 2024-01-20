@@ -12,7 +12,7 @@ export class BusinessCardCalendarComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   public facilityModel: CalendarProfileInformation;
 
-  constructor(private accountService: AccountService) { }
+  constructor(private accountService: AccountService) {}
 
   ngOnInit() {
     this.accountService.getCalendarUserInformation().subscribe((x) => {

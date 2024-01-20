@@ -8,24 +8,15 @@
     <span class="left-button fa fa-chevron-left" id="prev" (click)="prevYear()">
     </span>
     <span id="label">{{ this.date.getFullYear() }}</span>
-    <span
-      class="right-button fa fa-chevron-right"
-      id="next"
-      (click)="nextYear()"
-    >
+    <span class="right-button fa fa-chevron-right" id="next" (click)="nextYear()">
     </span>
   </div>
 
   <table class="cal-months-table w-100">
     <tbody>
       <tr class="months-row">
-        <td
-          class="month"
-          [ngClass]="{ 'active-month': this.date.getMonth() == i }"
-          *ngFor="let month of monthStrings; let i = index"
-          id="i"
-          (click)="monthClick(i)"
-        >
+        <td class="month" [ngClass]="{ 'active-month': this.date.getMonth() == i }"
+          *ngFor="let month of monthStrings; let i = index" id="i" (click)="monthClick(i)">
           {{ month }}
         </td>
       </tr>
@@ -42,23 +33,14 @@
     <div class="frame">
       <table class="dates-table w-100">
         <tbody class="tbody">
-          <tr
-            *ngFor="let row of calendarRows"
-            class="row justify-content-between align-items-center"
-          >
+          <tr *ngFor="let row of calendarRows" class="row justify-content-between align-items-center">
             <ng-container *ngFor="let element of row">
-              <td
-                id="day-{{ element.day }}"
-                class="table-date text-primary col"
-                [class.nil]="element.day === -1"
-                [class.active-date]="element.day === date.getDate()"
-                [ngClass]="{
+              <td id="day-{{ element.day }}" class="table-date text-primary col" [class.nil]="element.day === -1"
+                [class.active-date]="element.day === date.getDate()" [ngClass]="{
                   'past-day-date': isPastDay(element.status),
                   'free-day': isFreeDay(element.status),
                   'full-day': isFullDay(element.status)
-                }"
-                (click)="dateClick(element.day)"
-              >
+                }" (click)="dateClick(element.day)">
                 {{ element.day > 0 ? element.day : '' }}
               </td>
             </ng-container>

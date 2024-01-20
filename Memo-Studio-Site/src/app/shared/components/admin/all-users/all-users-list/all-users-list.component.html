@@ -15,35 +15,19 @@
     <div class="row justify-content-between align-items-center mb-2">
       <article class="col-lg-6">
         <label class="custom-field w-100">
-          <input
-            (keyup)="applyFilter($event)"
-            class="w-100"
-            placeholder=" "
-            name="filter"
-            #input
-          />
+          <input (keyup)="applyFilter($event)" class="w-100" placeholder=" " name="filter" #input />
           <span class="placeholder cursor-text">Filter</span>
         </label>
       </article>
 
       <article class="col-lg-3 ms-10">
-        <input
-          class="form-check-input checkbox-filter"
-          type="checkbox"
-          id="user-filter"
-          [(ngModel)]="isBusinessUser"
-        />
+        <input class="form-check-input checkbox-filter" type="checkbox" id="user-filter" [(ngModel)]="isBusinessUser" />
         <label class="form-check-label" for="user-filter">Business Users</label>
       </article>
     </div>
 
     <div>
-      <table
-        class="w-100 fixed-layout"
-        mat-table
-        [dataSource]="dataSource"
-        matSort
-      >
+      <table class="w-100 fixed-layout" mat-table [dataSource]="dataSource" matSort>
         <!-- ID Column -->
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
@@ -66,22 +50,15 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
           <td mat-cell *matCellDef="let row">
-            <button
-              class="btn btn-outline-primary py-0 mx-2"
-              (click)="onActivitiesClick($event)"
-            >
+            <button class="btn btn-outline-primary py-0 mx-2" (click)="onActivitiesClick($event)">
               Activities
             </button>
           </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr
-          class="cursor-pointer"
-          mat-row
-          *matRowDef="let row; columns: displayedColumns"
-          (click)="openDetais(row)"
-        ></tr>
+        <tr class="cursor-pointer" mat-row *matRowDef="let row; columns: displayedColumns" (click)="openDetais(row)">
+        </tr>
 
         <!-- Row shown when there is no matching data. -->
         <tr class="mat-row" *matNoDataRow>
@@ -91,10 +68,7 @@
         </tr>
       </table>
 
-      <mat-paginator
-        [pageSizeOptions]="[5, 10, 25, 100]"
-        aria-label="Select page of users"
-      ></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
     </div>
   </div>
 </section>

@@ -3,50 +3,27 @@
   <div class="row align-items-center">
     <form class="col-12 col-md-12 mt-2" [formGroup]="bookingForm">
       <label class="custom-field w-100">
-        <input
-          type="text"
-          class="w-100"
-          placeholder=" "
-          name="firstName"
-          formControlName="firstName"
-        />
+        <input type="text" class="w-100" placeholder=" " name="firstName" formControlName="firstName" />
         <span class="placeholder cursor-text">Име</span>
       </label>
 
       <label class="custom-field w-100">
-        <input
-          type="text"
-          class="w-100"
-          placeholder=" "
-          name="lastName"
-          formControlName="lastName"
-        />
+        <input type="text" class="w-100" placeholder=" " name="lastName" formControlName="lastName" />
         <span class="placeholder cursor-text">Фамилия</span>
       </label>
 
       <label class="custom-field w-100">
-        <input
-          class="w-100"
-          placeholder=" "
-          name="phone"
-          formControlName="phone"
-        />
+        <input class="w-100" placeholder=" " name="phone" formControlName="phone" />
         <span class="placeholder cursor-text">Телефон</span>
       </label>
 
-      <app-checkbox-select
-        [serviceList]="serviceList"
-        (checkboxSelectEvent)="handleCheckboxSelectEvent($event)"
-      ></app-checkbox-select>
+      <app-checkbox-select [serviceList]="serviceList"
+        (checkboxSelectEvent)="handleCheckboxSelectEvent($event)"></app-checkbox-select>
     </form>
   </div>
 
   <div class="row justify-content-end">
-    <button
-      type="button"
-      class="btn btn-link text-primary me-2"
-      (click)="onSubmit()"
-    >
+    <button type="button" class="btn btn-link text-primary me-2" (click)="onSubmit()">
       Запази
     </button>
   </div>

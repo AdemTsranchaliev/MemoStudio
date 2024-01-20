@@ -27,7 +27,7 @@ export class SelectionListComponent implements OnInit {
 
   public toggleWorkingDay(index: number) {
     const existingControl = this.workingDays.at(index);
-    const isOpen = existingControl.get('isOpen').value;
-    existingControl.get('isOpen').setValue(!isOpen);
+    const isOpen = existingControl.get("isOpen").value;
+    existingControl.get("isOpen").setValue(!isOpen);
   }
 }

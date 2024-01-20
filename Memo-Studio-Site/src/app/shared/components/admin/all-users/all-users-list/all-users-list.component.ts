@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, ViewChild, OnInit } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { AfterViewInit, Component, ViewChild, OnInit } from "@angular/core";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { Router } from "@angular/router";
 
 export interface UserData {
   id: string;
@@ -12,53 +12,51 @@ export interface UserData {
 }
 
 const FRUITS: string[] = [
-  'blueberry',
-  'lychee',
-  'kiwi',
-  'mango',
-  'peach',
-  'lime',
-  'pomegranate',
-  'pineapple',
+  "blueberry",
+  "lychee",
+  "kiwi",
+  "mango",
+  "peach",
+  "lime",
+  "pomegranate",
+  "pineapple",
 ];
 const NAMES: string[] = [
-  'Maia',
-  'Asher',
-  'Olivia',
-  'Atticus',
-  'Amelia',
-  'Jack',
-  'Charlotte',
-  'Theodore',
-  'Isla',
-  'Oliver',
-  'Isabella',
-  'Jasper',
-  'Cora',
-  'Levi',
-  'Violet',
-  'Arthur',
-  'Mia',
-  'Thomas',
-  'Elizabeth',
+  "Maia",
+  "Asher",
+  "Olivia",
+  "Atticus",
+  "Amelia",
+  "Jack",
+  "Charlotte",
+  "Theodore",
+  "Isla",
+  "Oliver",
+  "Isabella",
+  "Jasper",
+  "Cora",
+  "Levi",
+  "Violet",
+  "Arthur",
+  "Mia",
+  "Thomas",
+  "Elizabeth",
 ];
 
 @Component({
-  selector: 'app-all-users-list',
-  templateUrl: './all-users-list.component.html',
-  styleUrls: ['./all-users-list.component.css']
+  selector: "app-all-users-list",
+  templateUrl: "./all-users-list.component.html",
+  styleUrls: ["./all-users-list.component.css"],
 })
 export class AllUsersListComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<UserData>;
-  displayedColumns: string[] = ['id', 'name', 'progress', 'actions'];
+  displayedColumns: string[] = ["id", "name", "progress", "actions"];
   isBusinessUser: boolean = true;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(
-    private router: Router,
-  ) {
+  constructor(private router: Router) {
     // Create 100 users
     const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
 
@@ -66,8 +64,7 @@ export class AllUsersListComponent implements OnInit, AfterViewInit {
     this.dataSource = new MatTableDataSource(users);
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -80,7 +77,7 @@ export class AllUsersListComponent implements OnInit, AfterViewInit {
 
   onActivitiesClick(event: Event) {
     event.stopPropagation();
-    this.router.navigate(['/user-home/6545135468']);
+    this.router.navigate(["/user-home/6545135468"]);
   }
 
   applyFilter(event: Event) {
@@ -101,9 +98,9 @@ export class AllUsersListComponent implements OnInit, AfterViewInit {
 function createNewUser(id: number): UserData {
   const name =
     NAMES[Math.round(Math.random() * (NAMES.length - 1))] +
-    ' ' +
+    " " +
     NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) +
-    '.';
+    ".";
 
   return {
     id: id.toString(),

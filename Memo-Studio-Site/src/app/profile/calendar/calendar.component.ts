@@ -1,9 +1,6 @@
-import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import {
   FormGroup,
-  FormBuilder,
-  Validators,
   FormControl,
   FormArray,
 } from "@angular/forms";
@@ -43,8 +40,20 @@ export class CalendarComponent implements OnInit {
       this.bookingForm.patchValue(x);
 
       this.timeSlots = this.generateHours(x.startPeriod, x.endPeriod);
-      this.startPeriodIndex = this.timeSlots.findIndex(y=>this.dateTimeService.compareHoursAndMinutes(y,new Date(x.startPeriod))==0)
-      this.endPeriodIndex = this.timeSlots.findIndex(y=>this.dateTimeService.compareHoursAndMinutes(y,new Date(x.endPeriod))==0)
+      this.startPeriodIndex = this.timeSlots.findIndex(
+        (y) =>
+          this.dateTimeService.compareHoursAndMinutes(
+            y,
+            new Date(x.startPeriod)
+          ) == 0
+      );
+      this.endPeriodIndex = this.timeSlots.findIndex(
+        (y) =>
+          this.dateTimeService.compareHoursAndMinutes(
+            y,
+            new Date(x.endPeriod)
+          ) == 0
+      );
 
       const workingDaysArray = JSON.parse(x.workingDaysJson);
       this.workingDaysFormArray = this.bookingForm.get(
@@ -93,12 +102,15 @@ export class CalendarComponent implements OnInit {
     return this.dateTimeService.generateTimeSlots(start, end, 30);
   }
 
-  public dateChange(isStartPeriod: boolean){
-    if(isStartPeriod){
-      this.bookingForm.get("startPeriod").setValue(this.timeSlots[this.startPeriodIndex]);
-    }
-    else{
-      this.bookingForm.get("endPeriod").setValue(this.timeSlots[this.endPeriodIndex]);
+  public dateChange(isStartPeriod: boolean) {
+    if (isStartPeriod) {
+      this.bookingForm
+        .get("startPeriod")
+        .setValue(this.timeSlots[this.startPeriodIndex]);
+    } else {
+      this.bookingForm
+        .get("endPeriod")
+        .setValue(this.timeSlots[this.endPeriodIndex]);
     }
   }
 

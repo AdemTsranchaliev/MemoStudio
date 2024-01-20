@@ -10,9 +10,9 @@ import { Router } from "@angular/router";
 declare const $: any;
 
 @Component({
-  selector: 'app-user-calendar',
-  templateUrl: './user-calendar.component.html',
-  styleUrls: ['./user-calendar.component.css']
+  selector: "app-user-calendar",
+  templateUrl: "./user-calendar.component.html",
+  styleUrls: ["./user-calendar.component.css"],
 })
 export class UserCalendarComponent implements OnInit {
   public isDayPast: boolean = false;
@@ -31,8 +31,8 @@ export class UserCalendarComponent implements OnInit {
     private facilityService: FacilityService,
     private fb: FormBuilder,
     public dateTimeService: DateTimeService,
-    public router: Router,
-  ) { }
+    public router: Router
+  ) {}
 
   ngOnInit(): void {
     this.facilityService.getFacilitySettings().subscribe((x) => {

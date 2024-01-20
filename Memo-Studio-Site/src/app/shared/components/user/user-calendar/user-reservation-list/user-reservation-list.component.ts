@@ -24,9 +24,9 @@ import { DayService } from "src/app/shared/services/day.service";
 declare const $: any;
 
 @Component({
-  selector: 'app-user-reservation-list',
-  templateUrl: './user-reservation-list.component.html',
-  styleUrls: ['./user-reservation-list.component.css']
+  selector: "app-user-reservation-list",
+  templateUrl: "./user-reservation-list.component.html",
+  styleUrls: ["./user-reservation-list.component.css"],
 })
 export class UserReservationListComponent implements OnInit, OnChanges {
   @Input() bookingsOrigin: Booking[] = [];
@@ -66,8 +66,8 @@ export class UserReservationListComponent implements OnInit, OnChanges {
     private bookingService: BookingService,
     private dayService: DayService,
     private authService: AuthenticatinService,
-    public dateTimeService: DateTimeService,
-  ) { }
+    public dateTimeService: DateTimeService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     //Load time slots
@@ -118,10 +118,10 @@ export class UserReservationListComponent implements OnInit, OnChanges {
   }
 
   public cancelEvent(condition: string) {
-    if (condition == 'cancel-set') {
+    if (condition == "cancel-set") {
       this.resetForm(this.bookingForm);
       this.showHideElement("bookingDialog", false);
-    } else if (condition == 'cancel-preview') {
+    } else if (condition == "cancel-preview") {
       this.showHideElement("previewDialog", false);
     }
   }
