@@ -9,7 +9,7 @@ import {
 } from "@angular/core";
 import { DatePipe } from "@angular/common";
 import SwiperCore, { Navigation, Pagination, Swiper } from "swiper";
-import { SelfBookingService } from "../../shared/services/selfBooking.service";
+import { SelfBookingService } from "../../../shared/services/selfBooking.service";
 import { Subscription } from "rxjs";
 SwiperCore.use([Navigation, Pagination]);
 

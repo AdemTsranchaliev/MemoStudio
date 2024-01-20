@@ -2,18 +2,18 @@ import { Component, OnInit, AfterViewInit, ViewChild } from "@angular/core";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { UserService } from "../shared/services/user.service";
-import { User } from "../shared/models/user.model";
+import { UserService } from "../../shared/services/user.service";
+import { User } from "../../shared/models/user.model";
 import { MatDialog } from "@angular/material/dialog";
-import { UserDetailsComponent } from "../shared/dialogs/user-details/user-details.component";
-import { AuthenticatinService } from "../shared/services/authenticatin.service";
+import { UserDetailsComponent } from "../../shared/dialogs/user-details/user-details.component";
+import { AuthenticatinService } from "../../shared/services/authenticatin.service";
 import {
   BreakpointObserver,
   BreakpointState,
   Breakpoints,
 } from "@angular/cdk/layout";
 import { Observable } from "rxjs";
-import { FacilityService } from "../shared/services/facility.service";
+import { FacilityService } from "../../shared/services/facility.service";
 
 @Component({
   selector: "app-users-list",

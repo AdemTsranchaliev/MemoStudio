@@ -8,8 +8,8 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { FacilitySettingsViewModel } from "src/app/shared/models/facility/facility-setting-model";
 import { DateTimeService } from "src/app/shared/services/date-time.service";
 import { FacilityService } from "src/app/shared/services/facility.service";
-import { AccountViewModel } from "../shared/models/account/account.model";
-import { ImgPreviewComponent } from "../shared/dialogs/img-preview/img-preview.component";
+import { AccountViewModel } from "../../shared/models/account/account.model";
+import { ImgPreviewComponent } from "../../shared/dialogs/img-preview/img-preview.component";
 import { Observable } from "rxjs";
 import {
   BreakpointObserver,

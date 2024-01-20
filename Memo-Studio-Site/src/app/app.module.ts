@@ -6,7 +6,6 @@ import { MatDialogModule } from "@angular/material/dialog";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { BookingComponent } from "./booking/booking.component";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
@@ -16,7 +15,7 @@ import { AutocompleteComponent } from "./shared/autocomplete/autocomplete.compon
 import { HashLocationStrategy, LocationStrategy } from "@angular/common";
 import { BookingService } from "./shared/services/booking.service";
 import { LoginComponent } from "./auth-user/authentication/login/login.component";
-import { UsersListComponent } from "./users-list/users-list.component";
+import { UsersListComponent } from "./facility-pages/users-list/users-list.component";
 import { MatListModule } from "@angular/material/list";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatSortModule } from "@angular/material/sort";
@@ -33,9 +32,9 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { AuthenticationComponent } from "./auth-user/authentication/authentication.component";
 import { MenuComponent } from "./shared/components/menu/menu.component";
 import { MatTableModule } from "@angular/material/table";
-import { SelfBookingComponent } from "./self-booking/self-booking.component";
+import { SelfBookingComponent } from "./user-pages/self-booking/self-booking.component";
 import { MatButtonModule } from "@angular/material/button";
-import { StudioDatetimePickerComponent } from "./self-booking/studio-datetime-picker/studio-datetime-picker.component";
+import { StudioDatetimePickerComponent } from "./user-pages/self-booking/studio-datetime-picker/studio-datetime-picker.component";
 import { DatePipe } from "@angular/common";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
@@ -52,8 +51,8 @@ import { GeneralComponent } from "./profile/general/general.component";
 import { SecurityComponent } from "./profile/security/security.component";
 import { CalendarComponent } from "./profile/calendar/calendar.component";
 import { UtilityService } from "./shared/services/utility.service";
-import { EmailConfirmationComponent } from "./email-confirmation/email-confirmation.component";
-import { HomeInfoComponent } from "./home-info/home-info.component";
+import { EmailConfirmationComponent } from "./auth-user/email-confirmation/email-confirmation.component";
+import { HomeInfoComponent } from "./static-pages/home-info/home-info.component";
 import { ChangeForgottenPasswordComponent } from "./auth-user/change-forgotten-password/change-forgotten-password.component";
 import { SelectionListComponent } from "./shared/components/selection-list/selection-list.component";
 import { SideTabSelectionListComponent } from "./shared/components/side-tab-selection-list/side-tab-selection-list.component";
@@ -72,11 +71,11 @@ import { SelfBookingStepAddComponent } from "./shared/components/self-booking-st
 import { ImgPreviewComponent } from "./shared/dialogs/img-preview/img-preview.component";
 import { AuthInterceptor } from "./shared/interceptors/auth.interceptor";
 import { AccountService } from "./shared/services/account.service";
-import { TermsConditionsComponent } from "./terms-conditions/terms-conditions.component";
+import { TermsConditionsComponent } from "./static-pages/terms-conditions/terms-conditions.component";
 import { FacilityService } from "./shared/services/facility.service";
-import { CalendarOverviewComponent } from "./calendar/calendar-overview/calendar-overview.component";
-import { ReservationCalendarComponent } from "./calendar/calendar.component";
-import { ReservationListComponent } from "./calendar/reservation-list/reservation-list.component";
+import { CalendarOverviewComponent } from "./facility-pages/calendar/calendar-overview/calendar-overview.component";
+import { ReservationCalendarComponent } from "./facility-pages/calendar/calendar.component";
+import { ReservationListComponent } from "./facility-pages/calendar/reservation-list/reservation-list.component";
 import { DateTimeService } from "./shared/services/date-time.service";
 import { TruncatePipe } from "./shared/pipes/truncate.pipe";
 import { CheckboxSelectComponent } from "./shared/components/checkbox-select/checkbox-select.component";
@@ -87,11 +86,11 @@ import { CatchedErrorsListComponent } from "./shared/components/admin/catched-er
 import { CatchedErrorsEditComponent } from "./shared/components/admin/catched-errors/catched-errors-edit/catched-errors-edit.component";
 import { AllUsersListComponent } from "./shared/components/admin/all-users/all-users-list/all-users-list.component";
 import { AllUsersEditComponent } from "./shared/components/admin/all-users/all-users-edit/all-users-edit.component";
-import { UserHomeComponent } from "./user-home/user-home.component";
+import { UserHomeComponent } from "./user-pages/user-home/user-home.component";
 import { UpcomingBookingComponent } from "./shared/components/user/upcoming-booking/upcoming-booking.component";
 import { CancelBookingComponent } from "./shared/dialogs/cancel-booking/cancel-booking.component";
 import { PreBookingComponent } from "./shared/components/user/pre-booking/pre-booking.component";
-import { FinishBussinesRegistrationComponent } from "./finish-bussines-registration/finish-bussines-registration.component";
+import { FinishBussinesRegistrationComponent } from "./auth-user/finish-bussines-registration/finish-bussines-registration.component";
 // Update Calendar Beahaviour Via Animation
 import { UserCalendarComponent } from './shared/components/user/user-calendar/user-calendar.component';
 import { UserCalendarOverviewComponent } from './shared/components/user/user-calendar/user-calendar-overview/user-calendar-overview.component';
@@ -110,7 +109,6 @@ registerLocaleData(localeBg, "bg");
 @NgModule({
   declarations: [
     AppComponent,
-    BookingComponent,
     AutocompleteComponent,
     LoginComponent,
     UsersListComponent,
