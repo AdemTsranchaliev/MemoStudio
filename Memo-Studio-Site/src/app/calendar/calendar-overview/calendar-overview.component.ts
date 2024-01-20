@@ -46,26 +46,26 @@ export class CalendarOverviewComponent implements OnInit {
     "Дек",
   ];
 
-  constructor(private bookingService: BookingService) {}
+  constructor(private bookingService: BookingService) { }
 
   ngOnInit(): void {
     this.initCalendar(this.date);
     this.getBookingsByMonthStatistics();
   }
 
-  public showBookings(id: number) {}
+  public showBookings(id: number) { }
 
   public dateClick(day: number) {
     this.date.setDate(day);
     this.checkIfDayIsPast();
-    this.dateChange.emit(<DateCalendar>{date: this.date, isPastDate: this.isDayPast});
+    this.dateChange.emit(<DateCalendar>{ date: this.date, isPastDate: this.isDayPast });
   }
 
   public monthClick(month: number) {
     this.date.setMonth(month);
     this.getBookingsByMonthStatistics();
     this.checkIfDayIsPast();
-    this.dateChange.emit(<DateCalendar>{date: this.date, isPastDate: this.isDayPast});
+    this.dateChange.emit(<DateCalendar>{ date: this.date, isPastDate: this.isDayPast });
   }
 
   public nextYear() {
@@ -73,7 +73,7 @@ export class CalendarOverviewComponent implements OnInit {
     this.date.setFullYear(newYear);
     this.getBookingsByMonthStatistics();
     this.checkIfDayIsPast();
-    this.dateChange.emit(<DateCalendar>{date: this.date, isPastDate: this.isDayPast});
+    this.dateChange.emit(<DateCalendar>{ date: this.date, isPastDate: this.isDayPast });
   }
 
   public prevYear() {
@@ -81,7 +81,7 @@ export class CalendarOverviewComponent implements OnInit {
     this.date.setFullYear(newYear);
     this.getBookingsByMonthStatistics();
     this.checkIfDayIsPast();
-    this.dateChange.emit(<DateCalendar>{date: this.date, isPastDate: this.isDayPast});
+    this.dateChange.emit(<DateCalendar>{ date: this.date, isPastDate: this.isDayPast });
   }
 
   public isPastDay(status: number): boolean {

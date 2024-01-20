@@ -1,14 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UtilityService } from '../../services/utility.service';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
 import { User } from '../../models/user.model';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, take } from 'rxjs/operators';
+import { FacilityService } from '../../services/facility.service';
 
 @Component({
   selector: 'app-reservation-list-book-hour',
@@ -21,11 +16,21 @@ export class ReservationListBookHourComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<ReservationListBookHourComponent>,
     public utilityService: UtilityService,
-    private formBuilder: FormBuilder,
+    private facilityService: FacilityService,
   ) { }
 
   ngOnInit(): void {
     this.InitDropdownFilters();
+
+    this.facilityService.getService().subscribe((x) => {
+      // ========= When API ready make new Field 'ServiceCategory' work =========
+      console.log('>>>>', x);
+    });
+
+    this.dialogRef.backdropClick().subscribe(() => {
+      this.data.bookingForm.reset();
+      this.dialogRef.close(false);
+    });
   }
 
   public onOptionSelected(event: any): void {
@@ -104,6 +109,14 @@ export class ReservationListBookHourComponent implements OnInit {
   }
 
   public onSubmit() {
+    const formattedTimestamp = this.data.bookingForm.get('timestamp').value;
+    const timeArray = formattedTimestamp.split(':');
+
+    const dateObj = new Date();
+    dateObj.setHours(Number(timeArray[0]));
+    dateObj.setMinutes(Number(timeArray[1]));
+    this.data.bookingForm.get('timestamp').setValue(dateObj);
+
     this.dialogRef.close(this.data);
   }
 }
