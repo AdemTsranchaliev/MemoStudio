@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { BookingService } from "../shared/services/booking.service";
-import { DateTimeService } from "../shared/services/date-time.service";
-import { DayService } from "../shared/services/day.service";
-import { Booking } from "../shared/models/booking.model";
-import { Day } from "../shared/models/day.model";
-import { FacilityService } from "../shared/services/facility.service";
+import { BookingService } from "../../shared/services/booking.service";
+import { DateTimeService } from "../../shared/services/date-time.service";
+import { DayService } from "../../shared/services/day.service";
+import { Booking } from "../../shared/models/booking.model";
+import { Day } from "../../shared/models/day.model";
+import { FacilityService } from "../../shared/services/facility.service";
 import { DateCalendar } from "./date.model";
 declare const $: any;
 

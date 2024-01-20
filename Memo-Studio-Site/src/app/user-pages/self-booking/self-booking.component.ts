@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
-import { SelfBookingService } from "../shared/services/selfBooking.service";
+import { SelfBookingService } from "../../shared/services/selfBooking.service";
 
 @Component({
   selector: "app-self-booking",
