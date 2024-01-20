@@ -1,12 +1,6 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { UtilityService } from "../../services/utility.service";
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
 import { User } from "../../models/user.model";
 import { map, startWith } from "rxjs/operators";
 
@@ -19,8 +13,7 @@ export class ReservationListBookHourComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<ReservationListBookHourComponent>,
-    public utilityService: UtilityService,
-    private formBuilder: FormBuilder
+    public utilityService: UtilityService
   ) {}
 
   ngOnInit(): void {
@@ -113,6 +106,8 @@ export class ReservationListBookHourComponent implements OnInit {
   }
 
   public onSubmit() {
-    this.dialogRef.close(this.data);
+    if(this.data.bookingForm.valid){
+      this.dialogRef.close(this.data);
+    }
   }
 }

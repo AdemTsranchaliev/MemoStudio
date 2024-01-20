@@ -21,11 +21,9 @@ import {
 } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { Observable, Subscription, of } from "rxjs";
-import { map, startWith } from "rxjs/operators";
 import { ReservationListBookHourComponent } from "src/app/shared/dialogs/reservation-list-book-hour/reservation-list-book-hour.component";
 import { Booking } from "src/app/shared/models/booking.model";
 import { Day } from "src/app/shared/models/day.model";
-import { User } from "src/app/shared/models/user.model";
 import { AuthenticatinService } from "src/app/shared/services/authenticatin.service";
 import { BookingService } from "src/app/shared/services/booking.service";
 import { DateTimeService } from "src/app/shared/services/date-time.service";
@@ -53,6 +51,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
   public selectedFilter: number = FilterTypes.All;
   public timeSlots: Date[] = [];
   options: any[] = [];
+
   durationArr: any[] = [
     { duration: "30", value: 30 },
     { duration: "1", value: 60 },
@@ -241,7 +240,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     this.showHideElement("bookingDialog", false);
   }
 
-  truncateText(text: string, limit: number): string {
+  public truncateText(text: string, limit: number): string {
     if (text.length > limit) {
       return text.substring(0, limit) + "...";
     }
@@ -404,6 +403,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
         durationArr: this.durationArr,
         options: this.options,
       },
+      disableClose: true,
     });
 
     const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
