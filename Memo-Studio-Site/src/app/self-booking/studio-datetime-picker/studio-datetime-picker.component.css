@@ -70,6 +70,7 @@
 }
 
 @media (max-width: 576px) {
+
   .swiper-button-prev,
   .swiper-button-next {
     display: none;

@@ -1,55 +1,54 @@
 .company-profile-image {
-    width: 80px;
-    border-radius: 100%;
+  width: 80px;
+  border-radius: 100%;
+}
+
+.company-logo-image {
+  width: 80px;
+}
+
+/* Apply the animation to the element */
+.line-decoration.animation-onload::after {
+  animation: text-decoration-animation 1s ease-in-out;
+  width: 100%;
+}
+
+/* Salon Name Underline Animation */
+.line-decoration {
+  position: relative;
+  /* Ensure relative positioning */
+  text-decoration: none;
+  /* Start with no underline */
+  color: black;
+  /* Set the text color */
+}
+
+.line-decoration::after {
+  content: '';
+  /* Create a pseudo-element for the underline */
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  /* Set the thickness of the underline */
+  width: 0;
+  /* Start with zero width */
+  background-color: #007bff;
+  /* Set the color of the underline */
+  transition: width 0.5s ease-in-out;
+  /* Add a smooth transition effect */
+}
+
+@keyframes text-decoration-animation {
+  0% {
+    width: 0;
   }
-  
-  .company-logo-image {
-    width: 80px;
-  }
-  
-  /* Apply the animation to the element */
-  .line-decoration.animation-onload::after {
-    animation: text-decoration-animation 1s ease-in-out;
+
+  99.9% {
     width: 100%;
   }
-  
-  /* Salon Name Underline Animation */
-  .line-decoration {
-    position: relative;
-    /* Ensure relative positioning */
-    text-decoration: none;
-    /* Start with no underline */
-    color: black;
-    /* Set the text color */
+
+  100% {
+    width: 100%;
   }
-  
-  .line-decoration::after {
-    content: '';
-    /* Create a pseudo-element for the underline */
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 2px;
-    /* Set the thickness of the underline */
-    width: 0;
-    /* Start with zero width */
-    background-color: #007bff;
-    /* Set the color of the underline */
-    transition: width 0.5s ease-in-out;
-    /* Add a smooth transition effect */
-  }
-  
-  @keyframes text-decoration-animation {
-    0% {
-      width: 0;
-    }
-  
-    99.9% {
-      width: 100%;
-    }
-  
-    100% {
-      width: 100%;
-    }
-  }
-  
+}

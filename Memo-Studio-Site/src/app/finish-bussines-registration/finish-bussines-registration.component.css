@@ -35,24 +35,28 @@
 /* Responsive adjustments using media queries */
 @media (max-width: 1200px) {
   .mx-230 {
-    margin: 0 150px; /* Adjust the margin for the breakpoint */
+    margin: 0 150px;
+    /* Adjust the margin for the breakpoint */
   }
 }
 
 @media (max-width: 992px) {
   .mx-230 {
-    margin: 0 100px; /* Adjust the margin for the breakpoint */
+    margin: 0 100px;
+    /* Adjust the margin for the breakpoint */
   }
 }
 
 @media (max-width: 768px) {
   .mx-230 {
-    margin: 0 50px; /* Adjust the margin for the breakpoint */
+    margin: 0 50px;
+    /* Adjust the margin for the breakpoint */
   }
 }
 
 @media (max-width: 576px) {
   .mx-230 {
-    margin: 0; /* Set margin to zero for mobile breakpoint */
+    margin: 0;
+    /* Set margin to zero for mobile breakpoint */
   }
 }

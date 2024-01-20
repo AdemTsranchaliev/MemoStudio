@@ -66,6 +66,7 @@ h2 {
 }
 
 @media (max-width: 1199.98px) {
+
   .content .contents,
   .content .bg {
     width: 100%;
@@ -252,21 +253,21 @@ h2 {
   border-radius: 50%;
 }
 
-.control:hover input ~ .control__indicator,
-.control input:focus ~ .control__indicator {
+.control:hover input~.control__indicator,
+.control input:focus~.control__indicator {
   background: #ccc;
 }
 
-.control input:checked ~ .control__indicator {
+.control input:checked~.control__indicator {
   background: #38d39f;
 }
 
-.control:hover input:not([disabled]):checked ~ .control__indicator,
-.control input:checked:focus ~ .control__indicator {
+.control:hover input:not([disabled]):checked~.control__indicator,
+.control input:checked:focus~.control__indicator {
   background: #4dd8a9;
 }
 
-.control input:disabled ~ .control__indicator {
+.control input:disabled~.control__indicator {
   background: #e6e6e6;
   opacity: 0.9;
   pointer-events: none;
@@ -283,7 +284,7 @@ h2 {
   transition: 0.3s all ease;
 }
 
-.control input:checked ~ .control__indicator:after {
+.control input:checked~.control__indicator:after {
   display: block;
   color: #fff;
 }
@@ -297,11 +298,11 @@ h2 {
   transform: translate(-50%, -50%);
 }
 
-.control--checkbox input:disabled ~ .control__indicator:after {
+.control--checkbox input:disabled~.control__indicator:after {
   border-color: #7b7b7b;
 }
 
-.control--checkbox input:disabled:checked ~ .control__indicator {
+.control--checkbox input:disabled:checked~.control__indicator {
   background-color: #7e0cf5;
   opacity: 0.2;
 }

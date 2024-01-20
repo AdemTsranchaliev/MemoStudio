@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-all-users-edit',
-  templateUrl: './all-users-edit.component.html',
-  styleUrls: ['./all-users-edit.component.css']
+  selector: "app-all-users-edit",
+  templateUrl: "./all-users-edit.component.html",
+  styleUrls: ["./all-users-edit.component.css"],
 })
 export class AllUsersEditComponent implements OnInit {
   public userDetailsEditForm: FormGroup = this.formBuilder.group({
@@ -15,14 +15,9 @@ export class AllUsersEditComponent implements OnInit {
     email: ["", [Validators.required, Validators.email]],
   });
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private router: Router
-  ) { }
+  constructor(private formBuilder: FormBuilder, private router: Router) {}
 
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onSubmit() {
     if (this.userDetailsEditForm.invalid) {
@@ -30,7 +25,7 @@ export class AllUsersEditComponent implements OnInit {
     }
 
     const model = Object.assign({}, this.userDetailsEditForm.value);
-    console.log('>>> Submited', model);
+    console.log(">>> Submited", model);
   }
 
   navigate(param: string) {

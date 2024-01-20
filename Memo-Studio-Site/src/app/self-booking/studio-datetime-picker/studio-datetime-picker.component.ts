@@ -1,7 +1,15 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, LOCALE_ID, Inject } from "@angular/core";
-import { DatePipe } from '@angular/common';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+  ViewChild,
+  LOCALE_ID,
+  Inject,
+} from "@angular/core";
+import { DatePipe } from "@angular/common";
 import SwiperCore, { Navigation, Pagination, Swiper } from "swiper";
-import { SelfBookingService } from "../shared/services/selfBooking.service";
+import { SelfBookingService } from "../../shared/services/selfBooking.service";
 import { Subscription } from "rxjs";
 SwiperCore.use([Navigation, Pagination]);
 
@@ -18,7 +26,9 @@ export class DateModel {
   templateUrl: "./studio-datetime-picker.component.html",
   styleUrls: ["./studio-datetime-picker.component.css"],
 })
-export class StudioDatetimePickerComponent implements OnInit, AfterViewInit, OnDestroy {
+export class StudioDatetimePickerComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   private subscriptions: Subscription[] = [];
   @ViewChild("swiper") swiper: any;
   days: DateModel[] = [];
@@ -31,13 +41,12 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit, OnD
     private datePipe: DatePipe,
     @Inject(LOCALE_ID) private locale: string,
     private selfBookingService: SelfBookingService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getDates();
 
     this.disablePastDates();
-
 
     // Find and set the current day STYLE!
     const currentDate = new Date();
@@ -70,7 +79,7 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit, OnD
         prevEl: ".swiper-button-prev",
       },
       pagination: {
-        el: '.swiper-pagination',
+        el: ".swiper-pagination",
         clickable: true,
         dynamicBullets: true,
       },
@@ -122,7 +131,10 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit, OnD
 
   isCurrentDay(date: Date): boolean {
     const currentDate = new Date();
-    return this.datePipe.transform(date, 'yyyy-MM-dd') === this.datePipe.transform(currentDate, 'yyyy-MM-dd');
+    return (
+      this.datePipe.transform(date, "yyyy-MM-dd") ===
+      this.datePipe.transform(currentDate, "yyyy-MM-dd")
+    );
   }
 
   // =========== Not in use now | make next dates/months/years disabled ===========
@@ -147,7 +159,6 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit, OnD
     return date < currentDate;
   }
 
-
   disablePastDates(): void {
     this.days.forEach((day) => {
       day.isDisabled = this.isPastDate(day.date);
@@ -164,18 +175,21 @@ export class StudioDatetimePickerComponent implements OnInit, AfterViewInit, OnD
       this.selectedDay = day; // Update the selected day
 
       // Add your logic for loading free hours here
-      console.log('>>> Load Data for', day.date);
+      console.log(">>> Load Data for", day.date);
     }
   }
 
   findCurrentDayIndex(): number {
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0); // Set time to midnight for accurate comparison
-    const currentDateFormatted = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
+    const currentDateFormatted = this.datePipe.transform(
+      currentDate,
+      "yyyy-MM-dd"
+    );
 
     for (let i = 0; i < this.days.length; i++) {
       const day = this.days[i];
-      const dayFormatted = this.datePipe.transform(day.date, 'yyyy-MM-dd');
+      const dayFormatted = this.datePipe.transform(day.date, "yyyy-MM-dd");
 
       if (dayFormatted === currentDateFormatted) {
         // console.log('>>>', i);

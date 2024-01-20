@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
-import { Subscription, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import {
   BreakpointObserver,
   Breakpoints,
@@ -17,14 +17,13 @@ import { NotificationSettings } from "src/app/shared/models/account/notification
   styleUrls: ["./notification.component.css"],
 })
 export class NotificationComponent implements OnInit {
-  public isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(
-    Breakpoints.XSmall
-  );
+  public isExtraSmall: Observable<BreakpointState> =
+    this.breakpointObserver.observe(Breakpoints.XSmall);
   public sliderValue = 50; // Initialize the selected value
   public settings: NotificationSettings = {
     allowEmailNotification: false,
     allowViberNotification: false,
-    email: '',
+    email: "",
     isViberSetUp: false,
   };
 
@@ -36,8 +35,8 @@ export class NotificationComponent implements OnInit {
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
     private accountService: AccountService,
-    private formBuilder: FormBuilder,
-  ) { }
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.accountService.getNotificationSettings().subscribe((x) => {
@@ -46,9 +45,11 @@ export class NotificationComponent implements OnInit {
   }
 
   public saveChanges() {
-    this.accountService.updateNotificationSettings(this.settings).subscribe(x => {
-      console.log(x)
-    });
+    this.accountService
+      .updateNotificationSettings(this.settings)
+      .subscribe((x) => {
+        console.log(x);
+      });
   }
 
   public openDialog() {
@@ -75,7 +76,6 @@ export class NotificationComponent implements OnInit {
   }
 
   public openViberLink() {
-    console.log('>>>> YES');
-
+    console.log(">>>> YES");
   }
 }

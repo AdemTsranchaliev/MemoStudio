@@ -22,13 +22,13 @@ import { CalendarEditDataSharingService } from "src/app/shared/dialogs/calendar-
 import { ReservationListBookHourComponent } from "src/app/shared/dialogs/reservation-list-book-hour/reservation-list-book-hour.component";
 import { Booking } from "src/app/shared/models/booking.model";
 import { Day } from "src/app/shared/models/day.model";
-import { User } from "src/app/shared/models/user.model";
 import { AuthenticatinService } from "src/app/shared/services/authenticatin.service";
 import { BookingService } from "src/app/shared/services/booking.service";
 import { DateTimeService } from "src/app/shared/services/date-time.service";
 import { DayService } from "src/app/shared/services/day.service";
 import { UserService } from "src/app/shared/services/user.service";
 import { UtilityService } from "src/app/shared/services/utility.service";
+import { DateCalendar } from "../date.model";
 declare const $: any;
 
 @Component({
@@ -42,13 +42,14 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() autocompleteNames: [] = [];
   @Input() date: Date = new Date();
   @Input() isDayPast: boolean;
-  @Output() dateChange: EventEmitter<Date> = new EventEmitter();
+  @Output() dateChange: EventEmitter<DateCalendar> = new EventEmitter();
 
   private subscriptions: Subscription[] = [];
 
   public selectedFilter: number = FilterTypes.All;
   public timeSlots: Date[] = [];
   options: any[] = [];
+
   durationArr: any[] = [
     { duration: "30", value: 30 },
     { duration: "1", value: 60 },
@@ -150,6 +151,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
         timestamp: formattedTimestamp,
         facilityId: this.authService.getFacilityId(),
         duration: 30,
+        hour: preDefinedHour,
       });
     }
 
@@ -161,7 +163,10 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     this.loader = true;
 
     this.bookingService.deleteBooking(this.deleteBookingId).subscribe((x) => {
-      this.dateChange.emit(this.date);
+      this.dateChange.emit(<DateCalendar>{
+        date: this.date,
+        isPastDate: false,
+      });
 
       this.loader = false;
     });
@@ -206,7 +211,10 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       this.bookingService.addBooking(currentForm.value).subscribe((x) => {
         this.resetForm(this.bookingForm);
-        this.dateChange.emit(this.date);
+        this.dateChange.emit(<DateCalendar>{
+          date: this.date,
+          isPastDate: false,
+        });
       });
     }
   }
@@ -331,7 +339,6 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     return false;
   }
 
-
   openAddNewHourDialog() {
     const dialogRef = this.dialog.open(ReservationListBookHourComponent, {
       width: "100vw",
@@ -345,6 +352,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
         durationArr: this.durationArr,
         options: this.options,
       },
+      disableClose: true,
     });
 
     const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {

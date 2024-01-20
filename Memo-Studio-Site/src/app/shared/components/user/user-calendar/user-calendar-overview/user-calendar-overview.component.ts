@@ -1,16 +1,23 @@
-import { Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from "@angular/core";
 import { MonthStatistics } from "src/app/shared/models/booking/month-statistics.model";
 import { DayStausEnum } from "src/app/shared/models/dayStatus.model";
 import { BookingService } from "src/app/shared/services/booking.service";
-import { MatStepper } from '@angular/material/stepper';
+import { MatStepper } from "@angular/material/stepper";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { DateTimeService } from "src/app/shared/services/date-time.service";
 declare const $: any;
 
 @Component({
-  selector: 'app-user-calendar-overview',
-  templateUrl: './user-calendar-overview.component.html',
-  styleUrls: ['./user-calendar-overview.component.css']
+  selector: "app-user-calendar-overview",
+  templateUrl: "./user-calendar-overview.component.html",
+  styleUrls: ["./user-calendar-overview.component.css"],
 })
 export class UserCalendarOverviewComponent implements OnInit, OnChanges {
   @Output() dateChange: EventEmitter<Date> = new EventEmitter();
@@ -49,18 +56,17 @@ export class UserCalendarOverviewComponent implements OnInit, OnChanges {
   constructor(
     private bookingService: BookingService,
     public dateTimeService: DateTimeService,
-    private stepper: MatStepper,
-  ) { }
+    private stepper: MatStepper
+  ) {}
 
   ngOnInit(): void {
     this.initCalendar(this.date);
     this.getBookingsByMonthStatistics();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 
-  public showBookings(id: number) { }
+  public showBookings(id: number) {}
 
   public dateClick(day: number) {
     this.date.setDate(day);
@@ -111,7 +117,6 @@ export class UserCalendarOverviewComponent implements OnInit, OnChanges {
   public cancelEvent(id: number) {
     this.showHideElement("bookingDialog", false);
   }
-
 
   public addDaySpecifications() {
     // if (this.selectedStartHour > this.selectedEndHour) {

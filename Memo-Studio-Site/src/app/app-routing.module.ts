@@ -1,7 +1,5 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { BookingComponent } from "./booking/booking.component";
-import { LoginComponent } from "./auth-user/authentication/login/login.component";
 import { AuthGuard } from "./shared/guards/auth-guard";
 import { UserDetailsComponent } from "./shared/dialogs/user-details/user-details.component";
 import { UsersListComponent } from "./users-list/users-list.component";
@@ -9,13 +7,11 @@ import { AuthenticationComponent } from "./auth-user/authentication/authenticati
 import { ForgottenPasswordComponent } from "./auth-user/forgotten-password/forgotten-password.component";
 import { SelfBookingComponent } from "./self-booking/self-booking.component";
 import { ProfileComponent } from "./profile/profile.component";
-import { BookingConfirmationListComponent } from "./booking-confirmation-list/booking-confirmation-list.component";
 import { EmailConfirmationComponent } from "./email-confirmation/email-confirmation.component";
 import { HomeInfoComponent } from "./home-info/home-info.component";
 import { ChangeForgottenPasswordComponent } from "./auth-user/change-forgotten-password/change-forgotten-password.component";
 import { ViberConfirmationComponent } from "./shared/dialogs/viber-confirmation/viber-confirmation.component";
 import { TermsConditionsComponent } from "./terms-conditions/terms-conditions.component";
-import { CalendarOverviewComponent } from "./calendar/calendar-overview/calendar-overview.component";
 import { ReservationCalendarComponent } from "./calendar/calendar.component";
 import { AdminDashboardComponent } from "./admin-dashboard/admin-dashboard.component";
 import { NewlyRegisteredEditComponent } from "./shared/components/admin/newly-registered/newly-registered-edit/newly-registered-edit.component";
@@ -34,7 +30,7 @@ import { UserCalendarComponent } from "./shared/components/user/user-calendar/us
 const routes: Routes = [
   {
     path: "home-information",
-    component: HomeInfoComponent
+    component: HomeInfoComponent,
   },
   {
     path: "admin-dashboard",
@@ -65,11 +61,6 @@ const routes: Routes = [
   {
     path: "self-booking",
     component: SelfBookingComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: "booking-confirmation-list",
-    component: BookingConfirmationListComponent,
     canActivate: [AuthGuard],
   },
   {

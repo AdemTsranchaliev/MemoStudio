@@ -11,8 +11,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private globalLoaderService: LoaderService,
-    private cdRef: ChangeDetectorRef,
-  ) { }
+    private cdRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     // Subscribe to the loader state

@@ -1,10 +1,10 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from "@angular/core";
-import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { UserService } from "../shared/services/user.service";
 import { User } from "../shared/models/user.model";
-import { MatDialog, MatDialogModule } from "@angular/material/dialog";
+import { MatDialog } from "@angular/material/dialog";
 import { UserDetailsComponent } from "../shared/dialogs/user-details/user-details.component";
 import { AuthenticatinService } from "../shared/services/authenticatin.service";
 import {
@@ -25,24 +25,30 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   private currentSize: string;
+  private users: User[] = [];
+
   public isExtraSmall: Observable<BreakpointState> =
     this.breakpointObserver.observe(Breakpoints.XSmall);
 
-  columndefs: any[] = ["name", "phone", "email", "registeredUser","operation"];
-  dataSource: MatTableDataSource<User>;
-  users: User[] = [];
-  subscribedUsers: any[] = [];
+  public columndefs: any[] = [
+    "name",
+    "phone",
+    "email",
+    "registeredUser",
+    "operation",
+  ];
+  public dataSource: MatTableDataSource<User>;
+  public subscribedUsers: any[] = [];
 
   constructor(
     private userService: UserService,
-    private authService: AuthenticatinService,
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
     private facilityService: FacilityService
   ) {}
 
   ngOnInit(): void {
-    this.facilityService.getFacilityUsers().subscribe(x=>{
+    this.facilityService.getFacilityUsers().subscribe((x) => {
       this.subscribedUsers = x;
     });
     this.userService.getAllUsers().subscribe((x) => {
@@ -60,7 +66,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
     // this.dataSource.sort = this.sort;
   }
 
-  openDialog(userId: string) {
+  public openDialog(userId: string) {
     const dialogRef = this.dialog.open(UserDetailsComponent, {
       width: "100vw",
       data: userId,
@@ -79,7 +85,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
-  applyFilter(event: Event) {
+  public applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 

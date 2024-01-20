@@ -1,29 +1,33 @@
 /* Define a custom class for the Gmail-style icon */
 .gmail-icon {
-  font-size: 24px; /* Adjust the size as needed */
-  padding: 5px; /* Add some padding to create a rectangular icon shape */
-  border-radius: 4px; /* Round the corners of the icon */
-  color: #fff; /* Set the text color to white */
+  font-size: 24px;
+  /* Adjust the size as needed */
+  padding: 5px;
+  /* Add some padding to create a rectangular icon shape */
+  border-radius: 4px;
+  /* Round the corners of the icon */
+  color: #fff;
+  /* Set the text color to white */
   display: inline-block;
-  background: linear-gradient(
-    45deg,
-    #4285f4,
-    #4285f4 25%,
-    #0f9d58 25%,
-    #0f9d58 50%,
-    #f4b400 50%,
-    #f4b400 75%,
-    #db4437 75%,
-    #db4437
-  );
+  background: linear-gradient(45deg,
+      #4285f4,
+      #4285f4 25%,
+      #0f9d58 25%,
+      #0f9d58 50%,
+      #f4b400 50%,
+      #f4b400 75%,
+      #db4437 75%,
+      #db4437);
   background-size: 200% 100%;
-  animation: gradientShift 10s linear infinite; /* Create an animation with a 3-second duration that repeats infinitely */
+  animation: gradientShift 10s linear infinite;
+  /* Create an animation with a 3-second duration that repeats infinitely */
 }
 
 @keyframes gradientShift {
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }
@@ -31,30 +35,34 @@
 
 /* Define a custom class for the Viber-style icon */
 .viber-icon {
-  font-size: 24px; /* Adjust the size as needed */
-  padding: 5px; /* Add some padding to create a rectangular icon shape */
-  border-radius: 4px; /* Round the corners of the icon */
-  color: #fff; /* Set the text color to white */
+  font-size: 24px;
+  /* Adjust the size as needed */
+  padding: 5px;
+  /* Add some padding to create a rectangular icon shape */
+  border-radius: 4px;
+  /* Round the corners of the icon */
+  color: #fff;
+  /* Set the text color to white */
   display: inline-block;
-  background: linear-gradient(
-    45deg,
-    #6d44b8,
-    #6d44b8 25%,
-    #306998 25%,
-    #306998 50%,
-    #6d44b8 50%,
-    #6d44b8 75%,
-    #ff44b8 75%,
-    #ff44b8
-  );
+  background: linear-gradient(45deg,
+      #6d44b8,
+      #6d44b8 25%,
+      #306998 25%,
+      #306998 50%,
+      #6d44b8 50%,
+      #6d44b8 75%,
+      #ff44b8 75%,
+      #ff44b8);
   background-size: 200% 100%;
-  animation: gradientShift 4s linear infinite; /* Create an animation with a 4-second duration that repeats infinitely */
+  animation: gradientShift 4s linear infinite;
+  /* Create an animation with a 4-second duration that repeats infinitely */
 }
 
 @keyframes gradientShift {
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }

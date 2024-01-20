@@ -276,8 +276,10 @@
 
 /* Reservations wrapper */
 .user-reservation-container {
-  height: 500px; /* Set a fixed height, adjust as needed */
-  overflow-y: scroll; /* Enable vertical scrolling */
+  height: 500px;
+  /* Set a fixed height, adjust as needed */
+  overflow-y: scroll;
+  /* Enable vertical scrolling */
 }
 
 /* Stepper */
