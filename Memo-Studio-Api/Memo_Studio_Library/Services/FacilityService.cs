@@ -180,7 +180,7 @@ namespace Memo_Studio_Library.Services
             }
         }
 
-        public async Task UpsertServiceCategory(ServiceCategoryViewModel model, Guid facilityId)
+        public async Task<ServiceCategory?> UpsertServiceCategory(ServiceCategoryViewModel model, Guid facilityId)
         {
             try
             {
@@ -190,20 +190,20 @@ namespace Memo_Studio_Library.Services
 
                 if (facility == null)
                 {
-                    return;
+                    return null;
                 }
 
                 var serviceCategory = facility.ServiceCategories.FirstOrDefault(x => x.Id == model.Id);
 
                 if (serviceCategory == null)
                 {
-                    var newModel = new ServiceCategory
+                    serviceCategory = new ServiceCategory
                     {
                         Name = model.Name,
                         FacilityId = facility.Id
                     };
 
-                    await context.ServiceCategories.AddAsync(newModel);
+                    await context.ServiceCategories.AddAsync(serviceCategory);
                 }
                 else
                 {
@@ -212,6 +212,8 @@ namespace Memo_Studio_Library.Services
                 }
 
                 await context.SaveChangesAsync();
+
+                return serviceCategory;
             }
             catch (Exception ex)
             {
@@ -219,7 +221,7 @@ namespace Memo_Studio_Library.Services
             }
         }
 
-        public async Task AddService(ServiceViewModel model, Guid facilityId)
+        public async Task<Service?> AddService(ServiceViewModel model, Guid facilityId)
         {
             try
             {
@@ -230,7 +232,7 @@ namespace Memo_Studio_Library.Services
 
                 if (facility == null)
                 {
-                    return;
+                    return null;
                 }
 
                 var newService = new Service
@@ -240,11 +242,13 @@ namespace Memo_Studio_Library.Services
                     Duration = model.Duration,
                     FacilityId = facility.Id,
                     Price = model.Price,
-                    ServiceCategoryId = 1 //model.ServiceCategoryId
+                    ServiceCategoryId = model.ServiceCategoryId
                 };
 
                 await context.Services.AddAsync(newService);
                 await context.SaveChangesAsync();
+
+                return newService;
             }
             catch (Exception ex)
             {

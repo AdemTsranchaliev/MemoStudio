@@ -2,12 +2,12 @@
 <mat-dialog-content class="mat-typography">
   <form [formGroup]="createServiceForm">
     <label class="custom-field-select w-100">
-      <select class="w-100" placeholder=" " formControlName="category" (change)="onCategoryChange()">
-        <option value="" disabled selected hidden>Изберете категория</option>
-        <option *ngFor="let category of categoriesSelect" [value]="category">
-          {{ category }}
+      <select class="w-100" placeholder=" " formControlName="serviceCategoryId" (change)="onCategoryChange()">
+        <option value="0" disabled selected hidden>Изберете категория</option>
+        <option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
         </option>
-        <option value="addCategory">+ Добавяне на нова категория</option>
+        <option value=-1>+ Добавяне на нова категория</option>
       </select>
       <span class="placeholder-select cursor-text"> Изберете категория </span>
     </label>
