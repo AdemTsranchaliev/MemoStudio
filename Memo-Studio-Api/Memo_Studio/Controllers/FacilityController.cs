@@ -78,9 +78,15 @@ namespace Memo_Studio.Controllers
         {
             var facilityId = this.GetFacilityId();
 
-            await facilityService.UpsertServiceCategory(model, facilityId);
+            var newCategory = await facilityService.UpsertServiceCategory(model, facilityId);
 
-            return Ok();
+            var result = new ServiceCategoryViewModel
+            {
+                Id = newCategory.Id,
+                Name = newCategory.Name
+            };
+
+            return Ok(result);
         }
 
         [Authorize]
@@ -100,9 +106,19 @@ namespace Memo_Studio.Controllers
         {
             var facilityId = this.GetFacilityId();
 
-            await facilityService.AddService(model, facilityId);
+            var newService = await facilityService.AddService(model, facilityId);
 
-            return Ok();
+            var result = new ServiceViewModel
+            {
+                ServiceCategoryId = newService.ServiceCategoryId,
+                Description = newService.Description,
+                Duration = newService.Duration,
+                Id = newService.Id,
+                Name = newService.Name,
+                Price = newService.Price
+            };
+
+            return Ok(result);
         }
     }
 }

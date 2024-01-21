@@ -14,6 +14,8 @@ import {
 } from "@angular/cdk/layout";
 import { HttpClient } from "@angular/common/http";
 import { BASE_URL_DEV } from "../../routes";
+import { FacilityService } from "../../services/facility.service";
+import { UpsertServiceCategory } from "../../models/facility/upsert-service-category.model";
 
 @Component({
   selector: "app-create-service",
@@ -30,14 +32,12 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
   public createServiceForm: FormGroup = this.formBuilder.group({
     name: ["", [Validators.required]],
     price: [""],
-    category: ["", [Validators.required]],
+    serviceCategoryId: [0, [Validators.required]],
     duration: ["", [Validators.required]],
-    description: ["test desc"],
+    description: [""],
   });
 
-  categoriesSelect: string[] = [];
-
-  categories = [];
+  public categories: any[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -45,26 +45,58 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
     private http: HttpClient,
+    private facilityService: FacilityService,
     private breakpointObserver: BreakpointObserver
   ) {}
 
   ngOnInit(): void {
     this.categories = this.data.categories;
-    this.categoriesSelect = this.data.categoriesSelect;
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach((el) => el.unsubscribe());
   }
 
-  onCategoryChange() {
-    const selectedCategory = this.createServiceForm.get("category").value;
-    if (selectedCategory === "addCategory") {
+  public onCategoryChange() {
+    const selectedCategory =
+      this.createServiceForm.get("serviceCategoryId").value;
+    if (selectedCategory == -1) {
       this.addNewCategory();
     }
   }
 
-  addNewCategory() {
+  public onAddService() {
+    if (this.createServiceForm.invalid) {
+      return;
+    }
+
+    this.http
+      .post(`${BASE_URL_DEV}/facility/service`, this.createServiceForm.value)
+      .subscribe(
+        (success: any) => {
+          var indexToInclude = this.categories.findIndex(
+            (x) => x.id == success.serviceCategoryId
+          );
+          
+          if (indexToInclude>=0) {
+            if(!this.categories[indexToInclude].services?.length){
+              this.categories[indexToInclude].services = [];
+            }
+
+            this.categories[indexToInclude].services.push(success);
+          }
+        },
+        (err) => {}
+      );
+
+    this.dialogRef.close({
+      categories: this.categories,
+    });
+
+    this.createServiceForm.reset();
+  }
+
+  private addNewCategory() {
     const dialogRef = this.dialog.open(ServicesTabCreateCategoryComponent, {
       width: "100vw",
       data: {},
@@ -81,62 +113,21 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
     });
     this.subscriptions.push(smallDialogSubscription);
 
-    dialogRef.afterClosed().subscribe((result) => {
+    const closeSubscription = dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.categoriesSelect.push(result);
-        this.createServiceForm.get("category").setValue(result);
+        var modelToSend = <UpsertServiceCategory>{ name: result };
+
+        this.facilityService
+          .upsertServiceCategory(modelToSend)
+          .subscribe((x) => {
+            this.categories.push(x);
+            this.createServiceForm.get("serviceCategoryId").setValue(x.id);
+          });
       } else {
-        // Set the default option when no category is added
-        this.createServiceForm.get("category").setValue("");
+        this.createServiceForm.get("serviceCategoryId").setValue("");
       }
     });
-  }
 
-  onAddService() {
-
-    this.http.post(`${BASE_URL_DEV}/facility/service`, this.createServiceForm.value).subscribe((response) => {});
-
-    if (this.createServiceForm.invalid) {
-      return;
-    }
-
-    const { category, price, serviceName } = this.createServiceForm.value;
-
-    // Find the index of the selected category in the categories array
-    const categoryIndex = this.categories.findIndex(
-      (cat) => cat.category === category
-    );
-
-    if (categoryIndex !== -1) {
-      // Category exists, push the new service to it
-      this.categories[categoryIndex].services.push({
-        id: Math.random(),
-        name: serviceName,
-        price,
-      });
-    } else {
-      // Category doesn't exist, create a new category and push the new service to it
-      const newCategory = {
-        id: Math.random(),
-        category: category,
-        services: [
-          {
-            id: Math.random(),
-            name: serviceName,
-            price,
-          },
-        ],
-      };
-      this.http.post(`${BASE_URL_DEV}/facility/service`, this.createServiceForm.value).subscribe((response) => {},(err)=>{console.log(err)});
-      this.categories.push(newCategory);
-    }
-
-    this.dialogRef.close({
-      categories: this.categories,
-      categoriesSelect: this.categoriesSelect,
-    });
-
-    // Clear the form after adding the service
-    this.createServiceForm.reset();
+    this.subscriptions.push(closeSubscription);
   }
 }

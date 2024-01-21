@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BASE_URL_DEV } from "../routes";
 import { FacilitySettingsViewModel } from "../models/facility/facility-setting-model";
+import { UpsertServiceCategory } from "../models/facility/upsert-service-category.model";
 const httpOptions = {
   headers: {
     "Content-Type": "application/json",
@@ -29,11 +30,21 @@ export class FacilityService {
     );
   }
 
+  public getFacilityServices() {
+    return this.http.get<any>(
+      `${BASE_URL_DEV}/Facility/service`
+    );
+  }
+
   public updateFacilitySettings(params) {
     return this.http.post(`${BASE_URL_DEV}/Facility/facility-settings`, params);
   }
 
   public getService() {
     return this.http.get(`${BASE_URL_DEV}/Facility/service`);
+  }
+
+  public upsertServiceCategory(params: UpsertServiceCategory) {
+    return this.http.post<UpsertServiceCategory>(`${BASE_URL_DEV}/Facility/service-category`, params);
   }
 }
