@@ -15,7 +15,7 @@ const httpOptions = {
   providedIn: "root",
 })
 export class FacilityService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   public getFacilitySettings() {
     return this.http.get<FacilitySettingsViewModel>(
@@ -31,9 +31,5 @@ export class FacilityService {
 
   public updateFacilitySettings(params) {
     return this.http.post(`${BASE_URL_DEV}/Facility/facility-settings`, params);
-  }
-
-  public getService() {
-    return this.http.get(`${BASE_URL_DEV}/Facility/service`);
   }
 }

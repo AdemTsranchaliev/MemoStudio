@@ -1,14 +1,10 @@
-<div mat-dialog-content>
-    <div>
-        <h3 class="text-center text-dark">Добави час</h3>
-        <h5 class="text-center">
-            <b>{{ data.date.getDate() }}
-                {{ data.date.toLocaleString('bg-BG', { month: 'long' }) }}
-                {{ data.date.getFullYear() }} г.
-            </b>
-        </h5>
-    </div>
+<h1 mat-dialog-title class="text-center mb-3 mt-2" style="color: black">
+    Добави час - <b>{{ data.date.getDate() }}
+        {{ data.date.toLocaleString('bg-BG', { month: 'long' }) }}
+        {{ data.date.getFullYear() }}г.</b>
+</h1>
 
+<div mat-dialog-content>
     <div class="bg-white">
         <!-- Add New Hour -->
         <form class="form mb-0 mt-0 p-2" [formGroup]="data.bookingForm">
@@ -118,34 +114,7 @@
                     </mat-error>
                 </div>
 
-                <div class="w-100 mb-1">
-                    <label class="custom-field-select w-100" [ngClass]="{
-              'invalid-field':
-                utilityService.HasError(
-                  data.bookingForm,
-                  'serviceCategory',
-                  'required'
-                ) && utilityService.IsTouched(data.bookingForm, 'serviceCategory')
-            }">
-                        <select formControlName="serviceCategory" placeholder=" " class="w-100">
-                            <option *ngFor="let time of data.durationArr; let i = index" value="{{ time.value }}">
-                                {{ time.duration }} часа - продължителност
-                            </option>
-                        </select>
-                        <span class="placeholder-select cursor-text">Категория</span>
-                    </label>
-
-                    <mat-error class="fs-11 m-bot-min-10" *ngIf="
-              utilityService.HasError(
-                data.bookingForm,
-                'serviceCategory',
-                'required'
-              ) && utilityService.IsTouched(data.bookingForm, 'serviceCategory')
-            ">
-                        Това поле е задължително.
-                    </mat-error>
-                </div>
-
+                <!-- Note -->
                 <div class="w-100 mb-1">
                     <div class="w-100 mb-0 mt-0 pb-0 pt-0">
                         <label class="custom-field w-100">
@@ -159,11 +128,13 @@
         </form>
     </div>
 </div>
-<div class="row justify-content-end mx-2" mat-dialog-actions>
-    <button mat-stroked-button color="danger" class="rounded-pill" mat-dialog-close (click)="cancelEvent()">
+
+<div class="row justify-content-center mx-2" mat-dialog-actions>
+    <button mat-stroked-button color="danger" class="rounded-pill px-5" mat-dialog-close (click)="cancelEvent()">
         Отказ
     </button>
-    <button mat-stroked-button color="primary" class="rounded-pill" (click)="onSubmit()">
+    <button mat-stroked-button color="primary" class="rounded-pill px-5" cdkFocusInitial (click)="onSubmit()"
+        [disabled]="!data.bookingForm.valid">
         Добави
     </button>
 </div>

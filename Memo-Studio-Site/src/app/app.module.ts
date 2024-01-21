@@ -92,17 +92,16 @@ import { CancelBookingComponent } from "./shared/dialogs/cancel-booking/cancel-b
 import { PreBookingComponent } from "./shared/components/user/pre-booking/pre-booking.component";
 import { FinishBussinesRegistrationComponent } from "./auth-user/finish-bussines-registration/finish-bussines-registration.component";
 // Update Calendar Beahaviour Via Animation
-import { UserCalendarComponent } from './shared/components/user/user-calendar/user-calendar.component';
-import { UserCalendarOverviewComponent } from './shared/components/user/user-calendar/user-calendar-overview/user-calendar-overview.component';
-import { UserReservationListComponent } from './shared/components/user/user-calendar/user-reservation-list/user-reservation-list.component';
-import { BookServiceComponent } from './shared/components/user/book-service/book-service.component';
-import { ServicesTabComponent } from './profile/services-tab/services-tab.component';
-import { ServicesTabCreateCategoryComponent } from './shared/dialogs/services-tab-create-category/services-tab-create-category.component';
-import { ServicesTabEditServiceComponent } from './shared/dialogs/services-tab-edit-service/services-tab-edit-service.component';
-import { CreateServiceComponent } from './shared/dialogs/create-service/create-service.component';
-import { BookCategoryComponent } from './shared/components/user/book-category/book-category.component';
-import { ReservationListBookHourComponent } from './shared/dialogs/reservation-list-book-hour/reservation-list-book-hour.component';
-import { CalendarEditDayComponent } from './shared/dialogs/calendar-edit-day/calendar-edit-day.component';
+import { UserCalendarComponent } from "./shared/components/user/user-calendar/user-calendar.component";
+import { UserCalendarOverviewComponent } from "./shared/components/user/user-calendar/user-calendar-overview/user-calendar-overview.component";
+import { UserReservationListComponent } from "./shared/components/user/user-calendar/user-reservation-list/user-reservation-list.component";
+import { BookServiceComponent } from "./shared/components/user/book-service/book-service.component";
+import { ServicesTabComponent } from "./profile/services-tab/services-tab.component";
+import { ServicesTabCreateCategoryComponent } from "./shared/dialogs/services-tab-create-category/services-tab-create-category.component";
+import { ServicesTabEditServiceComponent } from "./shared/dialogs/services-tab-edit-service/services-tab-edit-service.component";
+import { CreateServiceComponent } from "./shared/dialogs/create-service/create-service.component";
+import { BookCategoryComponent } from "./shared/components/user/book-category/book-category.component";
+import { ReservationListBookHourComponent } from "./shared/dialogs/reservation-list-book-hour/reservation-list-book-hour.component";
 import { MatTooltipModule } from "@angular/material/tooltip";
 registerLocaleData(localeBg, "bg");
 
@@ -165,7 +164,6 @@ registerLocaleData(localeBg, "bg");
     CreateServiceComponent,
     BookCategoryComponent,
     ReservationListBookHourComponent,
-    CalendarEditDayComponent,
   ],
   imports: [
     BrowserModule,

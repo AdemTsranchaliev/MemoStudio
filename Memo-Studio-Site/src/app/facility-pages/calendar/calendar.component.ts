@@ -1,15 +1,11 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { BookingService } from "../shared/services/booking.service";
-import { DateTimeService } from "../shared/services/date-time.service";
-import { DayService } from "../shared/services/day.service";
-import { Booking } from "../shared/models/booking.model";
-import { Day } from "../shared/models/day.model";
-import { FacilityService } from "../shared/services/facility.service";
+import { Component, OnInit } from "@angular/core";
+import { BookingService } from "../../shared/services/booking.service";
+import { DateTimeService } from "../../shared/services/date-time.service";
+import { DayService } from "../../shared/services/day.service";
+import { Booking } from "../../shared/models/booking.model";
+import { Day } from "../../shared/models/day.model";
+import { FacilityService } from "../../shared/services/facility.service";
 import { DateCalendar } from "./date.model";
-import { MatDialog } from "@angular/material/dialog";
-import { BreakpointObserver, BreakpointState, Breakpoints } from "@angular/cdk/layout";
-import { Observable, Subscription } from "rxjs";
-import { CalendarEditDayComponent } from "../shared/dialogs/calendar-edit-day/calendar-edit-day.component";
 declare const $: any;
 
 @Component({
@@ -17,9 +13,7 @@ declare const $: any;
   templateUrl: "./calendar.component.html",
   styleUrls: ["./calendar.component.css"],
 })
-export class ReservationCalendarComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
-
+export class ReservationCalendarComponent implements OnInit {
   public isPastDate: boolean = false;
   public isServerDown: boolean = false;
   public loader: boolean = false;
@@ -31,31 +25,24 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
 
   bookings: Booking[] = [];
 
-  private currentSize: string;
-  public isExtraSmall: Observable<BreakpointState> =
-    this.breakpointObserver.observe(Breakpoints.XSmall);
-
   constructor(
     private bookingService: BookingService,
     private dayService: DayService,
     private facilityService: FacilityService,
-    public dateTimeService: DateTimeService,
-    public dialog: MatDialog,
-    private breakpointObserver: BreakpointObserver,
-  ) { }
+    public dateTimeService: DateTimeService
+  ) {}
 
   ngOnInit(): void {
     this.facilityService.getFacilitySettings().subscribe((x) => {
       this.facilityConfiguration = x;
-      this.dateChange(<DateCalendar>{ date: this.date, isPastDate: this.isPastDate });
+      this.dateChange(<DateCalendar>{
+        date: this.date,
+        isPastDate: this.isPastDate,
+      });
     });
-    this.facilityService.getFacilityUsers().subscribe(x => {
+    this.facilityService.getFacilityUsers().subscribe((x) => {
       this.autocompleteNames = x;
     });
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach((el) => el.unsubscribe());
   }
 
   public dateChange($event) {
@@ -68,22 +55,6 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
   }
 
   editDay() {
-    const dialogRef = this.dialog.open(CalendarEditDayComponent, {
-      width: "100vw",
-      data: {
-        date: this.date,
-      },
-    });
-
-    const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
-      this.currentSize = size.matches ? "small" : "large";
-
-      if (size.matches) {
-        dialogRef.updateSize("90%");
-      } else {
-        dialogRef.updateSize("50%");
-      }
-    });
-    this.subscriptions.push(smallDialogSubscription);
+    $("#customDayConfigurationDialog").show(250);
   }
 }
