@@ -76,12 +76,22 @@
 }
 
 /* Error Rules */
-.custom-field-select select.ng-invalid {
-  border-color: red; /* Change the border color to red for invalid fields */
+/* Change the border color to red for invalid fields */
+/* .custom-field-select select.ng-invalid {
+  border-color: red; 
+} */
+
+/* Change the placeholder color to red for invalid fields */
+/* .custom-field-select select.ng-invalid + .placeholder-select {
+  color: red; 
+} */
+
+.invalid-select select {
+  border-color: red;
 }
 
-.custom-field-select select.ng-invalid + .placeholder-select {
-  color: red; /* Change the placeholder color to red for invalid fields */
+.invalid-select select + .placeholder {
+  color: red;
 }
 
 /* Disabled */

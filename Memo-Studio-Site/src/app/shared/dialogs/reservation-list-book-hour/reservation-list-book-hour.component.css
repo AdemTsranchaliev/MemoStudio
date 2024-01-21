@@ -6,7 +6,10 @@
   margin-bottom: -15px;
 }
 
-/* Add this to your component's CSS or styles file */
 .custom-mat-option {
   line-height: 20px;
+}
+
+.service-category {
+  font-size: 16px;
 }

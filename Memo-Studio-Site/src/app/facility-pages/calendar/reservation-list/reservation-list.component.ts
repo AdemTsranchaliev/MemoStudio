@@ -31,6 +31,7 @@ import { DayService } from "src/app/shared/services/day.service";
 import { UserService } from "src/app/shared/services/user.service";
 import { UtilityService } from "src/app/shared/services/utility.service";
 import { DateCalendar } from "../date.model";
+import { DatePipe } from "@angular/common";
 declare const $: any;
 
 @Component({
@@ -65,9 +66,9 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     name: ["", Validators.required],
     phone: ["", Validators.required],
     duration: [30, Validators.required],
-    hour: ["", Validators.required],
     email: ["", [, Validators.email, Validators.required]],
     timestamp: [null, Validators.required],
+    serviceCategory: ["", Validators.required],
     facilityId: [null, Validators.required],
     note: [""],
   });
@@ -103,9 +104,11 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     private userService: UserService,
     private formBuilder: FormBuilder,
     public utilityService: UtilityService,
+    // private dataSharingService: CalendarEditDataSharingService,
     public dialog: MatDialog,
-    private breakpointObserver: BreakpointObserver
-  ) {}
+    private breakpointObserver: BreakpointObserver,
+    private datePipe: DatePipe,
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     //Load time slots
@@ -150,16 +153,12 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
 
   public openBookingDialog(preDefinedHour: Date) {
     if (preDefinedHour) {
-      var currentDate = new Date(this.date);
-      currentDate.setHours(preDefinedHour.getHours());
-      currentDate.setMinutes(preDefinedHour.getMinutes());
-      currentDate.setSeconds(0);
+      const formattedTimestamp = this.datePipe.transform(preDefinedHour, 'HH:mm');
 
       this.bookingForm.patchValue({
-        timestamp: currentDate,
+        timestamp: formattedTimestamp,
         facilityId: this.authService.getFacilityId(),
         duration: 30,
-        hour: preDefinedHour,
       });
     }
 
@@ -257,7 +256,9 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
         "Няма достатъчно свободни часове за избраната процедура, моля изберете друг час или услуга"
       );
     } else {
-      this.bookingService.addBooking(currentForm.value).subscribe((x) => {
+      let data = Object.assign({}, currentForm.value);
+      data.serviceId = currentForm.value.serviceCategory;
+      this.bookingService.addBooking(data).subscribe((x) => {
         this.showHideElement("customDayConfigurationDialog", false);
         this.showHideElement("bookingDialog", false);
 

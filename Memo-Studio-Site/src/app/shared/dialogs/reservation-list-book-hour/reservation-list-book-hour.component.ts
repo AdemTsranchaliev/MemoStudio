@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { UtilityService } from "../../services/utility.service";
 import { User } from "../../models/user.model";
 import { map, startWith } from "rxjs/operators";
+import { FacilityService } from "../../services/facility.service";
 
 @Component({
   selector: "app-reservation-list-book-hour",
@@ -10,14 +11,101 @@ import { map, startWith } from "rxjs/operators";
   styleUrls: ["./reservation-list-book-hour.component.css"],
 })
 export class ReservationListBookHourComponent implements OnInit {
+  demoCategoriesArr: any = [
+    {
+      "id": 1,
+      "name": "Прическа 1",
+      "facilityId": 1,
+      "services": [
+        {
+          "id": 1,
+          "name": "Мъжка подстрижка",
+          "price": 10,
+          "description": "test desc",
+          "duration": 10,
+          "facilityId": 1,
+          "serviceCategoryId": 1
+        },
+        {
+          "id": 2,
+          "name": "Дамска подстрижка",
+          "price": 25,
+          "description": "test desc",
+          "duration": 30,
+          "facilityId": 1,
+          "serviceCategoryId": 1
+        },
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Прическа 2",
+      "facilityId": 1,
+      "services": [
+        {
+          "id": 11,
+          "name": "Мъжка подстрижка 55",
+          "price": 10,
+          "description": "test desc",
+          "duration": 10,
+          "facilityId": 1,
+          "serviceCategoryId": 1
+        },
+        {
+          "id": 22,
+          "name": "Дамска подстрижка 66",
+          "price": 25,
+          "description": "test desc",
+          "duration": 30,
+          "facilityId": 1,
+          "serviceCategoryId": 1
+        },
+      ]
+    }
+  ];
+
+  // Function to handle service selection
+  public onServiceSelected(event: any): void {
+    const selectedServiceId = event.target.value;
+
+    // Find the category and service based on the selected service name
+    let selectedCategory;
+    let selectedService;
+
+    for (const category of this.demoCategoriesArr) {
+      selectedService = category.services.find(service => service.id === selectedServiceId);
+
+      if (selectedService) {
+        selectedCategory = category;
+        const selectedValue = `${selectedService.name} - ${selectedCategory.name}`;
+
+        console.log('>>>', this.data.bookingForm.get('serviceCategory').value);
+
+        this.data.bookingForm.get('serviceCategory').setValue(selectedValue);
+        break;
+      }
+    }
+  }
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<ReservationListBookHourComponent>,
-    public utilityService: UtilityService
-  ) {}
+    public utilityService: UtilityService,
+    private facilityService: FacilityService,
+  ) { }
 
   ngOnInit(): void {
     this.InitDropdownFilters();
+
+    this.facilityService.getService().subscribe((x) => {
+      // ========= When API ready make new Field 'ServiceCategory' work =========
+      // console.log('>>>>', x);
+    });
+
+    this.dialogRef.backdropClick().subscribe(() => {
+      this.data.bookingForm.reset();
+      this.dialogRef.close(false);
+    });
   }
 
   public onOptionSelected(event: any): void {
@@ -25,12 +113,6 @@ export class ReservationListBookHourComponent implements OnInit {
     this.data.bookingForm.get("name").setValue(selectedValue.name);
     this.data.bookingForm.get("phone").setValue(selectedValue.phoneNumber);
     this.data.bookingForm.get("email").setValue(selectedValue.email);
-  }
-
-  compareFn(option1: any, option2: any): boolean {
-    console.log(option1);
-    console.log(option2);
-    return true;
   }
 
   private InitDropdownFilters() {
@@ -113,6 +195,17 @@ export class ReservationListBookHourComponent implements OnInit {
 
   public onSubmit() {
     if (this.data.bookingForm.valid) {
+      const currentValueString = this.data.bookingForm.get('serviceCategory').value;
+      this.data.bookingForm.get('serviceCategory').setValue(Number(currentValueString))
+
+      const formattedTimestamp = this.data.bookingForm.get('timestamp').value;
+      const timeArray = formattedTimestamp.split(':');
+
+      const dateObj = new Date();
+      dateObj.setHours(Number(timeArray[0]));
+      dateObj.setMinutes(Number(timeArray[1]));
+      this.data.bookingForm.get('timestamp').setValue(dateObj);
+
       this.dialogRef.close(this.data);
     }
   }
