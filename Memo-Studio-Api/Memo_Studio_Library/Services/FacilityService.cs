@@ -6,18 +6,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Memo_Studio_Library.Services
 {
-	public class FacilityService : IFacilityService
-	{
+    public class FacilityService : IFacilityService
+    {
         private readonly StudioContext context;
 
         public FacilityService(StudioContext context)
-		{
+        {
             this.context = context;
         }
 
         public async Task<Facility> GetFacilityById(Guid facilityId)
         {
-            var facility = await context.Facilities.FirstOrDefaultAsync(x=>x.FacilityId == facilityId);
+            var facility = await context.Facilities.FirstOrDefaultAsync(x => x.FacilityId == facilityId);
 
             return facility;
         }
@@ -30,7 +30,7 @@ namespace Memo_Studio_Library.Services
                 {
                     Name = user.Name,
                     Description = string.Empty,
-                    FacilityId = Guid.NewGuid(),            
+                    FacilityId = Guid.NewGuid(),
                 };
 
                 var facilityUser = new UserFalicity
@@ -43,7 +43,7 @@ namespace Memo_Studio_Library.Services
                 await context.UserFalicities.AddAsync(facilityUser);
                 await context.SaveChangesAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Получи се грешка при запазването на данните. Моля опитайте отново.");
             }
@@ -83,7 +83,7 @@ namespace Memo_Studio_Library.Services
                     .Include(x => x.Facility)
                     .Include(c => c.User)
                     .Where(x => x.Facility.FacilityId == facilityId && x.User.UserId == userId)
-                    .Select(x=>new FacilityUserBookingsViewModel
+                    .Select(x => new FacilityUserBookingsViewModel
                     {
                         IsCanceled = x.Canceled,
                         Note = x.Note,
@@ -164,8 +164,8 @@ namespace Memo_Studio_Library.Services
                 {
                     return;
                 }
-                facilitySettings.EndPeriod = new DateTime(0,0,0,model.EndPeriod.ToLocalTime().Hour,model.StartPeriod.ToLocalTime().Minute,0);
-                facilitySettings.StartPeriod = new DateTime(0,0,0,model.StartPeriod.ToLocalTime().Hour,model.StartPeriod.ToLocalTime().Minute,0);
+                facilitySettings.EndPeriod = new DateTime(0, 0, 0, model.EndPeriod.ToLocalTime().Hour, model.StartPeriod.ToLocalTime().Minute, 0);
+                facilitySettings.StartPeriod = new DateTime(0, 0, 0, model.StartPeriod.ToLocalTime().Hour, model.StartPeriod.ToLocalTime().Minute, 0);
 
                 facilitySettings.WorkingDays = model.WorkingDaysJson;
                 facilitySettings.Interval = model.Interval;
@@ -298,6 +298,45 @@ namespace Memo_Studio_Library.Services
             }
         }
 
+
+        public async Task DeleteService(int serviceId, Guid facilityId)
+        {
+            var facility = await context.Facilities
+                    .Include(x => x.Services)
+                    .FirstOrDefaultAsync(x => x.FacilityId == facilityId);
+
+            if (facility!=null && facility.Services.Any(x=>x.Id==serviceId))
+            {
+                var modelToDelete = facility.Services.FirstOrDefault(x => x.Id == serviceId);
+
+                context.Services.Remove(modelToDelete);
+                await context.SaveChangesAsync();
+            }                  
+        }
+        public async Task DeleteServiceCategory(int categoryId, Guid facilityId)
+        {
+            try
+            {
+                var facility = await context.Facilities
+                   .Include(x => x.ServiceCategories)
+                   .ThenInclude(x=>x.Services)
+                   .FirstOrDefaultAsync(x => x.FacilityId == facilityId);
+
+                if (facility != null && facility.ServiceCategories.Any(x => x.Id == categoryId))
+                {
+                    var modelToDelete = facility.ServiceCategories.FirstOrDefault(x => x.Id == categoryId);
+                    context.Services.RemoveRange(modelToDelete.Services);
+                    context.ServiceCategories.Remove(modelToDelete);
+                    await context.SaveChangesAsync();
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Нещо се обърка, моля свържете се с поддръжката.");
+            }
+            
+        }
+
         public async Task<List<ServiceCategoryResponse>> GetServices(Guid facilityId)
         {
             try
@@ -317,7 +356,7 @@ namespace Memo_Studio_Library.Services
                 {
                     var tempCategory = new ServiceCategoryResponse
                     {
-                        Id=category.Id,
+                        Id = category.Id,
                         Name = category.Name,
                         FacilityId = category.FacilityId,
                     };
@@ -326,7 +365,7 @@ namespace Memo_Studio_Library.Services
                     {
                         var tempService = new ServiceResponse
                         {
-                            ServiceCategoryId=category.Id,
+                            ServiceCategoryId = category.Id,
                             Price = service.Price,
                             Description = service.Description,
                             Duration = service.Duration,

@@ -77,16 +77,18 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
           var indexToInclude = this.categories.findIndex(
             (x) => x.id == success.serviceCategoryId
           );
-          
-          if (indexToInclude>=0) {
-            if(!this.categories[indexToInclude].services?.length){
+
+          if (indexToInclude >= 0) {
+            if (!this.categories[indexToInclude].services?.length) {
               this.categories[indexToInclude].services = [];
             }
 
             this.categories[indexToInclude].services.push(success);
           }
         },
-        (err) => {}
+        (err) => {
+          //TODO add on error message
+        }
       );
 
     this.dialogRef.close({
@@ -94,6 +96,10 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
     });
 
     this.createServiceForm.reset();
+  }
+
+  private removeCategory(categoryId: number){
+    
   }
 
   private addNewCategory() {
