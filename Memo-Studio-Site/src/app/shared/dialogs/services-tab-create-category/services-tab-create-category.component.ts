@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { UtilityService } from "../../services/utility.service";
 
 
 @Component({
@@ -16,16 +17,22 @@ export class ServicesTabCreateCategoryComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<ServicesTabCreateCategoryComponent>,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    public utilityService: UtilityService,
+  ) { }
 
   ngOnInit(): void {
     if (this.data.isCategoryEdit) {
-      var index = this.data.categories.findIndex(x=>x.id==this.data.categoryId);
-      if(index>=0){
+      const index = this.data.categories.findIndex(x => x.id == this.data.categoryId);
+      if (index >= 0) {
         this.addCategoryForm.get("newCategory").setValue(this.data.categories[index].name);
       }
     }
+
+    this.dialogRef.backdropClick().subscribe(() => {
+      this.addCategoryForm.reset();
+      this.dialogRef.close(false);
+    });
   }
 
   public onSubmit() {

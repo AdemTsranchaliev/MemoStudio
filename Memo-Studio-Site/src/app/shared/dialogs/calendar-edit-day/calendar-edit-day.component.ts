@@ -4,6 +4,7 @@ import { UtilityService } from '../../services/utility.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CalendarEditDataSharingService } from './calendar-edit-data-sharing.service';
 import { DayService } from '../../services/day.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-calendar-edit-day',
@@ -12,7 +13,9 @@ import { DayService } from '../../services/day.service';
 })
 export class CalendarEditDayComponent implements OnInit {
   workingDayAddError: number = -1;
-  timeSlots: Date[] = []; // get with sertvice
+  isDayFree: boolean = false;
+
+  timeSlots: Date[] = [];
   durationArr: any[] = [
     { duration: "30", value: 30 },
     { duration: "1", value: 60 },
@@ -35,6 +38,7 @@ export class CalendarEditDayComponent implements OnInit {
     private dataSharingService: CalendarEditDataSharingService,
     private formBuilder: FormBuilder,
     private dayService: DayService,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -48,6 +52,16 @@ export class CalendarEditDayComponent implements OnInit {
 
   public cancelEvent() {
     this.customDayConfigurationForm.reset();
+  }
+
+  public makeDayFree() {
+    this.isDayFree = !this.isDayFree;
+    const msg = this.isDayFree ? 'Направихте този ден почивен!' : 'Направихте този ден работен!';
+
+    this.snackBar.open(msg, "Затвори", {
+      duration: 8000,
+      panelClass: ["custom-snackbar"],
+    });
   }
 
   public onSubmit() {

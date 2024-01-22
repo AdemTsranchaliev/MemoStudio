@@ -2,13 +2,17 @@
     <button mat-icon-button mat-dialog-close class="custom-dialog-close-button">
         <mat-icon>close</mat-icon>
     </button>
-    <h1 mat-dialog-title class="text-center mb-3 mt-2" style="color: black">
-        <!-- ============ Fix Again ============ -->
-        Добави час - <b>{{ data.date.getDate() }}
-            {{ data.date.toLocaleString('bg-BG', { month: 'long' }) }}
-            {{ data.date.getFullYear() }}г.</b>
-    </h1>
     <div mat-dialog-content>
+        <div>
+            <h3 class="text-center text-dark">Добави час</h3>
+            <h5 class="text-center">
+                <b>{{ data.date.getDate() }}
+                    {{ data.date.toLocaleString('bg-BG', { month: 'long' }) }}
+                    {{ data.date.getFullYear() }} г.
+                </b>
+            </h5>
+        </div>
+
         <div class="bg-white">
             <!-- Add New Hour -->
             <form class="form mb-0 mt-0 p-2" [formGroup]="data.bookingForm">
@@ -17,14 +21,14 @@
                     <!-- Name -->
                     <div class="w-100 mb-1">
                         <label class="custom-field w-100" [ngClass]="{'invalid-field': utilityService.HasError(data.bookingForm, 'name', 'required') &&
-                utilityService.IsTouched(data.bookingForm, 'name')}">
+                            utilityService.IsTouched(data.bookingForm, 'name')}">
                             <input class="w-100" placeholder=" " name="name" formControlName="name"
                                 [matAutocomplete]="auto" />
                             <span class="placeholder cursor-text">Име Фамилия</span>
                         </label>
 
                         <mat-error class="fs-11 m-bot-min-10" *ngIf="utilityService.HasError(data.bookingForm, 'name', 'required') &&
-              utilityService.IsTouched(data.bookingForm, 'name')">
+                            utilityService.IsTouched(data.bookingForm, 'name')">
                             Това поле е задължително.
                         </mat-error>
 
@@ -40,14 +44,14 @@
                     <!-- Phone -->
                     <div class="w-100 mb-1">
                         <label class="custom-field w-100" [ngClass]="{'invalid-field': utilityService.HasError(data.bookingForm, 'phone', 'required') &&
-                utilityService.IsTouched(data.bookingForm, 'phone')}">
+                            utilityService.IsTouched(data.bookingForm, 'phone')}">
                             <input class="w-100" placeholder=" " name="phone" formControlName="phone"
                                 [matAutocomplete]="auto2" />
                             <span class="placeholder cursor-text">Телефон</span>
                         </label>
 
                         <mat-error class="fs-11 m-bot-min-10" *ngIf="utilityService.HasError(data.bookingForm, 'phone', 'required') &&
-              utilityService.IsTouched(data.bookingForm, 'phone')">
+                            utilityService.IsTouched(data.bookingForm, 'phone')">
                             Това поле е задължително.
                         </mat-error>
 
@@ -63,14 +67,14 @@
                     <!-- Email -->
                     <div class="w-100 mb-1">
                         <label class="custom-field w-100" [ngClass]="{'invalid-field': utilityService.HasError(data.bookingForm, 'email', 'required') &&
-                utilityService.IsTouched(data.bookingForm, 'email')}">
+                            utilityService.IsTouched(data.bookingForm, 'email')}">
                             <input class="w-100" placeholder=" " name="email" formControlName="email"
                                 [matAutocomplete]="autoEmail" />
                             <span class="placeholder cursor-text">Имейл</span>
                         </label>
 
                         <mat-error class="fs-11 m-bot-min-10" *ngIf="utilityService.HasError(data.bookingForm, 'email', 'required') &&
-              utilityService.IsTouched(data.bookingForm, 'email')">
+                            utilityService.IsTouched(data.bookingForm, 'email')">
                             Това поле е задължително.
                         </mat-error>
 
@@ -86,7 +90,7 @@
                     <!-- Hour -->
                     <div class="w-100 mb-1">
                         <label class="custom-field-select w-100" [ngClass]="{'invalid-select': utilityService.HasError(data.bookingForm, 'timestamp', 'required') &&
-                utilityService.IsTouched(data.bookingForm, 'timestamp')}">
+                            utilityService.IsTouched(data.bookingForm, 'timestamp')}">
                             <select formControlName="timestamp" placeholder=" " class="w-100">
                                 <option [disabled]="booking.bookingId" *ngFor="let booking of data.bookings"
                                     [value]="booking.timestamp | date : 'HH:mm'">{{ booking.timestamp | date : 'HH:mm'
@@ -97,7 +101,7 @@
                         </label>
 
                         <mat-error class="fs-11 m-bot-min-10" *ngIf="utilityService.HasError(data.bookingForm, 'timestamp', 'required') &&
-              utilityService.IsTouched(data.bookingForm, 'timestamp')">
+                            utilityService.IsTouched(data.bookingForm, 'timestamp')">
                             Това поле е задължително.
                         </mat-error>
                     </div>
@@ -105,7 +109,7 @@
                     <!-- Duration -->
                     <div class="w-100 mb-1">
                         <label class="custom-field-select w-100" [ngClass]="{'invalid-select': utilityService.HasError(data.bookingForm, 'duration', 'required') &&
-                utilityService.IsTouched(data.bookingForm, 'duration')}">
+                            utilityService.IsTouched(data.bookingForm, 'duration')}">
                             <select formControlName="duration" placeholder=" " class="w-100">
                                 <option *ngFor="let time of data.durationArr; let i = index" value="{{ time.value }}">
                                     {{ time.value }} минути - продължителност
@@ -115,7 +119,7 @@
                         </label>
 
                         <mat-error class="fs-11 m-bot-min-10" *ngIf="utilityService.HasError(data.bookingForm, 'duration', 'required') &&
-              utilityService.IsTouched(data.bookingForm, 'duration')">
+                            utilityService.IsTouched(data.bookingForm, 'duration')">
                             Това поле е задължително.
                         </mat-error>
                     </div>
@@ -132,7 +136,7 @@
                         }">
 
                             <select formControlName="serviceCategory" placeholder=" " class="w-100" [ngClass]="{'invalid-select': utilityService.HasError(data.bookingForm, 'serviceCategory', 'required') &&
-                            utilityService.IsTouched(data.bookingForm, 'serviceCategory')}">
+                                utilityService.IsTouched(data.bookingForm, 'serviceCategory')}">
                                 <ng-container *ngFor="let category of serviceCategories; let i = index">
                                     <option selected hidden value="">Моля иберете услуга</option>
                                     <option class="service-category" disabled value="{{ i }}">

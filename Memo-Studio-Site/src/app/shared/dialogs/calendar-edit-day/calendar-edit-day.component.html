@@ -22,15 +22,15 @@
 
                     <div class="w-100 mb-1">
                         <label class="custom-field-select w-100" [ngClass]="{
-                        'invalid-field':
-                            utilityService.HasError(
-                            customDayConfigurationForm,
-                            'periodStart',
-                            'required'
+                            'invalid-field':
+                                utilityService.HasError(
+                                customDayConfigurationForm,
+                                'periodStart',
+                                'required'
                             ) &&
-                            utilityService.IsTouched(
-                            customDayConfigurationForm,
-                            'periodStart'
+                                utilityService.IsTouched(
+                                customDayConfigurationForm,
+                                'periodStart'
                             )
                         }">
                             <select placeholder=" " class="w-100" formControlName="periodStart">
@@ -43,33 +43,33 @@
                         </label>
 
                         <mat-error class="fs-11 m-bot-min-10" *ngIf="
-              utilityService.HasError(
-                customDayConfigurationForm,
-                'periodStart',
-                'required'
-              ) &&
-              utilityService.IsTouched(
-                customDayConfigurationForm,
-                'periodStart'
-              )
-            ">
+                            utilityService.HasError(
+                                customDayConfigurationForm,
+                                'periodStart',
+                                'required'
+                            ) &&
+                            utilityService.IsTouched(
+                                customDayConfigurationForm,
+                                'periodStart'
+                            )
+                        ">
                             Това поле е задължително.
                         </mat-error>
                     </div>
 
                     <div class="w-100 mb-1">
                         <label class="custom-field-select w-100" [ngClass]="{
-              'invalid-field':
-                utilityService.HasError(
-                  customDayConfigurationForm,
-                  'periodEnd',
-                  'required'
-                ) &&
-                utilityService.IsTouched(
-                  customDayConfigurationForm,
-                  'periodEnd'
-                )
-            }">
+                            'invalid-field':
+                                utilityService.HasError(
+                                customDayConfigurationForm,
+                                'periodEnd',
+                                'required'
+                            ) &&
+                                utilityService.IsTouched(
+                                customDayConfigurationForm,
+                                'periodEnd'
+                            )
+                        }">
                             <select placeholder=" " class="w-100" formControlName="periodEnd">
                                 <option *ngFor="let hour of timeSlots; let i = index"
                                     value="{{ hour | date : 'HH:mm' }}">
@@ -80,48 +80,56 @@
                         </label>
 
                         <mat-error class="fs-11 m-bot-min-10" *ngIf="
-              utilityService.HasError(
-                customDayConfigurationForm,
-                'periodEnd',
-                'required'
-              ) &&
-              utilityService.IsTouched(customDayConfigurationForm, 'periodEnd')
-            ">
+                            utilityService.HasError(
+                                customDayConfigurationForm,
+                                'periodEnd',
+                                'required'
+                            ) &&
+                            utilityService.IsTouched(customDayConfigurationForm, 'periodEnd')
+                        ">
                             Това поле е задължително.
                         </mat-error>
                     </div>
 
                     <div class="w-100 mb-1">
                         <label class="custom-field-select w-100" [ngClass]="{
-              'invalid-field':
-                utilityService.HasError(
-                  customDayConfigurationForm,
-                  'interval',
-                  'required'
-                ) &&
-                utilityService.IsTouched(customDayConfigurationForm, 'interval')
-            }">
+                            'invalid-field':
+                                utilityService.HasError(
+                                customDayConfigurationForm,
+                                'interval',
+                                'required'
+                                ) &&
+                                utilityService.IsTouched(customDayConfigurationForm, 'interval')
+                        }">
                             <select formControlName="interval" placeholder=" " class="w-100">
                                 <option *ngFor="let time of durationArr; let i = index" value="{{ time.value }}">
                                     {{ time.duration }} часа - продължителност
                                 </option>
                             </select>
-                            <span class="placeholder-select cursor-text">Продължителност</span>
+                            <span class="placeholder-select cursor-text">Продължителност на услуга</span>
                         </label>
 
                         <mat-error class="fs-11 m-bot-min-10" *ngIf="
-              utilityService.HasError(
-                customDayConfigurationForm,
-                'interval',
-                'required'
-              ) &&
-              utilityService.IsTouched(customDayConfigurationForm, 'interval')
-            ">
+                            utilityService.HasError(
+                                customDayConfigurationForm,
+                                'interval',
+                                'required'
+                            ) &&
+                            utilityService.IsTouched(customDayConfigurationForm, 'interval')
+                        ">
                             Това поле е задължително.
                         </mat-error>
                     </div>
 
-                    <!-- ====== Add Button -- Направи деня почивен ====== -->
+                    <div class="w-100 mb-1">
+                        <button mat-stroked-button color="primary" [ngClass]="{ 'text-danger': !isDayFree}"
+                            (click)="makeDayFree()">
+                            {{isDayFree ? 'Направи деня работен' : 'Направи деня почивен' }}
+                            <mat-icon>
+                                {{ isDayFree ? 'work' : 'work_off' }}
+                            </mat-icon>
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>

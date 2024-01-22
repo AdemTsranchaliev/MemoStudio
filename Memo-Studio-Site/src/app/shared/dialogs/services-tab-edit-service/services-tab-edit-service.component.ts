@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
   selector: 'app-services-tab-edit-service',
@@ -11,18 +12,21 @@ export class ServicesTabEditServiceComponent implements OnInit {
   public addServiceForm: FormGroup = this.formBuilder.group({
     newService: ["", [Validators.required]],
     newPrice: ["", [Validators.required]],
+    newDuration: ["", [Validators.required]],
   });
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<ServicesTabEditServiceComponent>,
     private formBuilder: FormBuilder,
+    public utilityService: UtilityService,
   ) { }
 
   ngOnInit(): void {
     if (this.data.isServiceEdit) {
-      this.addServiceForm.get('newService').setValue(this.data.service);
-      this.addServiceForm.get('newPrice').setValue(this.data.price);
+      this.addServiceForm.get('newService').setValue(this.data.service.name);
+      this.addServiceForm.get('newPrice').setValue(this.data.service.price);
+      this.addServiceForm.get('newDuration').setValue(this.data.service.duration);
     }
   }
 

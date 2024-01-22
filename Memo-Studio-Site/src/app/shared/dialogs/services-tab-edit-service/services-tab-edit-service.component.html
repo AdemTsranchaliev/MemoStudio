@@ -2,19 +2,46 @@
   <button mat-icon-button mat-dialog-close class="custom-dialog-close-button">
     <mat-icon>close</mat-icon>
   </button>
-  <h1 class="text-center" mat-dialog-title>Добавяне на категория</h1>
+  <h1 class="text-center" mat-dialog-title>Редактиране на услуга</h1>
   <mat-dialog-content class="mat-typography">
     <form [formGroup]="addServiceForm">
-      <div class="row align-items-center">
-        <label class="col-md-6 col-sm-12 custom-field w-100">
+      <div class="w-100 mb-1">
+        <label class="custom-field w-100" [ngClass]="{'invalid-field': utilityService.HasError(addServiceForm, 'newService', 'required') &&
+          utilityService.IsTouched(addServiceForm, 'newService')}">
           <input type="text" class="w-100" placeholder=" " name="newService" formControlName="newService" />
           <span class="placeholder cursor-text">Редактиране на услуга</span>
         </label>
 
-        <label class="col-md-6 col-sm-12 custom-field w-100">
+        <mat-error class="fs-11 m-bot-min-10" *ngIf="utilityService.HasError(addServiceForm, 'newService', 'required') &&
+        utilityService.IsTouched(addServiceForm, 'newService')">
+          Това поле е задължително.
+        </mat-error>
+      </div>
+
+      <div class="w-100 mb-1">
+        <label class="custom-field w-100" [ngClass]="{'invalid-field': utilityService.HasError(addServiceForm, 'newPrice', 'required') &&
+          utilityService.IsTouched(addServiceForm, 'newPrice')}">
           <input type="number" min="0" class="w-100" placeholder=" " name="newPrice" formControlName="newPrice" />
-          <span class="placeholder cursor-text">Редактиране на цена</span>
+          <span class="placeholder cursor-text">Редактиране на цена (в лева)</span>
         </label>
+
+        <mat-error class="fs-11 m-bot-min-10" *ngIf="utilityService.HasError(addServiceForm, 'newPrice', 'required') &&
+        utilityService.IsTouched(addServiceForm, 'newPrice')">
+          Това поле е задължително.
+        </mat-error>
+      </div>
+
+      <div class="w-100 mb-1" [ngClass]="{'invalid-field': utilityService.HasError(addServiceForm, 'newDuration', 'required') &&
+        utilityService.IsTouched(addServiceForm, 'newDuration')}">
+        <label class="custom-field w-100">
+          <input type="number" min="0" class="w-100" placeholder=" " name="newDuration" formControlName="newDuration" />
+          <span class="placeholder cursor-text">Редактиране на продължителност</span>
+        </label>
+
+        <mat-error class="fs-11 m-bot-min-10" *ngIf="utilityService.HasError(addServiceForm, 'newDuration', 'required') &&
+        utilityService.IsTouched(addServiceForm, 'newDuration')">
+          Това поле е задължително.
+        </mat-error>
       </div>
     </form>
   </mat-dialog-content>

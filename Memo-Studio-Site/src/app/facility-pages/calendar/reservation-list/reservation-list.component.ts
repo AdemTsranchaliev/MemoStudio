@@ -357,7 +357,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     this.subscriptions.push(smallDialogSubscription);
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result.bookingForm) {
+      if (result && result.bookingForm) {
         this.bookHour(result.bookingForm);
       }
     });

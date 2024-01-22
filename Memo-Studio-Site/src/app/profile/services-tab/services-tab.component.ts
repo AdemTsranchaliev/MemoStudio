@@ -35,7 +35,7 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
     private facilityService: FacilityService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.facilityService.getFacilityServices().subscribe(
@@ -72,7 +72,7 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
     this.subscriptions.push(smallDialogSubscription);
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result.categories) {
+      if (result && result.categories) {
         // this.categories = result.categories;
         // this.categoriesSelect = result.categoriesSelect;
       }
@@ -89,6 +89,17 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
         isCategoryEdit: true,
       },
     });
+
+    const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
+      this.currentSize = size.matches ? "small" : "large";
+
+      if (size.matches) {
+        dialogRef.updateSize("90%");
+      } else {
+        dialogRef.updateSize("50%");
+      }
+    });
+    this.subscriptions.push(smallDialogSubscription);
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
@@ -123,7 +134,7 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
         (success) => {
           this.serviceCategories.splice(index, 1);
         },
-        (err) => {}
+        (err) => { }
       );
     }
   }
@@ -133,8 +144,7 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ServicesTabEditServiceComponent, {
       width: "100vw",
       data: {
-        service: service.name,
-        price: service.price,
+        service: service,
         isServiceEdit: true,
       },
     });
@@ -191,7 +201,7 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
               1
             );
           },
-          (err) => {}
+          (err) => { }
         );
       }
     }

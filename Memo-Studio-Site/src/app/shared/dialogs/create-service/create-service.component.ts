@@ -16,6 +16,7 @@ import { HttpClient } from "@angular/common/http";
 import { BASE_URL_DEV } from "../../routes";
 import { FacilityService } from "../../services/facility.service";
 import { UpsertServiceCategory } from "../../models/facility/upsert-service-category.model";
+import { UtilityService } from "../../services/utility.service";
 
 @Component({
   selector: "app-create-service",
@@ -31,7 +32,7 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
 
   public createServiceForm: FormGroup = this.formBuilder.group({
     name: ["", [Validators.required]],
-    price: [""],
+    price: ["", [Validators.required]],
     serviceCategoryId: [0, [Validators.required]],
     duration: ["", [Validators.required]],
     description: [""],
@@ -46,8 +47,9 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private http: HttpClient,
     private facilityService: FacilityService,
-    private breakpointObserver: BreakpointObserver
-  ) {}
+    private breakpointObserver: BreakpointObserver,
+    public utilityService: UtilityService,
+  ) { }
 
   ngOnInit(): void {
     this.categories = this.data.categories;
@@ -98,8 +100,8 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
     this.createServiceForm.reset();
   }
 
-  private removeCategory(categoryId: number){
-    
+  private removeCategory(categoryId: number) {
+
   }
 
   private addNewCategory() {

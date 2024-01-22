@@ -12279,6 +12279,10 @@ h5,
   cursor: pointer;
 }
 
+.cursor-default {
+  cursor: default;
+}
+
 .text-light-blue {
   color: #007bff !important;
 }
@@ -12310,6 +12314,15 @@ h5,
 
 .custom-dialog-close-button {
   position: absolute !important;
-  top: 0 !important;
-  right: 0 !important;
+  top: -24px !important;
+  right: -24px !important;
+
+  border: none;
+  outline: none;
+}
+
+.custom-dialog-close-button:active,
+.custom-dialog-close-button:focus {
+  border: none;
+  outline: none;
 }

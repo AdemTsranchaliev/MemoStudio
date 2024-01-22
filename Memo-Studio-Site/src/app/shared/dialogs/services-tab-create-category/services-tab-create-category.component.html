@@ -2,13 +2,21 @@
   <button mat-icon-button mat-dialog-close class="custom-dialog-close-button">
     <mat-icon>close</mat-icon>
   </button>
-  <h1 class="text-center" mat-dialog-title>Добавяне на категория</h1>
+  <h1 class="text-center cursor-default" mat-dialog-title>
+    {{ data.categoryId != undefined ? 'Редактиране на категория' : 'Добавяне на категория' }}
+  </h1>
   <mat-dialog-content class="mat-typography">
     <form [formGroup]="addCategoryForm">
-      <label class="custom-field w-100">
+      <label class="custom-field w-100" [ngClass]="{'invalid-field': utilityService.HasError(addCategoryForm, 'newCategory', 'required') &&
+      utilityService.IsTouched(addCategoryForm, 'newCategory')}">
         <input type="text" class="w-100" placeholder=" " name="newCategory" formControlName="newCategory" />
         <span class="placeholder cursor-text">Име на новата категория</span>
       </label>
+
+      <mat-error class="fs-11 m-bot-min-10" *ngIf="utilityService.HasError(addCategoryForm, 'newCategory', 'required') &&
+      utilityService.IsTouched(addCategoryForm, 'newCategory')">
+        Това поле е задължително.
+      </mat-error>
     </form>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
