@@ -1,4 +1,5 @@
 ﻿
+using Memo_Studio_Library.Data.Models;
 using Memo_Studio_Library.Services.Interfaces;
 using Memo_Studio_Library.ViewModels.FacilityViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -74,7 +75,7 @@ namespace Memo_Studio.Controllers
 
         [Authorize]
         [HttpPost("service-category")]
-        public async Task<IActionResult> AddServiceCategory([FromBody] ServiceCategoryViewModel model)
+        public async Task<IActionResult> UpserServiceCategory([FromBody] ServiceCategoryViewModel model)
         {
             var facilityId = this.GetFacilityId();
 
@@ -98,6 +99,28 @@ namespace Memo_Studio.Controllers
             var result = await facilityService.GetServices(facilityId);
 
             return Ok(result);
+        }
+
+        [Authorize]
+        [HttpDelete("service/{serviceId}")]
+        public async Task<IActionResult> DeleteService(int serviceId)
+        {
+            var facilityId = this.GetFacilityId();
+
+            await facilityService.DeleteService(serviceId, facilityId);
+
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpDelete("service-category/{categoryId}")]
+        public async Task<IActionResult> DeleteServiceCategory(int categoryId)
+        {
+            var facilityId = this.GetFacilityId();
+
+            await facilityService.DeleteServiceCategory(categoryId, facilityId);
+
+            return Ok();
         }
 
         [Authorize]

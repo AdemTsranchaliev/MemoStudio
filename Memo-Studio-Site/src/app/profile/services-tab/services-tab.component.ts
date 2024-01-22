@@ -13,6 +13,7 @@ import { CreateServiceComponent } from "src/app/shared/dialogs/create-service/cr
 import { HttpClient } from "@angular/common/http";
 import { BASE_URL_DEV } from "src/app/shared/routes";
 import { FacilityService } from "src/app/shared/services/facility.service";
+import { UpsertServiceCategory } from "src/app/shared/models/facility/upsert-service-category.model";
 
 @Component({
   selector: "app-services-tab",
@@ -27,7 +28,7 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
   public isExtraSmall: Observable<BreakpointState> =
     this.breakpointObserver.observe(Breakpoints.XSmall);
 
-  serviceCategories = [];
+  public serviceCategories = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -51,7 +52,7 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((el) => el.unsubscribe());
   }
 
-  onAddService() {
+  public onAddService() {
     const dialogRef = this.dialog.open(CreateServiceComponent, {
       width: "100vw",
       data: {
@@ -79,45 +80,56 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
   }
 
   // ================ Edit/Delete Category ================
-  editCategory(category: any) {
+  public editCategory(categoryId: any) {
     const dialogRef = this.dialog.open(ServicesTabCreateCategoryComponent, {
       width: "100vw",
-      data: { category: category.category, isCategoryEdit: true }, // Pass the category data and indicate it's for editing
+      data: {
+        categoryId: categoryId,
+        categories: this.serviceCategories,
+        isCategoryEdit: true,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      // if (result) {
-      //   // Find the index of the edited category in the array
-      //   const index = this.categories.findIndex((c) => c.id === category.id);
-
-      //   if (index !== -1) {
-      //     // Update the category with the edited data
-      //     this.categories[index].category = result;
-      //   }
-
-      //   // Update the categoriesSelect with the edited data
-      //   const selectedCatIndex = this.categoriesSelect.findIndex(
-      //     (c) => c === category.category
-      //   );
-      //   if (selectedCatIndex !== -1) {
-      //     this.categoriesSelect[selectedCatIndex] = result;
-      //   }
-      // }
+      if (result) {
+        var modelToSend = <UpsertServiceCategory>{
+          id: categoryId,
+          name: result,
+        };
+        this.facilityService.upsertServiceCategory(modelToSend).subscribe(
+          (success) => {
+            var index = this.serviceCategories.findIndex(
+              (x) => x.id == categoryId
+            );
+            if (index >= 0) {
+              this.serviceCategories[index].name = result;
+              //TODO Message for success
+            }
+          },
+          (err) => {
+            //TODO add error message
+          }
+        );
+      }
     });
   }
 
-  deleteCategory(category: any) {
-    // // Find the index of the category to delete
-    // const index = this.categories.findIndex((c) => c.id === category.id);
+  public deleteCategory(categoryId: number) {
+    // Find the index of the category to delete
+    const index = this.serviceCategories.findIndex((c) => c.id === categoryId);
 
-    // if (index !== -1) {
-    //   // Remove the category from the array
-    //   this.categories.splice(index, 1);
-    // }
+    if (index !== -1) {
+      this.facilityService.removeCategory(categoryId).subscribe(
+        (success) => {
+          this.serviceCategories.splice(index, 1);
+        },
+        (err) => {}
+      );
+    }
   }
 
   // ================ Edit/Delete Service ================
-  editService(category: any, service: any) {
+  public editService(category: any, service: any) {
     const dialogRef = this.dialog.open(ServicesTabEditServiceComponent, {
       width: "100vw",
       data: {
@@ -161,18 +173,27 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
     });
   }
 
-  deleteService(category: any, service: any) {
-    // Find the index of the category and service to delete
-    // const categoryIndex = this.categories.findIndex(
-    //   (c) => c.id === category.id
-    // );
-    // const serviceIndex = this.categories[categoryIndex].services.findIndex(
-    //   (s) => s.id === service.id
-    // );
+  public deleteService(categoryId: number, serviceId: number) {
+    const categoryIndex = this.serviceCategories.findIndex(
+      (c) => c.id === categoryId
+    );
 
-    // if (categoryIndex !== -1 && serviceIndex !== -1) {
-    //   // Remove the service from the category
-    //   this.categories[categoryIndex].services.splice(serviceIndex, 1);
-    // }
+    if (categoryId >= 0) {
+      const serviceIndex = this.serviceCategories[
+        categoryIndex
+      ].services.findIndex((s) => s.id === serviceId);
+
+      if (serviceIndex >= 0) {
+        this.facilityService.removeService(serviceId).subscribe(
+          (success) => {
+            this.serviceCategories[categoryIndex].services.splice(
+              serviceIndex,
+              1
+            );
+          },
+          (err) => {}
+        );
+      }
+    }
   }
 }

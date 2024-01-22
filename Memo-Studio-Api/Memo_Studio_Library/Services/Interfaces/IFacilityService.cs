@@ -15,6 +15,8 @@ namespace Memo_Studio_Library.Services.Interfaces
         public Task UpdateFacilitySettings(FacilitySettingsViewModel model, Guid facilityId);
         public Task<ServiceCategory?> UpsertServiceCategory(ServiceCategoryViewModel model, Guid facilityId);
         public Task<List<ServiceCategoryResponse>> GetServices(Guid facilityId);
+        public Task DeleteService(int serviceId, Guid facilityId);
+        public Task DeleteServiceCategory(int categoryId, Guid facilityId);
         public Task<Service?> AddService(ServiceViewModel model, Guid facilityId);
         public Task<List<BookingUsersAutocompleteViewModel>> GetFacilityUsers(Guid facilityId);
     }

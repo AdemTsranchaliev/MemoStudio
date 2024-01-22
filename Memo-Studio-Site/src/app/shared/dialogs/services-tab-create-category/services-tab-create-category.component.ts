@@ -21,7 +21,10 @@ export class ServicesTabCreateCategoryComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data.isCategoryEdit) {
-      this.addCategoryForm.get("newCategory").setValue(this.data.category);
+      var index = this.data.categories.findIndex(x=>x.id==this.data.categoryId);
+      if(index>=0){
+        this.addCategoryForm.get("newCategory").setValue(this.data.categories[index].name);
+      }
     }
   }
 

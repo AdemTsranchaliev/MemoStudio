@@ -47,4 +47,12 @@ export class FacilityService {
   public upsertServiceCategory(params: UpsertServiceCategory) {
     return this.http.post<UpsertServiceCategory>(`${BASE_URL_DEV}/Facility/service-category`, params);
   }
+
+  public removeCategory(categoryId: number){
+    return this.http.delete(`${BASE_URL_DEV}/Facility/service-category/${categoryId}`);
+  }
+
+  public removeService(serviceId: number){
+    return this.http.delete(`${BASE_URL_DEV}/Facility/service/${serviceId}`);
+  }
 }
