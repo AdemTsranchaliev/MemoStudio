@@ -1,37 +1,42 @@
-<h1 class="text-center" mat-dialog-title>Добавяне на категория</h1>
-<mat-dialog-content class="mat-typography">
-  <form [formGroup]="createServiceForm">
-    <label class="custom-field-select w-100">
-      <select class="w-100" placeholder=" " formControlName="serviceCategoryId" (change)="onCategoryChange()">
-        <option value="0" disabled selected hidden>Изберете категория</option>
-        <option *ngFor="let category of categories" [value]="category.id">
-          {{ category.name }}
-        </option>
-        <option value=-1>+ Добавяне на нова категория</option>
-      </select>
-      <span class="placeholder-select cursor-text"> Изберете категория </span>
-    </label>
-
-    <label class="custom-field w-100">
-      <input type="text" class="w-100" placeholder=" " name="name" formControlName="name" />
-      <span class="placeholder cursor-text">Име на услуга</span>
-    </label>
-
-    <label class="custom-field w-100">
-      <input type="number" min="0" class="w-100" placeholder=" " name="price" formControlName="price" />
-      <span class="placeholder cursor-text">Цена (в лева)</span>
-    </label>
-
-    <label class="custom-field w-100">
-      <input type="text" class="w-100" placeholder=" " name="duration" formControlName="duration" />
-      <span class="placeholder cursor-text">Времетраене</span>
-    </label>
-  </form>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-raised-button mat-dialog-close>Затвори</button>
-  <button mat-raised-button mat-dialog-close class="bg-primary text-white" (click)="onAddService()"
-    [disabled]="this.createServiceForm.invalid">
-    Запази
+<div class="position-relative">
+  <button mat-icon-button mat-dialog-close class="custom-dialog-close-button">
+    <mat-icon>close</mat-icon>
   </button>
-</mat-dialog-actions>
+  <h1 class="text-center" mat-dialog-title>Добавяне на категория</h1>
+  <mat-dialog-content class="mat-typography">
+    <form [formGroup]="createServiceForm">
+      <label class="custom-field-select w-100">
+        <select class="w-100" placeholder=" " formControlName="serviceCategoryId" (change)="onCategoryChange()">
+          <option value="0" disabled selected hidden>Изберете категория</option>
+          <option *ngFor="let category of categories" [value]="category.id">
+            {{ category.name }}
+          </option>
+          <option value=-1>+ Добавяне на нова категория</option>
+        </select>
+        <span class="placeholder-select cursor-text"> Изберете категория </span>
+      </label>
+
+      <label class="custom-field w-100">
+        <input type="text" class="w-100" placeholder=" " name="name" formControlName="name" />
+        <span class="placeholder cursor-text">Име на услуга</span>
+      </label>
+
+      <label class="custom-field w-100">
+        <input type="number" min="0" class="w-100" placeholder=" " name="price" formControlName="price" />
+        <span class="placeholder cursor-text">Цена (в лева)</span>
+      </label>
+
+      <label class="custom-field w-100">
+        <input type="text" class="w-100" placeholder=" " name="duration" formControlName="duration" />
+        <span class="placeholder cursor-text">Времетраене</span>
+      </label>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close>Затвори</button>
+    <button mat-raised-button mat-dialog-close class="bg-primary text-white" (click)="onAddService()"
+      [disabled]="this.createServiceForm.invalid">
+      Запази
+    </button>
+  </mat-dialog-actions>
+</div>

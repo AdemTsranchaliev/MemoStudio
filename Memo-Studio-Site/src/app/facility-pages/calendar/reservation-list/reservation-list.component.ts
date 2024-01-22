@@ -32,6 +32,7 @@ import { UserService } from "src/app/shared/services/user.service";
 import { UtilityService } from "src/app/shared/services/utility.service";
 import { DateCalendar } from "../date.model";
 import { DatePipe } from "@angular/common";
+import { CalendarEditDataSharingService } from "src/app/shared/dialogs/calendar-edit-day/calendar-edit-data-sharing.service";
 declare const $: any;
 
 @Component({
@@ -73,12 +74,6 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     note: [""],
   });
 
-  public customDayConfigurationForm: FormGroup = new FormGroup({
-    periodStart: new FormControl("", Validators.required),
-    periodEnd: new FormControl("", Validators.required),
-    interval: new FormControl(30, Validators.required),
-  });
-
   public currentDay: Day;
   bookings: Booking[] = [];
   loader: boolean = false;
@@ -104,7 +99,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     private userService: UserService,
     private formBuilder: FormBuilder,
     public utilityService: UtilityService,
-    // private dataSharingService: CalendarEditDataSharingService,
+    private dataSharingService: CalendarEditDataSharingService,
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
     private datePipe: DatePipe,
@@ -117,6 +112,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
       this.facilityConfiguration?.endPeriod,
       this.facilityConfiguration?.interval
     );
+    this.updateDataEditCalendar();
 
     this.filteredOptions = of(this.autocompleteNames);
     this.filteredPhoneOptions = of(this.autocompleteNames);
@@ -162,7 +158,6 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
       });
     }
 
-    this.showHideElement("customDayConfigurationDialog", false);
     this.openAddNewHourDialog();
   }
 
@@ -200,45 +195,6 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-  public addDaySpecifications() {
-    // if (this.selectedStartHour > this.selectedEndHour) {
-    //   this.workingDayAddError = 1;
-    // } else {
-    //   this.workingDayAddError = -1;
-    //   var startTime = new Date(0, 0, 0);
-    //   var endTime = new Date(0, 0, 0);
-    //   if (this.selectedStartHour % 2 == 0) {
-    //     startTime.setHours(this.selectedStartHour / 2);
-    //   } else {
-    //     startTime.setHours((this.selectedStartHour - 1) / 2);
-    //     startTime.setMinutes(30);
-    //   }
-    //   if (this.selectedEndHour % 2 == 0) {
-    //     endTime.setHours(this.selectedEndHour / 2);
-    //   } else {
-    //     endTime.setHours((this.selectedEndHour - 1) / 2);
-    //     endTime.setMinutes(30);
-    //   }
-    //   this.currentDay = {
-    //     dayDate: this.date,
-    //     startPeriod: startTime,
-    //     endPeriod: endTime,
-    //     isWorking: true,
-    //     employeeId: localStorage.getItem("clientId"),
-    //   };
-    //   this.dayService.addDay(this.currentDay).subscribe((x) => {
-    //     $("#dialog2").hide(250);
-    //     this.showBookings(1);
-    //   });
-    // }
-  }
-
-  public cancelEvent(id: number) {
-    this.resetForm(this.bookingForm);
-    this.showHideElement("customDayConfigurationDialog", false);
-    this.showHideElement("bookingDialog", false);
-  }
-
   public truncateText(text: string, limit: number): string {
     if (text.length > limit) {
       return text.substring(0, limit) + "...";
@@ -259,29 +215,12 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
       let data = Object.assign({}, currentForm.value);
       data.serviceId = currentForm.value.serviceCategory;
       this.bookingService.addBooking(data).subscribe((x) => {
-        this.showHideElement("customDayConfigurationDialog", false);
-        this.showHideElement("bookingDialog", false);
-
         this.resetForm(this.bookingForm);
         this.dateChange.emit(<DateCalendar>{
           date: this.date,
           isPastDate: false,
         });
       });
-    }
-  }
-
-  private showHideElement(elementId, show) {
-    const elementToToggle = document.querySelector(
-      `#${elementId}`
-    ) as HTMLElement;
-
-    if (elementToToggle) {
-      if (show) {
-        elementToToggle.style.display = "block";
-      } else {
-        elementToToggle.style.display = "none";
-      }
     }
   }
 
@@ -404,7 +343,6 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
         durationArr: this.durationArr,
         options: this.options,
       },
-      disableClose: true,
     });
 
     const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
@@ -423,6 +361,10 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
         this.bookHour(result.bookingForm);
       }
     });
+  }
+
+  updateDataEditCalendar(): void {
+    this.dataSharingService.updateData(this.timeSlots);
   }
 }
 

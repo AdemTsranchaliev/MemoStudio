@@ -12,7 +12,8 @@
 
             <!-- Edit & Add Apointment Butons -->
             <div class="text-center custom-calendar-edit-btn" *ngIf="isServerDown == false">
-              <button class="button bg-light-blue" (click)="editDay()" [disabled]="isPastDate">
+              <button mat-stroked-button class="rounded-pill light-blue" color="primary" (click)="editDay()"
+                [disabled]="isPastDate">
                 Редактирай
               </button>
             </div>

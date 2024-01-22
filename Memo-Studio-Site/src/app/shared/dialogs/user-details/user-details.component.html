@@ -1,134 +1,108 @@
-<h2 class="text-center" mat-dialog-title>
-  Иван Иванов - <a href="tel:+900300400"> 089888888 </a>
-</h2>
-<mat-dialog-content class="mat-typography" style="min-width: 100% !important">
-  <mat-tab-group
-    mat-stretch-tabs="false"
-    mat-align-tabs="start"
-    (selectedIndexChange)="_setDataSource($event)"
-  >
-    <mat-tab label="Резервации">
-      <table
-        mat-table
-        class="w-100"
-        [dataSource]="reservationsDataSource"
-        #sort2="matSort"
-        matSort
-        matSortDirection="desc"
-      >
-        <ng-container matColumnDef="reservationData">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Дата и час</th>
-          <td mat-cell *matCellDef="let row">
-            {{ row.timestamp | date : 'dd/MM/yyyy HH:mm' }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="note">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Бележка</th>
-          <td mat-cell *matCellDef="let row">
-            {{ row.note || 'Няма' }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="createdFrom">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Създадена от
-          </th>
-          <td mat-cell *matCellDef="let row">
-            {{ row.createdFrom || 'Администратор' }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Статус</th>
-          <td mat-cell *matCellDef="let row">
-            <span
-              class="badge badge-pill p-2"
-              [ngClass]="reservationsStatusColor(row)"
-            >
-              {{ reservationsStatusName(row) }}
-            </span>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="reservationsColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: reservationsColumns"></tr>
-      </table>
-
-      <ng-container *ngIf="reservations.length === 0">
-        <p class="my-2">Няма данни за постъпили резервации</p>
-      </ng-container>
-
-      <mat-paginator
-        #paginator2
-        [pageSizeOptions]="[5, 10, 25, 100]"
-        showFirstLastButtons
-      ></mat-paginator>
-    </mat-tab>
-    <mat-tab label="Изпратени напомяния">
-      <div class="w-100">
-        <table
-          mat-table
-          class="w-100"
-          [dataSource]="dataSource"
-          #sort1="matSort"
-          matSort
-          matSortDirection="desc"
-        >
-          <!-- ID Column -->
-          <ng-container matColumnDef="sentOn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-              Изпратено на
-            </th>
+<div class="position-relative">
+  <button mat-icon-button mat-dialog-close class="custom-dialog-close-button">
+    <mat-icon>close</mat-icon>
+  </button>
+  <h2 class="text-center" mat-dialog-title>
+    Иван Иванов - <a href="tel:+900300400"> 089888888 </a>
+  </h2>
+  <mat-dialog-content class="mat-typography" style="min-width: 100% !important">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" (selectedIndexChange)="_setDataSource($event)">
+      <mat-tab label="Резервации">
+        <table mat-table class="w-100" [dataSource]="reservationsDataSource" #sort2="matSort" matSort
+          matSortDirection="desc">
+          <ng-container matColumnDef="reservationData">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Дата и час</th>
             <td mat-cell *matCellDef="let row">
-              {{ row.sentOn | date : 'dd/MM/yyyy HH:mm' }}
+              {{ row.timestamp | date : 'dd/MM/yyyy HH:mm' }}
             </td>
           </ng-container>
 
-          <!-- Name Column -->
-          <ng-container matColumnDef="type">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Платформа</th>
+          <ng-container matColumnDef="note">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Бележка</th>
             <td mat-cell *matCellDef="let row">
-              {{ row.type == 1 ? 'Email' : 'Viber' }}
+              {{ row.note || 'Няма' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="createdFrom">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Създадена от
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.createdFrom || 'Администратор' }}
             </td>
           </ng-container>
 
           <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Статус</th>
             <td mat-cell *matCellDef="let row">
-              <span
-                class="badge badge-pill p-2"
-                [ngClass]="notificationStatusColor(row.status)"
-              >
-                {{ notificationStatusName(row.status) }}
+              <span class="badge badge-pill p-2" [ngClass]="reservationsStatusColor(row)">
+                {{ reservationsStatusName(row) }}
               </span>
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="service">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Услуга</th>
-            <td mat-cell *matCellDef="let row">
-              {{ row.service || 'Подстрижка' }}
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="columndefs"></tr>
-          <tr mat-row *matRowDef="let row; columns: columndefs"></tr>
+          <tr mat-header-row *matHeaderRowDef="reservationsColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: reservationsColumns"></tr>
         </table>
 
-        <ng-container *ngIf="notifications.length === 0">
-          <p class="my-2">Няма данни за изпратени напомяния</p>
+        <ng-container *ngIf="reservations.length === 0">
+          <p class="my-2">Няма данни за постъпили резервации</p>
         </ng-container>
 
-        <mat-paginator
-          #paginator1
-          [pageSizeOptions]="[5, 10, 25, 100]"
-          showFirstLastButtons
-        ></mat-paginator>
-      </div>
-    </mat-tab>
-  </mat-tab-group>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Затвори</button>
-</mat-dialog-actions>
+        <mat-paginator #paginator2 [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+      </mat-tab>
+      <mat-tab label="Изпратени напомяния">
+        <div class="w-100">
+          <table mat-table class="w-100" [dataSource]="dataSource" #sort1="matSort" matSort matSortDirection="desc">
+            <!-- ID Column -->
+            <ng-container matColumnDef="sentOn">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Изпратено на
+              </th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.sentOn | date : 'dd/MM/yyyy HH:mm' }}
+              </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="type">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Платформа</th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.type == 1 ? 'Email' : 'Viber' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Статус</th>
+              <td mat-cell *matCellDef="let row">
+                <span class="badge badge-pill p-2" [ngClass]="notificationStatusColor(row.status)">
+                  {{ notificationStatusName(row.status) }}
+                </span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="service">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Услуга</th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.service || 'Подстрижка' }}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="columndefs"></tr>
+            <tr mat-row *matRowDef="let row; columns: columndefs"></tr>
+          </table>
+
+          <ng-container *ngIf="notifications.length === 0">
+            <p class="my-2">Няма данни за изпратени напомяния</p>
+          </ng-container>
+
+          <mat-paginator #paginator1 [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Затвори</button>
+  </mat-dialog-actions>
+</div>

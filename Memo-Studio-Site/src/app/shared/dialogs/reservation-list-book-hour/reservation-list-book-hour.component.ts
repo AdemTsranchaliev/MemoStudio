@@ -11,7 +11,7 @@ import { FacilityService } from "../../services/facility.service";
   styleUrls: ["./reservation-list-book-hour.component.css"],
 })
 export class ReservationListBookHourComponent implements OnInit {
-  demoCategoriesArr: any = [
+  serviceCategories: any = [
     {
       "id": 1,
       "name": "Прическа 1",
@@ -64,29 +64,6 @@ export class ReservationListBookHourComponent implements OnInit {
     }
   ];
 
-  // Function to handle service selection
-  public onServiceSelected(event: any): void {
-    const selectedServiceId = event.target.value;
-
-    // Find the category and service based on the selected service name
-    let selectedCategory;
-    let selectedService;
-
-    for (const category of this.demoCategoriesArr) {
-      selectedService = category.services.find(service => service.id === selectedServiceId);
-
-      if (selectedService) {
-        selectedCategory = category;
-        const selectedValue = `${selectedService.name} - ${selectedCategory.name}`;
-
-        console.log('>>>', this.data.bookingForm.get('serviceCategory').value);
-
-        this.data.bookingForm.get('serviceCategory').setValue(selectedValue);
-        break;
-      }
-    }
-  }
-
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<ReservationListBookHourComponent>,
@@ -97,9 +74,8 @@ export class ReservationListBookHourComponent implements OnInit {
   ngOnInit(): void {
     this.InitDropdownFilters();
 
-    this.facilityService.getService().subscribe((x) => {
-      // ========= When API ready make new Field 'ServiceCategory' work =========
-      // console.log('>>>>', x);
+    this.facilityService.getService().subscribe((response) => {
+      this.serviceCategories = response;
     });
 
     this.dialogRef.backdropClick().subscribe(() => {

@@ -1,0 +1,137 @@
+<div class="position-relative">
+    <button mat-icon-button mat-dialog-close class="custom-dialog-close-button">
+        <mat-icon>close</mat-icon>
+    </button>
+    <div mat-dialog-content>
+        <div>
+            <h3 class="text-center text-dark">Промени ден</h3>
+            <h5 class="text-center">
+                <b>{{ data.date.getDate() }}
+                    {{ data.date.toLocaleString('bg-BG', { month: 'long' }) }}
+                    {{ data.date.getFullYear() }} г.
+                </b>
+            </h5>
+        </div>
+
+        <div>
+            <form class="form mb-0 mt-0 pb-0 pt-0" [formGroup]="customDayConfigurationForm">
+                <div class="form-container mb-0 mt-0 pb-0 pt-0">
+                    <div class="alert alert-info" *ngIf="workingDayAddError == 1">
+                        Началото на работния ден, не може да бъде по-голямо от края!
+                    </div>
+
+                    <div class="w-100 mb-1">
+                        <label class="custom-field-select w-100" [ngClass]="{
+                        'invalid-field':
+                            utilityService.HasError(
+                            customDayConfigurationForm,
+                            'periodStart',
+                            'required'
+                            ) &&
+                            utilityService.IsTouched(
+                            customDayConfigurationForm,
+                            'periodStart'
+                            )
+                        }">
+                            <select placeholder=" " class="w-100" formControlName="periodStart">
+                                <option *ngFor="let hour of timeSlots; let i = index"
+                                    value="{{ hour | date : 'HH:mm' }}">
+                                    {{ hour | date : 'HH:mm' }} ч.
+                                </option>
+                            </select>
+                            <span class="placeholder-select cursor-text">Работен ден - Начало</span>
+                        </label>
+
+                        <mat-error class="fs-11 m-bot-min-10" *ngIf="
+              utilityService.HasError(
+                customDayConfigurationForm,
+                'periodStart',
+                'required'
+              ) &&
+              utilityService.IsTouched(
+                customDayConfigurationForm,
+                'periodStart'
+              )
+            ">
+                            Това поле е задължително.
+                        </mat-error>
+                    </div>
+
+                    <div class="w-100 mb-1">
+                        <label class="custom-field-select w-100" [ngClass]="{
+              'invalid-field':
+                utilityService.HasError(
+                  customDayConfigurationForm,
+                  'periodEnd',
+                  'required'
+                ) &&
+                utilityService.IsTouched(
+                  customDayConfigurationForm,
+                  'periodEnd'
+                )
+            }">
+                            <select placeholder=" " class="w-100" formControlName="periodEnd">
+                                <option *ngFor="let hour of timeSlots; let i = index"
+                                    value="{{ hour | date : 'HH:mm' }}">
+                                    {{ hour | date : 'HH:mm' }} ч.
+                                </option>
+                            </select>
+                            <span class="placeholder-select cursor-text">Работен ден - Край</span>
+                        </label>
+
+                        <mat-error class="fs-11 m-bot-min-10" *ngIf="
+              utilityService.HasError(
+                customDayConfigurationForm,
+                'periodEnd',
+                'required'
+              ) &&
+              utilityService.IsTouched(customDayConfigurationForm, 'periodEnd')
+            ">
+                            Това поле е задължително.
+                        </mat-error>
+                    </div>
+
+                    <div class="w-100 mb-1">
+                        <label class="custom-field-select w-100" [ngClass]="{
+              'invalid-field':
+                utilityService.HasError(
+                  customDayConfigurationForm,
+                  'interval',
+                  'required'
+                ) &&
+                utilityService.IsTouched(customDayConfigurationForm, 'interval')
+            }">
+                            <select formControlName="interval" placeholder=" " class="w-100">
+                                <option *ngFor="let time of durationArr; let i = index" value="{{ time.value }}">
+                                    {{ time.duration }} часа - продължителност
+                                </option>
+                            </select>
+                            <span class="placeholder-select cursor-text">Продължителност</span>
+                        </label>
+
+                        <mat-error class="fs-11 m-bot-min-10" *ngIf="
+              utilityService.HasError(
+                customDayConfigurationForm,
+                'interval',
+                'required'
+              ) &&
+              utilityService.IsTouched(customDayConfigurationForm, 'interval')
+            ">
+                            Това поле е задължително.
+                        </mat-error>
+                    </div>
+
+                    <!-- ====== Add Button -- Направи деня почивен ====== -->
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row justify-content-end mx-2" mat-dialog-actions>
+        <button mat-stroked-button color="danger" class="rounded-pill" mat-dialog-close (click)="cancelEvent()">
+            Отказ
+        </button>
+        <button mat-stroked-button color="primary" class="rounded-pill" (click)="onSubmit()">
+            Запази
+        </button>
+    </div>
+</div>

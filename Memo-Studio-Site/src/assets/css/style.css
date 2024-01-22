@@ -12287,6 +12287,10 @@ h5,
   background-color: #007bff;
 }
 
+.light-blue {
+  color: #007bff;
+}
+
 .text-super-light-blue {
   color: #72b6ff;
 }
@@ -12302,4 +12306,10 @@ h5,
 
 .border-rad-10 {
   border-radius: 10px !important;
+}
+
+.custom-dialog-close-button {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
 }

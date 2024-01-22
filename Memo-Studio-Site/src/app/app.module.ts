@@ -103,6 +103,7 @@ import { CreateServiceComponent } from "./shared/dialogs/create-service/create-s
 import { BookCategoryComponent } from "./shared/components/user/book-category/book-category.component";
 import { ReservationListBookHourComponent } from "./shared/dialogs/reservation-list-book-hour/reservation-list-book-hour.component";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { CalendarEditDayComponent } from './shared/dialogs/calendar-edit-day/calendar-edit-day.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -164,6 +165,7 @@ registerLocaleData(localeBg, "bg");
     CreateServiceComponent,
     BookCategoryComponent,
     ReservationListBookHourComponent,
+    CalendarEditDayComponent,
   ],
   imports: [
     BrowserModule,
