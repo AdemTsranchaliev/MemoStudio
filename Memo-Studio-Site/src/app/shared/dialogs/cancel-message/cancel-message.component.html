@@ -1,0 +1,20 @@
+<div class="position-relative">
+  <button mat-dialog-close class="custom-dialog-close-button">
+    <mat-icon>close</mat-icon>
+  </button>
+  <h1 class="text-center fs-28 {{ data?.dialogTitleStyle }}" mat-dialog-title>{{ data?.dialogTitle }}</h1>
+  <mat-dialog-content class="mat-typography">
+    <div class="text-center">
+      <p class="fs-18 {{ data?.dialogMessageContentStyle }}" *ngFor="let msg of data?.dialogMessageContent">
+        {{ msg }}
+      </p>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close>Затвори</button>
+    <button mat-raised-button mat-dialog-close class="bg-danger text-white {{ data?.dialogCancelBtnStyle }}"
+      (click)="onSubmit()">
+      {{ data?.dialogCancelBtnContent || 'Продължи' }}
+    </button>
+  </mat-dialog-actions>
+</div>

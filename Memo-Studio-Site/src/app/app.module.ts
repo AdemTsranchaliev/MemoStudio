@@ -88,7 +88,7 @@ import { AllUsersListComponent } from "./shared/components/admin/all-users/all-u
 import { AllUsersEditComponent } from "./shared/components/admin/all-users/all-users-edit/all-users-edit.component";
 import { UserHomeComponent } from "./user-pages/user-home/user-home.component";
 import { UpcomingBookingComponent } from "./shared/components/user/upcoming-booking/upcoming-booking.component";
-import { CancelBookingComponent } from "./shared/dialogs/cancel-booking/cancel-booking.component";
+import { CancelMessageDialogComponent } from "./shared/dialogs/cancel-message/cancel-message.component";
 import { PreBookingComponent } from "./shared/components/user/pre-booking/pre-booking.component";
 import { FinishBussinesRegistrationComponent } from "./auth-user/finish-bussines-registration/finish-bussines-registration.component";
 // Update Calendar Beahaviour Via Animation
@@ -152,7 +152,7 @@ registerLocaleData(localeBg, "bg");
     AllUsersEditComponent,
     UserHomeComponent,
     UpcomingBookingComponent,
-    CancelBookingComponent,
+    CancelMessageDialogComponent,
     PreBookingComponent,
     FinishBussinesRegistrationComponent,
     UserCalendarComponent,

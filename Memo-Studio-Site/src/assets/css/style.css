@@ -12319,10 +12319,12 @@ h5,
 
   border: none;
   outline: none;
+  background-color: transparent;
 }
 
 .custom-dialog-close-button:active,
 .custom-dialog-close-button:focus {
   border: none;
   outline: none;
+  background-color: transparent;
 }

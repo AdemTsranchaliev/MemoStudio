@@ -1,10 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { UtilityService } from '../../services/utility.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CalendarEditDataSharingService } from './calendar-edit-data-sharing.service';
 import { DayService } from '../../services/day.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable, Subscription } from 'rxjs';
+import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
+import { CancelMessageDialogComponent } from '../cancel-message/cancel-message.component';
 
 @Component({
   selector: 'app-calendar-edit-day',
@@ -31,6 +34,12 @@ export class CalendarEditDayComponent implements OnInit {
     interval: [30, Validators.required],
   });
 
+  private currentSize: string;
+  public isExtraSmall: Observable<BreakpointState> =
+    this.breakpointObserver.observe(Breakpoints.XSmall);
+
+  private subscriptions: Subscription[] = [];
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<CalendarEditDayComponent>,
@@ -39,6 +48,8 @@ export class CalendarEditDayComponent implements OnInit {
     private formBuilder: FormBuilder,
     private dayService: DayService,
     private snackBar: MatSnackBar,
+    private breakpointObserver: BreakpointObserver,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -54,9 +65,48 @@ export class CalendarEditDayComponent implements OnInit {
     this.customDayConfigurationForm.reset();
   }
 
+  public manageIsFreeDay() {
+    !this.isDayFree ? this.makeDayFree() : this.makeDayBusiness();
+  }
+
   public makeDayFree() {
+    const dialogRef = this.dialog.open(CancelMessageDialogComponent, {
+      width: "100vw",
+      data: {
+        dialogTitle: 'Внимание',
+        dialogTitleStyle: 'text-danger',
+        dialogMessageContent: ['Сигурни ли сте, че искате да направите този ден почивен?', 'Ако направите този ден почивен всички запазени часове ще бъдат отменени и няма да могат да бъдет върнати!', 'Всички ваши клиенти ще получат съобщение, че резервациите им са отменени!'],
+        dialogCancelBtnContent: 'Потвърди',
+      },
+    });
+
+    const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
+      this.currentSize = size.matches ? "small" : "large";
+
+      if (size.matches) {
+        dialogRef.updateSize("90%");
+      } else {
+        dialogRef.updateSize("50%");
+      }
+    });
+    this.subscriptions.push(smallDialogSubscription);
+
+    dialogRef.afterClosed().subscribe((isConfirmed) => {
+      if (isConfirmed) {
+        this.isDayFree = !this.isDayFree;
+        const msg = 'Направихте този ден почивен!';
+
+        this.snackBar.open(msg, "Затвори", {
+          duration: 8000,
+          panelClass: ["custom-snackbar"],
+        });
+      }
+    });
+  }
+
+  public makeDayBusiness() {
+    const msg = 'Направихте този ден работен!';
     this.isDayFree = !this.isDayFree;
-    const msg = this.isDayFree ? 'Направихте този ден почивен!' : 'Направихте този ден работен!';
 
     this.snackBar.open(msg, "Затвори", {
       duration: 8000,

@@ -4,6 +4,7 @@
     <mat-divider></mat-divider>
   </div>
 
+  <!-- Year -->
   <div class="year-header">
     <span class="left-button fa fa-chevron-left" id="prev" (click)="prevYear()">
     </span>
@@ -12,6 +13,7 @@
     </span>
   </div>
 
+  <!-- Months -->
   <table class="cal-months-table w-100">
     <tbody>
       <tr class="months-row">
@@ -23,6 +25,7 @@
     </tbody>
   </table>
 
+  <!-- Week Days -->
   <div>
     <div class="row header">
       <div *ngFor="let day of weekDays" class="col day text-center pe-2">
@@ -30,6 +33,7 @@
       </div>
     </div>
 
+    <!-- Calendar Days -->
     <div class="frame">
       <table class="dates-table w-100">
         <tbody class="tbody">

@@ -14,6 +14,7 @@ import { HttpClient } from "@angular/common/http";
 import { BASE_URL_DEV } from "src/app/shared/routes";
 import { FacilityService } from "src/app/shared/services/facility.service";
 import { UpsertServiceCategory } from "src/app/shared/models/facility/upsert-service-category.model";
+import { CancelMessageDialogComponent } from "src/app/shared/dialogs/cancel-message/cancel-message.component";
 
 @Component({
   selector: "app-services-tab",
@@ -79,7 +80,7 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
     });
   }
 
-  // ================ Edit/Delete Category ================
+  // ================ Edit Category ================
   public editCategory(categoryId: any) {
     const dialogRef = this.dialog.open(ServicesTabCreateCategoryComponent, {
       width: "100vw",
@@ -125,21 +126,47 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
     });
   }
 
+  // ================ Delete Category ================
   public deleteCategory(categoryId: number) {
-    // Find the index of the category to delete
-    const index = this.serviceCategories.findIndex((c) => c.id === categoryId);
+    const dialogRef = this.dialog.open(CancelMessageDialogComponent, {
+      width: "100vw",
+      data: {
+        dialogTitle: 'Внимание',
+        dialogTitleStyle: 'text-danger',
+        dialogMessageContent: ['Сигурни ли сте, че искате да изтриете тази категория?'],
+        dialogCancelBtnContent: 'Изтриване',
+      },
+    });
 
-    if (index !== -1) {
-      this.facilityService.removeCategory(categoryId).subscribe(
-        (success) => {
-          this.serviceCategories.splice(index, 1);
-        },
-        (err) => { }
-      );
-    }
+    const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
+      this.currentSize = size.matches ? "small" : "large";
+
+      if (size.matches) {
+        dialogRef.updateSize("90%");
+      } else {
+        dialogRef.updateSize("50%");
+      }
+    });
+    this.subscriptions.push(smallDialogSubscription);
+
+    dialogRef.afterClosed().subscribe((isConfirmed) => {
+      if (isConfirmed) {
+        // Find the index of the category to delete
+        const index = this.serviceCategories.findIndex((c) => c.id === categoryId);
+
+        if (index !== -1) {
+          this.facilityService.removeCategory(categoryId).subscribe(
+            (success) => {
+              this.serviceCategories.splice(index, 1);
+            },
+            (err) => { }
+          );
+        }
+      }
+    });
   }
 
-  // ================ Edit/Delete Service ================
+  // ================ Edit Service ================
   public editService(category: any, service: any) {
     const dialogRef = this.dialog.open(ServicesTabEditServiceComponent, {
       width: "100vw",
@@ -183,27 +210,53 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
     });
   }
 
+  // ================ Delete Service ================
   public deleteService(categoryId: number, serviceId: number) {
-    const categoryIndex = this.serviceCategories.findIndex(
-      (c) => c.id === categoryId
-    );
+    const dialogRef = this.dialog.open(CancelMessageDialogComponent, {
+      width: "100vw",
+      data: {
+        dialogTitle: 'Внимание',
+        dialogTitleStyle: 'text-danger',
+        dialogMessageContent: ['Сигурни ли сте, че искате да изтриете тази услуга?'],
+        dialogCancelBtnContent: 'Изтриване',
+      },
+    });
 
-    if (categoryId >= 0) {
-      const serviceIndex = this.serviceCategories[
-        categoryIndex
-      ].services.findIndex((s) => s.id === serviceId);
+    const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
+      this.currentSize = size.matches ? "small" : "large";
 
-      if (serviceIndex >= 0) {
-        this.facilityService.removeService(serviceId).subscribe(
-          (success) => {
-            this.serviceCategories[categoryIndex].services.splice(
-              serviceIndex,
-              1
-            );
-          },
-          (err) => { }
-        );
+      if (size.matches) {
+        dialogRef.updateSize("90%");
+      } else {
+        dialogRef.updateSize("50%");
       }
-    }
+    });
+    this.subscriptions.push(smallDialogSubscription);
+
+    dialogRef.afterClosed().subscribe((isConfirmed) => {
+      if (isConfirmed) {
+        const categoryIndex = this.serviceCategories.findIndex(
+          (c) => c.id === categoryId
+        );
+
+        if (categoryId >= 0) {
+          const serviceIndex = this.serviceCategories[
+            categoryIndex
+          ].services.findIndex((s) => s.id === serviceId);
+
+          if (serviceIndex >= 0) {
+            this.facilityService.removeService(serviceId).subscribe(
+              (success) => {
+                this.serviceCategories[categoryIndex].services.splice(
+                  serviceIndex,
+                  1
+                );
+              },
+              (err) => { }
+            );
+          }
+        }
+      }
+    });
   }
 }

@@ -1,5 +1,5 @@
 <div class="position-relative">
-    <button mat-icon-button mat-dialog-close class="custom-dialog-close-button">
+    <button mat-dialog-close class="custom-dialog-close-button">
         <mat-icon>close</mat-icon>
     </button>
     <div mat-dialog-content>
@@ -122,8 +122,8 @@
                     </div>
 
                     <div class="w-100 mb-1">
-                        <button mat-stroked-button color="primary" [ngClass]="{ 'text-danger': !isDayFree}"
-                            (click)="makeDayFree()">
+                        <button mat-stroked-button color="primary" class="w-100"
+                            [ngClass]="{ 'text-danger': !isDayFree}" (click)="manageIsFreeDay()">
                             {{isDayFree ? 'Направи деня работен' : 'Направи деня почивен' }}
                             <mat-icon>
                                 {{ isDayFree ? 'work' : 'work_off' }}

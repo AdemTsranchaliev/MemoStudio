@@ -10,7 +10,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { CancelBookingComponent } from "../../../dialogs/cancel-booking/cancel-booking.component";
+import { CancelMessageDialogComponent } from "../../../dialogs/cancel-message/cancel-message.component";
 
 export interface UserData {
   id: string;
@@ -88,7 +88,7 @@ export class UpcomingBookingComponent implements OnInit, AfterViewInit {
     this.dataSource = new MatTableDataSource(users);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngOnDestroy() {
     this.subscriptions.forEach((el) => el.unsubscribe());
@@ -100,9 +100,14 @@ export class UpcomingBookingComponent implements OnInit, AfterViewInit {
   }
 
   onBookingCancel() {
-    const dialogRef = this.dialog.open(CancelBookingComponent, {
+    const dialogRef = this.dialog.open(CancelMessageDialogComponent, {
       width: "100vw",
-      data: {},
+      data: {
+        dialogTitle: 'Внимание',
+        dialogTitleStyle: 'text-danger',
+        dialogMessageContent: ['Сигурни ли сте, че искате да откажете тази резервация?'],
+        dialogCancelBtnContent: 'Отказване',
+      },
     });
 
     const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
@@ -116,7 +121,11 @@ export class UpcomingBookingComponent implements OnInit, AfterViewInit {
     });
     this.subscriptions.push(smallDialogSubscription);
 
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((isConfirmed) => { 
+      if (isConfirmed) {
+
+      }
+    });
   }
 
   navigate(param: string) {
