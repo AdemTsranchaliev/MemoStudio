@@ -23,6 +23,22 @@
   text-align: center;
 }
 
+/* Day Status */
+
+.past-day-date {
+  color: gray !important;
+}
+
+.free-day {
+  color: gray !important;
+  text-decoration: line-through solid black 1px;
+}
+
+.full-day {
+  color: red !important;
+  /* decorate with crossed line */
+}
+
 /* =========== Media Queries =========== */
 
 @media screen and (min-width: 768px) {

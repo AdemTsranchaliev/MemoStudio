@@ -21,6 +21,7 @@ import { AuthenticatinService } from "src/app/shared/services/authenticatin.serv
 import { BookingService } from "src/app/shared/services/booking.service";
 import { DateTimeService } from "src/app/shared/services/date-time.service";
 import { DayService } from "src/app/shared/services/day.service";
+import { UtilityService } from "src/app/shared/services/utility.service";
 declare const $: any;
 
 @Component({
@@ -66,7 +67,8 @@ export class UserReservationListComponent implements OnInit, OnChanges {
     private bookingService: BookingService,
     private dayService: DayService,
     private authService: AuthenticatinService,
-    public dateTimeService: DateTimeService
+    public dateTimeService: DateTimeService,
+    public utilityService: UtilityService,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -114,6 +116,13 @@ export class UserReservationListComponent implements OnInit, OnChanges {
   }
 
   public openPreviewDialog() {
+    if (this.bookingForm.invalid) {
+      this.bookingForm.get('name').markAsTouched();
+      this.bookingForm.get('phone').markAsTouched();
+      this.bookingForm.get('email').markAsTouched();
+      return;
+    }
+
     this.showHideElement("previewDialog", true);
   }
 

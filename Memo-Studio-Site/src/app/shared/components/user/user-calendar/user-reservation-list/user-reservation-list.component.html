@@ -172,11 +172,17 @@
 
     <form class="form mb-0 mt-0 p-2" [formGroup]="bookingForm">
       <div class="form-container mb-0 mt-0 pb-0 pt-0">
-        <div class="w-100 mb-1">
-          <label class="custom-field w-100">
+        <div class="w-100 mb-1 position-relative">
+          <label class="custom-field w-100" [ngClass]="{'invalid-field': utilityService.HasError(bookingForm, 'name', 'required') &&
+          utilityService.IsTouched(bookingForm, 'name')}">
             <input class="w-100" placeholder=" " name="name" formControlName="name" [matAutocomplete]="auto" />
             <span class="placeholder cursor-text">Име Фамилия</span>
           </label>
+
+          <mat-error class="fs-11 error-container-name" *ngIf="utilityService.HasError(bookingForm, 'name', 'required') &&
+            utilityService.IsTouched(bookingForm, 'name')">
+            Това поле е задължително.
+          </mat-error>
 
           <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
             <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
@@ -185,11 +191,17 @@
           </mat-autocomplete>
         </div>
 
-        <div class="w-100 mb-1">
-          <label class="custom-field w-100">
+        <div class="w-100 mb-1 position-relative">
+          <label class="custom-field w-100" [ngClass]="{'invalid-field': utilityService.HasError(bookingForm, 'phone', 'required') &&
+          utilityService.IsTouched(bookingForm, 'phone')}">
             <input class="w-100" placeholder=" " name="phone" formControlName="phone" [matAutocomplete]="auto2" />
             <span class="placeholder cursor-text">Телефон</span>
           </label>
+
+          <mat-error class="fs-11 error-container-phone" *ngIf="utilityService.HasError(bookingForm, 'phone', 'required') &&
+            utilityService.IsTouched(bookingForm, 'phone')">
+            Това поле е задължително.
+          </mat-error>
 
           <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="onOptionSelected($event)">
             <mat-option *ngFor="let option of filteredPhoneOptions | async" [value]="option">
@@ -198,11 +210,17 @@
           </mat-autocomplete>
         </div>
 
-        <div class="w-100 mb-1">
-          <label class="custom-field w-100">
+        <div class="w-100 mb-1 position-relative">
+          <label class="custom-field w-100" [ngClass]="{'invalid-field': utilityService.HasError(bookingForm, 'email', 'required') &&
+          utilityService.IsTouched(bookingForm, 'email')}">
             <input class="w-100" placeholder=" " name="email" formControlName="email" [matAutocomplete]="autoEmail" />
             <span class="placeholder cursor-text">Имейл</span>
           </label>
+
+          <mat-error class="fs-11 error-container-email" *ngIf="utilityService.HasError(bookingForm, 'email', 'required') &&
+            utilityService.IsTouched(bookingForm, 'email')">
+            Това поле е задължително.
+          </mat-error>
 
           <mat-autocomplete #autoEmail="matAutocomplete" (optionSelected)="onOptionSelected($event)">
             <mat-option *ngFor="let option of filteredEmailOptions | async" [value]="option">
@@ -216,6 +234,10 @@
             <input class="w-100" placeholder=" " name="note" formControlName="note" />
             <span class="placeholder cursor-text">Бележка</span>
           </label>
+        </div>
+
+        <div class="d-flex align-items-center">
+          <mat-checkbox>Съзай ми регистрация автоматично</mat-checkbox>
         </div>
 
         <div class="text-center w-100 mt-5">
@@ -297,7 +319,16 @@
         Бележка:
       </p>
 
-      <p class="ml-1">{{ bookingForm.get('note').value }}</p>
+      <p class="ml-1">{{ bookingForm.get('note').value || "Няма зададена бележка!" }}</p>
+    </div>
+
+    <div class="d-flex px-3">
+      <p class="text-dark fw-500">
+        <i class="fas fa-map-marked-alt"></i>
+        Адрес:
+      </p>
+
+      <p class="ml-1">Нямаме го към обекта!</p>
     </div>
 
     <div class="text-center w-100 mt-5">

@@ -293,6 +293,10 @@
   left: 0;
 }
 
+.company-logo-image {
+  width: 50px;
+}
+
 /* ============== Media Query ============== */
 
 @media (max-width: 576px) {

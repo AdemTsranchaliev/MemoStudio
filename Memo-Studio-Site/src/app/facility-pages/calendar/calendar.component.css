@@ -1,0 +1,10 @@
+.pt-70 {
+  padding-top: 70px;
+}
+
+/* Media Queries */
+@media (max-width: 600px) {
+  .pt-70 {
+    padding-top: 26px;
+  }
+}
