@@ -13,16 +13,14 @@
         public bool IsOpen { get; set; }
 
         public int FacilityId { get; set; }
-        public Facility Facility { get; set; }
+        public Facility? Facility { get; set; }
 
 
-        public void Update(DateTime dayDate, DateTime startPeriod, DateTime endPeriod, int interval, bool isOpen)
+        public void Update(DateTime startPeriod, DateTime endPeriod, int interval)
         {
-            this.DayDate = DayDate;
             this.StartPeriod = startPeriod;
             this.EndPeriod = endPeriod;
             this.Interval = interval;
-            this.IsOpen = isOpen;
         }
 
         public void CancelDay()

@@ -34,8 +34,7 @@
                             )
                         }">
                             <select placeholder=" " class="w-100" formControlName="periodStart">
-                                <option *ngFor="let hour of timeSlots; let i = index"
-                                    value="{{ hour | date : 'HH:mm' }}">
+                                <option *ngFor="let hour of timeSlots; let i = index" value="{{i}}">
                                     {{ hour | date : 'HH:mm' }} ч.
                                 </option>
                             </select>
@@ -71,8 +70,7 @@
                             )
                         }">
                             <select placeholder=" " class="w-100" formControlName="periodEnd">
-                                <option *ngFor="let hour of timeSlots; let i = index"
-                                    value="{{ hour | date : 'HH:mm' }}">
+                                <option *ngFor="let hour of timeSlots; let i = index" value="{{i}}">
                                     {{ hour | date : 'HH:mm' }} ч.
                                 </option>
                             </select>
@@ -103,10 +101,10 @@
                         }">
                             <select formControlName="interval" placeholder=" " class="w-100">
                                 <option *ngFor="let time of durationArr; let i = index" value="{{ time.value }}">
-                                    {{ time.duration }} часа - продължителност
+                                    {{ time.duration }} - продължителност
                                 </option>
                             </select>
-                            <span class="placeholder-select cursor-text">Продължителност на услуга</span>
+                            <span class="placeholder-select cursor-text">Времеви интервали</span>
                         </label>
 
                         <mat-error class="fs-11 m-bot-min-10" *ngIf="

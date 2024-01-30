@@ -1,6 +1,6 @@
-﻿using Memo_Studio_Library.Data.Models;
-using Memo_Studio_Library.Services;
+﻿using Memo_Studio_Library.Services;
 using Memo_Studio_Library.ViewModels;
+using Memo_Studio_Library.ViewModels.Day;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,40 +21,54 @@ namespace Memo_Studio.Controllers
         [HttpGet("{dateTime}")]
         public async Task<IActionResult> GetDay(DateTime dateTime)
         {
-            var result = new Day();
             try
             {
                 var facilityId = GetFacilityId();
 
-                result = await dayService.GetDayForFacility(dateTime, facilityId);
+                var result = await dayService.GetDayForFacility(dateTime, facilityId);
 
+                return Ok(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                int i = 1;
+                throw new Exception("Нещо се обърка. Моля опитайте отново");
             }
-            return Ok(result);
-
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpPost("add-day")]
         public async Task<IActionResult> AddDay([FromBody] DayAddViewModel model)
         {
-            var facilityId = GetFacilityId();
-            await dayService.AddDay(model, facilityId);
+            try
+            {
+                var facilityId = GetFacilityId();
+                await dayService.AddDay(model, facilityId);
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Нещо се обърка. Моля опитайте отново");
+            }
         }
 
-        //[Authorize]
-        //[HttpPost("holiday")]
-        //public async Task<IActionResult> SetHoliday([FromBody] Day model)
-        //{
-        //        await dayService.CancelDay(model);
-        //
-        //    return Ok();
-        //}
+        [Authorize]
+        [HttpPost("change-is-open")]
+        public async Task<IActionResult> ChangeIsWorking([FromBody]AddHolidayViewModel model)
+        {
+            try
+            {
+                var facilityId = GetFacilityId();
+
+                await dayService.ChangeDayStatus(model.dateTime, facilityId);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Нещо се обърка. Моля опитайте отново");
+            }
+        }
     }
 }
 

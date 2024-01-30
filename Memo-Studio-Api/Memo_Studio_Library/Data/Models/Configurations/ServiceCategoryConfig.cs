@@ -15,6 +15,10 @@ namespace Memo_Studio_Library.Data.Models.Configurations
             builder.Property(p => p.Name).IsRequired();      
             builder.Property(p => p.FacilityId).IsRequired();
 
+            builder.Property(p => p.CreatedDate).IsRequired();
+            builder.Property(p => p.DeletedDate).IsRequired(false);
+            builder.Property(p => p.Deleted).HasDefaultValue(false).IsRequired();
+
             builder.HasOne(x => x.Facility).WithMany(x => x.ServiceCategories).HasForeignKey(x => x.FacilityId);
         }
     }

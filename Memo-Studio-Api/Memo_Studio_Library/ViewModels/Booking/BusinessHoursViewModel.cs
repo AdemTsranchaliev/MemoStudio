@@ -6,8 +6,9 @@ namespace Memo_Studio_Library.ViewModels.Booking
         public int Id { get; set; }
         public string Day { get; set; }
         public bool IsOpen { get; set; }
-        public string OpeningTime { get; set; }
-        public string ClosingTime { get; set; }
+        public DateTime? OpeningTime { get; set; }
+        public DateTime? ClosingTime { get; set; }
+        public int Interval { get; set; }
     }
 }
 
