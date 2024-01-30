@@ -263,6 +263,28 @@
   text-align: center;
 }
 
+.fs-11 {
+  font-size: 11px;
+}
+
+.error-container-name {
+  position: absolute;
+  top: 72px;
+  left: 2px;
+}
+
+.error-container-phone {
+  position: absolute;
+  top: 72px;
+  left: 2px;
+}
+
+.error-container-email {
+  position: absolute;
+  top: 72px;
+  left: 2px;
+}
+
 @media (max-width: 991.98px) {
   .user-event-card {
     margin: 5px;
