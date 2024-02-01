@@ -105,11 +105,18 @@ namespace Memo_Studio.Controllers
         [HttpDelete("service/{serviceId}")]
         public async Task<IActionResult> DeleteService(int serviceId)
         {
-            var facilityId = this.GetFacilityId();
+            try
+            {
+                var facilityId = this.GetFacilityId();
 
-            await facilityService.DeleteService(serviceId, facilityId);
+                await facilityService.DeleteService(serviceId, facilityId);
 
-            return Ok();
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Нещо се обърка. Моля опитайте отново");
+            }   
         }
 
         [Authorize]

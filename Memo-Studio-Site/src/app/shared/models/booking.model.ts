@@ -11,6 +11,7 @@ export class Booking {
   confirmed: boolean;
   registeredUser: boolean;
   duration: number;
+  isFree: boolean;
 
   constructor(
     id: number = -1,
@@ -39,4 +40,9 @@ export class Booking {
     this.registeredUser = registeredUser;
     this.duration = duration;
   }
+}
+
+export interface BookingsList{
+  isOpen: boolean;
+  bookings: Booking[];
 }

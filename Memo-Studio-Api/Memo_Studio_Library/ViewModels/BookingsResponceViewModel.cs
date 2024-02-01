@@ -3,6 +3,14 @@ namespace Memo_Studio_Library
 {
     public class BookingsResponceViewModel
 	{
+        public BookingsResponceViewModel()
+        {
+
+        }
+        public BookingsResponceViewModel(DateTime dateTime)
+        {
+            this.Timestamp = dateTime;
+        }
         public Guid BookingId { get; set; }
 
         public DateTime Timestamp { get; set; }
@@ -24,6 +32,8 @@ namespace Memo_Studio_Library
         public bool RegisteredUser { get; set; }
 
         public int Duration { get; set; }
+
+        public bool IsFree { get; set; } = true;
     }
 }
 

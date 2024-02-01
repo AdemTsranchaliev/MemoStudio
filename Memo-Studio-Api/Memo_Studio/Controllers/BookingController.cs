@@ -47,7 +47,7 @@ namespace Memo_Studio.Controllers
 
             var bookings = await bookingService.GetBookingsByDate(date, facilityId);
             var result = mapper.Map<List<BookingsResponceViewModel>>(bookings);
-
+            await bookingService.GetBookingsListByDate(date,facilityId);
             return Ok(result);
         }
 
@@ -84,6 +84,17 @@ namespace Memo_Studio.Controllers
             var daysStatistics = await bookingService.GetMonthDaysStatistics(facilityId, month, year);
 
             return Ok(daysStatistics);
+        }
+
+        [Authorize]
+        [HttpGet("{date}/list")]
+        public async Task<IActionResult> GetBookings(DateTime date)
+        {
+            
+            var facilityId = this.GetFacilityId();
+
+            var result = await this.bookingService.GetBookingsListByDate(date, facilityId);
+            return Ok(result);
         }
     }
 }

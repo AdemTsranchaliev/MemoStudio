@@ -147,19 +147,8 @@ export class UserReservationListComponent implements OnInit, OnChanges {
   }
 
   public cancelDay() {
-    if (this.currentDay && this.currentDay.dayDate) {
-      this.currentDay.isWorking = false;
-    } else {
-      this.currentDay = {
-        dayDate: this.date,
-        startPeriod: new Date(),
-        endPeriod: new Date(),
-        isWorking: false,
-        employeeId: localStorage.getItem("clientId"),
-      };
-    }
-
-    this.dayService.setHoliday(this.currentDay).subscribe((x) => {
+    
+    this.dayService.setHoliday(this.date).subscribe((x) => {
       $("#modalCancel").modal("hide");
       $("#dialog2").hide(250);
       this.showBookings(1);
@@ -219,7 +208,7 @@ export class UserReservationListComponent implements OnInit, OnChanges {
   private getBookingsByBusiness(filterId: number) {
     let bookingsToShow: Booking[] = [];
 
-    if (!this.currentDay || this.currentDay?.isWorking) {
+    if (!this.currentDay || this.currentDay?.isOpen) {
       var tempDuration = 0;
       var currentBooking;
 

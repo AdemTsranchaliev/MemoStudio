@@ -19,7 +19,13 @@ namespace Memo_Studio_Library.Data.Models
 
 		public int Duration { get; set; }
 
-		public List<Booking> Bookings { get; set; }
+		public bool Deleted { get; set; }
+		
+		public DateTime? DeletedDate { get; set; }
+		
+		public DateTime CreatedDate { get; set; }
+
+        public List<Booking> Bookings { get; set; }
 
 		public int FacilityId { get; set; }
         public Facility? Facility { get; set; }

@@ -16,7 +16,7 @@
             </div>
           </div>
           <div class="events-container" *ngIf="!loader && isServerDown == false">
-            <app-reservation-list (dateChange)="dateChange($event)" [bookingsOrigin]="bookingsOrigin"
+            <app-reservation-list (dateChange)="dateChange($event)" [bookingsOrigin]="bookingsOrigin" [isOpen]="isOpen"
               [isDayPast]="isPastDate" [facilityConfiguration]="facilityConfiguration"
               [autocompleteNames]="autocompleteNames" [date]="date"></app-reservation-list>
           </div>

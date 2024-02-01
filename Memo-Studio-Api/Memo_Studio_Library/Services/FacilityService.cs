@@ -200,7 +200,8 @@ namespace Memo_Studio_Library.Services
                     serviceCategory = new ServiceCategory
                     {
                         Name = model.Name,
-                        FacilityId = facility.Id
+                        FacilityId = facility.Id,
+                        CreatedDate = DateTime.UtcNow
                     };
 
                     await context.ServiceCategories.AddAsync(serviceCategory);
@@ -242,7 +243,8 @@ namespace Memo_Studio_Library.Services
                     Duration = model.Duration,
                     FacilityId = facility.Id,
                     Price = model.Price,
-                    ServiceCategoryId = model.ServiceCategoryId
+                    ServiceCategoryId = model.ServiceCategoryId,
+                    CreatedDate = DateTime.UtcNow
                 };
 
                 await context.Services.AddAsync(newService);
@@ -308,9 +310,14 @@ namespace Memo_Studio_Library.Services
             if (facility!=null && facility.Services.Any(x=>x.Id==serviceId))
             {
                 var modelToDelete = facility.Services.FirstOrDefault(x => x.Id == serviceId);
+                if (modelToDelete!=null)
+                {
+                    modelToDelete.DeletedDate = DateTime.UtcNow;
+                    modelToDelete.Deleted = true;
+                    context.Services.Update(modelToDelete);
+                    await context.SaveChangesAsync();
+                }
 
-                context.Services.Remove(modelToDelete);
-                await context.SaveChangesAsync();
             }                  
         }
         public async Task DeleteServiceCategory(int categoryId, Guid facilityId)
@@ -325,9 +332,19 @@ namespace Memo_Studio_Library.Services
                 if (facility != null && facility.ServiceCategories.Any(x => x.Id == categoryId))
                 {
                     var modelToDelete = facility.ServiceCategories.FirstOrDefault(x => x.Id == categoryId);
-                    context.Services.RemoveRange(modelToDelete.Services);
-                    context.ServiceCategories.Remove(modelToDelete);
-                    await context.SaveChangesAsync();
+                    if (modelToDelete!=null)
+                    {
+                        foreach (var service in modelToDelete.Services)
+                        {
+                            service.Deleted = true;
+                            service.DeletedDate = DateTime.UtcNow;
+                        }
+                        modelToDelete.Deleted = true;
+                        modelToDelete.DeletedDate = DateTime.UtcNow;
+
+                        context.ServiceCategories.Update(modelToDelete);
+                        await context.SaveChangesAsync();
+                    }
                 }
             }
             catch(Exception ex)
@@ -352,6 +369,8 @@ namespace Memo_Studio_Library.Services
                 }
                 var result = new List<ServiceCategoryResponse>();
 
+                facility.ServiceCategories = facility.ServiceCategories.Where(x => !x.Deleted).ToList();
+
                 foreach (var category in facility.ServiceCategories)
                 {
                     var tempCategory = new ServiceCategoryResponse
@@ -360,6 +379,8 @@ namespace Memo_Studio_Library.Services
                         Name = category.Name,
                         FacilityId = category.FacilityId,
                     };
+
+                    category.Services = category.Services.Where(x => !x.Deleted).ToList();
 
                     foreach (var service in category.Services)
                     {

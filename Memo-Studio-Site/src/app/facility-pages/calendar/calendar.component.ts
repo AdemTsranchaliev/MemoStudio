@@ -7,7 +7,11 @@ import { Day } from "../../shared/models/day.model";
 import { FacilityService } from "../../shared/services/facility.service";
 import { DateCalendar } from "./date.model";
 import { MatDialog } from "@angular/material/dialog";
-import { BreakpointObserver, BreakpointState, Breakpoints } from "@angular/cdk/layout";
+import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from "@angular/cdk/layout";
 import { Observable, Subscription } from "rxjs";
 import { CalendarEditDayComponent } from "src/app/shared/dialogs/calendar-edit-day/calendar-edit-day.component";
 declare const $: any;
@@ -23,6 +27,7 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
   public isPastDate: boolean = false;
   public isServerDown: boolean = false;
   public loader: boolean = false;
+  public isOpen: boolean = true;
   bookingsOrigin: Booking[] = [];
   public currentDay: Day;
   public date: Date = new Date();
@@ -41,8 +46,8 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
     private facilityService: FacilityService,
     public dateTimeService: DateTimeService,
     public dialog: MatDialog,
-    private breakpointObserver: BreakpointObserver,
-  ) { }
+    private breakpointObserver: BreakpointObserver
+  ) {}
 
   ngOnInit(): void {
     this.facilityService.getFacilitySettings().subscribe((x) => {
@@ -64,13 +69,14 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
   public dateChange($event) {
     this.date = $event.date;
     this.isPastDate = $event.isPastDate;
-
-    this.bookingService.getBookingsByDate(this.date).subscribe((x) => {
-      this.bookingsOrigin = x;
+    this.bookingService.getBookingListByDate(this.date).subscribe((x) => {
+      console.log(x)
+      this.bookingsOrigin = x.bookings;
+      this.isOpen = x.isOpen;
     });
   }
 
-  editDay() {
+  public editDay() {
     const dialogRef = this.dialog.open(CalendarEditDayComponent, {
       width: "100vw",
       data: {

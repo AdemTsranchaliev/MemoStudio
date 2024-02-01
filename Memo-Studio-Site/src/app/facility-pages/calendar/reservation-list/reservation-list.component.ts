@@ -46,6 +46,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() autocompleteNames: [] = [];
   @Input() date: Date = new Date();
   @Input() isDayPast: boolean;
+  @Input() isOpen: boolean;
   @Output() dateChange: EventEmitter<DateCalendar> = new EventEmitter();
 
   private subscriptions: Subscription[] = [];
@@ -102,8 +103,8 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     private dataSharingService: CalendarEditDataSharingService,
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
-    private datePipe: DatePipe,
-  ) { }
+    private datePipe: DatePipe
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     //Load time slots
@@ -135,12 +136,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
   public showBookings(id: number) {
     this.selectedFilter = id;
 
-    this.dayService.getDayByDate(this.date).subscribe((x) => {
-      if (x) {
-        //TODO: SET DAY
-      }
-      this.bookings = this.getBookingsByBusiness(id);
-    });
+    this.bookings = this.getBookingsByBusiness(id);
   }
 
   public openRemoveBookingConfirmation(id: string) {
@@ -149,7 +145,10 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
 
   public openBookingDialog(preDefinedHour: Date) {
     if (preDefinedHour) {
-      const formattedTimestamp = this.datePipe.transform(preDefinedHour, 'HH:mm');
+      const formattedTimestamp = this.datePipe.transform(
+        preDefinedHour,
+        "HH:mm"
+      );
 
       this.bookingForm.patchValue({
         timestamp: formattedTimestamp,
@@ -172,26 +171,6 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
       });
 
       this.loader = false;
-    });
-  }
-
-  public cancelDay() {
-    if (this.currentDay && this.currentDay.dayDate) {
-      this.currentDay.isWorking = false;
-    } else {
-      this.currentDay = {
-        dayDate: this.date,
-        startPeriod: new Date(),
-        endPeriod: new Date(),
-        isWorking: false,
-        employeeId: localStorage.getItem("clientId"),
-      };
-    }
-
-    this.dayService.setHoliday(this.currentDay).subscribe((x) => {
-      $("#modalCancel").modal("hide");
-      $("#dialog2").hide(250);
-      this.showBookings(1);
     });
   }
 
@@ -226,65 +205,15 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
 
   //REF
   private getBookingsByBusiness(filterId: number) {
-    let bookingsToShow: Booking[] = [];
-
-    if (!this.currentDay || this.currentDay?.isWorking) {
-      var tempDuration = 0;
-      var currentBooking;
-
-      this.timeSlots.forEach((timeSlot) => {
-        if (
-          (this.checkIfBookingExist(timeSlot) &&
-            (filterId == FilterTypes.All || filterId == FilterTypes.Bussy)) ||
-          tempDuration > 0
-        ) {
-          var bookingTemp: Booking;
-
-          if (tempDuration > 0) {
-            bookingTemp = { ...currentBooking };
-          } else {
-            bookingTemp = { ...this.getBookingByTimeSlot(timeSlot) };
-          }
-
-          if (tempDuration == 0 && bookingTemp) {
-            tempDuration =
-              bookingTemp.duration - this.facilityConfiguration.interval;
-            currentBooking = bookingTemp;
-          } else {
-            tempDuration = tempDuration - this.facilityConfiguration.interval;
-          }
-          bookingTemp.timestamp = timeSlot;
-          bookingsToShow.push(bookingTemp);
-        } else if (
-          !this.checkIfBookingExist(timeSlot) &&
-          (filterId == FilterTypes.All || filterId == FilterTypes.Free) &&
-          !this.isDayPast
-        ) {
-          var booking = new Booking();
-          booking.timestamp = timeSlot;
-          bookingsToShow.push(booking);
-        }
-      });
+    if (filterId == FilterTypes.Bussy) {
+      return this.bookingsOrigin.filter((booking) => !booking.isFree);
+    } else if (filterId == FilterTypes.Free) {
+      return this.bookingsOrigin.filter((booking) => booking.isFree);
+    } else {
+      return this.bookingsOrigin;
     }
-    return bookingsToShow;
   }
 
-  //REF
-  private getBookingByTimeSlot(date) {
-    let index = this.bookingsOrigin.findIndex(
-      (x) =>
-        this.dateTimeService.compareHoursAndMinutes(
-          date,
-          new Date(x.timestamp)
-        ) == 0
-    );
-
-    if (index == -1) {
-      return null;
-    }
-
-    return this.bookingsOrigin[index];
-  }
   //REF
   private checkIfBookingExist(date: Date) {
     return (

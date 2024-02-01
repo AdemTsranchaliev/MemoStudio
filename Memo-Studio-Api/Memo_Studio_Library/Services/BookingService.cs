@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Globalization;
+using AutoMapper;
+using Memo_Studio_Library.Data.Models;
 using Memo_Studio_Library.Enums;
 using Memo_Studio_Library.Models;
-using Memo_Studio_Library.Services;
 using Memo_Studio_Library.Services.Interfaces;
 using Memo_Studio_Library.ViewModels.Booking;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
@@ -19,14 +19,16 @@ namespace Memo_Studio_Library
         private readonly IUserService userService;
         private readonly IMessageService messageService;
         private readonly IMailService mailService;
+        private readonly IMapper mapper;
 
-        public BookingService(StudioContext context, IFacilityService facilityService,IUserService userService, IMessageService messageService, IMailService mailService)
+        public BookingService(StudioContext context, IFacilityService facilityService,IUserService userService, IMessageService messageService, IMailService mailService, IMapper mapper)
 		{
             this.context = context;
             this.facilityService = facilityService;
             this.userService = userService;
             this.messageService = messageService;
             this.mailService = mailService;
+            this.mapper = mapper;
         }
 
         public async Task AddBookign(BookingViewModel booking)
@@ -105,6 +107,77 @@ namespace Memo_Studio_Library
             {
                 throw new Exception("Грешка при запазването на данните. Моля опитайте отново");
             }
+        }
+
+        public async Task<BookingListViewModel> GetBookingsListByDate(DateTime dateTime, Guid facilityId)
+        {
+            using (var context = new StudioContext())
+            {
+                try
+                {
+                    var facility = await context.Facilities
+                        .Include(x => x.Days)
+                        .Include(x => x.Bookings)
+                        .FirstOrDefaultAsync(x => x.FacilityId == facilityId);
+
+                    if (facility == null)
+                    {
+                        return new BookingListViewModel { IsOpen = false };
+                    }
+
+                    var tuple = GetTimeSlots(facility, dateTime);
+
+                    var start = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0);
+                    var end = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 23, 59, 59);
+
+                    var currentUtcDate = DateTime.UtcNow;
+                    var roundDate = new DateTime(currentUtcDate.Year,currentUtcDate.Month,currentUtcDate.Day,0,0,0);
+
+                    var bookings = facility.Bookings
+                        .Where(x => x.Timestamp >= start && x.Timestamp <= end && x.Facility.FacilityId == facilityId && !x.Canceled)
+                        .ToList();
+
+                    var result = new List<BookingsResponceViewModel>();
+                    if (roundDate <= start)
+                    {
+
+                        foreach (var slot in tuple.Item2)
+                        {
+                            var roundHour = GetHourAndMinutes(slot);
+                            var booking = bookings
+                                .FirstOrDefault(x => GetHourAndMinutes(x.Timestamp.AddMinutes(x.Duration)) > roundHour && GetHourAndMinutes(x.Timestamp) <= roundHour && !x.Canceled);
+
+                            if (booking != null)
+                            {
+                                var mappedValue = mapper.Map<BookingsResponceViewModel>(booking);
+                                mappedValue.IsFree = false;
+                                result.Add(mappedValue);
+                            }
+                            else
+                            {
+                                var freeHour = new BookingsResponceViewModel(slot);
+                                result.Add(freeHour);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var booking in bookings)
+                        {
+                            var mappedValue = mapper.Map<BookingsResponceViewModel>(booking);
+                            mappedValue.IsFree = false;
+                            result.Add(mappedValue);
+                        }
+                    }
+
+                    return new BookingListViewModel { IsOpen = tuple.Item1, Bookings = result};
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
+
         }
 
         public async Task<List<Booking>> GetBookingsByDate(DateTime dateTime, Guid facilityId)
@@ -333,6 +406,50 @@ namespace Memo_Studio_Library
             var bookingDate = booking.Entity.GetDateTimeInMessageFormat();
             var category = booking.Entity.ServiceId != null ? "за "+booking.Entity?.Service.Name+" " : "";
             return $"<p>Здравейте <b>{booking.Entity.Name}</b>,</p>\n\n<p>Благодарим ви, че използвахте нашето приложение за вашата резервация. Вашата резервация {category}в студио <b>'{booking.Entity.Facility.Name}'</b> е успешно потвърдено.</p>\n\n<p>Дата на резервация: <b>'{bookingDate}'</b></p>\n\n<p>Очакваме ви с нетърпение!</p>\n\n<p>С уважение,<br>Екипът на Bookie</p>";
+        }
+
+        private Tuple<bool, List<DateTime>> GetTimeSlots(Facility facility, DateTime dateTime)
+        {
+            var listOfHours = new List<DateTime>();
+            var currentDay = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0);
+            var dayConfiguration = facility.Days.FirstOrDefault(x => x.DayDate == currentDay);
+
+            var periodStart = new DateTime();
+            var periodEnd = new DateTime();
+            var interval = 0;
+            var isOpen = true;
+
+            if (dayConfiguration != null)
+            {
+                periodEnd = dayConfiguration.EndPeriod;
+                periodStart = dayConfiguration.StartPeriod;
+                interval = dayConfiguration.Interval;
+                isOpen = dayConfiguration.IsOpen;
+            }
+            else
+            {
+                var globalConfig = JsonConvert.DeserializeObject<List<BusinessHoursViewModel>>(facility.WorkingDays);
+                var idOfWeekDay = (int)dateTime.DayOfWeek == 0 ? 7 : (int)dateTime.DayOfWeek;
+                var dayOfWeek = globalConfig.FirstOrDefault(x => x.Id == idOfWeekDay);
+                periodStart = dayOfWeek?.OpeningTime != null ? dayOfWeek.OpeningTime.Value : DateTime.UtcNow;
+                periodEnd = dayOfWeek?.ClosingTime != null ? dayOfWeek.ClosingTime.Value : DateTime.UtcNow.AddDays(1);
+                interval = dayOfWeek.Interval!=0 ? dayOfWeek.Interval : 30;
+                isOpen = dayOfWeek.IsOpen;
+            }
+
+            if (isOpen)
+            {
+                for (DateTime currentDateTime = periodStart; currentDateTime <= periodEnd; currentDateTime = currentDateTime.AddMinutes(interval))
+                {
+                    listOfHours.Add(currentDateTime);
+                }
+            }
+
+            return new Tuple<bool, List<DateTime>>(isOpen,listOfHours);
+        }
+        private DateTime GetHourAndMinutes(DateTime dateTime)
+        {
+            return new DateTime(1970, 1, 1, dateTime.Hour, dateTime.Minute, 0);
         }
     }
 }

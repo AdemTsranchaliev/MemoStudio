@@ -43,9 +43,8 @@ export class UserCalendarComponent implements OnInit {
 
   public dateChange(date) {
     this.date = date;
-
     this.bookingService.getBookingsByDate(this.date).subscribe((x) => {
-      this.bookingsOrigin = x;
+      this.bookingsOrigin = x.bookings;
     });
   }
 
