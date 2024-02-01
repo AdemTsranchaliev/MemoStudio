@@ -1,0 +1,108 @@
+<section class="container user-pre-booking-container">
+    <article class="row justify-content-center align-items-center">
+        <article class="col-md-5 col-11 text-center border custom-shadow rounded business-card">
+            <div class="business-profile-container"></div>
+            <figure class="business-profile-fig">
+                <img class="business-profile" src="assets/images/avatar-1.jpg" alt="" />
+            </figure>
+
+            <article class="px-3">
+                <div class="mt-2">
+                    <h2 class="text-muted mb-min-10">Салон коса и стил</h2>
+                    <h4 class="text-muted">Фрозьор & Маникюр</h4>
+                </div>
+
+                <div class="d-flex justify-content-center mb-5">
+                    <span class="fs-34 cursor-pointer icon-link" matTooltip="hair.and.nails">
+                        <i class="fab fa-facebook text-blue-facebook" [class.bounce]="triggerAnimation"
+                            style="animation-delay: 0.1s;"></i>
+                    </span>
+                    <span class="fs-34 cursor-pointer icon-link" matTooltip="hair.and.nails">
+                        <i class="fab fa-instagram text-pink-instagram" [class.bounce]="triggerAnimation"
+                            style="animation-delay: 0.2s;"></i>
+                    </span>
+                    <span class="fs-34 cursor-pointer icon-link" matTooltip="0899 555 555">
+                        <i class="fas fa-mobile-alt text-darke-magenta" [class.bounce]="triggerAnimation"
+                            style="animation-delay: 0.3s;"></i>
+                    </span>
+                    <span class="fs-34 cursor-pointer icon-link" matTooltip="demo.meil@mail.com">
+                        <i class="far fa-envelope text-red" [class.bounce]="triggerAnimation"
+                            style="animation-delay: 0.4s;"></i>
+                    </span>
+                    <span class="fs-34 cursor-pointer icon-link" matTooltip="Sofiq Bulgariq, Stefan Stambolov">
+                        <i class="fas fa-map-marked-alt text-forest-green" [class.bounce]="triggerAnimation"
+                            style="animation-delay: 0.5s;"></i>
+                    </span>
+                </div>
+
+                <div class="row justify-content-between px-3">
+                    <div class="col-6 my-2">
+                        <button mat-stroked-button class="rounded-pill light-blue btn-size" color="primary">
+                            Резервирай час
+                        </button>
+                    </div>
+                    <!-- <div class="col-6 my-2">
+                    <button mat-stroked-button class="rounded-pill light-blue btn-size" color="primary">
+                        Абонирай се
+                    </button>
+                    </div> -->
+
+                    <div class="col-6 my-2">
+                        <button mat-stroked-button class="rounded-pill light-blue btn-size" color="primary"
+                            [matMenuTriggerFor]="menu" #trigger="matMenuTrigger">
+                            Сподели
+                            <i class="fas fa-share-square"></i>
+                        </button>
+                    </div>
+                </div>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item>
+                        <i class="fab fa-facebook-messenger text-blue-facebook fs-22"></i>
+                        <span>
+                            Facebook
+                        </span>
+                    </button>
+                    <button mat-menu-item>
+                        <i class="fab fa-instagram text-pink-instagram fs-22"></i>
+                        <span>
+                            Instagram
+                        </span>
+                    </button>
+                    <button mat-menu-item>
+                        <i class="fab fa-viber text-blue-facebook fs-22"></i>
+                        <span>
+                            Viber
+                        </span>
+                    </button>
+                    <button mat-menu-item>
+                        <i class="fab fa-whatsapp text-green fs-22"></i>
+                        <span>
+                            WhatsApp
+                        </span>
+                    </button>
+                    <button mat-menu-item>
+                        <i class="far fa-copy text-dark fs-22"></i>
+                        <span>
+                            Копирай връзката
+                        </span>
+                    </button>
+                </mat-menu>
+
+                <div class="d-flex justify-content-center">
+                    <span class="px-4 info-fs-24 text-info icon-info cursor-pointer" matTooltip="Брой потребители">
+                        <i class="fas fa-users"></i>
+                        56
+                    </span>
+                    <span class="px-4 info-fs-24 text-info icon-info cursor-pointer" matTooltip="Брой изпълнени услуги">
+                        <i class="far fa-check-circle"></i>
+                        896
+                    </span>
+                    <span class="px-4 info-fs-24 text-info icon-info cursor-pointer" matTooltip="Брой споделяния">
+                        <i class="fas fa-share-square"></i>
+                        237
+                    </span>
+                </div>
+            </article>
+        </article>
+    </article>
+</section>

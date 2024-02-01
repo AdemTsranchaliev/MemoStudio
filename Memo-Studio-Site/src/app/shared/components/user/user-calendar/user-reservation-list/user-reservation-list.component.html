@@ -21,7 +21,7 @@
     <!-- Render Olny Reserved Hours -->
     <div *ngIf="booking.bookingId">
       <mat-accordion>
-        <mat-expansion-panel class="event-expansion-panel" hideToggle>
+        <mat-expansion-panel class="event-expansion-panel custom-shadow" hideToggle>
           <mat-expansion-panel-header class="reservation-container">
             <mat-panel-title>
               {{ booking.timestamp | date : 'HH:mm' }} ч.
@@ -33,7 +33,7 @@
                   {{ booking.name | truncate : 50 }}
                 </span>
 
-                <span class="">
+                <span>
                   <a href="tel:{{ booking.phone }}">
                     {{ booking.phone || 'NULL DATA' }}
                   </a>
@@ -63,7 +63,7 @@
 
     <!-- Render Olny Free Hours -->
     <div *ngIf="!booking.bookingId" style="cursor: pointer">
-      <div class="border border-primary rounded shadow p-2 text-dark text-center"
+      <div class="border border-primary rounded custom-shadow p-2 text-dark text-center"
         (click)="openBookingDialog(booking.timestamp)">
         {{ booking.timestamp | date : 'HH:mm' }}
       </div>

@@ -277,9 +277,7 @@
 /* Reservations wrapper */
 .user-reservation-container {
   height: 500px;
-  /* Set a fixed height, adjust as needed */
   overflow-y: scroll;
-  /* Enable vertical scrolling */
 }
 
 /* Stepper */
@@ -297,10 +295,18 @@
   width: 50px;
 }
 
+.pe-66 {
+  padding: 0 66px;
+}
+
 /* ============== Media Query ============== */
 
 @media (max-width: 576px) {
   .table-date {
     height: 52px;
+  }
+
+  .pe-66 {
+    padding: 0 50px;
   }
 }

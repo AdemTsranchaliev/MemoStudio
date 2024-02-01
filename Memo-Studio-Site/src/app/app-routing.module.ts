@@ -26,6 +26,7 @@ import { BookServiceComponent } from "./shared/components/user/book-service/book
 import { FinishBussinesRegistrationComponent } from "./auth-user/finish-bussines-registration/finish-bussines-registration.component";
 // Update Calendar Beahaviour Via Animation
 import { UserCalendarComponent } from "./shared/components/user/user-calendar/user-calendar.component";
+import { UserSubscriptionComponent } from "./shared/components/user-subscription/user-subscription.component";
 
 const routes: Routes = [
   {
@@ -110,6 +111,11 @@ const routes: Routes = [
   {
     path: "user",
     component: UserDetailsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "user-subscription",
+    component: UserSubscriptionComponent,
     canActivate: [AuthGuard],
   },
   { path: "terms-conditions", component: TermsConditionsComponent },

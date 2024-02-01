@@ -42,6 +42,7 @@ import { MatCardModule } from "@angular/material/card";
 import { ImageCropperModule } from "ngx-image-cropper";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatChipsModule } from "@angular/material/chips";
+import { MatMenuModule } from '@angular/material/menu';
 
 // Import BG Language - Use from Pipe
 import localeBg from "@angular/common/locales/bg";
@@ -104,6 +105,8 @@ import { BookCategoryComponent } from "./shared/components/user/book-category/bo
 import { ReservationListBookHourComponent } from "./shared/dialogs/reservation-list-book-hour/reservation-list-book-hour.component";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { CalendarEditDayComponent } from './shared/dialogs/calendar-edit-day/calendar-edit-day.component';
+import { UserSubscriptionComponent } from './shared/components/user-subscription/user-subscription.component';
+import { NavQrCodeComponent } from './shared/dialogs/nav-qr-code/nav-qr-code.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -166,6 +169,8 @@ registerLocaleData(localeBg, "bg");
     BookCategoryComponent,
     ReservationListBookHourComponent,
     CalendarEditDayComponent,
+    UserSubscriptionComponent,
+    NavQrCodeComponent,
   ],
   imports: [
     BrowserModule,
@@ -198,7 +203,8 @@ registerLocaleData(localeBg, "bg");
     AppRoutingModule,
     MatSlideToggleModule,
     MatChipsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatMenuModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -227,4 +233,4 @@ registerLocaleData(localeBg, "bg");
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

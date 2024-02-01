@@ -1,0 +1,58 @@
+<div class="position-relative">
+    <button mat-dialog-close class="custom-dialog-close-button">
+        <mat-icon>close</mat-icon>
+    </button>
+    <h1 mat-dialog-title class="text-center fs-26">QR Код</h1>
+    <div mat-dialog-content>
+        <article class="row justify-content-center">
+            <article class="col-10 text-center">
+                <img src="assets/images/viber-QR.png" class="w-50" alt="Снимка..." />
+            </article>
+        </article>
+    </div>
+    <div class="row justify-content-end mx-2" mat-dialog-actions>
+        <button mat-stroked-button color="danger" class="rounded-pill" mat-dialog-close>
+            Затвори
+        </button>
+        <button mat-stroked-button color="primary" class="rounded-pill" cdkFocusInitial>
+            Копирай
+        </button>
+        <button mat-stroked-button color="primary" class="rounded-pill" [matMenuTriggerFor]="menu"
+            #trigger="matMenuTrigger">
+            Сподели
+            <i class="fas fa-share-square"></i>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+                <i class="fab fa-facebook-messenger text-blue-facebook fs-22"></i>
+                <span>
+                    Facebook
+                </span>
+            </button>
+            <button mat-menu-item>
+                <i class="fab fa-instagram text-pink-instagram fs-22"></i>
+                <span>
+                    Instagram
+                </span>
+            </button>
+            <button mat-menu-item>
+                <i class="fab fa-viber text-blue-facebook fs-22"></i>
+                <span>
+                    Viber
+                </span>
+            </button>
+            <button mat-menu-item>
+                <i class="fab fa-whatsapp text-green fs-22"></i>
+                <span>
+                    WhatsApp
+                </span>
+            </button>
+            <button mat-menu-item>
+                <i class="far fa-copy text-dark fs-22"></i>
+                <span>
+                    Копирай връзката
+                </span>
+            </button>
+        </mat-menu>
+    </div>
+</div>

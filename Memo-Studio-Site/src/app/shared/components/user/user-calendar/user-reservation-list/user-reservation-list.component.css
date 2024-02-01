@@ -128,11 +128,8 @@
 /* Salon Name Underline Animation */
 .salon-name-decoration {
   position: relative;
-  /* Ensure relative positioning */
   text-decoration: none;
-  /* Start with no underline */
   color: black;
-  /* Set the text color */
 }
 
 .salon-name-decoration::after {
@@ -197,6 +194,10 @@
 
 .past-day-date {
   color: gray !important;
+}
+
+.custom-shadow {
+  box-shadow: 0px 0px 5px -1px;
 }
 
 /* Style truncated text */

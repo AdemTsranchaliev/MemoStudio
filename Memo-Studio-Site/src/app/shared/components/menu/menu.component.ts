@@ -1,7 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthenticatinService } from "../../services/authenticatin.service";
-import { CalendarProfileInformation } from "../../models/account/calendar-profile-information.model";
-import { AccountService } from "../../services/account.service";
+import { BreakpointObserver, BreakpointState, Breakpoints } from "@angular/cdk/layout";
+import { MatDialog } from "@angular/material/dialog";
+import { Observable } from "rxjs";
+import { NavQrCodeComponent } from "../../dialogs/nav-qr-code/nav-qr-code.component";
 
 @Component({
   selector: "app-menu",
@@ -9,16 +11,37 @@ import { AccountService } from "../../services/account.service";
   styleUrls: ["./menu.component.css"],
 })
 export class MenuComponent implements OnInit {
-  public facilityModel: CalendarProfileInformation;
+  private currentSize: string;
+  public isExtraSmall: Observable<BreakpointState> =
+    this.breakpointObserver.observe(Breakpoints.XSmall);
 
   constructor(
     public authService: AuthenticatinService,
-    private accountService: AccountService,
+    public dialog: MatDialog,
+    private breakpointObserver: BreakpointObserver,
   ) { }
 
   ngOnInit() {
-    this.accountService.getCalendarUserInformation().subscribe((x) => {
-      this.facilityModel = x;
+  }
+
+  public openDialog() {
+    const dialogRef = this.dialog.open(NavQrCodeComponent, {
+      width: "100vw",
+      data: { size: this.currentSize },
+    });
+
+    const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
+      this.currentSize = size.matches ? "small" : "large";
+
+      if (size.matches) {
+        dialogRef.updateSize("90%");
+      } else {
+        dialogRef.updateSize("50%");
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      
     });
   }
 }

@@ -83,13 +83,13 @@
             <li *ngIf="!authService.isAuthenticated()">
               <a routerLink="login" class="nav-link">Вход / Регистрация</a>
             </li>
-            <li *ngIf="authService.isAuthenticated()">
-              <a routerLink="home-information" (click)="authService.logout()" class="nav-link">Изход</a>
+            <li>
+              <a class="nav-link cursor-pointer" (click)="openDialog()">
+                <i class="fas fa-qrcode"></i>
+              </a>
             </li>
             <li *ngIf="authService.isAuthenticated()">
-              <a class="nav-link">
-                <img class="company-profile-image img-fluid img-thumbnail" [src]="facilityModel?.imageBase64" alt="..." />
-              </a>
+              <a routerLink="home-information" (click)="authService.logout()" class="nav-link">Изход</a>
             </li>
           </ul>
         </nav>

@@ -1,0 +1,164 @@
+.user-pre-booking-container {
+  margin-top: 100px;
+}
+
+.col-md-5,
+.col-11 {
+  padding: 0;
+}
+
+.business-profile-container {
+  padding-top: 122px;
+  margin-bottom: 80px;
+  background-color: #eeeeee;
+}
+
+.business-profile-fig {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 14px;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.business-profile {
+  max-width: 170px;
+  border-radius: 100%;
+  padding: 8px;
+  background-color: #eeeeee;
+}
+
+.business-card {
+  position: relative;
+  transition: transform 0.2s ease-in-out;
+}
+
+.business-card:hover {
+  transform: translateY(-3px);
+}
+
+.custom-shadow {
+  box-shadow: 0px 4px 8px 0px #7986cb;
+}
+
+.btn-size {
+  padding: 4px 20px;
+  font-size: 18px;
+}
+
+.icon-link {
+  position: relative;
+  padding: 0 24px;
+}
+
+.icon-info {
+  position: relative;
+  font-size: 24px;
+}
+
+.icon-link::after,
+.icon-info::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 10px;
+  height: 50%;
+  width: 2px;
+  background-color: lightgray;
+}
+
+.icon-link:last-child::after,
+.icon-info:last-child::after {
+  display: none;
+}
+
+.bounce {
+  animation: bounce 2s ease;
+}
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+}
+
+/* Alignments */
+
+.fs-34 {
+  font-size: 34px;
+}
+
+.fs-22 {
+  font-size: 22px;
+}
+
+.fs-18 {
+  font-size: 18px;
+}
+
+.mb-min-18 {
+  margin-bottom: -18px;
+}
+
+.mb-min-10 {
+  margin-bottom: -10px;
+}
+
+.text-pink-instagram {
+  color: #e22f6a;
+}
+
+.text-blue-facebook {
+  color: #4267b3;
+}
+
+.text-darker-gray {
+  color: #715f5f;
+}
+
+.text-darke-magenta {
+  color: darkmagenta;
+}
+
+.text-red {
+  color: red;
+}
+
+.text-green {
+  color: #31d94f;
+}
+
+.text-forest-green {
+  color: forestgreen;
+}
+
+/* Media Queries */
+@media (max-width: 600px) {
+  .btn-size {
+    padding: 0px 14px;
+    font-size: 14px;
+  }
+
+  .icon-info {
+    font-size: 16px;
+  }
+
+  .icon-link {
+    padding: 0 12px;
+  }
+
+  .business-card:hover {
+    transform: translateY(0);
+  }
+}
