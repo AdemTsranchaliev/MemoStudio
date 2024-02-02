@@ -3,6 +3,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
 import { MatDialogModule } from "@angular/material/dialog";
+import { QRCodeModule } from 'angularx-qrcode';
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -107,6 +108,8 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { CalendarEditDayComponent } from './shared/dialogs/calendar-edit-day/calendar-edit-day.component';
 import { UserSubscriptionComponent } from './shared/components/user-subscription/user-subscription.component';
 import { NavQrCodeComponent } from './shared/dialogs/nav-qr-code/nav-qr-code.component';
+import { UserCalendarHeadingComponent } from './shared/components/user/user-calendar/user-calendar-heading/user-calendar-heading.component';
+import { QrCodeComponent } from './shared/components/qr-code/qr-code.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -171,6 +174,8 @@ registerLocaleData(localeBg, "bg");
     CalendarEditDayComponent,
     UserSubscriptionComponent,
     NavQrCodeComponent,
+    UserCalendarHeadingComponent,
+    QrCodeComponent,
   ],
   imports: [
     BrowserModule,
@@ -205,6 +210,7 @@ registerLocaleData(localeBg, "bg");
     MatChipsModule,
     MatTooltipModule,
     MatMenuModule,
+    QRCodeModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

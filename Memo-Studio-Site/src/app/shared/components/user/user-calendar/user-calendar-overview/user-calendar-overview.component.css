@@ -44,6 +44,6 @@
 @media screen and (min-width: 768px) {
   /* Apply this style only on screens that are 768 pixels wide or larger (desktop) */
   .table-date {
-    padding: 10px 10px;
+    padding: 12px 10px;
   }
 }

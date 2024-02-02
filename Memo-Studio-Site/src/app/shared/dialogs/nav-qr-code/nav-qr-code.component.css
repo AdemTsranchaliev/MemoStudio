@@ -1,3 +1,17 @@
+.qr-img-prev {
+  padding: 48px;
+}
+
+.qr-img-container {
+  background-color: #007bff;
+  border-radius: 14px;
+  padding: 20px 0;
+}
+
+.qr-img {
+  width: 50%;
+}
+
 .fs-26 {
   font-size: 26px;
 }
@@ -32,4 +46,19 @@
 
 .text-forest-green {
   color: forestgreen;
+}
+
+/* Media Queries */
+@media (max-width: 600px) {
+  .qr-img-prev {
+    padding: 0;
+  }
+
+  .qr-img-container {
+    padding: 0;
+  }
+
+  .qr-img {
+    width: 100%;
+  }
 }

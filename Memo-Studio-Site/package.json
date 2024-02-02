@@ -20,6 +20,7 @@
     "@angular/platform-browser": "~12.2.0",
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
+    "angularx-qrcode": "^12.0.3",
     "date-fns": "^2.30.0",
     "jquery": "^3.7.0",
     "ng2-pagination": "^2.0.2",

@@ -9,47 +9,27 @@
             <article class="px-3">
                 <div class="mt-2">
                     <h2 class="text-muted mb-min-10">Салон коса и стил</h2>
-                    <h4 class="text-muted">Фрозьор & Маникюр</h4>
+                    <h4 class="text-muted mb-min-10">Фрозьор & Маникюр</h4>
+                    <i>
+                        <p class="text-muted">Адрес: Бул. България, София 1000</p>
+                    </i>
                 </div>
 
-                <div class="d-flex justify-content-center mb-5">
-                    <span class="fs-34 cursor-pointer icon-link" matTooltip="hair.and.nails">
-                        <i class="fab fa-facebook text-blue-facebook" [class.bounce]="triggerAnimation"
-                            style="animation-delay: 0.1s;"></i>
-                    </span>
-                    <span class="fs-34 cursor-pointer icon-link" matTooltip="hair.and.nails">
-                        <i class="fab fa-instagram text-pink-instagram" [class.bounce]="triggerAnimation"
-                            style="animation-delay: 0.2s;"></i>
-                    </span>
-                    <span class="fs-34 cursor-pointer icon-link" matTooltip="0899 555 555">
-                        <i class="fas fa-mobile-alt text-darke-magenta" [class.bounce]="triggerAnimation"
-                            style="animation-delay: 0.3s;"></i>
-                    </span>
-                    <span class="fs-34 cursor-pointer icon-link" matTooltip="demo.meil@mail.com">
-                        <i class="far fa-envelope text-red" [class.bounce]="triggerAnimation"
-                            style="animation-delay: 0.4s;"></i>
-                    </span>
-                    <span class="fs-34 cursor-pointer icon-link" matTooltip="Sofiq Bulgariq, Stefan Stambolov">
-                        <i class="fas fa-map-marked-alt text-forest-green" [class.bounce]="triggerAnimation"
-                            style="animation-delay: 0.5s;"></i>
-                    </span>
-                </div>
-
-                <div class="row justify-content-between px-3">
-                    <div class="col-6 my-2">
-                        <button mat-stroked-button class="rounded-pill light-blue btn-size" color="primary">
+                <div class="row justify-content-center mt-5">
+                    <div class="col-12 my-2">
+                        <button mat-raised-button class="rounded px-5" color="primary">
                             Резервирай час
                         </button>
                     </div>
-                    <!-- <div class="col-6 my-2">
-                    <button mat-stroked-button class="rounded-pill light-blue btn-size" color="primary">
-                        Абонирай се
-                    </button>
+                    <!-- <div class="col-12 my-2">
+                        <button mat-raised-button class="rounded light-blue px-5" color="primary">
+                            Абонирай се
+                        </button>
                     </div> -->
 
-                    <div class="col-6 my-2">
-                        <button mat-stroked-button class="rounded-pill light-blue btn-size" color="primary"
-                            [matMenuTriggerFor]="menu" #trigger="matMenuTrigger">
+                    <div class="col-12 my-2">
+                        <button mat-stroked-button class="rounded-pill text-orange" [matMenuTriggerFor]="menu"
+                            #trigger="matMenuTrigger">
                             Сподели
                             <i class="fas fa-share-square"></i>
                         </button>
@@ -88,7 +68,27 @@
                     </button>
                 </mat-menu>
 
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center text-center mt-5">
+                    <span class="fs-34 cursor-pointer icon-link" matTooltip="hair.and.nails">
+                        <i class="fab fa-facebook text-blue-facebook" [class.bounce]="triggerAnimation"
+                            style="animation-delay: 0.1s;"></i>
+                    </span>
+                    <span class="fs-34 cursor-pointer icon-link" matTooltip="hair.and.nails">
+                        <i class="fab fa-instagram text-pink-instagram" [class.bounce]="triggerAnimation"
+                            style="animation-delay: 0.2s;"></i>
+                    </span>
+                    <span class="fs-34 cursor-pointer icon-link" matTooltip="0899 555 555">
+                        <i class="fas fa-mobile-alt text-darke-magenta" [class.bounce]="triggerAnimation"
+                            style="animation-delay: 0.3s;"></i>
+                    </span>
+                    <span class="fs-34 cursor-pointer icon-link" matTooltip="demo.meil@mail.com">
+                        <i class="far fa-envelope text-red" [class.bounce]="triggerAnimation"
+                            style="animation-delay: 0.4s;"></i>
+                    </span>
+                </div>
+
+                <!-- Hidden - Its Filler Info -->
+                <div class="d-flex justify-content-center" *ngIf="false">
                     <span class="px-4 info-fs-24 text-info icon-info cursor-pointer" matTooltip="Брой потребители">
                         <i class="fas fa-users"></i>
                         56

@@ -285,16 +285,6 @@
   display: none !important;
 }
 
-.step-back-btn {
-  position: absolute;
-  top: -50px;
-  left: 0;
-}
-
-.company-logo-image {
-  width: 50px;
-}
-
 .pe-66 {
   padding: 0 66px;
 }
@@ -308,5 +298,9 @@
 
   .pe-66 {
     padding: 0 50px;
+  }
+
+  .company-logo-image {
+    width: 50px;
   }
 }
