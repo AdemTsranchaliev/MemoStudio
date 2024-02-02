@@ -143,6 +143,10 @@
   color: forestgreen;
 }
 
+.text-orange {
+  color: #ff8100;
+}
+
 /* Media Queries */
 @media (max-width: 600px) {
   .btn-size {

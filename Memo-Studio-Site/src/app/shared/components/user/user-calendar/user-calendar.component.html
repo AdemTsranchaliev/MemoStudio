@@ -6,17 +6,7 @@
           <mat-stepper class="position-relative h-100">
             <mat-step class="position-relative">
               <!-- Step Back -->
-              <div class="row justify-content-end step-back-btn">
-                <div class="col-4 pe-66"></div>
-
-                <div class="col-6 pt-2">
-                  <h6>Demo Company Name</h6>
-                </div>
-
-                <div class="col-2">
-                  <img class="company-logo-image img-fluid" src="assets/images/default-user.png" alt="..." />
-                </div>
-              </div>
+              <app-user-calendar-heading [showButton]="false"></app-user-calendar-heading>
 
               <!-- Categories -->
               <app-book-category></app-book-category>
@@ -24,22 +14,7 @@
 
             <mat-step class="position-relative">
               <!-- Step Back -->
-              <div class="row justify-content-between step-back-btn">
-                <div class="col-4">
-                  <button matStepperPrevious mat-raised-button>
-                    <mat-icon>arrow_back</mat-icon> Назад
-                  </button>
-                </div>
-
-                <div class="col-6 pt-2">
-                  <h6>Demo Company Name</h6>
-                </div>
-
-                <div class="col-2">
-                  <img class="company-logo-image img-fluid" src="assets/images/default-user.png" alt="..." />
-                </div>
-              </div>
-
+              <app-user-calendar-heading></app-user-calendar-heading>
 
               <!-- Services -->
               <app-book-service></app-book-service>
@@ -47,24 +22,9 @@
 
             <mat-step class="position-relative">
               <!-- Step Back -->
-              <div class="row justify-content-between step-back-btn">
-                <div class="col-4">
-                  <button matStepperPrevious mat-raised-button>
-                    <mat-icon>arrow_back</mat-icon> Назад
-                  </button>
-                </div>
-
-                <div class="col-6 pt-2">
-                  <h6>Demo Company Name</h6>
-                </div>
-
-                <div class="col-2">
-                  <img class="company-logo-image img-fluid" src="assets/images/default-user.png" alt="..." />
-                </div>
-              </div>
+              <app-user-calendar-heading></app-user-calendar-heading>
 
               <!-- Calendar -->
-              <!-- Add Heading -->
               <div class="user-calendar-container margin-b">
                 <app-user-calendar-overview (dateChange)="dateChange($event)"></app-user-calendar-overview>
               </div>
@@ -72,24 +32,9 @@
 
             <mat-step class="position-relative">
               <!-- Step Back -->
-              <div class="row justify-content-between step-back-btn">
-                <div class="col-4">
-                  <button matStepperPrevious mat-raised-button>
-                    <mat-icon>arrow_back</mat-icon> Назад
-                  </button>
-                </div>
-
-                <div class="col-6 pt-2">
-                  <h6>Demo Company Name</h6>
-                </div>
-
-                <div class="col-2">
-                  <img class="company-logo-image img-fluid" src="assets/images/default-user.png" alt="..." />
-                </div>
-              </div>
+              <app-user-calendar-heading></app-user-calendar-heading>
 
               <!-- Reservations -->
-              <!-- Add Heading -->
               <div class="user-reservation-container">
                 <app-user-reservation-list (dateChange)="dateChange($event)" [bookingsOrigin]="bookingsOrigin"
                   [facilityConfiguration]="facilityConfiguration" [date]="date"></app-user-reservation-list>

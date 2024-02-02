@@ -34,6 +34,7 @@ import { DatePipe } from "@angular/common";
 import { CalendarEditDataSharingService } from "src/app/shared/dialogs/calendar-edit-day/calendar-edit-data-sharing.service";
 import * as moment from "moment";
 import { Moment } from "moment";
+import { CancelMessageDialogComponent } from "src/app/shared/dialogs/cancel-message/cancel-message.component";
 declare const $: any;
 
 @Component({
@@ -105,7 +106,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
     private datePipe: DatePipe
-  ) {}
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     //Load time slots
@@ -156,20 +157,6 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     this.openAddNewHourDialog();
-  }
-
-  //REF
-  public removeBooking() {
-    this.loader = true;
-
-    this.bookingService.deleteBooking(this.deleteBookingId).subscribe((x) => {
-      this.dateChange.emit(<DateCalendar>{
-        date: this.date,
-        isPastDate: false,
-      });
-
-      this.loader = false;
-    });
   }
 
   public truncateText(text: string, limit: number): string {
@@ -257,7 +244,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     return false;
   }
 
-  openAddNewHourDialog() {
+  public openAddNewHourDialog() {
     const dialogRef = this.dialog.open(ReservationListBookHourComponent, {
       width: "100vw",
       data: {
@@ -290,8 +277,51 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-  updateDataEditCalendar(): void {
+  public updateDataEditCalendar(): void {
     this.dataSharingService.updateData(this.timeSlots);
+  }
+
+  public onRemoveBooking(id: string) {
+    const dialogRef = this.dialog.open(CancelMessageDialogComponent, {
+      width: "100vw",
+      data: {
+        dialogTitle: 'Внимание',
+        dialogTitleStyle: 'text-danger',
+        dialogMessageContent: ['Сигурни ли сте, че искате да изтриете тази резервация?'],
+        dialogCancelBtnContent: 'Потвърди',
+      },
+    });
+
+    const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
+      this.currentSize = size.matches ? "small" : "large";
+
+      if (size.matches) {
+        dialogRef.updateSize("90%");
+      } else {
+        dialogRef.updateSize("50%");
+      }
+    });
+    this.subscriptions.push(smallDialogSubscription);
+
+    dialogRef.afterClosed().subscribe((isConfirmed) => {
+      if (isConfirmed) {
+        this.deleteBookingId = id;
+        this.removeBooking();
+      }
+    });
+  }
+
+  public removeBooking() {
+    this.loader = true;
+
+    this.bookingService.deleteBooking(this.deleteBookingId).subscribe((x) => {
+      this.dateChange.emit(<DateCalendar>{
+        date: this.date,
+        isPastDate: false,
+      });
+
+      this.loader = false;
+    });
   }
 }
 
