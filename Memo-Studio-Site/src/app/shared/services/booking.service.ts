@@ -3,6 +3,8 @@ import { Injectable } from "@angular/core";
 import { Booking, BookingsList } from "src/app/shared/models/booking.model";
 import { BASE_URL_DEV } from "../routes";
 import { MonthStatistics } from "../models/booking/month-statistics.model";
+import { Moment } from "moment";
+import * as moment from "moment";
 
 const httpOptions = {
   headers: {
@@ -19,14 +21,14 @@ const httpOptions = {
 export class BookingService {
   constructor(private http: HttpClient) {}
 
-  getReservationForDate(date: Date, booking: Booking[]) {
+  getReservationForDate(date: Moment, booking: Booking[]) {
     let result: Booking[] = [];
 
     booking.forEach((element) => {
       if (
-        element.timestamp.getDay() == date.getDate() &&
-        element.timestamp.getMonth() == date.getMonth() &&
-        element.timestamp.getFullYear() == date.getFullYear()
+        element.timestamp.day() == date.day() &&
+        element.timestamp.month() == date.month() &&
+        element.timestamp.year() == date.year()
       ) {
         result.push(element);
       }
@@ -47,36 +49,36 @@ export class BookingService {
     }
   }
 
-  public getBookingsByDate(date: Date) {
-    const year = date.getUTCFullYear();
-    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
-    const day = String(date.getUTCDate()).padStart(2, "0");
-    const hours = String(date.getUTCHours()).padStart(2, "0");
-    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
-    const seconds = String(date.getUTCSeconds()).padStart(2, "0");
-    const milliseconds = String(date.getUTCMilliseconds()).padStart(7, "0");
+  public getBookingsByDate(date: Moment) {
+    // const year = date.getUTCFullYear();
+    // const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+    // const day = String(date.getUTCDate()).padStart(2, "0");
+    // const hours = String(date.getUTCHours()).padStart(2, "0");
+    // const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+    // const seconds = String(date.getUTCSeconds()).padStart(2, "0");
+    // const milliseconds = String(date.getUTCMilliseconds()).padStart(7, "0");
 
-    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
+    // const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
 
     return this.http.get<BookingsList>(
-      `${BASE_URL_DEV}/Booking/${formattedDate}`,
+      `${BASE_URL_DEV}/Booking/${date.toISOString()}`,
       httpOptions
     );
   }
 
-  public getBookingListByDate(date: Date) {
-    const year = date.getUTCFullYear();
-    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
-    const day = String(date.getUTCDate()).padStart(2, "0");
-    const hours = String(date.getUTCHours()).padStart(2, "0");
-    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
-    const seconds = String(date.getUTCSeconds()).padStart(2, "0");
-    const milliseconds = String(date.getUTCMilliseconds()).padStart(7, "0");
+  public getBookingListByDate(date: Moment) {
+    // const year = date.getUTCFullYear();
+    // const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+    // const day = String(date.getUTCDate()).padStart(2, "0");
+    // const hours = String(date.getUTCHours()).padStart(2, "0");
+    // const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+    // const seconds = String(date.getUTCSeconds()).padStart(2, "0");
+    // const milliseconds = String(date.getUTCMilliseconds()).padStart(7, "0");
 
-    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
-
+    // const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
+    
     return this.http.get<BookingsList>(
-      `${BASE_URL_DEV}/Booking/${formattedDate}/list`,
+      `${BASE_URL_DEV}/Booking/${date.toISOString()}/list`,
       httpOptions
     );
   }

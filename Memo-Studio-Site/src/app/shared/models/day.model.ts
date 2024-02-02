@@ -1,7 +1,9 @@
+import { Moment } from "moment";
+
 export class Day {
-    dayDate: Date;
-    startPeriod: Date;
-    endPeriod: Date;
+    dayDate: Moment;
+    startPeriod: Moment;
+    endPeriod: Moment;
     isOpen: boolean;
     interval: number;
   }

@@ -26,9 +26,9 @@
 </ul>
 
 <p class="alert alert-secondary m-3" role="alert" *ngIf="bookings.length == 0 && !isDayPast && isServerDown == false">
-  Все още няма заети часове за {{ this.date.getDate() }}
-  {{ date.toLocaleString('bg-BG', { month: 'long' }) }}
-  {{ date.getFullYear() }}г.
+  Все още няма заети часове за {{ this.date.date() }}
+  {{date | bulgarianDate}}
+  {{ date.year() }}г.
 </p>
 <div class="alert alert-info text-center m-2" role="alert" *ngIf="isDayPast">
   Изминала дата, нямате право на действие.
@@ -48,7 +48,7 @@
       <mat-expansion-panel class="event-expansion-panel" hideToggle>
         <mat-expansion-panel-header class="reservation-container">
           <mat-panel-title>
-            {{ booking.timestamp | date : 'HH:mm' }} ч.
+            {{booking.timestamp | utcToLocal:'HH:mm'}} ч.
           </mat-panel-title>
 
           <mat-panel-description>
@@ -87,7 +87,7 @@
   <div *ngIf="booking.isFree&&isOpen" style="cursor: pointer">
     <div class="border border-primary rounded shadow p-2 text-dark text-center"
       (click)="openBookingDialog(booking.timestamp)">
-      {{ booking.timestamp | date : 'HH:mm' }}
+      {{booking.timestamp | utcToLocal:'HH:mm'}} ч.
     </div>
   </div>
 </div>

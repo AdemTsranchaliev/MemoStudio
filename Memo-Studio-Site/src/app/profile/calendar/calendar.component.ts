@@ -1,10 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  FormGroup,
-  FormControl,
-  FormArray,
-} from "@angular/forms";
+import { FormGroup, FormControl, FormArray } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import * as moment from "moment";
+import { Moment } from "moment";
 import { FacilitySettingsViewModel } from "src/app/shared/models/facility/facility-setting-model";
 import { DateTimeService } from "src/app/shared/services/date-time.service";
 import { FacilityService } from "src/app/shared/services/facility.service";
@@ -27,7 +25,7 @@ export class CalendarComponent implements OnInit {
   public durations: number[] = [5, 15, 30, 60, 90, 120];
   public startPeriodIndex: number;
   public endPeriodIndex: number;
-  public timeSlots: Date[] = [];
+  public timeSlots: Moment[] = [];
 
   constructor(
     private facilityService: FacilityService,
@@ -43,16 +41,14 @@ export class CalendarComponent implements OnInit {
       this.startPeriodIndex = this.timeSlots.findIndex(
         (y) =>
           this.dateTimeService.compareHoursAndMinutes(
-            y,
-            new Date(x.startPeriod)
+            moment.utc(y),
+            moment.utc(x.startPeriod)
           ) == 0
       );
       this.endPeriodIndex = this.timeSlots.findIndex(
         (y) =>
-          this.dateTimeService.compareHoursAndMinutes(
-            y,
-            new Date(x.endPeriod)
-          ) == 0
+          this.dateTimeService.compareHoursAndMinutes(moment.utc(y), moment.utc(x.endPeriod)) ==
+          0
       );
 
       const workingDaysArray = JSON.parse(x.workingDaysJson);
@@ -70,13 +66,12 @@ export class CalendarComponent implements OnInit {
   public submitForm() {
     this.setStartAndEndPeriodForAllItems();
     if (this.bookingForm.valid) {
-      const formData = this.bookingForm;
       var resultToSend: FacilitySettingsViewModel = <FacilitySettingsViewModel>{
-        startPeriod: formData.get("startPeriod").value,
-        endPeriod: formData.get("endPeriod").value,
-        interval: formData.get("interval").value,
+        startPeriod: this.bookingForm.get("startPeriod").value,
+        endPeriod: this.bookingForm.get("endPeriod").value,
+        interval: this.bookingForm.get("interval").value,
         workingDaysJson: JSON.stringify(this.workingDaysFormArray.value),
-        allowUserBooking: formData.get("allowUserBooking").value,
+        allowUserBooking: this.bookingForm.get("allowUserBooking").value,
       };
 
       this.facilityService
@@ -90,14 +85,14 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  public generateHours(from: Date, to: Date) {
-    var start = new Date(from);
-    var end = new Date(to);
+  public generateHours(from: Moment, to: Moment) {
+    var start = moment.utc(from);
+    var end = moment.utc(to);
 
-    start.setHours(0);
-    start.setMinutes(0);
-    end.setHours(23);
-    end.setMinutes(59);
+    start.hours(0);
+    start.minutes(0);
+    end.hours(23);
+    end.minutes(59);
 
     return this.dateTimeService.generateTimeSlots(start, end, 30);
   }
@@ -119,25 +114,21 @@ export class CalendarComponent implements OnInit {
       id: new FormControl(workingDay.id),
       day: new FormControl(workingDay.day),
       isOpen: new FormControl(workingDay.isOpen),
-      openingTime: new FormControl(workingDay.openingTime),
-      closingTime: new FormControl(workingDay.closingTime),
+      openingTime: new FormControl(this.bookingForm.get("startPeriod").value),
+      closingTime: new FormControl(this.bookingForm.get("endPeriod").value),
+      interval: new FormControl(this.bookingForm.get("interval").value),
     });
   }
 
   private setStartAndEndPeriodForAllItems() {
     const startPeriodValue = this.bookingForm.get("startPeriod").value;
     const endPeriodValue = this.bookingForm.get("endPeriod").value;
+    const interval = this.bookingForm.get("interval").value;
 
     this.workingDaysFormArray.controls.forEach((control) => {
-      const isOpen = control.get("isOpen").value;
-
-      if (isOpen) {
-        control.get("openingTime").setValue(startPeriodValue);
-        control.get("closingTime").setValue(endPeriodValue);
-      } else {
-        control.get("openingTime").setValue(null);
-        control.get("closingTime").setValue(null);
-      }
+      control.get("openingTime").setValue(startPeriodValue);
+      control.get("closingTime").setValue(endPeriodValue);
+      control.get("interval").setValue(interval);
     });
   }
 }

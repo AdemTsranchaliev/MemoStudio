@@ -11,8 +11,8 @@ namespace Memo_Studio_Library.Data.Models
 	{
 		public Facility()
 		{
-			StartPeriod = new DateTime(1900, 1, 1, 8, 0, 0);
-			EndPeriod = new DateTime(1900, 1, 1, 17, 0, 0);
+			StartPeriod = new DateTime(1900, 1, 1, 8, 0, 0, DateTimeKind.Utc);
+			EndPeriod = new DateTime(1900, 1, 1, 17, 0, 0, DateTimeKind.Utc);
 			Interval = 30;
 			Notifications = new List<Notification>();
 			UserFalicities = new List<UserFalicity>();

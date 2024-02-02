@@ -1,8 +1,10 @@
+import { Moment } from "moment";
+
 export interface DayConfigurations {
     id: number;
     day: string;
     isOpen: boolean;
-    openingTime: Date;
-    closingTime: Date;
+    openingTime: Moment;
+    closingTime: Moment;
     interval: number;
   }

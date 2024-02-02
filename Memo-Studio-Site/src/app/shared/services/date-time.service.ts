@@ -1,17 +1,19 @@
 import { Injectable } from "@angular/core";
+import * as moment from "moment";
+import { Moment } from "moment";
 
 @Injectable({
   providedIn: "root",
 })
 export class DateTimeService {
   public generateTimeSlots(
-    startPeriod: Date,
-    endPeriod: Date,
+    startPeriod: Moment,
+    endPeriod: Moment,
     intervalMinute: number
   ) {
     //new instances of the dates
-    var startPeriodTemp = new Date(startPeriod);
-    var endPeriodTemp = new Date(endPeriod);
+    var startPeriodTemp = moment.utc(startPeriod);
+    var endPeriodTemp = moment.utc(endPeriod);
 
     if (intervalMinute <= 0 || intervalMinute > 90) {
       throw new Error("Invalid interval values");
@@ -21,22 +23,22 @@ export class DateTimeService {
       throw new Error("Start period cannot be greater than end period");
     }
 
-    const timeSlots: Date[] = [];
+    const timeSlots: Moment[] = [];
     let currentPeriod = startPeriodTemp;
 
     while (currentPeriod <= endPeriodTemp) {
-      timeSlots.push(new Date(currentPeriod));
-      currentPeriod.setMinutes(currentPeriod.getMinutes() + intervalMinute);
+      timeSlots.push(moment.utc(currentPeriod));
+      currentPeriod = moment.utc(moment.utc(currentPeriod).add(30, 'minutes').toDate());
     }
 
     return timeSlots;
   }
 
-  public compareHoursAndMinutes(date1: Date, date2: Date): number {
-    const hour1 = date1.getHours();
-    const minute1 = date1.getMinutes();
-    const hour2 = date2.getHours();
-    const minute2 = date2.getMinutes();
+  public compareHoursAndMinutes(date1: Moment, date2: Moment): number {
+    const hour1 = date1.hours();
+    const minute1 = date1.minutes();
+    const hour2 = date2.hours();
+    const minute2 = date2.minutes();
 
     if (hour1 == hour2 && minute1 == minute2) {
       return 0;

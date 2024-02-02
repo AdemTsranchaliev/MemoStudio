@@ -5,7 +5,7 @@
         <div class="content w-100 mt-0">
           <!-- Calendar -->
           <div class="calendar-container margin-b">
-            <app-calendar-overview (dateChange)="dateChange($event)"></app-calendar-overview>
+            <app-calendar-overview #childComponentRef (dateChange)="dateChange($event)"></app-calendar-overview>
 
             <!-- Edit & Add Apointment Butons -->
             <div class="text-center custom-calendar-edit-btn" *ngIf="isServerDown == false">

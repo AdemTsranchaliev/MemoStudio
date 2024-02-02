@@ -1,4 +1,6 @@
+import { Moment } from "moment";
+
 export class DateCalendar{
-    public date: Date;
+    public date: Moment;
     public isPastDate: boolean;
 }

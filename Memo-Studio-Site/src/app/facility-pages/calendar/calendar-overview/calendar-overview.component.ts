@@ -3,6 +3,9 @@ import { MonthStatistics } from "src/app/shared/models/booking/month-statistics.
 import { DayStausEnum } from "src/app/shared/models/dayStatus.model";
 import { BookingService } from "src/app/shared/services/booking.service";
 import { DateCalendar } from "../date.model";
+import { Moment } from "moment";
+import * as moment from "moment";
+import { da } from "date-fns/locale";
 declare const $: any;
 
 @Component({
@@ -17,7 +20,7 @@ export class CalendarOverviewComponent implements OnInit {
 
   public monthStatistics: MonthStatistics[] = [];
   public calendarRows = [];
-  public date: Date = new Date();
+  public date: Moment = moment.utc();
   public dayCount: number;
   public isServerDown: boolean;
   public test: any[] = [];
@@ -56,7 +59,8 @@ export class CalendarOverviewComponent implements OnInit {
   public showBookings(id: number) {}
 
   public dateClick(day: number) {
-    this.date.setDate(day);
+    this.date.date(day);
+
     this.checkIfDayIsPast();
     this.dateChange.emit(<DateCalendar>{
       date: this.date,
@@ -65,7 +69,7 @@ export class CalendarOverviewComponent implements OnInit {
   }
 
   public monthClick(month: number) {
-    this.date.setMonth(month);
+    this.date.month(month);
     this.getBookingsByMonthStatistics();
     this.checkIfDayIsPast();
     this.dateChange.emit(<DateCalendar>{
@@ -75,8 +79,8 @@ export class CalendarOverviewComponent implements OnInit {
   }
 
   public nextYear() {
-    const newYear = this.date.getFullYear() + 1;
-    this.date.setFullYear(newYear);
+    const newYear = this.date.year() + 1;
+    this.date.year(newYear);
     this.getBookingsByMonthStatistics();
     this.checkIfDayIsPast();
     this.dateChange.emit(<DateCalendar>{
@@ -86,8 +90,8 @@ export class CalendarOverviewComponent implements OnInit {
   }
 
   public prevYear() {
-    const newYear = this.date.getFullYear() - 1;
-    this.date.setFullYear(newYear);
+    const newYear = this.date.year() - 1;
+    this.date.year(newYear);
     this.getBookingsByMonthStatistics();
     this.checkIfDayIsPast();
     this.dateChange.emit(<DateCalendar>{
@@ -113,16 +117,30 @@ export class CalendarOverviewComponent implements OnInit {
     $("#dialog2").show(250);
   }
 
-  private initCalendar(date: Date): void {
+  public getBookingsByMonthStatistics() {
+    this.bookingService
+      .getBookingsByMonthStatistics(
+        this.date.month() + 1,
+        this.date.year()
+      )
+      .subscribe((x) => {
+        this.monthStatistics = x;
+        this.test = [...x];
+        this.initCalendar(this.date);
+      });
+  }
+
+  private initCalendar(date: Moment): void {
     this.calendarRows = [];
-    let tempDate = date.getDate();
-    const month = date.getMonth();
-    this.dayCount = this.daysInMonth(month, date.getFullYear());
+    let tempDate = date.date();
+    const month = date.month();
+    this.dayCount = this.daysInMonth(month, date.year());
 
-    date.setDate(1);
-    this.date.setDate(tempDate);
+    date.date(1);
 
-    const firstDayOfMonth = new Date(date.getFullYear(), month);
+    this.date.date(tempDate);
+
+    const firstDayOfMonth = date.startOf("month");
     const dayNames = [
       "Sunday",
       "Monday",
@@ -132,7 +150,7 @@ export class CalendarOverviewComponent implements OnInit {
       "Friday",
       "Saturday",
     ];
-    const startingDay = dayNames[firstDayOfMonth.getDay()];
+    const startingDay = dayNames[firstDayOfMonth.day()];
 
     // Calculate the number of filler objects to add based on the starting day
     let fillerCount = 0;
@@ -160,44 +178,31 @@ export class CalendarOverviewComponent implements OnInit {
       fillerCount = 0;
     }
 
-    //this.dateClick(this.date.getDate());
+    this.dateClick(moment().date());
     setTimeout(() => {
       this.markPastDates();
     }, 1);
     this.showBookings(1);
   }
 
-  private getBookingsByMonthStatistics() {
-    this.bookingService
-      .getBookingsByMonthStatistics(
-        this.date.getMonth() + 1,
-        this.date.getFullYear()
-      )
-      .subscribe((x) => {
-        this.monthStatistics = x;
-        this.test = [...x];
-        this.initCalendar(this.date);
-      });
-  }
-
   private markPastDates() {
-    var currentDate = new Date();
+    var currentDate = moment.utc();
     if (
-      this.date.getFullYear() == currentDate.getFullYear() &&
-      this.date.getMonth() == currentDate.getMonth()
+      this.date.year() == currentDate.year() &&
+      this.date.month() == currentDate.month()
     ) {
-      for (let i = 1; i < currentDate.getDate(); i++) {
-        if (i == this.date.getDate()) {
+      for (let i = 1; i < currentDate.date(); i++) {
+        if (i == this.date.date()) {
           continue;
         }
       }
     } else if (
-      this.date.getFullYear() <= currentDate.getFullYear() &&
-      this.date.getMonth() < currentDate.getMonth()
+      this.date.year() <= currentDate.year() &&
+      this.date.month() < currentDate.month()
     ) {
-      for (let i = 0; i < 35 + this.date.getDay(); i++) {
-        const day = i - this.date.getDay() + 1;
-        if (i == this.date.getDate()) continue;
+      for (let i = 0; i < 35 + this.date.day(); i++) {
+        const day = i - this.date.day() + 1;
+        if (i == this.date.date()) continue;
 
         $(`#day-${i}`).addClass("past-date");
         const element = document.getElementById(`day-${i}`) as HTMLElement;
@@ -214,6 +219,6 @@ export class CalendarOverviewComponent implements OnInit {
 
   private checkIfDayIsPast() {
     this.isDayPast =
-      this.test.find((x) => x.day == this.date.getDate())?.status == 3;
+      this.test.find((x) => x.day == this.date.date())?.status == 3;
   }
 }

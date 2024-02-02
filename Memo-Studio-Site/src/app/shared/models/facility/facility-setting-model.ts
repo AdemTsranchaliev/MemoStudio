@@ -1,6 +1,8 @@
+import { Moment } from "moment";
+
 export interface FacilitySettingsViewModel {
-  startPeriod: Date;
-  endPeriod: Date;
+  startPeriod: Moment;
+  endPeriod: Moment;
   interval: number;
   workingDaysJson: string;
   allowUserBooking: boolean;

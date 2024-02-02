@@ -17,6 +17,8 @@ import {
   Breakpoints,
 } from "@angular/cdk/layout";
 import { MatDialog } from "@angular/material/dialog";
+import * as moment from "moment";
+import { Moment } from "moment";
 
 @Component({
   selector: "app-finish-bussines-registration",
@@ -39,7 +41,7 @@ export class FinishBussinesRegistrationComponent implements OnInit {
   public durations: number[] = [5, 15, 30, 60, 90, 120];
   public startPeriodIndex: number;
   public endPeriodIndex: number;
-  public timeSlots: Date[] = [];
+  public timeSlots: Moment[] = [];
   public user: AccountViewModel;
   private newProfileImg: string;
   private currentSize: string;
@@ -60,15 +62,15 @@ export class FinishBussinesRegistrationComponent implements OnInit {
       this.startPeriodIndex = this.timeSlots.findIndex(
         (y) =>
           this.dateTimeService.compareHoursAndMinutes(
-            y,
-            new Date(x.startPeriod)
+            moment.utc(y),
+            moment.utc(x.startPeriod)
           ) == 0
       );
       this.endPeriodIndex = this.timeSlots.findIndex(
         (y) =>
           this.dateTimeService.compareHoursAndMinutes(
-            y,
-            new Date(x.endPeriod)
+            moment.utc(y),
+            moment.utc(x.endPeriod)
           ) == 0
       );
 
@@ -126,14 +128,14 @@ export class FinishBussinesRegistrationComponent implements OnInit {
     }
   }
 
-  public generateHours(from: Date, to: Date) {
-    var start = new Date(from);
-    var end = new Date(to);
+  public generateHours(from: Moment, to: Moment) {
+    var start = moment.utc(from);
+    var end = moment.utc(to);
 
-    start.setHours(0);
-    start.setMinutes(0);
-    end.setHours(23);
-    end.setMinutes(59);
+    start.hours(0);
+    start.minutes(0);
+    end.hours(23);
+    end.minutes(59);
 
     return this.dateTimeService.generateTimeSlots(start, end, 30);
   }

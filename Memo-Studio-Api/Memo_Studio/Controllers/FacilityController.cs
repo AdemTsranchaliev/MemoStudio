@@ -63,6 +63,17 @@ namespace Memo_Studio.Controllers
         }
 
         [Authorize]
+        [HttpPost("facility-settings")]
+        public async Task<IActionResult> UpdateFacilitySettings([FromBody] FacilitySettingsViewModel model)
+        {
+            var facilityId = this.GetFacilityId();
+
+            await facilityService.UpdateFacilitySettings(model, facilityId);
+
+            return Ok();
+        }
+
+        [Authorize]
         [HttpGet("facility-users")]
         public async Task<IActionResult> GetFacilityUsers()
         {

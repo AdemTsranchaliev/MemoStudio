@@ -6,9 +6,9 @@
         <div>
             <h3 class="text-center text-dark">Промени ден</h3>
             <h5 class="text-center">
-                <b>{{ data.date.getDate() }}
-                    {{ data.date.toLocaleString('bg-BG', { month: 'long' }) }}
-                    {{ data.date.getFullYear() }} г.
+                <b>{{ data.date.date() }}
+                    {{data.date | bulgarianDate}}
+                    {{ data.date.year() }} г.
                 </b>
             </h5>
         </div>
@@ -35,7 +35,7 @@
                         }">
                             <select placeholder=" " class="w-100" formControlName="periodStart">
                                 <option *ngFor="let hour of timeSlots; let i = index" value="{{i}}">
-                                    {{ hour | date : 'HH:mm' }} ч.
+                                    {{hour| utcToLocal:'HH:mm'}}
                                 </option>
                             </select>
                             <span class="placeholder-select cursor-text">Работен ден - Начало</span>
@@ -71,7 +71,7 @@
                         }">
                             <select placeholder=" " class="w-100" formControlName="periodEnd">
                                 <option *ngFor="let hour of timeSlots; let i = index" value="{{i}}">
-                                    {{ hour | date : 'HH:mm' }} ч.
+                                    {{hour| utcToLocal:'HH:mm'}}ч.
                                 </option>
                             </select>
                             <span class="placeholder-select cursor-text">Работен ден - Край</span>
@@ -120,11 +120,11 @@
                     </div>
 
                     <div class="w-100 mb-1">
-                        <button mat-stroked-button color="primary" class="w-100"
-                            [ngClass]="{ 'text-danger': !isDayFree}" (click)="manageIsFreeDay()">
-                            {{isDayFree ? 'Направи деня работен' : 'Направи деня почивен' }}
+                        <button mat-stroked-button color="primary" class="w-100" [ngClass]="{ 'text-danger': isOpen}"
+                            (click)="manageIsFreeDay()">
+                            {{!isOpen ? 'Направи деня работен' : 'Направи деня почивен' }}
                             <mat-icon>
-                                {{ isDayFree ? 'work' : 'work_off' }}
+                                {{ !isOpen ? 'work' : 'work_off' }}
                             </mat-icon>
                         </button>
                     </div>

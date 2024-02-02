@@ -2,7 +2,7 @@
     <div class="year-header">
         <span class="left-button fa fa-chevron-left" id="prev" (click)="prevYear()">
         </span>
-        <span id="label">{{ this.date.getFullYear() }}</span>
+        <span id="label">{{ this.date.year() }}</span>
         <span class="right-button fa fa-chevron-right" id="next" (click)="nextYear()">
         </span>
     </div>
@@ -10,7 +10,7 @@
     <table class="months-table w-100">
         <tbody>
             <tr class="months-row">
-                <td class="month" [ngClass]="{ 'active-month': this.date.getMonth() == i }"
+                <td class="month" [ngClass]="{ 'active-month': this.date.month() == i }"
                     *ngFor="let month of monthStrings; let i = index" id="i" (click)="monthClick(i)">
                     {{ month }}
                 </td>
@@ -31,7 +31,7 @@
                     <tr *ngFor="let row of calendarRows" class="row justify-content-between align-items-center">
                         <ng-container *ngFor="let element of row">
                             <td id="day-{{ element.day }}" class="table-date text-primary col"
-                                [class.nil]="element.day === -1" [class.active-date]="element.day === date.getDate()"
+                                [class.nil]="element.day === -1" [class.active-date]="element.day === date.date()"
                                 [ngClass]="{
                       'past-day-date': isPastDay(element.status),
                       'free-day': isFreeDay(element.status),

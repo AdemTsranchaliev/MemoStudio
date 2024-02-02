@@ -1,6 +1,4 @@
-﻿using System;
-using System.Globalization;
-using AutoMapper;
+﻿using AutoMapper;
 using Memo_Studio_Library.Data.Models;
 using Memo_Studio_Library.Enums;
 using Memo_Studio_Library.Models;
@@ -43,7 +41,7 @@ namespace Memo_Studio_Library
             var newBooking = new Booking
             {
                 CreatedOn = DateTime.Now,
-                Timestamp = booking.Timestamp.ToLocalTime(),
+                Timestamp = booking.Timestamp,
                 FacilityId = facility.Id,
                 Note = booking.Note,
                 Duration = booking.Duration,
@@ -54,10 +52,7 @@ namespace Memo_Studio_Library
 
             try
             {
-                //TODO MAKE IT UTC
-                var dateToSearch = booking.Timestamp.ToLocalTime();
-
-                //TODO MAKE IT UTC
+                var dateToSearch = booking.Timestamp;
 
                 if (booking?.UserId != null)
                 {
@@ -127,11 +122,11 @@ namespace Memo_Studio_Library
 
                     var tuple = GetTimeSlots(facility, dateTime);
 
-                    var start = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0);
-                    var end = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 23, 59, 59);
+                    var start = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0, DateTimeKind.Utc);
+                    var end = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 23, 59, 59, DateTimeKind.Utc);
 
                     var currentUtcDate = DateTime.UtcNow;
-                    var roundDate = new DateTime(currentUtcDate.Year,currentUtcDate.Month,currentUtcDate.Day,0,0,0);
+                    var roundDate = new DateTime(currentUtcDate.Year,currentUtcDate.Month,currentUtcDate.Day,0,0,0, DateTimeKind.Utc);
 
                     var bookings = facility.Bookings
                         .Where(x => x.Timestamp >= start && x.Timestamp <= end && x.Facility.FacilityId == facilityId && !x.Canceled)
@@ -150,6 +145,7 @@ namespace Memo_Studio_Library
                             if (booking != null)
                             {
                                 var mappedValue = mapper.Map<BookingsResponceViewModel>(booking);
+                                mappedValue.Timestamp = slot;
                                 mappedValue.IsFree = false;
                                 result.Add(mappedValue);
                             }
@@ -185,8 +181,8 @@ namespace Memo_Studio_Library
             using (var context = new StudioContext())
             {
                 try {
-                    var start = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0);
-                    var end = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 23, 59, 59);
+                    var start = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0, DateTimeKind.Utc);
+                    var end = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 23, 59, 59, DateTimeKind.Utc);
 
                     return await context.Bookings
                         .Include(x => x.Facility)
@@ -315,7 +311,7 @@ namespace Memo_Studio_Library
                     result.Add(new MonthDaysStatisticsResponse(dayOfMonth, (int)DayStatusEnum.Past));
                     continue;
                 }
-                DateTime currentDate = new DateTime(year, month, dayOfMonth);
+                DateTime currentDate = new DateTime(year, month, dayOfMonth, 0, 0 ,0, DateTimeKind.Utc);
                 var dayOfWeek = currentDate.DayOfWeek;
 
                 var customDay = customDaysForFacility.FirstOrDefault(x => x.DayDate.Day == dayOfMonth);
@@ -344,7 +340,8 @@ namespace Memo_Studio_Library
                 }
                 else
                 {
-                    var bussinessDay = businessHours.FirstOrDefault(x => x.Id == (int)dayOfWeek);
+                    var idOfWeekDay = (int)dayOfWeek == 0 ? 7 : (int)dayOfWeek;
+                    var bussinessDay = businessHours.FirstOrDefault(x => x.Id == idOfWeekDay);
 
                     if (bussinessDay!=null&&!bussinessDay.IsOpen)
                     {
@@ -387,11 +384,13 @@ namespace Memo_Studio_Library
 
         private int CalculateIntervalCount(DateTime startTime, DateTime endTime, int intervalMinutes)
         {
-            int intervalCount = 0;
-
+            if (intervalMinutes==0)
+            {
+                intervalMinutes = 30;
+            }
             int totalMinutes = (int)(endTime - startTime).TotalMinutes;
 
-            intervalCount = totalMinutes / intervalMinutes;
+            var intervalCount = totalMinutes / intervalMinutes;
 
             return intervalCount;
         }
@@ -411,11 +410,11 @@ namespace Memo_Studio_Library
         private Tuple<bool, List<DateTime>> GetTimeSlots(Facility facility, DateTime dateTime)
         {
             var listOfHours = new List<DateTime>();
-            var currentDay = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0);
+            var currentDay = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0, DateTimeKind.Utc);
             var dayConfiguration = facility.Days.FirstOrDefault(x => x.DayDate == currentDay);
 
-            var periodStart = new DateTime();
-            var periodEnd = new DateTime();
+            var periodStart = (new DateTime()).ToUniversalTime();
+            var periodEnd = new DateTime().ToUniversalTime();
             var interval = 0;
             var isOpen = true;
 
@@ -431,13 +430,14 @@ namespace Memo_Studio_Library
                 var globalConfig = JsonConvert.DeserializeObject<List<BusinessHoursViewModel>>(facility.WorkingDays);
                 var idOfWeekDay = (int)dateTime.DayOfWeek == 0 ? 7 : (int)dateTime.DayOfWeek;
                 var dayOfWeek = globalConfig.FirstOrDefault(x => x.Id == idOfWeekDay);
+
                 periodStart = dayOfWeek?.OpeningTime != null ? dayOfWeek.OpeningTime.Value : DateTime.UtcNow;
                 periodEnd = dayOfWeek?.ClosingTime != null ? dayOfWeek.ClosingTime.Value : DateTime.UtcNow.AddDays(1);
                 interval = dayOfWeek.Interval!=0 ? dayOfWeek.Interval : 30;
                 isOpen = dayOfWeek.IsOpen;
             }
 
-            if (isOpen)
+            if (isOpen&&periodEnd>periodStart)
             {
                 for (DateTime currentDateTime = periodStart; currentDateTime <= periodEnd; currentDateTime = currentDateTime.AddMinutes(interval))
                 {
@@ -449,7 +449,7 @@ namespace Memo_Studio_Library
         }
         private DateTime GetHourAndMinutes(DateTime dateTime)
         {
-            return new DateTime(1970, 1, 1, dateTime.Hour, dateTime.Minute, 0);
+            return new DateTime(1970, 1, 1, dateTime.Hour, dateTime.Minute, 0, DateTimeKind.Utc);
         }
     }
 }

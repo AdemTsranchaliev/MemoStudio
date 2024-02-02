@@ -309,7 +309,7 @@ public class Program
 
                     new Booking
                     {
-                        Timestamp = new DateTime(2023,9, 21, 8,30,0), // Set your timestamp
+                        Timestamp = new DateTime(2023,9, 21, 8,30,0, DateTimeKind.Utc), // Set your timestamp
                         CreatedOn = DateTime.UtcNow, // Set your created on date
                         Canceled = false,
                         Duration = 30,
@@ -321,7 +321,7 @@ public class Program
                     },
                     new Booking
                     {
-                        Timestamp = new DateTime(2023,9, 21, 15,30,0),
+                        Timestamp = new DateTime(2023,9, 21, 15,30,0, DateTimeKind.Utc),
                         CreatedOn = DateTime.UtcNow, // Set your created on date
                         Canceled = false,
                         Duration = 30,

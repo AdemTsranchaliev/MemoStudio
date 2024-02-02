@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using Memo_Studio_Library.Data.Models;
 using Memo_Studio_Library.Services.Interfaces;
 using Memo_Studio_Library.ViewModels;
@@ -57,7 +58,7 @@ namespace Memo_Studio_Library.Services
             {
                 var facility = await facilityService.GetFacilityById(facilityId);
 
-                var dateToSearch = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0, 0);
+                var dateToSearch = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0, 0, DateTimeKind.Utc);
 
                 var dayConfiguration = await context.Days
                     .FirstOrDefaultAsync(x => x.DayDate == dateToSearch && x.FacilityId == facility.Id);
@@ -67,7 +68,8 @@ namespace Memo_Studio_Library.Services
                 if (dayConfiguration == null)
                 {
                     var globalConfig = JsonConvert.DeserializeObject<List<BusinessHoursViewModel>>(facility.WorkingDays);
-                    result = globalConfig.FirstOrDefault(x => x.Id == (int)dateTime.DayOfWeek);
+                    var idOfWeekDay = (int)dateTime.DayOfWeek == 0 ? 7 : (int)dateTime.DayOfWeek;
+                    result = globalConfig.FirstOrDefault(x => x.Id == idOfWeekDay);
                 }
                 else
                 {
@@ -87,20 +89,46 @@ namespace Memo_Studio_Library.Services
 
         public async Task ChangeDayStatus(DateTime date, Guid facilityId)
         {
-            var dateToSearch = new DateTime(date.Year, date.Month, date.Day, 0, 0, 0, 0);
+            var dateToSearch = new DateTime(date.Year, date.Month, date.Day, 0, 0, 0, 0, DateTimeKind.Utc);
 
             using (var context = new StudioContext())
             {
-                var day = await context.Days
-                    .Include(x => x.Facility)
-                    .FirstOrDefaultAsync(x => x.DayDate == dateToSearch && x.Facility != null && x.Facility.FacilityId == facilityId);
 
+                var facility = await context.Facilities
+                        .Include(x => x.Days)
+                        .FirstOrDefaultAsync(x => x.FacilityId == facilityId);
 
+                if (facility==null)
+                {
+                    throw new UnauthorizedAccessException();
+                }
+
+                var day = facility.Days.FirstOrDefault(x => x.DayDate == dateToSearch);
                 if (day != null)
                 {
                     day.IsOpen = !day.IsOpen;
 
                     context.Days.Update(day);
+                    await context.SaveChangesAsync();
+                }
+                else
+                {
+
+                    var globalConfig = JsonConvert.DeserializeObject<List<BusinessHoursViewModel>>(facility.WorkingDays);
+                    var idOfWeekDay = (int)date.DayOfWeek == 0 ? 7 : (int)date.DayOfWeek;
+                    var dayOfWeek = globalConfig.FirstOrDefault(x => x.Id == idOfWeekDay);
+
+                    var newDay = new Day
+                    {
+                        DayDate = new DateTime(date.Year, date.Month, date.Day, 0, 0, 0),
+                        EndPeriod = dayOfWeek?.ClosingTime !=null ? dayOfWeek.ClosingTime.Value : new DateTime(1970,1,1,8,0,0, DateTimeKind.Utc),
+                        StartPeriod = dayOfWeek?.OpeningTime != null ? dayOfWeek.OpeningTime.Value : new DateTime(1970, 1, 1, 20, 0, 0, DateTimeKind.Utc),
+                        IsOpen = dayOfWeek.IsOpen,
+                        FacilityId = facility.Id,
+                        Interval = dayOfWeek.Interval==0 ? dayOfWeek.Interval : 30
+                    };
+
+                    context.Days.Add(newDay);
                     await context.SaveChangesAsync();
                 }
             }

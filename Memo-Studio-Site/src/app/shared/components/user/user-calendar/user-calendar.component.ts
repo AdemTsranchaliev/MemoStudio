@@ -7,6 +7,8 @@ import { Booking } from "../../../../shared/models/booking.model";
 import { Day } from "../../../../shared/models/day.model";
 import { FacilityService } from "../../../../shared/services/facility.service";
 import { Router } from "@angular/router";
+import { Moment } from "moment";
+import * as moment from "moment";
 declare const $: any;
 
 @Component({
@@ -20,7 +22,7 @@ export class UserCalendarComponent implements OnInit {
   public loader: boolean = false;
   bookingsOrigin: Booking[] = [];
   public currentDay: Day;
-  public date: Date = new Date();
+  public date: Moment = moment.utc();
   public facilityConfiguration: any;
 
   bookings: Booking[] = [];

@@ -52,7 +52,7 @@ namespace Memo_Studio_Library.Models
         public string GetDateTimeInMessageFormat()
 		{
             CultureInfo culture = new CultureInfo("bg-BG");
-            this.Timestamp = this.Timestamp.ToLocalTime();
+            this.Timestamp = this.Timestamp;
 
             string day = this.Timestamp.ToString("dd");
             string month = culture.DateTimeFormat.GetMonthName(this.Timestamp.Month);

@@ -89,8 +89,7 @@ namespace Memo_Studio.Controllers
         [Authorize]
         [HttpGet("{date}/list")]
         public async Task<IActionResult> GetBookings(DateTime date)
-        {
-            
+        {     
             var facilityId = this.GetFacilityId();
 
             var result = await this.bookingService.GetBookingsListByDate(date, facilityId);

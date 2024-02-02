@@ -15,7 +15,6 @@ import {
 } from "@angular/core";
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   Validators,
 } from "@angular/forms";
@@ -33,6 +32,8 @@ import { UtilityService } from "src/app/shared/services/utility.service";
 import { DateCalendar } from "../date.model";
 import { DatePipe } from "@angular/common";
 import { CalendarEditDataSharingService } from "src/app/shared/dialogs/calendar-edit-day/calendar-edit-data-sharing.service";
+import * as moment from "moment";
+import { Moment } from "moment";
 declare const $: any;
 
 @Component({
@@ -44,7 +45,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() bookingsOrigin: Booking[] = [];
   @Input() facilityConfiguration: any; //set type
   @Input() autocompleteNames: [] = [];
-  @Input() date: Date = new Date();
+  @Input() date: Moment = moment.utc();
   @Input() isDayPast: boolean;
   @Input() isOpen: boolean;
   @Output() dateChange: EventEmitter<DateCalendar> = new EventEmitter();
@@ -52,7 +53,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   public selectedFilter: number = FilterTypes.All;
-  public timeSlots: Date[] = [];
+  public timeSlots: Moment[] = [];
   options: any[] = [];
 
   durationArr: any[] = [
@@ -143,12 +144,9 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     this.deleteBookingId = id;
   }
 
-  public openBookingDialog(preDefinedHour: Date) {
+  public openBookingDialog(preDefinedHour: Moment) {
     if (preDefinedHour) {
-      const formattedTimestamp = this.datePipe.transform(
-        preDefinedHour,
-        "HH:mm"
-      );
+      const formattedTimestamp =  moment.utc(preDefinedHour).format('HH:mm');
 
       this.bookingForm.patchValue({
         timestamp: formattedTimestamp,
@@ -183,7 +181,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
 
   public bookHour(currentForm) {
     let resultOfEmptyHoursCheck = this.checkIfNextHourEmpty(
-      new Date(this.bookingForm.get("timestamp").value),
+      moment.utc(this.bookingForm.get("timestamp").value),
       this.bookingForm.get("duration").value
     );
     if (resultOfEmptyHoursCheck) {
@@ -215,13 +213,13 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   //REF
-  private checkIfBookingExist(date: Date) {
+  private checkIfBookingExist(date: Moment) {
     return (
       this.bookingsOrigin.findIndex(
         (x) =>
           this.dateTimeService.compareHoursAndMinutes(
-            date,
-            new Date(x.timestamp)
+            moment.utc(date),
+            moment.utc(x.timestamp)
           ) == 0
       ) != -1
     );
@@ -234,9 +232,9 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-  private checkIfNextHourEmpty(date: Date, duration: number) {
+  private checkIfNextHourEmpty(date: Moment, duration: number) {
     var indexInTimeSlots = this.timeSlots.findIndex(
-      (x) => this.dateTimeService.compareHoursAndMinutes(date, x) == 0
+      (x) => this.dateTimeService.compareHoursAndMinutes(moment.utc(date), moment.utc(x)) == 0
     );
     var timeSlotCountCheck = duration / this.facilityConfiguration.interval;
 

@@ -1,7 +1,6 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { BookingService } from "../../shared/services/booking.service";
 import { DateTimeService } from "../../shared/services/date-time.service";
-import { DayService } from "../../shared/services/day.service";
 import { Booking } from "../../shared/models/booking.model";
 import { Day } from "../../shared/models/day.model";
 import { FacilityService } from "../../shared/services/facility.service";
@@ -14,6 +13,9 @@ import {
 } from "@angular/cdk/layout";
 import { Observable, Subscription } from "rxjs";
 import { CalendarEditDayComponent } from "src/app/shared/dialogs/calendar-edit-day/calendar-edit-day.component";
+import { CalendarOverviewComponent } from "./calendar-overview/calendar-overview.component";
+import { Moment } from "moment";
+import * as moment from "moment";
 declare const $: any;
 
 @Component({
@@ -22,6 +24,8 @@ declare const $: any;
   styleUrls: ["./calendar.component.css"],
 })
 export class ReservationCalendarComponent implements OnInit, OnDestroy {
+  @ViewChild('childComponentRef', { static: false }) childComponent!: CalendarOverviewComponent;
+
   private subscriptions: Subscription[] = [];
 
   public isPastDate: boolean = false;
@@ -30,7 +34,7 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
   public isOpen: boolean = true;
   bookingsOrigin: Booking[] = [];
   public currentDay: Day;
-  public date: Date = new Date();
+  public date: Moment = moment.utc();
   public facilityConfiguration: any;
   public autocompleteNames: [] = [];
 
@@ -42,7 +46,6 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
 
   constructor(
     private bookingService: BookingService,
-    private dayService: DayService,
     private facilityService: FacilityService,
     public dateTimeService: DateTimeService,
     public dialog: MatDialog,
@@ -69,8 +72,9 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
   public dateChange($event) {
     this.date = $event.date;
     this.isPastDate = $event.isPastDate;
+    this.bookingsOrigin = [];
     this.bookingService.getBookingListByDate(this.date).subscribe((x) => {
-      console.log(x)
+      
       this.bookingsOrigin = x.bookings;
       this.isOpen = x.isOpen;
     });
@@ -94,5 +98,10 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
       }
     });
     this.subscriptions.push(smallDialogSubscription);
+    dialogRef.afterClosed().subscribe((refresh) => {
+      if(refresh){
+        this.childComponent.getBookingsByMonthStatistics();
+      }
+    });
   }
 }

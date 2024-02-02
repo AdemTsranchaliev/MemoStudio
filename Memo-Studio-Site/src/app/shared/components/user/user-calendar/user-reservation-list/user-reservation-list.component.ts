@@ -13,6 +13,8 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import * as moment from "moment";
+import { Moment } from "moment";
 import { Observable } from "rxjs";
 import { Booking } from "src/app/shared/models/booking.model";
 import { Day } from "src/app/shared/models/day.model";
@@ -32,11 +34,11 @@ declare const $: any;
 export class UserReservationListComponent implements OnInit, OnChanges {
   @Input() bookingsOrigin: Booking[] = [];
   @Input() facilityConfiguration: any; //set type
-  @Input() date: Date = new Date();
-  @Output() dateChange: EventEmitter<Date> = new EventEmitter();
+  @Input() date: Moment = moment.utc();
+  @Output() dateChange: EventEmitter<Moment> = new EventEmitter();
 
   public selectedFilter: number = FilterTypes.All;
-  public timeSlots: Date[] = [];
+  public timeSlots: Moment[] = [];
 
   public bookingForm: FormGroup = new FormGroup({
     name: new FormControl("", Validators.required),
@@ -101,12 +103,12 @@ export class UserReservationListComponent implements OnInit, OnChanges {
     this.deleteBookingId = id;
   }
 
-  public openBookingDialog(preDefinedHour: Date) {
+  public openBookingDialog(preDefinedHour: Moment) {
     if (preDefinedHour) {
-      var currentDate = new Date(this.date);
-      currentDate.setHours(preDefinedHour.getHours());
-      currentDate.setMinutes(preDefinedHour.getMinutes());
-      currentDate.setSeconds(0);
+      var currentDate = moment.utc(this.date);
+      currentDate.hours(preDefinedHour.hours());
+      currentDate.minutes(preDefinedHour.minutes());
+      currentDate.seconds(0);
       this.bookingForm.patchValue({
         timestamp: currentDate,
         facilityId: this.authService.getFacilityId(),
@@ -254,8 +256,8 @@ export class UserReservationListComponent implements OnInit, OnChanges {
     let index = this.bookingsOrigin.findIndex(
       (x) =>
         this.dateTimeService.compareHoursAndMinutes(
-          date,
-          new Date(x.timestamp)
+          moment.utc(date),
+          moment.utc(x.timestamp)
         ) == 0
     );
 
@@ -266,13 +268,13 @@ export class UserReservationListComponent implements OnInit, OnChanges {
     return this.bookingsOrigin[index];
   }
   //REF
-  private checkIfBookingExist(date: Date) {
+  private checkIfBookingExist(date: Moment) {
     return (
       this.bookingsOrigin.findIndex(
         (x) =>
           this.dateTimeService.compareHoursAndMinutes(
-            date,
-            new Date(x.timestamp)
+            moment.utc(date),
+            moment.utc(x.timestamp)
           ) == 0
       ) != -1
     );
@@ -287,7 +289,7 @@ export class UserReservationListComponent implements OnInit, OnChanges {
 
   private checkIfNextHourEmpty(date: Date, duration: number) {
     var indexInTimeSlots = this.timeSlots.findIndex(
-      (x) => this.dateTimeService.compareHoursAndMinutes(date, x) == 0
+      (x) => this.dateTimeService.compareHoursAndMinutes(moment.utc(date), moment.utc(x)) == 0
     );
     var timeSlotCountCheck = duration / this.facilityConfiguration.interval;
 

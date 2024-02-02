@@ -16,7 +16,8 @@ import {
 } from "@angular/cdk/layout";
 import { CancelMessageDialogComponent } from "../cancel-message/cancel-message.component";
 import { DateTimeService } from "../../services/date-time.service";
-import { Day } from "../../models/day.model";
+import * as moment from "moment";
+import { Moment } from "moment";
 
 @Component({
   selector: "app-calendar-edit-day",
@@ -24,11 +25,11 @@ import { Day } from "../../models/day.model";
   styleUrls: ["./calendar-edit-day.component.css"],
 })
 export class CalendarEditDayComponent implements OnInit {
-  workingDayAddError: number = -1;
-  isDayFree: boolean = false;
+  public workingDayAddError: number = -1;
+  public isOpen: boolean = false;
 
-  timeSlots: Date[] = [];
-  durationArr: any[] = [
+  public timeSlots: Moment[] = [];
+  public durationArr: any[] = [
     { duration: "30 минути", value: 30 },
     { duration: "60 минути", value: 60 },
     { duration: "90 минути", value: 90 },
@@ -62,25 +63,27 @@ export class CalendarEditDayComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.timeSlots = this.generateHours(new Date(), new Date());
-
+    this.timeSlots = this.generateHours(moment.utc(), moment.utc());
+    
     this.dayService.getDayByDate(this.data.date).subscribe((x) => {
-      x.closingTime = new Date(x.closingTime);
-      x.openingTime = new Date(x.openingTime);
+      
+      x.closingTime = moment.utc(x.closingTime);
+      x.openingTime = moment.utc(x.openingTime);
       var startIndex = this.timeSlots.findIndex(
         (times) =>
-          times.getHours() == x.openingTime.getHours() &&
-          times.getMinutes() == x.openingTime.getMinutes()
+          times.hours() == x.openingTime.hours() &&
+          times.minutes() == x.openingTime.minutes()
       );
       var endIndex = this.timeSlots.findIndex(
         (times) =>
-          times.getHours() == x.closingTime.getHours() &&
-          times.getMinutes() == x.closingTime.getMinutes()
+          times.hours() == x.closingTime.hours() &&
+          times.minutes() == x.closingTime.minutes()
       );
-
+      
       this.customDayConfigurationForm.get("periodStart").setValue(startIndex);
       this.customDayConfigurationForm.get("periodEnd").setValue(endIndex);
       this.customDayConfigurationForm.get("interval").setValue(x.interval);
+      this.isOpen = x.isOpen;
     });
   }
 
@@ -89,7 +92,7 @@ export class CalendarEditDayComponent implements OnInit {
   }
 
   public manageIsFreeDay() {
-    !this.isDayFree ? this.makeDayFree() : this.makeDayBusiness();
+    this.isOpen ? this.makeDayFree() : this.makeDayBusiness();
   }
 
   public makeDayFree() {
@@ -120,9 +123,10 @@ export class CalendarEditDayComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((isConfirmed) => {
       if (isConfirmed) {
-        
         this.dayService.setHoliday(this.data.date).subscribe((x) => {
-          this.isDayFree = !this.isDayFree;
+          this.dialogRef.close(true);
+
+          this.isOpen = !this.isOpen;
           const msg = "Направихте този ден почивен!";
 
           this.snackBar.open(msg, "Затвори", {
@@ -136,7 +140,7 @@ export class CalendarEditDayComponent implements OnInit {
 
   public makeDayBusiness() {
     const msg = "Направихте този ден работен!";
-    this.isDayFree = !this.isDayFree;
+    this.isOpen = !this.isOpen;
 
     this.snackBar.open(msg, "Затвори", {
       duration: 8000,
@@ -150,7 +154,8 @@ export class CalendarEditDayComponent implements OnInit {
     let selectedEndHour =
       this.customDayConfigurationForm.get("periodEnd").value;
     let interval = this.customDayConfigurationForm.get("interval").value;
-
+    console.log(selectedStartHour)
+    console.log(selectedEndHour)
     if (selectedStartHour > selectedEndHour) {
       this.workingDayAddError = 1;
     } else {
@@ -160,26 +165,19 @@ export class CalendarEditDayComponent implements OnInit {
         dayDate: this.data.date,
         startPeriod: this.timeSlots[selectedStartHour],
         endPeriod: this.timeSlots[selectedEndHour],
-        isOpen: this.isDayFree,
+        isOpen: this.isOpen,
         interval: interval,
       };
 
       this.dayService.addDay(currentDay).subscribe((x) => {
-        console.log(">>>>", x);
+        this.dialogRef.close(true);
       });
     }
   }
 
-  private generateHours(from: Date, to: Date) {
-    var start = new Date(from);
-    var end = new Date(to);
-
-    start.setHours(0);
-    start.setMinutes(0);
-    start.setSeconds(0);
-    end.setHours(23);
-    end.setMinutes(59);
-    end.setMinutes(0);
+  private generateHours(from: Moment, to: Moment) {
+    const start: Moment = moment.utc().set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+    const end: Moment = moment.utc().set({ hour: 21, minute: 30, second: 0, millisecond: 0 });
 
     return this.dateTimeService.generateTimeSlots(start, end, 30);
   }

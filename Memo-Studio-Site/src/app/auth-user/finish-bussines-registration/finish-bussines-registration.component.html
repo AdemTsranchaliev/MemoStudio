@@ -34,7 +34,7 @@
                     <select placeholder=" " [(ngModel)]="startPeriodIndex" class="w-100"
                       [ngModelOptions]="{ standalone: true }" (change)="dateChange(true)">
                       <option *ngFor="let time of timeSlots; let i = index" value="{{ i }}">
-                        {{ time | date : 'HH:mm' }} ч.
+                        {{ time | utcToLocal:'HH:mm' }} ч.
                       </option>
                     </select>
                     <span class="placeholder-select cursor-text">Начален час</span>
@@ -46,7 +46,7 @@
                     <select placeholder=" " [(ngModel)]="endPeriodIndex" class="w-100"
                       [ngModelOptions]="{ standalone: true }" (change)="dateChange(false)">
                       <option *ngFor="let time of timeSlots; let i = index" value="{{ i }}">
-                        {{ time | date : 'HH:mm' }} ч.
+                        {{ time | utcToLocal:'HH:mm' }} ч.
                       </option>
                     </select>
                     <span class="placeholder-select cursor-text">Краен час</span>

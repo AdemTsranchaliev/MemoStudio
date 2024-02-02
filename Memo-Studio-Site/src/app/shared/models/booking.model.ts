@@ -1,8 +1,11 @@
+import * as moment from "moment";
+import { Moment } from "moment";
+
 export class Booking {
   id: number;
   bookingId: string;
-  timestamp: Date;
-  createdOn: Date;
+  timestamp: Moment;
+  createdOn: Moment;
   canceled: boolean;
   note?: string;
   name?: string;
@@ -16,8 +19,8 @@ export class Booking {
   constructor(
     id: number = -1,
     bookingId: string = "",
-    timestamp: Date = new Date(),
-    createdOn: Date = new Date(),
+    timestamp: Moment = moment.utc(),
+    createdOn: Moment = moment.utc(),
     canceled: boolean = false,
     note?: string,
     name?: string,

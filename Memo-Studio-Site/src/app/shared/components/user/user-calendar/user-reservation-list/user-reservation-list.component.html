@@ -5,9 +5,9 @@
   </div>
 
   <p class="alert alert-warning m-3" role="alert" *ngIf="bookings.length == 0 && !isDayPast && isServerDown == false">
-    Все още няма заети часове за {{ this.date.getDate() }}
-    {{ date.toLocaleString('bg-BG', { month: 'long' }) }}
-    {{ date.getFullYear() }}г.
+    Все още няма заети часове за {{ this.date.date() }}
+    {{date | bulgarianDate}}
+    {{ date.year() }}г.
   </p>
   <div class="alert alert-warning m-4" role="alert" *ngIf="isDayPast">
     Тази дата е минала и нямате право на действия.
@@ -24,7 +24,9 @@
         <mat-expansion-panel class="event-expansion-panel custom-shadow" hideToggle>
           <mat-expansion-panel-header class="reservation-container">
             <mat-panel-title>
-              {{ booking.timestamp | date : 'HH:mm' }} ч.
+
+              {{booking.timestamp | utcToLocal:'HH:mm'}}ч.
+
             </mat-panel-title>
 
             <mat-panel-description>
@@ -65,7 +67,7 @@
     <div *ngIf="!booking.bookingId" style="cursor: pointer">
       <div class="border border-primary rounded custom-shadow p-2 text-dark text-center"
         (click)="openBookingDialog(booking.timestamp)">
-        {{ booking.timestamp | date : 'HH:mm' }}
+        {{booking.timestamp | utcToLocal:'HH:mm'}}ч.
       </div>
     </div>
   </div>
@@ -126,8 +128,8 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="modalNote">
-            Почивен ден - {{ date.getDate() }}.{{ date.getMonth() }}.{{
-            date.getFullYear()
+            Почивен ден - {{ date.date() }}.{{ date.month() }}.{{
+            date.year()
             }}
           </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -164,9 +166,10 @@
   <div class="dialog bg-white" id="bookingDialog">
     <p class="text-center mb-1 mt-2" style="color: black">
       Запази час -
-      <b>{{ this.date.getDate() }}
-        {{ date.toLocaleString('bg-BG', { month: 'long' }) }}
-        {{ date.getFullYear() }}г.
+      <b>
+        {{ this.date.date() }}
+        {{date | bulgarianDate}}
+        {{ date.year() }}г.
       </b>
     </p>
 

@@ -6,9 +6,9 @@
         <div>
             <h3 class="text-center text-dark">Добави час</h3>
             <h5 class="text-center">
-                <b>{{ data.date.getDate() }}
-                    {{ data.date.toLocaleString('bg-BG', { month: 'long' }) }}
-                    {{ data.date.getFullYear() }} г.
+                <b>{{ data.date.date() }}
+                    {{data.date | bulgarianDate}}
+                    {{ data.date.year() }} г.
                 </b>
             </h5>
         </div>
@@ -93,8 +93,8 @@
                             utilityService.IsTouched(data.bookingForm, 'timestamp')}">
                             <select formControlName="timestamp" placeholder=" " class="w-100">
                                 <option [disabled]="booking.bookingId" *ngFor="let booking of data.bookings"
-                                    [value]="booking.timestamp | date : 'HH:mm'">{{ booking.timestamp | date : 'HH:mm'
-                                    }}
+                                    [value]="booking.timestamp | utcToLocal:'HH:mm'">{{ booking.timestamp | utcToLocal:'HH:mm'
+                                    }} ч.
                                 </option>
                             </select>
                             <span class="placeholder-select cursor-text">Час</span>

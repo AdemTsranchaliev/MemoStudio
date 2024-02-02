@@ -164,8 +164,8 @@ namespace Memo_Studio_Library.Services
                 {
                     return;
                 }
-                facilitySettings.EndPeriod = new DateTime(0, 0, 0, model.EndPeriod.ToLocalTime().Hour, model.StartPeriod.ToLocalTime().Minute, 0);
-                facilitySettings.StartPeriod = new DateTime(0, 0, 0, model.StartPeriod.ToLocalTime().Hour, model.StartPeriod.ToLocalTime().Minute, 0);
+                facilitySettings.EndPeriod = new DateTime(1970, 1, 1, model.EndPeriod.Hour, model.StartPeriod.Minute, 0, DateTimeKind.Utc);
+                facilitySettings.StartPeriod = new DateTime(1970, 1, 1, model.StartPeriod.Hour, model.StartPeriod.Minute, 0, DateTimeKind.Utc);
 
                 facilitySettings.WorkingDays = model.WorkingDaysJson;
                 facilitySettings.Interval = model.Interval;

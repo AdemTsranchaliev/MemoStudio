@@ -107,6 +107,8 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { CalendarEditDayComponent } from './shared/dialogs/calendar-edit-day/calendar-edit-day.component';
 import { UserSubscriptionComponent } from './shared/components/user-subscription/user-subscription.component';
 import { NavQrCodeComponent } from './shared/dialogs/nav-qr-code/nav-qr-code.component';
+import { UtcToLocalPipe } from "./shared/pipes/utcToLocal.pipe";
+import { BulgarianDatePipe } from "./shared/pipes/bulgarianDate.pipe";
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -145,6 +147,9 @@ registerLocaleData(localeBg, "bg");
     ReservationListComponent,
     //Pipe
     TruncatePipe,
+    UtcToLocalPipe,
+    BulgarianDatePipe,
+    
     CheckboxSelectComponent,
     AdminDashboardComponent,
     NewlyRegisteredListComponent,
