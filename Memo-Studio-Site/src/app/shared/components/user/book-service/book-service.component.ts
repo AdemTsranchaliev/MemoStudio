@@ -1,31 +1,34 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { Router } from "@angular/router";
+import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from "@angular/core";
 import { MatAccordion } from "@angular/material/expansion";
 import { MatStepper } from "@angular/material/stepper";
+import { ServiceCategoryResponse, ServiceResponse } from "src/app/shared/models/facility/facility-service.model";
 
 @Component({
   selector: "app-book-service",
   templateUrl: "./book-service.component.html",
   styleUrls: ["./book-service.component.css"],
 })
-export class BookServiceComponent implements OnInit {
+export class BookServiceComponent implements AfterViewInit, OnChanges {
   @ViewChild(MatAccordion) accordion: MatAccordion;
-  servicesArr = [
-    "Lorem, ipsum.",
-    "Lorem, ipsum.",
-    "Lorem ipsum dolor sit amet consectetur.",
-    "Lorem, ipsum.",
-    "Lorem ipsum dolor sit amet consectetur.",
-    "Lorem, ipsum.",
-    "Lorem, ipsum.",
-    "Lorem ipsum dolor sit amet consectetur.",
-    "Lorem, ipsum.",
-    "Lorem ipsum dolor sit amet consectetur.",
-  ];
-
+  @Input() serviceCategories: ServiceCategoryResponse[] = [];
+  public services: ServiceResponse[] = [];
   constructor(private stepper: MatStepper) {}
 
-  ngOnInit(): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.serviceCategories){
+      var index = this.serviceCategories.findIndex(x=>x.id==33);
+      
+      if(index!=-1){
+        this.services = this.serviceCategories[index]?.services;
+      }
+    }
+  }
+
+  ngAfterViewInit(): void {
+
+  }
+
+  
 
   nextStep() {
     this.stepper.next();

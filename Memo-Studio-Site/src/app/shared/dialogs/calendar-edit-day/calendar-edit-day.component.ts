@@ -154,8 +154,7 @@ export class CalendarEditDayComponent implements OnInit {
     let selectedEndHour =
       this.customDayConfigurationForm.get("periodEnd").value;
     let interval = this.customDayConfigurationForm.get("interval").value;
-    console.log(selectedStartHour)
-    console.log(selectedEndHour)
+
     if (selectedStartHour > selectedEndHour) {
       this.workingDayAddError = 1;
     } else {

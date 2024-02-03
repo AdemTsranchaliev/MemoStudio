@@ -131,6 +131,7 @@ public class Program
         services.AddScoped<INotificationService, NotificationService>();
         services.AddScoped<IDayService, DayService>();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IFileService, FileService>();
         services.AddScoped<IMessageService, MessageService>();
         services.AddScoped<IMailService, MailService>();
         services.AddScoped<IAccountService, AccountService>();

@@ -14,12 +14,14 @@ namespace Memo_Studio_Library.Services
         private readonly UserManager<User> userManager;
         private readonly IMailService mailService;
         private readonly IFacilityService facilityService;
+        private readonly IFileService fileService;
 
-        public AccountService(UserManager<User> userManager, IMailService mailService, IFacilityService facilityService)
+        public AccountService(UserManager<User> userManager, IMailService mailService, IFacilityService facilityService, IFileService fileService)
         {
             this.userManager = userManager;
             this.mailService = mailService;
             this.facilityService = facilityService;
+            this.fileService = fileService;
         }
 
         public async Task SendEmailConfirmationAsync(User user)
@@ -183,7 +185,7 @@ namespace Memo_Studio_Library.Services
                 Email = user.Email,
                 FacilityName = user.UserFalicities.FirstOrDefault()?.Facility.Name,
                 Phone = user.PhoneNumber,
-                ProfilePictureBase64 = user.ImageBase64Code != null ? $"data:image/png;base64,{this.GetFile(user.ImageBase64Code)}" : null
+                ProfilePictureBase64 = user.ImageBase64Code != null ? $"data:image/png;base64,{fileService.GetFile(user.ImageBase64Code)}" : null
             };
 
             return result;
@@ -308,25 +310,7 @@ namespace Memo_Studio_Library.Services
             {
                 throw new Exception("Грешка при запазването на изображението");
             }
-        }
-
-        public string GetFile(string fileName)
-        {
-            if (fileName==null)
-            {
-                return null;
-            }
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", fileName);
-
-            if (System.IO.File.Exists(filePath))
-            {
-                var fileBytes = System.IO.File.ReadAllBytes(filePath);
-                return Convert.ToBase64String(fileBytes);
-            }
-
-            return null;
-        }
-
+        }    
     }
 }
 

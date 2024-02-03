@@ -9,10 +9,12 @@ namespace Memo_Studio_Library.Services
     public class FacilityService : IFacilityService
     {
         private readonly StudioContext context;
+        private readonly IFileService fileService;
 
-        public FacilityService(StudioContext context)
+        public FacilityService(StudioContext context, IFileService fileService)
         {
             this.context = context;
+            this.fileService = fileService;
         }
 
         public async Task<Facility> GetFacilityById(Guid facilityId)
@@ -407,6 +409,34 @@ namespace Memo_Studio_Library.Services
             {
                 throw new Exception("Нещо се обърка, моля свържете се с поддръжката.");
             }
+        }
+
+        public async Task<FacilityInformationViewModel> GetFacilityInformation(Guid facilityId)
+        {
+            var facility = await context
+                .Facilities
+                .Include(x=>x.UserFalicities)
+                .ThenInclude(x=>x.User)
+                .FirstOrDefaultAsync(x => x.FacilityId == facilityId);
+
+            if (facility==null)
+            {
+                return null;
+            }
+            var facilityOwner = facility.UserFalicities.FirstOrDefault(x => x.FacilityRoleId==1)?.User;
+
+            var result = new FacilityInformationViewModel
+            {
+                Name = facility.Name,
+                Category = "Маникюр & Педикюр",
+                Email = facilityOwner.Email,
+                ImageBase64 = facilityOwner.ImageBase64Code != null ? $"data:image/png;base64,{fileService.GetFile(facilityOwner.ImageBase64Code)}" : null,
+                Phone = facilityOwner.PhoneNumber,
+                FacebookLink = "facebook",
+                InstagramLink = "instagram"
+            };
+
+            return result;
         }
     }
 }

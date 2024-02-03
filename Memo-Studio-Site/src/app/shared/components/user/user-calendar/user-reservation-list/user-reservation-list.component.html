@@ -5,7 +5,8 @@
   </div>
 
   <p class="alert alert-warning m-3" role="alert" *ngIf="bookings.length == 0 && !isDayPast && isServerDown == false">
-    Все още няма заети часове за {{ this.date.date() }}
+    Все още няма заети часове за 
+    <!-- {{ this.date.date() }} -->
     {{date | bulgarianDate}}
     {{ date.year() }}г.
   </p>
@@ -128,9 +129,9 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="modalNote">
-            Почивен ден - {{ date.date() }}.{{ date.month() }}.{{
+            <!-- Почивен ден - {{ date.date() }}.{{ date.month() }}.{{
             date.year()
-            }}
+            }} -->
           </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -167,9 +168,9 @@
     <p class="text-center mb-1 mt-2" style="color: black">
       Запази час -
       <b>
-        {{ this.date.date() }}
+        <!-- {{ this.date.date() }}
         {{date | bulgarianDate}}
-        {{ date.year() }}г.
+        {{ date.year() }}г. -->
       </b>
     </p>
 

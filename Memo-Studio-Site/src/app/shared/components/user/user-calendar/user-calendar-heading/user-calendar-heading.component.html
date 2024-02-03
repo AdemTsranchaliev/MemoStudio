@@ -7,11 +7,11 @@
 
     <div class="col-6 pt-2">
         <h6 matTooltip="Demo Company Name">
-            {{truncateText('Demo Company Name Demo Company', truncationLength)}}
+            {{facilityInformation?.name}}
         </h6>
     </div>
 
     <div class="col-2">
-        <img class="company-logo-image img-fluid" src="assets/images/default-user.png" alt="..." />
+        <img class="company-logo-image img-fluid" src="{{facilityInformation?.imageBase64}}" alt="..." />
     </div>
 </div>

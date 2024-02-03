@@ -3,26 +3,26 @@
     <div class="row justify-content-center mt-4">
       <div class="col-md-5">
         <div class="content mt-0 custom-shadow">
-          <mat-stepper class="position-relative h-100">
+          <mat-stepper class="position-relative h-100" #stepperRef>
             <mat-step class="position-relative">
               <!-- Step Back -->
-              <app-user-calendar-heading [showButton]="false"></app-user-calendar-heading>
+              <app-user-calendar-heading [facilityInformation]="facilityInformation" [showButton]="false"></app-user-calendar-heading>
 
               <!-- Categories -->
-              <app-book-category></app-book-category>
+              <app-book-category [serviceCategories]="serviceCategories"></app-book-category>
             </mat-step>
 
             <mat-step class="position-relative">
               <!-- Step Back -->
-              <app-user-calendar-heading></app-user-calendar-heading>
+              <app-user-calendar-heading [facilityInformation]="facilityInformation"></app-user-calendar-heading>
 
               <!-- Services -->
-              <app-book-service></app-book-service>
+              <app-book-service [serviceCategories]="serviceCategories"></app-book-service>
             </mat-step>
 
             <mat-step class="position-relative">
               <!-- Step Back -->
-              <app-user-calendar-heading></app-user-calendar-heading>
+              <app-user-calendar-heading [facilityInformation]="facilityInformation"></app-user-calendar-heading>
 
               <!-- Calendar -->
               <div class="user-calendar-container margin-b">
@@ -32,7 +32,7 @@
 
             <mat-step class="position-relative">
               <!-- Step Back -->
-              <app-user-calendar-heading></app-user-calendar-heading>
+              <app-user-calendar-heading [facilityInformation]="facilityInformation"></app-user-calendar-heading>
 
               <!-- Reservations -->
               <div class="user-reservation-container">

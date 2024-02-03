@@ -4,53 +4,22 @@
 
   <article class="row justify-content-center">
     <!-- Start Service -->
-    <article class="col-md-12 bg-white rounded my-1 border border-primary custom-shadow cursor-pointer" (click)="nextStep()">
+    <article *ngFor="let service of services" class="col-md-12 bg-white rounded my-1 border border-primary custom-shadow cursor-pointer"
+      (click)="nextStep()">
       <div class="d-flex flex-column">
         <div class="d-flex justify-content-between align-items-center">
-          <span class="text-dark fw-400">Дамска подстрижка</span>
-          <span class="fw-500">10 лв.</span>
+          <span class="text-dark fw-400">{{service.name}}</span>
+          <span class="fw-500">{{service.price}} лв.</span>
         </div>
 
         <div class="fs-12 mt-min-8">
           <div>
             <i class="far fa-clock"></i>
-            120 мин.
+            {{service.duration}} мин.
           </div>
         </div>
       </div>
     </article>
     <!-- End Service -->
-
-    <article class="col-md-12 bg-white rounded my-1 border border-primary custom-shadow cursor-pointer" (click)="nextStep()">
-      <div class="d-flex flex-column">
-        <div class="d-flex justify-content-between align-items-center">
-          <span class="text-dark fw-400">Мъжка подстрижка</span>
-          <span class="fw-500">10 лв.</span>
-        </div>
-
-        <div class="fs-12 mt-min-8">
-          <div>
-            <i class="far fa-clock"></i>
-            120 мин.
-          </div>
-        </div>
-      </div>
-    </article>
-
-    <article class="col-md-12 bg-white rounded my-1 border border-primary custom-shadow cursor-pointer" (click)="nextStep()">
-      <div class="d-flex flex-column">
-        <div class="d-flex justify-content-between align-items-center">
-          <span class="text-dark fw-400">Детска подстрижка</span>
-          <span class="fw-500">10 лв.</span>
-        </div>
-
-        <div class="fs-12 mt-min-8">
-          <div>
-            <i class="far fa-clock"></i>
-            120 мин.
-          </div>
-        </div>
-      </div>
-    </article>
   </article>
 </section>

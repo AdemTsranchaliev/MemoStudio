@@ -1,5 +1,4 @@
 ﻿
-using Memo_Studio_Library.Data.Models;
 using Memo_Studio_Library.Services.Interfaces;
 using Memo_Studio_Library.ViewModels.FacilityViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -112,6 +111,28 @@ namespace Memo_Studio.Controllers
             return Ok(result);
         }
 
+        [HttpGet("service/{facilityId}")]
+        public async Task<IActionResult> GetFacilityServices(Guid facilityId)
+        {
+            if (facilityId == null)
+            {
+                return BadRequest();
+            }
+
+            var services = await facilityService.GetServices(facilityId);
+
+            var facilityInfo = await facilityService.GetFacilityInformation(facilityId);
+
+            var result = new FacilityServicesForUserViewModel
+            {
+                ImageBase64 = facilityInfo.ImageBase64,
+                Name = facilityInfo.Name,
+                Services = services
+            };
+
+            return Ok(result);
+        }
+
         [Authorize]
         [HttpDelete("service/{serviceId}")]
         public async Task<IActionResult> DeleteService(int serviceId)
@@ -159,6 +180,19 @@ namespace Memo_Studio.Controllers
                 Price = newService.Price
             };
 
+            return Ok(result);
+        }
+
+        [HttpGet("information/{facilityId}")]
+        public async Task<IActionResult> GetInformation(Guid facilityId)
+        {
+            if (facilityId==null)
+            {
+                return BadRequest();
+            }
+
+            var result = await facilityService.GetFacilityInformation(facilityId);
+           
             return Ok(result);
         }
     }

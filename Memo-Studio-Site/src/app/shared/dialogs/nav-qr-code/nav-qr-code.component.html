@@ -6,8 +6,7 @@
     <div mat-dialog-content>
         <article class="row justify-content-center qr-img-prev">
             <article class="col-10 text-center qr-img-container">
-                <img src="assets/images/white-qr.png" class="qr-img" alt="Снимка..." />
-                <!-- <img src="assets/images/viber-QR.png" class="w-50" alt="Снимка..." /> -->
+                <qrcode [qrdata]="facilityLink" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
             </article>
         </article>
     </div>

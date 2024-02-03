@@ -78,9 +78,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: "user-calendar",
+    path: "facility-schedule/:id",
     component: UserCalendarComponent,
-    canActivate: [AuthGuard],
   },
   {
     path: "upcoming",
@@ -114,9 +113,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: "user-subscription",
+    path: "facility/:id",
     component: UserSubscriptionComponent,
-    canActivate: [AuthGuard],
   },
   { path: "terms-conditions", component: TermsConditionsComponent },
   {

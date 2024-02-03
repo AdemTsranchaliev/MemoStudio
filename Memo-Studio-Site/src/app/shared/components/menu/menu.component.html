@@ -80,13 +80,13 @@
                 </li>
               </ul>
             </li>
-            <li *ngIf="!authService.isAuthenticated()">
-              <a routerLink="login" class="nav-link">Вход / Регистрация</a>
-            </li>
             <li>
-              <a class="nav-link cursor-pointer" (click)="openDialog()">
+              <a class="nav-link cursor-pointer" (click)="openDialog()" *ngIf="authService.isAuthenticated()">
                 <i class="fas fa-qrcode"></i>
               </a>
+            </li>
+            <li *ngIf="!authService.isAuthenticated()">
+              <a routerLink="login" class="nav-link">Вход / Регистрация</a>
             </li>
             <li *ngIf="authService.isAuthenticated()">
               <a routerLink="home-information" (click)="authService.logout()" class="nav-link">Изход</a>

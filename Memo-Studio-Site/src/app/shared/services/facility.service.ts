@@ -3,6 +3,8 @@ import { Injectable } from "@angular/core";
 import { BASE_URL_DEV } from "../routes";
 import { FacilitySettingsViewModel } from "../models/facility/facility-setting-model";
 import { UpsertServiceCategory } from "../models/facility/upsert-service-category.model";
+import { FacilityInformationViewModel } from "../models/facility/facility-information.model";
+import { ServiceCategoryResponse, ServiceForUserResponse } from "../models/facility/facility-service.model";
 const httpOptions = {
   headers: {
     "Content-Type": "application/json",
@@ -31,8 +33,14 @@ export class FacilityService {
   }
 
   public getFacilityServices() {
-    return this.http.get<any>(
+    return this.http.get<ServiceCategoryResponse[]>(
       `${BASE_URL_DEV}/Facility/service`
+    );
+  }
+
+  public getFacilityServicesUser(id:string) {
+    return this.http.get<ServiceForUserResponse>(
+      `${BASE_URL_DEV}/Facility/service/${id}`
     );
   }
 
@@ -54,5 +62,9 @@ export class FacilityService {
 
   public removeService(serviceId: number){
     return this.http.delete(`${BASE_URL_DEV}/Facility/service/${serviceId}`);
+  }
+
+  public getFacilityInformation(facilityId: string){
+    return this.http.get<FacilityInformationViewModel>(`${BASE_URL_DEV}/Facility/information/${facilityId}`);
   }
 }

@@ -50,16 +50,6 @@ export class BookingService {
   }
 
   public getBookingsByDate(date: Moment) {
-    // const year = date.getUTCFullYear();
-    // const month = String(date.getUTCMonth() + 1).padStart(2, "0");
-    // const day = String(date.getUTCDate()).padStart(2, "0");
-    // const hours = String(date.getUTCHours()).padStart(2, "0");
-    // const minutes = String(date.getUTCMinutes()).padStart(2, "0");
-    // const seconds = String(date.getUTCSeconds()).padStart(2, "0");
-    // const milliseconds = String(date.getUTCMilliseconds()).padStart(7, "0");
-
-    // const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
-
     return this.http.get<BookingsList>(
       `${BASE_URL_DEV}/Booking/${date.toISOString()}`,
       httpOptions
@@ -67,18 +57,15 @@ export class BookingService {
   }
 
   public getBookingListByDate(date: Moment) {
-    // const year = date.getUTCFullYear();
-    // const month = String(date.getUTCMonth() + 1).padStart(2, "0");
-    // const day = String(date.getUTCDate()).padStart(2, "0");
-    // const hours = String(date.getUTCHours()).padStart(2, "0");
-    // const minutes = String(date.getUTCMinutes()).padStart(2, "0");
-    // const seconds = String(date.getUTCSeconds()).padStart(2, "0");
-    // const milliseconds = String(date.getUTCMilliseconds()).padStart(7, "0");
-
-    // const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
-    
     return this.http.get<BookingsList>(
       `${BASE_URL_DEV}/Booking/${date.toISOString()}/list`,
+      httpOptions
+    );
+  }
+
+  public getBookingListByDateForUser(date: Moment, facilityId: string) {
+    return this.http.get<BookingsList>(
+      `${BASE_URL_DEV}/Booking/${date.toISOString()}/${facilityId}}/list-user`,
       httpOptions
     );
   }
@@ -97,6 +84,13 @@ export class BookingService {
   public getBookingsByMonthStatistics(month: any, year: any) {
     return this.http.get<MonthStatistics[]>(
       `${BASE_URL_DEV}/Booking/month-statistics/${month}/${year}`,
+      httpOptions
+    );
+  }
+
+  public getBookingsByMonthStatisticsForUser(month: any, year: any, facilityId: string) {
+    return this.http.get<MonthStatistics[]>(
+      `${BASE_URL_DEV}/Booking/month-statistics/${month}/${year}/${facilityId}`,
       httpOptions
     );
   }

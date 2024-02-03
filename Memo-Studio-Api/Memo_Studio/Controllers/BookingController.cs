@@ -95,6 +95,31 @@ namespace Memo_Studio.Controllers
             var result = await this.bookingService.GetBookingsListByDate(date, facilityId);
             return Ok(result);
         }
+
+        [HttpGet("{date}/{facilityId}/list-users")]
+        public async Task<IActionResult> GetBookingsForUser(DateTime date, Guid facilityId)
+        {
+            if (facilityId == null)
+            {
+                return BadRequest();
+            }
+
+            var result = await this.bookingService.GetBookingsListByDate(date, facilityId);
+            return Ok(result);
+        }
+
+        [HttpGet("month-statistics/{month}/{year}/{facilityId}")]
+        public async Task<IActionResult> MonthDaysStatisticForUser(int month, int year, Guid facilityId)
+        {
+            if (facilityId == null)
+            {
+                return BadRequest();
+            }
+
+            var daysStatistics = await bookingService.GetMonthDaysStatistics(facilityId, month, year);
+
+            return Ok(daysStatistics);
+        }
     }
 }
 
