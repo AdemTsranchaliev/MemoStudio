@@ -3,6 +3,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
+import { NavigateService } from "src/app/shared/services/navigate.service";
 
 export interface UserData {
   id: string;
@@ -56,7 +57,10 @@ export class AllUsersListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    public navigateService: NavigateService,
+    ) {
     // Create 100 users
     const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
 
@@ -87,10 +91,6 @@ export class AllUsersListComponent implements OnInit, AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-  }
-
-  navigate(param: string) {
-    this.router.navigate([`/${param}`]);
   }
 }
 

@@ -66,7 +66,7 @@ export class CalendarComponent implements OnInit {
   public submitForm() {
     this.setStartAndEndPeriodForAllItems();
     if (this.bookingForm.valid) {
-      var resultToSend: FacilitySettingsViewModel = <FacilitySettingsViewModel>{
+      let resultToSend: FacilitySettingsViewModel = <FacilitySettingsViewModel>{
         startPeriod: this.bookingForm.get("startPeriod").value,
         endPeriod: this.bookingForm.get("endPeriod").value,
         interval: this.bookingForm.get("interval").value,
@@ -86,8 +86,8 @@ export class CalendarComponent implements OnInit {
   }
 
   public generateHours(from: Moment, to: Moment) {
-    var start = moment.utc(from);
-    var end = moment.utc(to);
+    let start = moment.utc(from);
+    let end = moment.utc(to);
 
     start.hours(0);
     start.minutes(0);

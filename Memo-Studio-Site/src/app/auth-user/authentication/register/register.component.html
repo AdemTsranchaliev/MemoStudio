@@ -3,9 +3,13 @@
     <h3>Регистрация в <strong>BOOKIE</strong></h3>
     <p class="mb-4"></p>
   </div>
-  <div class="alert alert-danger" role="alert" *ngIf="isLoginError">
-    Грешна парола или имейл
-  </div>
+  <!-- Start Alert -->
+  <ng-container *ngIf="isLoginError">
+    <app-static-alert-message alertMessage="Грешна парола или имейл" alertStyle="alert-danger">
+    </app-static-alert-message>
+  </ng-container>
+  <!-- End Alert -->
+
   <form [formGroup]="registerForm">
     <div>
       <label class="custom-field w-100 mt-2">
@@ -122,9 +126,9 @@
         Това поле е задължително.
       </mat-error>
     </div>
-    <a (click)="onSubmit()" class="btn btn-pill text-white btn-block btn-primary cursor-pointer">
+    <button (click)="onSubmit()" class="btn btn-pill text-white btn-block btn-primary cursor-pointer">
       РЕГИСТРАЦИЯ
-    </a>
+    </button>
 
     <span class="d-block text-center my-4 text-muted">
       или се регистрирайте с</span>

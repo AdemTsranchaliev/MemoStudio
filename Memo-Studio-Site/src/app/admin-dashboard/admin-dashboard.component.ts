@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { NavigateService } from "../shared/services/navigate.service";
 
 @Component({
   selector: "app-admin-dashboard",
@@ -7,11 +7,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./admin-dashboard.component.css"],
 })
 export class AdminDashboardComponent implements OnInit {
-  constructor(private router: Router) {}
+  constructor(public navigateService: NavigateService) { }
 
-  ngOnInit(): void {}
-
-  navigate(param: string) {
-    this.router.navigate([`/${param}`]);
-  }
+  ngOnInit(): void { }
 }

@@ -186,7 +186,7 @@ export class CalendarOverviewComponent implements OnInit {
   }
 
   private markPastDates() {
-    var currentDate = moment.utc();
+    let currentDate = moment.utc();
     if (
       this.date.year() == currentDate.year() &&
       this.date.month() == currentDate.month()

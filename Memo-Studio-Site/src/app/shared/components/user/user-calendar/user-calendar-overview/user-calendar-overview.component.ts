@@ -123,8 +123,8 @@ export class UserCalendarOverviewComponent implements OnInit, OnChanges {
     //   this.workingDayAddError = 1;
     // } else {
     //   this.workingDayAddError = -1;
-    //   var startTime = new Date(0, 0, 0);
-    //   var endTime = new Date(0, 0, 0);
+    //   let startTime = new Date(0, 0, 0);
+    //   let endTime = new Date(0, 0, 0);
     //   if (this.selectedStartHour % 2 == 0) {
     //     startTime.setHours(this.selectedStartHour / 2);
     //   } else {
@@ -219,7 +219,7 @@ export class UserCalendarOverviewComponent implements OnInit, OnChanges {
   }
 
   private markPastDates() {
-    var currentDate = new Date();
+    let currentDate = new Date();
     if (
       this.date.getFullYear() == currentDate.getFullYear() &&
       this.date.getMonth() == currentDate.getMonth()

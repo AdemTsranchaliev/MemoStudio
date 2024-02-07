@@ -16,9 +16,14 @@
         <div>
             <form class="form mb-0 mt-0 pb-0 pt-0" [formGroup]="customDayConfigurationForm">
                 <div class="form-container mb-0 mt-0 pb-0 pt-0">
-                    <div class="alert alert-info" *ngIf="workingDayAddError == 1">
-                        Началото на работния ден, не може да бъде по-голямо от края!
-                    </div>
+                    <!-- Start Alert -->
+                    <ng-container *ngIf="workingDayAddError == 1">
+                        <app-static-alert-message
+                            alertMessage="Началото на работния ден, не може да бъде по-голямо от края!"
+                            alertStyle="alert-info">
+                        </app-static-alert-message>
+                    </ng-container>
+                    <!-- End Alert -->
 
                     <div class="w-100 mb-1">
                         <label class="custom-field-select w-100" [ngClass]="{

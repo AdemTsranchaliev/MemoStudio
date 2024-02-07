@@ -109,7 +109,7 @@ export class FinishBussinesRegistrationComponent implements OnInit {
     this.setStartAndEndPeriodForAllItems();
     if (this.bookingForm.valid) {
       const formData = this.bookingForm;
-      var resultToSend: FacilitySettingsViewModel = <FacilitySettingsViewModel>{
+      let resultToSend: FacilitySettingsViewModel = <FacilitySettingsViewModel>{
         startPeriod: formData.get("startPeriod").value,
         endPeriod: formData.get("endPeriod").value,
         interval: formData.get("interval").value,
@@ -129,8 +129,8 @@ export class FinishBussinesRegistrationComponent implements OnInit {
   }
 
   public generateHours(from: Moment, to: Moment) {
-    var start = moment.utc(from);
-    var end = moment.utc(to);
+    let start = moment.utc(from);
+    let end = moment.utc(to);
 
     start.hours(0);
     start.minutes(0);

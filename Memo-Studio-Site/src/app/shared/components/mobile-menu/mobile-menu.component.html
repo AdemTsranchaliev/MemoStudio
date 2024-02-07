@@ -1,0 +1,23 @@
+<!-- d-block d-sm-none -->
+<div class="d-flex justify-content-between align-items-center py-2 px-3 d-block d-sm-none mobile-navbar">
+    <div class="text-center" routerLink="/home-information">
+        <i class="fas fa-house-user fs-26"></i>
+        <p class="icon-title">начало</p>
+    </div>
+    <div class="text-center" routerLink="calendar">
+        <i class="far fa-calendar-alt fs-26"></i>
+        <p class="icon-title">календар</p>
+    </div>
+    <div class="text-center" (click)="openDialog()">
+        <i class="fas fa-qrcode fs-23 text-light-blue qr-icon"></i>
+        <p class="icon-title">QR код</p>
+    </div>
+    <div class="text-center" routerLink="profile">
+        <i class="far fa-user-circle fs-26"></i>
+        <p class="icon-title">профил</p>
+    </div>
+    <div class="text-center" routerLink="profile">
+        <i class="fas fa-cog fs-26"></i>
+        <p class="icon-title">настройки</p>
+    </div>
+</div>

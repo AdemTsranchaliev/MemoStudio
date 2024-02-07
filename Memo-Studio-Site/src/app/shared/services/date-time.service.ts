@@ -12,8 +12,8 @@ export class DateTimeService {
     intervalMinute: number
   ) {
     //new instances of the dates
-    var startPeriodTemp = moment.utc(startPeriod);
-    var endPeriodTemp = moment.utc(endPeriod);
+    let startPeriodTemp = moment.utc(startPeriod);
+    let endPeriodTemp = moment.utc(endPeriod);
 
     if (intervalMinute <= 0 || intervalMinute > 90) {
       throw new Error("Invalid interval values");

@@ -2,12 +2,33 @@
     <button mat-dialog-close class="custom-dialog-close-button">
         <mat-icon>close</mat-icon>
     </button>
-    <h1 mat-dialog-title class="text-center fs-26">QR код</h1>
-    <div mat-dialog-content>
-        <article class="row justify-content-center qr-img-prev">
-            <article class="col-10 text-center qr-img-container">
-                <qrcode [qrdata]="facilityLink" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+    <article mat-dialog-title class="text-center">
+        <div [ngClass]="{'icon-separator': currentSize == 'large'}">
+            <i class="fas fa-qrcode text-light-blue title-icon"></i>
+        </div>
+        <h3 class="mb-min-10">Сканирайте QR кода</h3>
+        <p class="text-muted">За да запазите час</p>
+    </article>
+    <div mat-dialog-content class="top-box">
+        <article class="row justify-content-center">
+            <article class="col-10 text-center qr-img">
+                <app-qr-code [currentQrCode]="facilityLink" [qrCodeColor]="'black'"
+                    [customWidth]="viewSize"></app-qr-code>
             </article>
+        </article>
+        <div class="separator">Или копирайте линка</div>
+        <article class="row align-items-center">
+            <div class="col-md-10 col-sm-12">
+                <label class="custom-field w-100">
+                    <input type="text" id="text" class="w-100" placeholder=" " [value]="facilityLink" disabled />
+                    <span class="placeholder cursor-text">Линк за регистрация</span>
+                </label>
+            </div>
+            <div class="col-md-2 col-sm-12">
+                <button mat-raised-button class="mt-11 mb-11">
+                    <i class="far fa-copy text-dark fs-22"></i>
+                </button>
+            </div>
         </article>
     </div>
     <div mat-dialog-actions align="end">
@@ -43,12 +64,6 @@
                 <i class="fab fa-whatsapp text-green fs-22"></i>
                 <span>
                     WhatsApp
-                </span>
-            </button>
-            <button mat-menu-item>
-                <i class="far fa-copy text-dark fs-22"></i>
-                <span>
-                    Копирай връзката
                 </span>
             </button>
         </mat-menu>

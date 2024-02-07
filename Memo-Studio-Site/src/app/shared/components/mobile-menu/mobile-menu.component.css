@@ -1,0 +1,35 @@
+.mobile-navbar {
+  overflow: hidden;
+  position: fixed; /* Set the navbar to fixed position */
+  bottom: 0; /* Position the navbar at the bottom of the page */
+  width: 100%;
+  background-color: white;
+  border: 1px solid #f1f1f1;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+}
+
+.qr-icon {
+  padding: 5px 8px;
+  border: 1px solid #7986cb;
+  border-radius: 100%;
+  box-shadow: 0px 4px 8px 0px #7986cb;
+}
+
+.icon-title {
+  margin: 0;
+  padding: 0;
+  font-size: 10px;
+}
+
+.mb-min-10 {
+  margin-bottom: -10px;
+}
+
+.fs-26 {
+  font-size: 26px;
+}
+
+.fs-23 {
+  font-size: 23px;
+}

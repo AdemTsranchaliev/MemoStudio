@@ -134,18 +134,3 @@ CREATE TABLE Service (
     CONSTRAINT FK_Service_ServiceCategory FOREIGN KEY (ServiceCategoryId) REFERENCES ServiceCategory (Id)
 );
 
-
---INIT SCRIPT
-
-ALTER TABLE dbo.Service
-ADD Deleted BIT DEFAULT 0,
-    DeletedDate DATETIME2 NULL,
-    CreatedDate DATETIME2 NULL;
-
-ALTER TABLE dbo.ServiceCategory
-ADD Deleted BIT DEFAULT 0,
-    DeletedDate DATETIME2 NULL,
-    CreatedDate DATETIME2 NULL;
-
-
-

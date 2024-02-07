@@ -104,13 +104,13 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        var modelToSend = <UpsertServiceCategory>{
+        let modelToSend = <UpsertServiceCategory>{
           id: categoryId,
           name: result,
         };
         this.facilityService.upsertServiceCategory(modelToSend).subscribe(
           (success) => {
-            var index = this.serviceCategories.findIndex(
+            let index = this.serviceCategories.findIndex(
               (x) => x.id == categoryId
             );
             if (index >= 0) {

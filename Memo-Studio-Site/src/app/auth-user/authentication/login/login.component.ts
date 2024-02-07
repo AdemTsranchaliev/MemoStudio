@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { AuthenticatinService } from "../../../shared/services/authenticatin.service";
 import { UtilityService } from "src/app/shared/services/utility.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-login",
@@ -26,7 +27,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthenticatinService,
-    public utilityService: UtilityService
+    public utilityService: UtilityService,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngAfterViewInit(): void {
@@ -34,7 +36,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    console.log("login");
     // if (this.authService.isAuthenticated()) {
     //   this.router.navigate(["/"]);
     // }
@@ -51,7 +52,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
     this.isLoading = true;
 
-    var model = Object.assign({}, this.loginForm.value);
+    let model = Object.assign({}, this.loginForm.value);
     const loginSubscription = this.authService.login(model).subscribe({
       next: (x: string) => {
         this.authService.setToken(x);
@@ -61,6 +62,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
       error: (err) => {
         this.isLoginError = true;
         this.isLoading = false;
+        this.snackBar.open(err, "Затвори", {
+          duration: 8000,
+          panelClass: ["custom-snackbar"],
+        });
       },
     });
     this.subscriptions.push(loginSubscription);

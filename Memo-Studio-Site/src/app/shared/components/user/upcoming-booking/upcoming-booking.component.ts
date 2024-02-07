@@ -11,6 +11,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { CancelMessageDialogComponent } from "../../../dialogs/cancel-message/cancel-message.component";
+import { NavigateService } from "src/app/shared/services/navigate.service";
 
 export interface UserData {
   id: string;
@@ -77,7 +78,7 @@ export class UpcomingBookingComponent implements OnInit, AfterViewInit {
   private subscriptions: Subscription[] = [];
 
   constructor(
-    private router: Router,
+    public navigateService: NavigateService,
     private breakpointObserver: BreakpointObserver,
     public dialog: MatDialog
   ) {
@@ -126,10 +127,6 @@ export class UpcomingBookingComponent implements OnInit, AfterViewInit {
 
       }
     });
-  }
-
-  navigate(param: string) {
-    this.router.navigate([`/${param}`]);
   }
 }
 

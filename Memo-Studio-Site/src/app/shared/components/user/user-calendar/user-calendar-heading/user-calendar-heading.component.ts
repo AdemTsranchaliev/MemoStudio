@@ -17,18 +17,11 @@ export class UserCalendarHeadingComponent implements OnInit {
     this.truncationLength = window.innerWidth < 768 ? 11 : 19;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   @HostListener("window:resize", ["$event"])
   onResize(event: Event): void {
     // Adjust truncation length based on window width
     this.truncationLength = window.innerWidth < 768 ? 11 : 19;
-  }
-
-  public truncateText(text: string, limit: number): string {
-    if (text.length > limit) {
-      return text.substring(0, limit) + "...";
-    }
-    return text;
   }
 }

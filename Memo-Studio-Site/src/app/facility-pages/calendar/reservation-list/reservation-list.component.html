@@ -25,20 +25,36 @@
   </li>
 </ul>
 
-<p class="alert alert-secondary m-3" role="alert" *ngIf="bookings.length == 0 && !isDayPast && isServerDown == false">
-  Все още няма заети часове за {{ this.date.date() }}
-  {{date | bulgarianDate}}
-  {{ date.year() }}г.
-</p>
-<div class="alert alert-info text-center m-2" role="alert" *ngIf="isDayPast">
-  Изминала дата, нямате право на действие.
-</div>
-<div class="alert alert-secondary text-center m-2" role="alert" *ngIf="bookings.length==0&&isDayPast">
-  За този ден няма резервирани часове.
-</div>
-<div class="alert alert-info text-center m-2" role="alert" *ngIf="!isOpen&&!isDayPast">
-  Неработен ден
-</div>
+<!-- Start Alert -->
+<ng-container *ngIf="isOpen && bookings.length == 0 && !isDayPast && isServerDown == false">
+  <app-static-alert-message class="m-2"
+    [alertMessage]="'Все още няма заети часове за' + ' ' + (this.date.date()) + ' '+ (date | bulgarianDate) + ' ' + date.year() + 'г.'"
+    alertStyle="alert-info">
+  </app-static-alert-message>
+</ng-container>
+<!-- End Alert -->
+
+<!-- Start Alert -->
+<ng-container *ngIf="isDayPast">
+  <app-static-alert-message class="m-2" alertMessage="Изминала дата, нямате право на действие." alertStyle="alert-info">
+  </app-static-alert-message>
+</ng-container>
+<!-- End Alert -->
+
+<!-- Start Alert -->
+<ng-container *ngIf="bookings.length == 0 && isDayPast">
+  <app-static-alert-message class="m-2" alertMessage="За този ден няма резервирани часове."
+    alertStyle="alert-secondary">
+  </app-static-alert-message>
+</ng-container>
+<!-- End Alert -->
+
+<!-- Start Alert -->
+<ng-container *ngIf="!isOpen && !isDayPast">
+  <app-static-alert-message class="m-2" alertMessage="Неработен ден" alertStyle="alert-info">
+  </app-static-alert-message>
+</ng-container>
+<!-- End Alert -->
 
 <!-- Display Hours -->
 <div class="event-card" *ngFor="let booking of bookings">
@@ -75,6 +91,14 @@
         </mat-expansion-panel-header>
         <div class="row">
           <span class="col-12 a-start margin-b"> Име: {{ booking.name }} </span>
+          <span class="col-12 a-start margin-b"> Телефон:
+            <a href="tel:{{ booking.phone }}">
+              {{ booking.phone }}
+            </a>
+          </span>
+          <span class="col-12 a-start margin-b"> Имейл: {{ booking.email }} </span>
+          <span class="col-12 a-start margin-b"> Продължителност: {{ booking.duration }} </span>
+          <span class="col-12 a-start margin-b"> Отказана услуга: {{ booking.canceled ? 'Да' : 'Не' }} </span>
           <span class="col-12 a-start" *ngIf="booking?.note">
             Бележка: {{ booking?.note }}
           </span>

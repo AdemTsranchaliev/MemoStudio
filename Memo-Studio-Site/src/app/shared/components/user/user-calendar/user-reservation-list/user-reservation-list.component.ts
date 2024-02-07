@@ -105,7 +105,7 @@ export class UserReservationListComponent implements OnInit, OnChanges {
 
   public openBookingDialog(preDefinedHour: Moment) {
     if (preDefinedHour) {
-      var currentDate = moment.utc(this.date);
+      let currentDate = moment.utc(this.date);
       currentDate.hours(preDefinedHour.hours());
       currentDate.minutes(preDefinedHour.minutes());
       currentDate.seconds(0);
@@ -158,18 +158,11 @@ export class UserReservationListComponent implements OnInit, OnChanges {
   }
 
   public onOptionSelected(event: any): void {
-    var selectedValue: User = event.option.value;
+    let selectedValue: User = event.option.value;
     // this.phoneControl.setValue(selectedValue.phoneNumber);
     // this.nameControl.setValue(selectedValue.name);
     // this.emailControl.setValue(selectedValue.email);
     this.selectedUserId = selectedValue.userId;
-  }
-
-  truncateText(text: string, limit: number): string {
-    if (text.length > limit) {
-      return text.substring(0, limit) + "...";
-    }
-    return text;
   }
 
   public bookHour() {
@@ -211,8 +204,8 @@ export class UserReservationListComponent implements OnInit, OnChanges {
     let bookingsToShow: Booking[] = [];
 
     if (!this.currentDay || this.currentDay?.isOpen) {
-      var tempDuration = 0;
-      var currentBooking;
+      let tempDuration = 0;
+      let currentBooking;
 
       this.timeSlots.forEach((timeSlot) => {
         if (
@@ -220,7 +213,7 @@ export class UserReservationListComponent implements OnInit, OnChanges {
             (filterId == FilterTypes.All || filterId == FilterTypes.Bussy)) ||
           tempDuration > 0
         ) {
-          var bookingTemp: Booking;
+          let bookingTemp: Booking;
 
           if (tempDuration > 0) {
             bookingTemp = { ...currentBooking };
@@ -242,7 +235,7 @@ export class UserReservationListComponent implements OnInit, OnChanges {
           (filterId == FilterTypes.All || filterId == FilterTypes.Free) &&
           !this.isDayPast
         ) {
-          var booking = new Booking();
+          let booking = new Booking();
           booking.timestamp = timeSlot;
           bookingsToShow.push(booking);
         }
@@ -288,10 +281,10 @@ export class UserReservationListComponent implements OnInit, OnChanges {
   }
 
   private checkIfNextHourEmpty(date: Date, duration: number) {
-    var indexInTimeSlots = this.timeSlots.findIndex(
+    let indexInTimeSlots = this.timeSlots.findIndex(
       (x) => this.dateTimeService.compareHoursAndMinutes(moment.utc(date), moment.utc(x)) == 0
     );
-    var timeSlotCountCheck = duration / this.facilityConfiguration.interval;
+    let timeSlotCountCheck = duration / this.facilityConfiguration.interval;
 
     if (timeSlotCountCheck > 1) {
       if (timeSlotCountCheck + indexInTimeSlots >= this.timeSlots.length) {
@@ -299,7 +292,7 @@ export class UserReservationListComponent implements OnInit, OnChanges {
       }
 
       for (
-        var i = indexInTimeSlots + 1;
+        let i = indexInTimeSlots + 1;
         i < indexInTimeSlots + timeSlotCountCheck;
         i++
       ) {

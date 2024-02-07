@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavigateService } from 'src/app/shared/services/navigate.service';
 
 @Component({
   selector: 'app-newly-registered-edit',
@@ -17,7 +17,7 @@ export class NewlyRegisteredEditComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router
+    public navigateService: NavigateService,
   ) { }
 
 
@@ -39,9 +39,5 @@ export class NewlyRegisteredEditComponent implements OnInit {
 
   onRejectClick() {
     console.log('>>> Reject');
-  }
-
-  navigate(param: string) {
-    this.router.navigate([`/${param}`]);
   }
 }

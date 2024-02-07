@@ -112,6 +112,9 @@ import { UtcToLocalPipe } from "./shared/pipes/utcToLocal.pipe";
 import { BulgarianDatePipe } from "./shared/pipes/bulgarianDate.pipe";
 import { UserCalendarHeadingComponent } from './shared/components/user/user-calendar/user-calendar-heading/user-calendar-heading.component';
 import { QrCodeComponent } from './shared/components/qr-code/qr-code.component';
+import { NavigateService } from "./shared/services/navigate.service";
+import { StaticAlertMessageComponent } from './shared/components/static-alert-message/static-alert-message.component';
+import { MobileMenuComponent } from './shared/components/mobile-menu/mobile-menu.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -181,6 +184,8 @@ registerLocaleData(localeBg, "bg");
     NavQrCodeComponent,
     UserCalendarHeadingComponent,
     QrCodeComponent,
+    StaticAlertMessageComponent,
+    MobileMenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -231,6 +236,7 @@ registerLocaleData(localeBg, "bg");
     DateTimeService,
     //Interceptors
     LoaderService,
+    NavigateService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptor,

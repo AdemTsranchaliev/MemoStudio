@@ -6,12 +6,21 @@
     </div>
 
     <div class="col-6 pt-2">
-        <h6 matTooltip="Demo Company Name">
+        <h6 matTooltip="{{facilityInformation?.name}}">
             {{facilityInformation?.name}}
         </h6>
     </div>
 
-    <div class="col-2">
-        <img class="company-logo-image img-fluid" src="{{facilityInformation?.imageBase64}}" alt="..." />
-    </div>
+    <ng-container *ngIf="facilityInformation?.imageBase64">
+        <div class="col-2">
+            <img class="company-logo-image img-fluid rounded-circle" src="{{ facilityInformation?.imageBase64 }}"
+                alt="..." />
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="!facilityInformation?.imageBase64">
+        <article class="col-2">
+            <img class="company-logo-image img-fluid" src="assets/images/default-user.png" alt="..." />
+        </article>
+    </ng-container>
 </div>

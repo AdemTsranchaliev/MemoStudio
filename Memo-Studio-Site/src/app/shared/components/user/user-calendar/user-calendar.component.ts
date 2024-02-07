@@ -73,8 +73,4 @@ export class UserCalendarComponent implements OnInit {
   editDay() {
     $("#customDayConfigurationDialog").show(250);
   }
-
-  navigate(param: string) {
-    this.router.navigate([`/${param}`]);
-  }
 }

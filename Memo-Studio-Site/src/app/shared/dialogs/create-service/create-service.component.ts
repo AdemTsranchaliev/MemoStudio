@@ -76,7 +76,7 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
       .post(`${BASE_URL_DEV}/facility/service`, this.createServiceForm.value)
       .subscribe(
         (success: any) => {
-          var indexToInclude = this.categories.findIndex(
+          let indexToInclude = this.categories.findIndex(
             (x) => x.id == success.serviceCategoryId
           );
 
@@ -123,7 +123,7 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
 
     const closeSubscription = dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        var modelToSend = <UpsertServiceCategory>{ name: result };
+        let modelToSend = <UpsertServiceCategory>{ name: result };
 
         this.facilityService
           .upsertServiceCategory(modelToSend)

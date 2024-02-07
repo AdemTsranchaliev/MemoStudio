@@ -12,6 +12,7 @@ import { FacilityService } from "../../services/facility.service";
 import { FacilityInformationViewModel } from "../../models/facility/facility-information.model";
 import { AuthenticatinService } from "../../services/authenticatin.service";
 import { BASE_URL_DEV } from "../../routes";
+import { NavigateService } from "../../services/navigate.service";
 
 @Component({
   selector: "app-user-subscription",
@@ -25,7 +26,7 @@ export class UserSubscriptionComponent implements OnInit, AfterViewInit {
   public facility: FacilityInformationViewModel;
 
   constructor(
-    private router: Router,
+    public navigateService: NavigateService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private facilityService: FacilityService,
@@ -67,9 +68,5 @@ export class UserSubscriptionComponent implements OnInit, AfterViewInit {
         `animation: bounce 2s ease infinite; animation-delay: ${delay}s;`
       );
     });
-  }
-
-  public navigate(param: string) {
-    this.router.navigate([`/${param}`]);
   }
 }

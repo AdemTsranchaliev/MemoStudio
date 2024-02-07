@@ -69,12 +69,12 @@ export class CalendarEditDayComponent implements OnInit {
       
       x.closingTime = moment.utc(x.closingTime);
       x.openingTime = moment.utc(x.openingTime);
-      var startIndex = this.timeSlots.findIndex(
+      let startIndex = this.timeSlots.findIndex(
         (times) =>
           times.hours() == x.openingTime.hours() &&
           times.minutes() == x.openingTime.minutes()
       );
-      var endIndex = this.timeSlots.findIndex(
+      let endIndex = this.timeSlots.findIndex(
         (times) =>
           times.hours() == x.closingTime.hours() &&
           times.minutes() == x.closingTime.minutes()

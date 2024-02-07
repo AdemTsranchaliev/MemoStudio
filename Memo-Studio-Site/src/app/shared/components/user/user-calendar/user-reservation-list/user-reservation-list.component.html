@@ -4,18 +4,29 @@
     <mat-divider></mat-divider>
   </div>
 
-  <p class="alert alert-warning m-3" role="alert" *ngIf="bookings.length == 0 && !isDayPast && isServerDown == false">
-    Все още няма заети часове за 
-    <!-- {{ this.date.date() }} -->
-    {{date | bulgarianDate}}
-    {{ date.year() }}г.
-  </p>
-  <div class="alert alert-warning m-4" role="alert" *ngIf="isDayPast">
-    Тази дата е минала и нямате право на действия.
-  </div>
-  <div class="alert alert-warning m-4" role="alert" *ngIf="currentDay && !currentDay?.isOpen && !isDayPast">
-    ПОЧИВЕН ДЕН
-  </div>
+  <!-- Start Alert -->
+  <ng-container *ngIf="bookings.length == 0 && !isDayPast && isServerDown == false">
+    <app-static-alert-message class="m-4"
+      [alertMessage]="'Все още няма заети часове за' + ' ' + (date | bulgarianDate) + ' ' + date.year() + 'г.'"
+      alertStyle="alert-warning">
+    </app-static-alert-message>
+  </ng-container>
+  <!-- End Alert -->
+
+  <!-- Start Alert -->
+  <ng-container *ngIf="isDayPast">
+    <app-static-alert-message class="m-4" alertMessage="Тази дата е минала и нямате право на действия"
+      alertStyle="alert-warning">
+    </app-static-alert-message>
+  </ng-container>
+  <!-- End Alert -->
+
+  <!-- Start Alert -->
+  <ng-container *ngIf="currentDay && !currentDay?.isOpen && !isDayPast">
+    <app-static-alert-message class="m-4" alertMessage="ПОЧИВЕН ДЕН" alertStyle="alert-warning">
+    </app-static-alert-message>
+  </ng-container>
+  <!-- End Alert -->
 
   <!-- Display Hours -->
   <div class="user-event-card" *ngFor="let booking of bookings">

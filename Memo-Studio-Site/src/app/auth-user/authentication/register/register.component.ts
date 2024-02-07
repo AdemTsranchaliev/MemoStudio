@@ -52,7 +52,7 @@ export class RegisterComponent implements OnInit {
     public utilityService: UtilityService,
     private parentComponent: AuthenticationComponent,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // if (this.authService.isAuthenticated()) {
@@ -71,7 +71,7 @@ export class RegisterComponent implements OnInit {
 
     this.isLoading = true;
 
-    var model = Object.assign({}, this.registerForm.value);
+    let model = Object.assign({}, this.registerForm.value);
     const loginSubscription = this.authService.register(model).subscribe({
       next: (x: string) => {
         this.registerForm.reset();
@@ -85,6 +85,10 @@ export class RegisterComponent implements OnInit {
       error: (err) => {
         this.isLoginError = true;
         this.isLoading = false;
+        this.snackBar.open(err, "Затвори", {
+          duration: 8000,
+          panelClass: ["custom-snackbar"],
+        });
       },
     });
     this.subscriptions.push(loginSubscription);

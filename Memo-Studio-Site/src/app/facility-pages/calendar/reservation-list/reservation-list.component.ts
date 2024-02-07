@@ -159,13 +159,6 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     this.openAddNewHourDialog();
   }
 
-  public truncateText(text: string, limit: number): string {
-    if (text.length > limit) {
-      return text.substring(0, limit) + "...";
-    }
-    return text;
-  }
-
   public bookHour(currentForm) {
     let resultOfEmptyHoursCheck = this.checkIfNextHourEmpty(
       moment.utc(this.bookingForm.get("timestamp").value),
@@ -220,10 +213,10 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private checkIfNextHourEmpty(date: Moment, duration: number) {
-    var indexInTimeSlots = this.timeSlots.findIndex(
+    let indexInTimeSlots = this.timeSlots.findIndex(
       (x) => this.dateTimeService.compareHoursAndMinutes(moment.utc(date), moment.utc(x)) == 0
     );
-    var timeSlotCountCheck = duration / this.facilityConfiguration.interval;
+    let timeSlotCountCheck = duration / this.facilityConfiguration.interval;
 
     if (timeSlotCountCheck > 1) {
       if (timeSlotCountCheck + indexInTimeSlots >= this.timeSlots.length) {
@@ -231,7 +224,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
       }
 
       for (
-        var i = indexInTimeSlots + 1;
+        let i = indexInTimeSlots + 1;
         i < indexInTimeSlots + timeSlotCountCheck;
         i++
       ) {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
+import { NavigateService } from "src/app/shared/services/navigate.service";
 
 @Component({
   selector: "app-all-users-edit",
@@ -15,7 +15,10 @@ export class AllUsersEditComponent implements OnInit {
     email: ["", [Validators.required, Validators.email]],
   });
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {}
+  constructor(
+    private formBuilder: FormBuilder, 
+    public navigateService: NavigateService,
+    ) {}
 
   ngOnInit(): void {}
 
@@ -26,9 +29,5 @@ export class AllUsersEditComponent implements OnInit {
 
     const model = Object.assign({}, this.userDetailsEditForm.value);
     console.log(">>> Submited", model);
-  }
-
-  navigate(param: string) {
-    this.router.navigate([`/${param}`]);
   }
 }

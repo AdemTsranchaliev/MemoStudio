@@ -32,7 +32,7 @@ export class ForgottenPasswordComponent implements OnInit {
       return;
     }
 
-    var model = Object.assign({}, this.forgottenPasswordForm.value);
+    let model = Object.assign({}, this.forgottenPasswordForm.value);
 
     this.requestStatus = -1;
     this.authService.forgottenPassword(model).subscribe({

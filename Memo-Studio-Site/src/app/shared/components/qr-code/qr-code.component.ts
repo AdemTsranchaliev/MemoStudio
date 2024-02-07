@@ -8,13 +8,12 @@ import { Component, Input, OnInit } from '@angular/core';
 export class QrCodeComponent implements OnInit {
   @Input() currentQrCode: string = null;
   @Input() qrCodeColor: string = null;
+  @Input() customWidth: number = null;
   qrCodeDownloadLink: any = '';
 
   constructor() { }
 
   ngOnInit(): void {
-    console.log('>>>> currentQrCode', this.currentQrCode);
-    console.log('>>>> qrCodeDownloadLink', this.qrCodeDownloadLink);
   }
 
   onChangeURL(url: Event) {

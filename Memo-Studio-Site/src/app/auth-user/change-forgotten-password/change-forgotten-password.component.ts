@@ -70,7 +70,7 @@ export class ChangeForgottenPasswordComponent implements OnInit {
 
     this.requestStatus = -1;
 
-    var model = Object.assign({}, this.registerForm.value);
+    let model = Object.assign({}, this.registerForm.value);
     const loginSubscription = this.authService.resetPassword(model).subscribe({
       next: () => {
         this.requestStatus = 1;

@@ -144,7 +144,7 @@ export class ReservationListBookHourComponent implements OnInit {
 
   private _filterPhone(name: string): any {
     const filterValue = name.toLowerCase();
-    var result = this.data.options.filter((option) => {
+    let result = this.data.options.filter((option) => {
       if (option.phone) {
         return option.phone.toLowerCase().startsWith(filterValue);
       }
@@ -155,7 +155,7 @@ export class ReservationListBookHourComponent implements OnInit {
 
   private _filterEmail(name: string): User[] {
     const filterValue = name.toLowerCase();
-    var result = this.data.options.filter((option) => {
+    let result = this.data.options.filter((option) => {
       if (option.email) {
         return option.email.toLowerCase().startsWith(filterValue);
       }

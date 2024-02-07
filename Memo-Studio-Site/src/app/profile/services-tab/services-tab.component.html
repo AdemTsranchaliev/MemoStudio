@@ -12,9 +12,13 @@
   </div>
 
   <div class="row p-3">
-    <div class="alert alert-info col-11 mx-5" *ngIf="serviceCategories?.length==0">
-      Няма добавени услуги
-    </div>
+    <!-- Start Alert -->
+    <ng-container *ngIf="serviceCategories?.length == 0">
+      <app-static-alert-message class="col-11 mx-5" alertMessage="Няма добавени услуги" alertStyle="alert-info">
+      </app-static-alert-message>
+    </ng-container>
+    <!-- End Alert -->
+
     <div class="col-12" *ngFor="let category of serviceCategories">
       <!-- Start Category -->
       <div class="d-flex justify-content-between align-items-center px-1">
@@ -32,9 +36,14 @@
       </div>
       <mat-divider></mat-divider>
       <!-- End Category -->
-      <div class="alert alert-info" *ngIf="category.services?.length==0">
-        В тази категория все още няма услуги
-      </div>
+
+      <!-- Start Alert -->
+      <ng-container *ngIf="category.services?.length == 0">
+        <app-static-alert-message alertMessage="В тази категория все още няма услуги" alertStyle="alert-info">
+        </app-static-alert-message>
+      </ng-container>
+      <!-- End Alert -->
+
       <!-- Start Services -->
       <div class="d-flex flex-column my-2 services-box-shadow rounded mx-1" *ngFor="let service of category.services">
         <div class="d-flex justify-content-between align-items-center px-1 ps-14">

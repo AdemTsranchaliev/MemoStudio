@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { NavigateService } from "src/app/shared/services/navigate.service";
 
 @Component({
   selector: "app-pre-booking",
@@ -7,11 +8,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./pre-booking.component.css"],
 })
 export class PreBookingComponent implements OnInit {
-  constructor(private router: Router) {}
+  constructor(public navigateService: NavigateService) {}
 
   ngOnInit(): void {}
-
-  navigate(param: string) {
-    this.router.navigate([`/${param}`]);
-  }
 }

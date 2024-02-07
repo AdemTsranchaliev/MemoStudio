@@ -10,7 +10,7 @@
 
   <article class="row justify-content-center my-4">
     <article class="col-md-3 col-sm-6 border shadow rounded py-3 m-2 cursor-pointer statistics-card"
-      (click)="navigate('newly-registered')">
+      (click)="navigateService.navigate('newly-registered')">
       <div class="row align-items-center">
         <div class="col-8">
           <h5 class="mb-0 text-info">9</h5>
@@ -22,7 +22,7 @@
       </div>
     </article>
     <article class="col-md-3 col-sm-6 border shadow rounded py-3 mx-2 my-2 cursor-pointer statistics-card"
-      (click)="navigate('all-users')">
+      (click)="navigateService.navigate('all-users')">
       <div class="row align-items-center">
         <div class="col-8">
           <h5 class="mb-0 text-primary">51</h5>
@@ -34,7 +34,7 @@
       </div>
     </article>
     <article class="col-md-3 col-sm-6 border shadow rounded py-3 mx-2 my-2 cursor-pointer statistics-card"
-      (click)="navigate('catched-errors')">
+      (click)="navigateService.navigate('catched-errors')">
       <div class="row align-items-center">
         <div class="col-8">
           <h5 class="mb-0 text-danger">37</h5>

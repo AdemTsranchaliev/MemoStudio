@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { NavigateService } from "src/app/shared/services/navigate.service";
 
 @Component({
   selector: "app-user-home",
@@ -9,9 +9,5 @@ import { Router } from "@angular/router";
 export class UserHomeComponent {
   // If ID, search for Admin Role, if not Admin redirect User to his home
 
-  constructor(private router: Router) {}
-
-  public navigate(param: string) {
-    this.router.navigate([`/${param}`]);
-  }
+  constructor(public navigateService: NavigateService) { }
 }
