@@ -15,6 +15,7 @@ import { BASE_URL_DEV } from "src/app/shared/routes";
 import { FacilityService } from "src/app/shared/services/facility.service";
 import { UpsertServiceCategory } from "src/app/shared/models/facility/upsert-service-category.model";
 import { CancelMessageDialogComponent } from "src/app/shared/dialogs/cancel-message/cancel-message.component";
+import { ServiceResponse } from "src/app/shared/models/facility/facility-service.model";
 
 @Component({
   selector: "app-services-tab",
@@ -29,7 +30,7 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
   public isExtraSmall: Observable<BreakpointState> =
     this.breakpointObserver.observe(Breakpoints.XSmall);
 
-  public serviceCategories = [];
+  public serviceCategories: any = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -192,21 +193,31 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
         return;
       }
 
-      // Find the index of the edited service in the category
-      // const categoryIndex = this.categories.findIndex(
-      //   (c) => c.id === category.id
-      // );
-      // const serviceIndex = this.categories[categoryIndex].services.findIndex(
-      //   (s) => s.id === service.id
-      // );
+      let modelToSend = <ServiceResponse>{
+        id: service.id,
+        name: result.newService,
+        price: result.newPrice,
+        description: '',
+        duration: result.newDuration,
+        facilityId: category.facilityId,
+        serviceCategoryId: service.serviceCategoryId,
+      };
 
-      // if (categoryIndex !== -1 && serviceIndex !== -1) {
-      //   // Update the service with the edited data
-      //   this.categories[categoryIndex].services[serviceIndex].name =
-      //     result.newService;
-      //   this.categories[categoryIndex].services[serviceIndex].price =
-      //     result.newPrice;
-      // }
+      // this.facilityService.upsertServiceCategory(modelToSend).subscribe(
+      //   (success) => {
+      //     let index = this.serviceCategories.findIndex(
+      //       (x) => x.services.id == service.id
+      //     );
+      //     if (index >= 0) {
+      //       this.serviceCategories.services[index].name = result.newService;
+      //       this.serviceCategories.services[index].price = result.newPrice;
+      //       this.serviceCategories.services[index].duration = result.newDuration;
+      //     }
+      //   },
+      //   (err) => {
+      //     //TODO add error message
+      //   }
+      // );
     });
   }
 

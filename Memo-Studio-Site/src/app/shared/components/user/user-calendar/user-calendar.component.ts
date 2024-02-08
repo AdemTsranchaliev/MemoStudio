@@ -41,7 +41,7 @@ export class UserCalendarComponent implements OnInit {
     public dateTimeService: DateTimeService,
     public router: Router,
     private route: ActivatedRoute,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.paramMap
@@ -54,7 +54,7 @@ export class UserCalendarComponent implements OnInit {
       )
       .subscribe(
         (result) => {
-          this.facilityInformation = <FacilityInformationViewModel>{ name: result.name, imageBase64: result.imageBase64};
+          this.facilityInformation = <FacilityInformationViewModel>{ name: result.name, imageBase64: result.imageBase64 };
           this.serviceCategories = result.services;
         },
         (error) => {
@@ -70,7 +70,7 @@ export class UserCalendarComponent implements OnInit {
     });
   }
 
-  editDay() {
+  public editDay() {
     $("#customDayConfigurationDialog").show(250);
   }
 }

@@ -9,7 +9,9 @@
         class="col-md-12 bg-white rounded my-1 border border-primary custom-shadow cursor-pointer" (click)="nextStep()">
         <div class="d-flex flex-column">
           <div class="d-flex justify-content-between align-items-center">
-            <span class="text-dark fw-400">{{service.name}}</span>
+            <span class="text-dark fw-400 ">
+              {{service.name | truncate: truncationLength}}
+            </span>
             <span class="fw-500">{{service.price}} лв.</span>
           </div>
 

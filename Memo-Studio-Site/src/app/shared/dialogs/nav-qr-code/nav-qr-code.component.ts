@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { AuthenticatinService } from "../../services/authenticatin.service";
 import { Observable, Subscription } from "rxjs";
 import { BreakpointObserver, BreakpointState, Breakpoints } from "@angular/cdk/layout";
+import { MatDialogRef } from "@angular/material/dialog";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-nav-qr-code",
@@ -18,8 +20,10 @@ export class NavQrCodeComponent implements OnInit, OnDestroy {
   public viewSize: number = 180;
 
   constructor(
+    public dialogRef: MatDialogRef<NavQrCodeComponent>,
     private authService: AuthenticatinService,
     private breakpointObserver: BreakpointObserver,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -30,6 +34,23 @@ export class NavQrCodeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach((el) => el.unsubscribe());
+  }
+
+  public copyLink() {
+    // Copy the facility link to the clipboard
+    navigator.clipboard.writeText(this.facilityLink)
+      .then(() => {
+        this.snackBar.open('Успешно копирахте линка!', "Затвори", {
+          duration: 8000,
+          panelClass: ["custom-snackbar"],
+        });
+      })
+      .catch((error) => {
+        this.snackBar.open('Нещо се обърка, моля опитайте отново!', "Затвори", {
+          duration: 8000,
+          panelClass: ["custom-snackbar"],
+        });
+      });
   }
 
   public manageQRCodeSize(): void {

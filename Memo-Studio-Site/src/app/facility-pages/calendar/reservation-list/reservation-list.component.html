@@ -98,7 +98,6 @@
           </span>
           <span class="col-12 a-start margin-b"> Имейл: {{ booking.email }} </span>
           <span class="col-12 a-start margin-b"> Продължителност: {{ booking.duration }} </span>
-          <span class="col-12 a-start margin-b"> Отказана услуга: {{ booking.canceled ? 'Да' : 'Не' }} </span>
           <span class="col-12 a-start" *ngIf="booking?.note">
             Бележка: {{ booking?.note }}
           </span>

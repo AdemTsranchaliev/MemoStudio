@@ -11,58 +11,7 @@ import { FacilityService } from "../../services/facility.service";
   styleUrls: ["./reservation-list-book-hour.component.css"],
 })
 export class ReservationListBookHourComponent implements OnInit {
-  serviceCategories: any = [
-    {
-      "id": 1,
-      "name": "Прическа 1",
-      "facilityId": 1,
-      "services": [
-        {
-          "id": 1,
-          "name": "Мъжка подстрижка",
-          "price": 10,
-          "description": "test desc",
-          "duration": 10,
-          "facilityId": 1,
-          "serviceCategoryId": 1
-        },
-        {
-          "id": 2,
-          "name": "Дамска подстрижка",
-          "price": 25,
-          "description": "test desc",
-          "duration": 30,
-          "facilityId": 1,
-          "serviceCategoryId": 1
-        },
-      ]
-    },
-    {
-      "id": 8,
-      "name": "Прическа 2",
-      "facilityId": 1,
-      "services": [
-        {
-          "id": 11,
-          "name": "Мъжка подстрижка 55",
-          "price": 10,
-          "description": "test desc",
-          "duration": 10,
-          "facilityId": 1,
-          "serviceCategoryId": 1
-        },
-        {
-          "id": 22,
-          "name": "Дамска подстрижка 66",
-          "price": 25,
-          "description": "test desc",
-          "duration": 30,
-          "facilityId": 1,
-          "serviceCategoryId": 1
-        },
-      ]
-    }
-  ];
+  serviceCategories: any = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,

@@ -13,6 +13,7 @@ import { FacilityInformationViewModel } from "../../models/facility/facility-inf
 import { AuthenticatinService } from "../../services/authenticatin.service";
 import { BASE_URL_DEV } from "../../routes";
 import { NavigateService } from "../../services/navigate.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-user-subscription",
@@ -30,7 +31,8 @@ export class UserSubscriptionComponent implements OnInit, AfterViewInit {
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private facilityService: FacilityService,
-  ) {}
+    private snackBar: MatSnackBar,
+  ) { }
 
   ngOnInit(): void {
     this.route.paramMap
@@ -56,6 +58,26 @@ export class UserSubscriptionComponent implements OnInit, AfterViewInit {
       this.triggerAnimation = true;
       this.cdr.detectChanges();
     }
+  }
+
+  public copyLink() {
+    // Get the current URL
+    const currentUrl = window.location.href;
+
+    // Copy the current URL to the clipboard
+    navigator.clipboard.writeText(currentUrl)
+      .then(() => {
+        this.snackBar.open('Успешно копирахте линка!', "Затвори", {
+          duration: 8000,
+          panelClass: ["custom-snackbar"],
+        });
+      })
+      .catch((error) => {
+        this.snackBar.open('Нещо се обърка, моля опитайте отново!', "Затвори", {
+          duration: 8000,
+          panelClass: ["custom-snackbar"],
+        });
+      });
   }
 
   private triggerBounceAnimation(): void {

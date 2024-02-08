@@ -4,7 +4,7 @@ import { BASE_URL_DEV } from "../routes";
 import { FacilitySettingsViewModel } from "../models/facility/facility-setting-model";
 import { UpsertServiceCategory } from "../models/facility/upsert-service-category.model";
 import { FacilityInformationViewModel } from "../models/facility/facility-information.model";
-import { ServiceCategoryResponse, ServiceForUserResponse } from "../models/facility/facility-service.model";
+import { ServiceCategoryResponse, ServiceForUserResponse, ServiceResponse } from "../models/facility/facility-service.model";
 const httpOptions = {
   headers: {
     "Content-Type": "application/json",

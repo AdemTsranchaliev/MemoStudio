@@ -35,10 +35,10 @@ export class ServicesTabEditServiceComponent implements OnInit {
       return;
     }
 
-    const { newService, newPrice } = this.addServiceForm.value;
+    const { newService, newPrice, newDuration } = this.addServiceForm.value;
 
-    if (newService != '' && newPrice != '') {
-      this.dialogRef.close({ newService, newPrice });
+    if (newService != '' && newPrice != null) {
+      this.dialogRef.close({ newService, newPrice, newDuration });
     } else {
       // User clicked the Save button without entering content
       this.dialogRef.close(null);
