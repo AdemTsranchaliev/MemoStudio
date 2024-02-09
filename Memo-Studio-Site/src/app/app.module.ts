@@ -115,6 +115,8 @@ import { QrCodeComponent } from './shared/components/qr-code/qr-code.component';
 import { NavigateService } from "./shared/services/navigate.service";
 import { StaticAlertMessageComponent } from './shared/components/static-alert-message/static-alert-message.component';
 import { MobileMenuComponent } from './shared/components/mobile-menu/mobile-menu.component';
+import { PromotionsComponent } from './profile/promotions/promotions.component';
+import { MyBusinessCardComponent } from './profile/my-business-card/my-business-card.component';
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -186,6 +188,8 @@ registerLocaleData(localeBg, "bg");
     QrCodeComponent,
     StaticAlertMessageComponent,
     MobileMenuComponent,
+    PromotionsComponent,
+    MyBusinessCardComponent,
   ],
   imports: [
     BrowserModule,

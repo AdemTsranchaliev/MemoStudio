@@ -60,13 +60,13 @@ export class CalendarEditDayComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     public dialog: MatDialog,
     public dateTimeService: DateTimeService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.timeSlots = this.generateHours(moment.utc(), moment.utc());
-    
+
     this.dayService.getDayByDate(this.data.date).subscribe((x) => {
-      
+
       x.closingTime = moment.utc(x.closingTime);
       x.openingTime = moment.utc(x.openingTime);
       let startIndex = this.timeSlots.findIndex(
@@ -79,7 +79,7 @@ export class CalendarEditDayComponent implements OnInit {
           times.hours() == x.closingTime.hours() &&
           times.minutes() == x.closingTime.minutes()
       );
-      
+
       this.customDayConfigurationForm.get("periodStart").setValue(startIndex);
       this.customDayConfigurationForm.get("periodEnd").setValue(endIndex);
       this.customDayConfigurationForm.get("interval").setValue(x.interval);
@@ -123,16 +123,22 @@ export class CalendarEditDayComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((isConfirmed) => {
       if (isConfirmed) {
-        this.dayService.setHoliday(this.data.date).subscribe((x) => {
-          this.dialogRef.close(true);
+        this.dayService.setHoliday(this.data.date).subscribe({
+          next: (x) => {
+            this.dialogRef.close(true);
 
-          this.isOpen = !this.isOpen;
-          const msg = "Направихте този ден почивен!";
-
-          this.snackBar.open(msg, "Затвори", {
-            duration: 8000,
-            panelClass: ["custom-snackbar"],
-          });
+            this.isOpen = !this.isOpen;
+            this.snackBar.open("Направихте този ден почивен!", "Затвори", {
+              duration: 8000,
+              panelClass: ["custom-snackbar"],
+            });
+          },
+          error: (err) => {
+            this.snackBar.open(err, "Затвори", {
+              duration: 8000,
+              panelClass: ["custom-snackbar"],
+            });
+          },
         });
       }
     });
@@ -168,8 +174,16 @@ export class CalendarEditDayComponent implements OnInit {
         interval: interval,
       };
 
-      this.dayService.addDay(currentDay).subscribe((x) => {
-        this.dialogRef.close(true);
+      this.dayService.addDay(currentDay).subscribe({
+        next: () => {
+          this.dialogRef.close(true);
+        },
+        error: (err) => {
+          this.snackBar.open(err, "Затвори", {
+            duration: 8000,
+            panelClass: ["custom-snackbar"],
+          });
+        },
       });
     }
   }

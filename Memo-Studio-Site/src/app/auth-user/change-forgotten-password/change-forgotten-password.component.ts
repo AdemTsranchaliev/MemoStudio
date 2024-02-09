@@ -5,6 +5,7 @@ import {
   FormBuilder,
   AbstractControl,
 } from "@angular/forms";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Route, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { AuthenticatinService } from "src/app/shared/services/authenticatin.service";
@@ -44,7 +45,8 @@ export class ChangeForgottenPasswordComponent implements OnInit {
     private router: ActivatedRoute,
     private route: Router,
     private authService: AuthenticatinService,
-    public utilityService: UtilityService
+    public utilityService: UtilityService,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
@@ -80,6 +82,10 @@ export class ChangeForgottenPasswordComponent implements OnInit {
       },
       error: (err) => {
         this.requestStatus = 2;
+        this.snackBar.open(err, "Затвори", {
+          duration: 8000,
+          panelClass: ["custom-snackbar"],
+        });
       },
     });
     this.subscriptions.push(loginSubscription);

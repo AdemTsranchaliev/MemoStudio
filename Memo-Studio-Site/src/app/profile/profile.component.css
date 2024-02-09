@@ -113,3 +113,9 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 .custom-shadow {
   box-shadow: 0px 4px 8px 0px #7986cb;
 }
+
+@media (max-width: 768px) {
+  .pb-90 {
+    padding-bottom: 90px !important;
+  }
+}

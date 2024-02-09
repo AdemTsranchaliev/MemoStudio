@@ -60,22 +60,22 @@ const routes: Routes = [
   },
   { path: "catched-errors", component: CatchedErrorsListComponent },
   {
-    path: "self-booking",
+    path: "self-booking", // Not in use!
     component: SelfBookingComponent,
     canActivate: [AuthGuard],
   },
   {
-    path: "viber-confirmation",
+    path: "viber-confirmation", // not working, need to add mobile styles?
     component: ViberConfirmationComponent,
     canActivate: [AuthGuard],
   },
-  { path: "login", component: AuthenticationComponent },
+  { path: "login", component: AuthenticationComponent }, // wont have desktop/mobile menu!
   { path: "forgotten-password", component: ForgottenPasswordComponent },
   { path: "users", component: UsersListComponent, canActivate: [AuthGuard] },
   {
     path: "user-home/:id",
     component: UserHomeComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: "facility-schedule/:id",
@@ -96,10 +96,10 @@ const routes: Routes = [
     component: BookServiceComponent,
     canActivate: [AuthGuard],
   },
-  { path: "email-confirm", component: EmailConfirmationComponent },
+  { path: "email-confirm", component: EmailConfirmationComponent }, // not working, need to add mobile styles?
   {
     path: "change-password",
-    component: ChangeForgottenPasswordComponent,
+    component: ChangeForgottenPasswordComponent, // not working, need to add mobile styles?
     canActivate: [AuthGuard],
   },
   {
@@ -109,7 +109,7 @@ const routes: Routes = [
   },
   {
     path: "user",
-    component: UserDetailsComponent,
+    component: UserDetailsComponent, // not working, need to add mobile styles?
     canActivate: [AuthGuard],
   },
   {

@@ -1,13 +1,11 @@
 .user-book-service-container {
-  margin-top: 100px;
+  overflow-y: auto;
+  max-height: 450px;
 }
 
-.single-service {
-  transition: transform 0.2s ease-in-out;
-}
-
-.single-service:hover {
-  transform: translateY(-3px);
+.service-name {
+  flex: 1; /* Allow the service name to grow to fill available space */
+  word-wrap: break-word; /* Wrap long words to new line */
 }
 
 .custom-shadow {

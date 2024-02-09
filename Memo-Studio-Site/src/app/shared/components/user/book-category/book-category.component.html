@@ -2,12 +2,12 @@
   <h4>Изберете категория</h4>
   <mat-divider class="mb-2"></mat-divider>
 
-  <article class="row justify-content-center">
+  <article class="row justify-content-center user-book-service-container">
     <!-- Start Category -->
     <article class="col-md-12 bg-white border border-primary custom-shadow rounded p-2 my-1"
       *ngFor="let category of serviceCategories">
       <div class="d-flex justify-content-between cursor-pointer" (click)="categorySelect(category.id)">
-        <span class="text-dark fw-400">{{category.name}}</span>
+        <span class="text-dark fw-400 service-name">{{category.name}}</span>
         <span class="fw-500">от 10 лв.</span>
       </div>
     </article>

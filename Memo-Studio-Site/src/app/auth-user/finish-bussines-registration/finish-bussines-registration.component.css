@@ -52,6 +52,10 @@
     margin: 0 50px;
     /* Adjust the margin for the breakpoint */
   }
+
+  .pb-90 {
+    padding-bottom: 90px !important;
+  }
 }
 
 @media (max-width: 576px) {

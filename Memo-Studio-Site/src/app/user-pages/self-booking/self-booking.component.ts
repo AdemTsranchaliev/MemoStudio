@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
 import { SelfBookingService } from "../../shared/services/selfBooking.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-self-booking",
@@ -12,7 +13,10 @@ export class SelfBookingComponent implements OnInit, OnDestroy {
   timeIntervals: string[] = [];
   nextStep: unknown; // Will be OBJ with the data for the booking!
 
-  constructor(private selfBookingService: SelfBookingService) {}
+  constructor(
+    private selfBookingService: SelfBookingService,
+    private snackBar: MatSnackBar,
+    ) { }
 
   ngOnInit(): void {
     this.loadFreeHours();
@@ -24,8 +28,16 @@ export class SelfBookingComponent implements OnInit, OnDestroy {
 
   private loadFreeHours(): void {
     // ====== When API ready uncomment! =======
-    // const loadHoursSubscription = this.selfBookingService.getFreeHours().subscribe(x => {
+    // const loadHoursSubscription = this.selfBookingService.getFreeHours().subscribe({
+    // next: (x) => {
     //   this.timeIntervals = x;
+    // },
+    // error: (err) => {
+    //   this.snackBar.open(err, "Затвори", {
+    //     duration: 8000,
+    //     panelClass: ["custom-snackbar"],
+    //   });
+    // },
     // });
     // this.subscriptions.push(loadHoursSubscription);
 

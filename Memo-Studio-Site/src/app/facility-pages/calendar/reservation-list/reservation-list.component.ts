@@ -35,6 +35,7 @@ import { CalendarEditDataSharingService } from "src/app/shared/dialogs/calendar-
 import * as moment from "moment";
 import { Moment } from "moment";
 import { CancelMessageDialogComponent } from "src/app/shared/dialogs/cancel-message/cancel-message.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
 declare const $: any;
 
 @Component({
@@ -105,7 +106,8 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     private dataSharingService: CalendarEditDataSharingService,
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -147,7 +149,7 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
 
   public openBookingDialog(preDefinedHour: Moment) {
     if (preDefinedHour) {
-      const formattedTimestamp =  moment.utc(preDefinedHour).format('HH:mm');
+      const formattedTimestamp = moment.utc(preDefinedHour).format('HH:mm');
 
       this.bookingForm.patchValue({
         timestamp: formattedTimestamp,
@@ -171,12 +173,21 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       let data = Object.assign({}, currentForm.value);
       data.serviceId = currentForm.value.serviceCategory;
-      this.bookingService.addBooking(data).subscribe((x) => {
-        this.resetForm(this.bookingForm);
-        this.dateChange.emit(<DateCalendar>{
-          date: this.date,
-          isPastDate: false,
-        });
+
+      this.bookingService.addBooking(data).subscribe({
+        next: (x) => {
+          this.resetForm(this.bookingForm);
+          this.dateChange.emit(<DateCalendar>{
+            date: this.date,
+            isPastDate: false,
+          });
+        },
+        error: (err) => {
+          this.snackBar.open(err, "Затвори", {
+            duration: 8000,
+            panelClass: ["custom-snackbar"],
+          });
+        },
       });
     }
   }
@@ -307,13 +318,21 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
   public removeBooking() {
     this.loader = true;
 
-    this.bookingService.deleteBooking(this.deleteBookingId).subscribe((x) => {
-      this.dateChange.emit(<DateCalendar>{
-        date: this.date,
-        isPastDate: false,
-      });
+    this.bookingService.deleteBooking(this.deleteBookingId).subscribe({
+      next: (x) => {
+        this.dateChange.emit(<DateCalendar>{
+          date: this.date,
+          isPastDate: false,
+        });
 
-      this.loader = false;
+        this.loader = false;
+      },
+      error: (err) => {
+        this.snackBar.open(err, "Затвори", {
+          duration: 8000,
+          panelClass: ["custom-snackbar"],
+        });
+      },
     });
   }
 }

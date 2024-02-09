@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from "@angular/core";
+import { Component, OnInit, OnDestroy, Input, HostListener } from "@angular/core";
 import {
   BreakpointObserver,
   BreakpointState,
@@ -16,6 +16,7 @@ import { FacilityService } from "src/app/shared/services/facility.service";
 import { UpsertServiceCategory } from "src/app/shared/models/facility/upsert-service-category.model";
 import { CancelMessageDialogComponent } from "src/app/shared/dialogs/cancel-message/cancel-message.component";
 import { ServiceResponse } from "src/app/shared/models/facility/facility-service.model";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-services-tab",
@@ -31,13 +32,26 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
     this.breakpointObserver.observe(Breakpoints.XSmall);
 
   public serviceCategories: any = [];
+  public truncationLength: number;
+  public isDesktopView: any;
 
   constructor(
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
-    private facilityService: FacilityService
-  ) { }
+    private facilityService: FacilityService,
+    private snackBar: MatSnackBar,
+  ) {
+    // Set initial truncation length based on the window width
+    this.truncationLength = window.innerWidth < 768 ? 16 : 70;
+  }
+
+  @HostListener("window:resize", ["$event"])
+  onResize(event: Event): void {
+    // Adjust truncation length based on window width
+    this.truncationLength = window.innerWidth < 768 ? 16 : 70;
+    this.isDesktopView = window.innerWidth < 768;
+  }
 
   ngOnInit(): void {
     this.facilityService.getFacilityServices().subscribe(
@@ -45,7 +59,10 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
         this.serviceCategories = response;
       },
       (err) => {
-        console.log(err);
+        this.snackBar.open(err, "Затвори", {
+          duration: 8000,
+          panelClass: ["custom-snackbar"],
+        });
       }
     );
   }
@@ -77,6 +94,10 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
       if (result && result.categories) {
         // this.categories = result.categories;
         // this.categoriesSelect = result.categoriesSelect;
+        this.snackBar.open("Услугата беше създадена.", "Затвори", {
+          duration: 8000,
+          panelClass: ["custom-snackbar"],
+        });
       }
     });
   }
@@ -116,11 +137,17 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
             );
             if (index >= 0) {
               this.serviceCategories[index].name = result;
-              //TODO Message for success
+              this.snackBar.open("Категорията беше редактирана.", "Затвори", {
+                duration: 8000,
+                panelClass: ["custom-snackbar"],
+              });
             }
           },
           (err) => {
-            //TODO add error message
+            this.snackBar.open(err, "Затвори", {
+              duration: 8000,
+              panelClass: ["custom-snackbar"],
+            });
           }
         );
       }
@@ -159,8 +186,17 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
           this.facilityService.removeCategory(categoryId).subscribe(
             (success) => {
               this.serviceCategories.splice(index, 1);
+              this.snackBar.open("Категорията беше изтрита.", "Затвори", {
+                duration: 8000,
+                panelClass: ["custom-snackbar"],
+              });
             },
-            (err) => { }
+            (err) => {
+              this.snackBar.open(err, "Затвори", {
+                duration: 8000,
+                panelClass: ["custom-snackbar"],
+              });
+            }
           );
         }
       }
@@ -212,10 +248,17 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
       //       this.serviceCategories.services[index].name = result.newService;
       //       this.serviceCategories.services[index].price = result.newPrice;
       //       this.serviceCategories.services[index].duration = result.newDuration;
+      // this.snackBar.open("Услугата беше редактирана.", "Затвори", {
+      //   duration: 8000,
+      //   panelClass: ["custom-snackbar"],
+      // });
       //     }
       //   },
       //   (err) => {
-      //     //TODO add error message
+      // this.snackBar.open(err, "Затвори", {
+      //   duration: 8000,
+      //   panelClass: ["custom-snackbar"],
+      // });
       //   }
       // );
     });
@@ -262,8 +305,17 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
                   serviceIndex,
                   1
                 );
+                this.snackBar.open("Услугата беше изтрита!", "Затвори", {
+                  duration: 8000,
+                  panelClass: ["custom-snackbar"],
+                });
               },
-              (err) => { }
+              (err) => {
+                this.snackBar.open(err, "Затвори", {
+                  duration: 8000,
+                  panelClass: ["custom-snackbar"],
+                });
+              }
             );
           }
         }

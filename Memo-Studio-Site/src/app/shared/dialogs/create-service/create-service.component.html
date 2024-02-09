@@ -51,10 +51,14 @@
       </div>
 
       <div class="w-100 mb-1">
-        <label class="custom-field w-100" [ngClass]="{'invalid-field': utilityService.HasError(createServiceForm, 'duration', 'required') &&
+        <label class="custom-field-select w-100" [ngClass]="{'invalid-select': utilityService.HasError(createServiceForm, 'duration', 'required') &&
         utilityService.IsTouched(createServiceForm, 'duration')}">
-          <input type="text" class="w-100" placeholder=" " name="duration" formControlName="duration" />
-          <span class="placeholder cursor-text">Продължителност на услуга</span>
+          <select formControlName="duration" placeholder=" " class="w-100">
+            <option *ngFor="let time of durationArr; let i = index" value="{{ time.value }}">
+              {{ time.value }} минути - продължителност
+            </option>
+          </select>
+          <span class="placeholder-select cursor-text">Продължителност</span>
         </label>
 
         <mat-error class="fs-11 m-bot-min-10" *ngIf="utilityService.HasError(createServiceForm, 'duration', 'required') &&

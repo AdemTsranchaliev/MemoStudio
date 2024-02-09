@@ -1,3 +1,9 @@
 .custom-container-styles {
   margin-top: 95px;
 }
+
+@media (max-width: 768px) {
+  .pb-90 {
+    padding-bottom: 90px !important;
+  }
+}

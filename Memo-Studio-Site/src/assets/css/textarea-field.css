@@ -1,0 +1,110 @@
+.custom-field {
+  position: relative;
+  font-size: 14px;
+  border-top: 20px solid transparent;
+  margin-bottom: 5px;
+  display: inline-block;
+  --field-padding: 12px;
+}
+
+.custom-field textarea {
+  border: none;
+  -webkit-appearance: none;
+  -ms-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: #f2f2f2;
+  padding: var(--field-padding);
+  border-radius: 3px;
+  width: 250px;
+  outline: none;
+  font-size: 14px;
+  height: 100px; /* Manage Textarea Height */
+}
+
+.custom-field .placeholder {
+  position: absolute;
+  left: var(--field-padding);
+  width: calc(100% - (var(--field-padding) * 2));
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  /* ======= Never Delete! ======= */
+  pointer-events: none; /* ============ Never the target, allow to click through! ============ */
+  color: #aaa;
+  transition: top 0.2s linear, color 0.2s linear, font-size 0.2s linear;
+}
+
+.custom-field textarea.dirty + .placeholder,
+.custom-field textarea:focus + .placeholder,
+.custom-field textarea:not(:placeholder-shown) + .placeholder {
+  top: -10px;
+  font-size: 10px;
+  color: #007bff;
+}
+
+.custom-field textarea {
+  background: none;
+  border: 2px solid #ddd;
+  transition: border-color 0.3s ease;
+}
+
+.custom-field textarea + .placeholder {
+  left: 8px;
+  padding: 0 5px;
+}
+
+.custom-field textarea.dirty,
+.custom-field textarea:not(:placeholder-shown),
+.custom-field textarea:focus {
+  border-color: #007bff;
+  transition-delay: 0.1s;
+}
+
+.custom-field textarea.dirty + .placeholder,
+.custom-field textarea:not(:placeholder-shown) + .placeholder,
+.custom-field textarea:focus + .placeholder {
+  top: 0;
+  font-size: 10px;
+  color: #007bff;
+  background: #fff;
+  width: auto;
+}
+
+/* Error Rules */
+/* Change the border color to red for invalid fields */
+/* .custom-field textarea.ng-touched {
+  border-color: red; 
+} */
+
+/* Change the placeholder color to red for invalid fields */
+/* .custom-field textarea.ng-touched + .placeholder {
+  color: red; 
+} */
+
+.invalid-field textarea {
+  border-color: red;
+}
+
+.invalid-field textarea + .placeholder {
+  color: red;
+}
+
+/* Disabled */
+.custom-field textarea:disabled {
+  color: gray; /* Apply gray style to the Textarea text when textarea is disabled */
+  border-color: gray; /* Change the border color to red for invalid fields */
+  border-style: dashed;
+}
+
+.custom-field textarea:disabled + .placeholder {
+  color: gray; /* Apply gray style to the Paceholder text when textarea is disabled */
+}
+
+/* Cursor Text */
+.cursor-text {
+  cursor: text; /* Default Textarea Cursor Style While Hover */
+}

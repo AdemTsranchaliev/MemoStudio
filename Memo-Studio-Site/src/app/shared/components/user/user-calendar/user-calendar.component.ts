@@ -12,6 +12,7 @@ import * as moment from "moment";
 import { mergeMap } from "rxjs/operators";
 import { ServiceCategoryResponse, ServiceForUserResponse } from "src/app/shared/models/facility/facility-service.model";
 import { FacilityInformationViewModel } from "src/app/shared/models/facility/facility-information.model";
+import { MatSnackBar } from "@angular/material/snack-bar";
 declare const $: any;
 
 @Component({
@@ -41,6 +42,7 @@ export class UserCalendarComponent implements OnInit {
     public dateTimeService: DateTimeService,
     public router: Router,
     private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -57,16 +59,27 @@ export class UserCalendarComponent implements OnInit {
           this.facilityInformation = <FacilityInformationViewModel>{ name: result.name, imageBase64: result.imageBase64 };
           this.serviceCategories = result.services;
         },
-        (error) => {
-          console.error("Error:", error);
+        (err) => {
+          this.snackBar.open(err, "Затвори", {
+            duration: 8000,
+            panelClass: ["custom-snackbar"],
+          });
         }
       );
   }
 
   public dateChange(date) {
     this.date = date;
-    this.bookingService.getBookingListByDateForUser(this.date, this.facilityId).subscribe((x) => {
-      this.bookingsOrigin = x.bookings;
+    this.bookingService.getBookingListByDateForUser(this.date, this.facilityId).subscribe({
+      next: (x) => {
+        this.bookingsOrigin = x.bookings;
+      },
+      error: (err) => {
+        this.snackBar.open(err, "Затвори", {
+          duration: 8000,
+          panelClass: ["custom-snackbar"],
+        });
+      },
     });
   }
 

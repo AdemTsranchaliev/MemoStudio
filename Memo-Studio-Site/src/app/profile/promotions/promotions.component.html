@@ -1,0 +1,39 @@
+<div class="card-body pb-2">
+    <h4>Изпрати имейл на потрбителите</h4>
+    <mat-divider class="py-2"></mat-divider>
+
+    <form [formGroup]="promotionsForm" (ngSubmit)="onSubmit()">
+        <div class="info-msg">
+            <p>1) Можете да изпращате имейл, ПО ВАШЕ ЖЕЛЕНИЕ, НЕ Е ЗАДЪЛЖИТЕЛНО!</p>
+            <p>2) Имате възможност да изпратите имейл за промоционални, обновени, нови и изтрити услуги или друга
+                информация, която смятате, че би била полезна за вашите клиенти.
+            </p>
+            <p>3) Имейлът ще бъде изпратен до всеки абониран потребител на вашето предприятие!!!</p>
+        </div>
+
+        <div class="w-100">
+            <label class="custom-field w-100">
+                <input type="password" class="w-100" placeholder=" " name="emailSubject"
+                    formControlName="emailSubject" />
+                <span class="placeholder cursor-text">Заглавие</span>
+            </label>
+        </div>
+
+        <div class="w-100">
+            <label class="custom-field w-100">
+                <textarea class="w-100" placeholder=" " name="emailMessage" formControlName="emailMessage">
+                </textarea>
+                <span class="placeholder cursor-text">Съобщение</span>
+            </label>
+        </div>
+
+
+        <div class="text-right m-4">
+            <button type="submit" mat-raised-button color="primary" [disabled]="!promotionsForm.valid">
+                Изпрати
+            </button>
+            &nbsp;
+            <button mat-stroked-button color="primary">Отказ</button>
+        </div>
+    </form>
+</div>

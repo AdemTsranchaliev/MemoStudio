@@ -4,7 +4,6 @@
 
 .custom-dialog {
   max-width: 80%;
-  /* Adjust the width as per your requirements */
 }
 
 .header {
@@ -43,4 +42,8 @@
 
 .custom-shadow {
   box-shadow: 0px 4px 8px 0px #7986cb;
+}
+
+::ng-deep .mat-paginator-container {
+  padding: 0 !important;
 }

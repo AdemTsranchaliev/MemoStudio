@@ -11,6 +11,7 @@ import { DatePipe } from "@angular/common";
 import SwiperCore, { Navigation, Pagination, Swiper } from "swiper";
 import { SelfBookingService } from "../../../shared/services/selfBooking.service";
 import { Subscription } from "rxjs";
+import { MatSnackBar } from "@angular/material/snack-bar";
 SwiperCore.use([Navigation, Pagination]);
 
 export class DateModel {
@@ -27,8 +28,7 @@ export class DateModel {
   styleUrls: ["./studio-datetime-picker.component.css"],
 })
 export class StudioDatetimePickerComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
+  implements OnInit, AfterViewInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   @ViewChild("swiper") swiper: any;
   days: DateModel[] = [];
@@ -40,8 +40,9 @@ export class StudioDatetimePickerComponent
   constructor(
     private datePipe: DatePipe,
     @Inject(LOCALE_ID) private locale: string,
-    private selfBookingService: SelfBookingService
-  ) {}
+    private selfBookingService: SelfBookingService,
+    private snackBar: MatSnackBar,
+  ) { }
 
   ngOnInit(): void {
     this.getDates();
@@ -121,8 +122,16 @@ export class StudioDatetimePickerComponent
 
   getDates(): void {
     // ====== When API ready uncomment! =======
-    // const datesSubscription = this.selfBookingService.getDays().subscribe(x => {
+    // const datesSubscription = this.selfBookingService.getDays().subscribe({
+    // next: (x) => {
     //   this.days = x;
+    // },
+    // error: (err) => {
+    //   this.snackBar.open(err, "Затвори", {
+    //     duration: 8000,
+    //     panelClass: ["custom-snackbar"],
+    //   });
+    // },
     // });
     // this.subscriptions.push(datesSubscription);
 

@@ -13,6 +13,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import * as moment from "moment";
 import { Moment } from "moment";
 import { Observable } from "rxjs";
@@ -71,7 +72,8 @@ export class UserReservationListComponent implements OnInit, OnChanges {
     private authService: AuthenticatinService,
     public dateTimeService: DateTimeService,
     public utilityService: UtilityService,
-  ) {}
+    private snackBar: MatSnackBar,
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     //Load time slots
@@ -141,19 +143,18 @@ export class UserReservationListComponent implements OnInit, OnChanges {
   public removeBooking() {
     this.loader = true;
 
-    this.bookingService.deleteBooking(this.deleteBookingId).subscribe((x) => {
-      this.dateChange.emit(this.date);
+    this.bookingService.deleteBooking(this.deleteBookingId).subscribe({
+      next: (x) => {
+        this.dateChange.emit(this.date);
 
-      this.loader = false;
-    });
-  }
-
-  public cancelDay() {
-    
-    this.dayService.setHoliday(this.date).subscribe((x) => {
-      $("#modalCancel").modal("hide");
-      $("#dialog2").hide(250);
-      this.showBookings(1);
+        this.loader = false;
+      },
+      error: (err) => {
+        this.snackBar.open(err, "Затвори", {
+          duration: 8000,
+          panelClass: ["custom-snackbar"],
+        });
+      },
     });
   }
 
@@ -175,12 +176,20 @@ export class UserReservationListComponent implements OnInit, OnChanges {
         "Няма достатъчно свободни часове за избраната процедура, моля изберете друг час или услуга"
       );
     } else {
-      this.bookingService.addBooking(this.bookingForm.value).subscribe((x) => {
-        this.showHideElement("previewDialog", false);
-        this.showHideElement("bookingDialog", false);
+      this.bookingService.addBooking(this.bookingForm.value).subscribe({
+        next: (x) => {
+          this.showHideElement("previewDialog", false);
+          this.showHideElement("bookingDialog", false);
 
-        this.resetForm(this.bookingForm);
-        this.dateChange.emit(this.date);
+          this.resetForm(this.bookingForm);
+          this.dateChange.emit(this.date);
+        },
+        error: (err) => {
+          this.snackBar.open(err, "Затвори", {
+            duration: 8000,
+            panelClass: ["custom-snackbar"],
+          });
+        },
       });
     }
   }

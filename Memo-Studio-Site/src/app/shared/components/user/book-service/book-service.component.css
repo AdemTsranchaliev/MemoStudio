@@ -1,17 +1,19 @@
 .user-book-service-container {
-  margin-top: 100px;
-}
-
-.single-service {
-  transition: transform 0.2s ease-in-out;
-}
-
-.single-service:hover {
-  transform: translateY(-3px);
+  overflow-y: auto;
+  max-height: 450px;
 }
 
 .custom-shadow {
   box-shadow: 0px 0px 4px 0px;
+}
+
+.service-alignment {
+  align-items: center;
+}
+
+.service-name {
+  flex: 1; /* Allow the service name to grow to fill available space */
+  word-wrap: break-word; /* Wrap long words to new line */
 }
 
 .cursor-pointer {
@@ -20,6 +22,10 @@
 
 .mt-min-8 {
   margin-top: -8px;
+}
+
+.mb-min-8 {
+  margin-bottom: -8px;
 }
 
 .fs-12 {
@@ -36,4 +42,11 @@
 
 .lh-18 {
   line-height: 18px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .service-alignment {
+    align-items: start;
+  }
 }

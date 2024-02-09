@@ -46,8 +46,11 @@ export class UserSubscriptionComponent implements OnInit, AfterViewInit {
         (result) => {
           this.facility = result;
         },
-        (error) => {
-          console.error("Error:", error);
+        (err) => {
+          this.snackBar.open(err, "Затвори", {
+            duration: 8000,
+            panelClass: ["custom-snackbar"],
+          });
         }
       );
   }

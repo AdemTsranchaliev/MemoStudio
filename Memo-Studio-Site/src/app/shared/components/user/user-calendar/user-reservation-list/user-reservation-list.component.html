@@ -134,35 +134,6 @@
     </div>
   </div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="modalCancel" tabindex="-1" role="dialog" aria-labelledby="modalCancel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalNote">
-            <!-- Почивен ден - {{ date.date() }}.{{ date.month() }}.{{
-            date.year()
-            }} -->
-          </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <h4>Всички часове в този ден ще бъдат отменени.</h4>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cancelDay()">
-            ПОТВЪРДИ
-          </button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            Затвори
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Loader -->
   <div class="events-container text-primary text-center mt-5" *ngIf="loader && isServerDown == false">
     <div class="spinner-border" role="status">

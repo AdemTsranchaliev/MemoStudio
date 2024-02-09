@@ -39,7 +39,7 @@ export class GeneralComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private accountService: AccountService,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getUserInformation();
@@ -74,12 +74,20 @@ export class GeneralComponent implements OnInit {
   public saveGeneralInformation() {
     const generalSubscription = this.accountService
       .updateUserInformation(this.formGroup.value)
-      .subscribe((res) => {
-        this.getUserInformation();
-        this.snackBar.open("Информацията беше запазена успешно!", "Затвори", {
-          duration: 8000,
-          panelClass: ["custom-snackbar"],
-        });
+      .subscribe({
+        next: () => {
+          this.getUserInformation();
+          this.snackBar.open("Информацията беше запазена успешно!", "Затвори", {
+            duration: 8000,
+            panelClass: ["custom-snackbar"],
+          });
+        },
+        error: (err) => {
+          this.snackBar.open(err, "Затвори", {
+            duration: 8000,
+            panelClass: ["custom-snackbar"],
+          });
+        },
       });
     this.subscriptions.push(generalSubscription);
   }

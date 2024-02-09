@@ -18,19 +18,21 @@ export class BookServiceComponent implements OnInit, OnChanges, OnDestroy {
   currentCategoryId: any;
   public services: ServiceResponse[] = [];
   public truncationLength: number;
+  public isDesktopView: any;
 
   constructor(
     private stepper: MatStepper,
     private bookDataSharingService: BookDataSharingService,
   ) {
     // Set initial truncation length based on the window width
-    this.truncationLength = window.innerWidth < 768 ? 60 : 40;
+    this.truncationLength = window.innerWidth < 768 ? 9999 : 40;
   }
 
   @HostListener("window:resize", ["$event"])
   onResize(event: Event): void {
     // Adjust truncation length based on window width
-    this.truncationLength = window.innerWidth < 768 ? 60 : 40;
+    this.truncationLength = window.innerWidth < 768 ? 9999 : 40;
+    this.isDesktopView = window.innerWidth < 768;
   }
 
   ngOnInit(): void {

@@ -52,37 +52,45 @@ export class FinishBussinesRegistrationComponent implements OnInit {
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
     public dateTimeService: DateTimeService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.facilityService.getFacilitySettings().subscribe((x) => {
-      this.bookingForm.patchValue(x);
+    this.facilityService.getFacilitySettings().subscribe({
+      next: (x) => {
+        this.bookingForm.patchValue(x);
 
-      this.timeSlots = this.generateHours(x.startPeriod, x.endPeriod);
-      this.startPeriodIndex = this.timeSlots.findIndex(
-        (y) =>
-          this.dateTimeService.compareHoursAndMinutes(
-            moment.utc(y),
-            moment.utc(x.startPeriod)
-          ) == 0
-      );
-      this.endPeriodIndex = this.timeSlots.findIndex(
-        (y) =>
-          this.dateTimeService.compareHoursAndMinutes(
-            moment.utc(y),
-            moment.utc(x.endPeriod)
-          ) == 0
-      );
-
-      const workingDaysArray = JSON.parse(x.workingDaysJson);
-      this.workingDaysFormArray = this.bookingForm.get(
-        "workingDays"
-      ) as FormArray;
-      workingDaysArray.forEach((workingDay) => {
-        this.workingDaysFormArray.push(
-          this.createWorkingDayFormGroup(workingDay)
+        this.timeSlots = this.generateHours(x.startPeriod, x.endPeriod);
+        this.startPeriodIndex = this.timeSlots.findIndex(
+          (y) =>
+            this.dateTimeService.compareHoursAndMinutes(
+              moment.utc(y),
+              moment.utc(x.startPeriod)
+            ) == 0
         );
-      });
+        this.endPeriodIndex = this.timeSlots.findIndex(
+          (y) =>
+            this.dateTimeService.compareHoursAndMinutes(
+              moment.utc(y),
+              moment.utc(x.endPeriod)
+            ) == 0
+        );
+
+        const workingDaysArray = JSON.parse(x.workingDaysJson);
+        this.workingDaysFormArray = this.bookingForm.get(
+          "workingDays"
+        ) as FormArray;
+        workingDaysArray.forEach((workingDay) => {
+          this.workingDaysFormArray.push(
+            this.createWorkingDayFormGroup(workingDay)
+          );
+        });
+      },
+      error: (err) => {
+        this.snackBar.open(err, "Затвори", {
+          duration: 8000,
+          panelClass: ["custom-snackbar"],
+        });
+      },
     });
   }
   public openDialog() {

@@ -10,6 +10,7 @@ import {
 import { ViberConfirmationComponent } from "src/app/shared/dialogs/viber-confirmation/viber-confirmation.component";
 import { AccountService } from "src/app/shared/services/account.service";
 import { NotificationSettings } from "src/app/shared/models/account/notification-settings.model";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-notification",
@@ -35,8 +36,9 @@ export class NotificationComponent implements OnInit {
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
     private accountService: AccountService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    private snackBar: MatSnackBar,
+  ) { }
 
   ngOnInit(): void {
     this.accountService.getNotificationSettings().subscribe((x) => {
@@ -47,8 +49,16 @@ export class NotificationComponent implements OnInit {
   public saveChanges() {
     this.accountService
       .updateNotificationSettings(this.settings)
-      .subscribe((x) => {
-        console.log(x);
+      .subscribe({
+        next: (x) => {
+          console.log(x);
+        },
+        error: (err) => {
+          this.snackBar.open(err, "Затвори", {
+            duration: 8000,
+            panelClass: ["custom-snackbar"],
+          });
+        },
       });
   }
 

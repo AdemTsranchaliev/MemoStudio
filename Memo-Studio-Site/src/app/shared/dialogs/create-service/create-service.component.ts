@@ -17,6 +17,7 @@ import { BASE_URL_DEV } from "../../routes";
 import { FacilityService } from "../../services/facility.service";
 import { UpsertServiceCategory } from "../../models/facility/upsert-service-category.model";
 import { UtilityService } from "../../services/utility.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-create-service",
@@ -34,11 +35,19 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
     name: ["", [Validators.required]],
     price: ["", [Validators.required]],
     serviceCategoryId: [0, [Validators.required]],
-    duration: ["", [Validators.required]],
+    duration: [60, [Validators.required]],
     description: [""],
   });
 
   public categories: any[] = [];
+  public durationArr: any[] = [
+    { duration: "30 минути", value: 30 },
+    { duration: "60 минути", value: 60 },
+    { duration: "90 минути", value: 90 },
+    { duration: "120 минути", value: 120 },
+    { duration: "150 минути", value: 150 },
+    { duration: "180 минути", value: 180 },
+  ];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -49,6 +58,7 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
     private facilityService: FacilityService,
     private breakpointObserver: BreakpointObserver,
     public utilityService: UtilityService,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -89,7 +99,10 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
           }
         },
         (err) => {
-          //TODO add on error message
+          this.snackBar.open(err, "Затвори", {
+            duration: 8000,
+            panelClass: ["custom-snackbar"],
+          });
         }
       );
 
@@ -127,9 +140,17 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
 
         this.facilityService
           .upsertServiceCategory(modelToSend)
-          .subscribe((x) => {
-            this.categories.push(x);
-            this.createServiceForm.get("serviceCategoryId").setValue(x.id);
+          .subscribe({
+            next: (x) => {
+              this.categories.push(x);
+              this.createServiceForm.get("serviceCategoryId").setValue(x.id);
+            },
+            error: (err) => {
+              this.snackBar.open(err, "Затвори", {
+                duration: 8000,
+                panelClass: ["custom-snackbar"],
+              });
+            },
           });
       } else {
         this.createServiceForm.get("serviceCategoryId").setValue("");

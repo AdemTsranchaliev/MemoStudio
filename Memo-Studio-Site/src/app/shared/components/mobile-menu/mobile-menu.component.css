@@ -1,35 +1,35 @@
 .mobile-navbar {
-  overflow: hidden;
-  position: fixed; /* Set the navbar to fixed position */
-  bottom: 0; /* Position the navbar at the bottom of the page */
-  width: 100%;
-  background-color: white;
-  border: 1px solid #f1f1f1;
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
+  overflow: hidden !important;
+  position: fixed !important; /* Set the navbar to fixed position */
+  bottom: 0 !important; /* Position the navbar at the bottom of the page */
+  width: 100% !important;
+  background-color: white !important;
+  border: 1px solid #f1f1f1 !important;
+  border-top-left-radius: 25px !important;
+  border-top-right-radius: 25px !important;
 }
 
 .qr-icon {
-  padding: 5px 8px;
-  border: 1px solid #7986cb;
-  border-radius: 100%;
-  box-shadow: 0px 4px 8px 0px #7986cb;
+  padding: 5px 8px !important;
+  border: 1px solid #7986cb !important;
+  border-radius: 100% !important;
+  box-shadow: 0px 4px 8px 0px #7986cb !important;
 }
 
 .icon-title {
-  margin: 0;
-  padding: 0;
-  font-size: 10px;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 10px !important;
 }
 
 .mb-min-10 {
-  margin-bottom: -10px;
+  margin-bottom: -10px !important;
 }
 
 .fs-26 {
-  font-size: 26px;
+  font-size: 26px !important;
 }
 
 .fs-23 {
-  font-size: 23px;
+  font-size: 23px !important;
 }

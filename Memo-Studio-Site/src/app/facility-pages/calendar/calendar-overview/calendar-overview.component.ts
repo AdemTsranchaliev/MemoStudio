@@ -6,6 +6,7 @@ import { DateCalendar } from "../date.model";
 import { Moment } from "moment";
 import * as moment from "moment";
 import { da } from "date-fns/locale";
+import { MatSnackBar } from "@angular/material/snack-bar";
 declare const $: any;
 
 @Component({
@@ -49,14 +50,17 @@ export class CalendarOverviewComponent implements OnInit {
     "Дек",
   ];
 
-  constructor(private bookingService: BookingService) {}
+  constructor(
+    private bookingService: BookingService,
+    private snackBar: MatSnackBar,
+    ) { }
 
   ngOnInit(): void {
     this.initCalendar(this.date);
     this.getBookingsByMonthStatistics();
   }
 
-  public showBookings(id: number) {}
+  public showBookings(id: number) { }
 
   public dateClick(day: number) {
     this.date.date(day);
@@ -123,10 +127,18 @@ export class CalendarOverviewComponent implements OnInit {
         this.date.month() + 1,
         this.date.year()
       )
-      .subscribe((x) => {
-        this.monthStatistics = x;
-        this.test = [...x];
-        this.initCalendar(this.date);
+      .subscribe({
+        next: (x) => {
+          this.monthStatistics = x;
+          this.test = [...x];
+          this.initCalendar(this.date);
+        },
+        error: (err) => {
+          this.snackBar.open(err, "Затвори", {
+            duration: 8000,
+            panelClass: ["custom-snackbar"],
+          });
+        },
       });
   }
 

@@ -1,4 +1,4 @@
-<div class="container light-style flex-grow-1 my-5 py-5">
+<div class="container light-style flex-grow-1 my-5 py-5 pb-90">
   <div class="card overflow-hidden custom-shadow">
     <div class="row no-gutters row-bordered row-border-light">
       <div class="col-md-3 pt-0">
@@ -11,8 +11,10 @@
         <app-notification *ngIf="activeTab == 3" [ngClass]="{ 'unactive-tab-content': activeTab != 3 }">
         </app-notification>
         <app-services-tab [hasHeader]="true" *ngIf="activeTab == 4" [ngClass]="{ 'unactive-tab-content': activeTab != 4 }"></app-services-tab>
-        <app-calendar-profile *ngIf="activeTab == 5" [ngClass]="{ 'unactive-tab-content': activeTab != 5 }">
-        </app-calendar-profile>
+        <app-calendar-profile *ngIf="activeTab == 5" [ngClass]="{ 'unactive-tab-content': activeTab != 5 }"></app-calendar-profile>
+        <app-my-business-card *ngIf="activeTab == 6" [ngClass]="{ 'unactive-tab-content': activeTab != 6 }"></app-my-business-card>
+        <app-promotions *ngIf="activeTab == 7" [ngClass]="{ 'unactive-tab-content': activeTab != 7 }">
+        </app-promotions>
       </div>
     </div>
   </div>

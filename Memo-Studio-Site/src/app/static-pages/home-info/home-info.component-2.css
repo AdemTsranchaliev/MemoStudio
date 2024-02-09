@@ -1,10 +1,12 @@
 .hero-landing {
   margin-top: 62px;
-  background: linear-gradient(to bottom right,
-      white 0%,
-      white 50%,
-      rgba(129, 188, 251, 0.5) 50%,
-      #007bff 100%);
+  background: linear-gradient(
+    to bottom right,
+    white 0%,
+    white 50%,
+    rgba(129, 188, 251, 0.5) 50%,
+    #007bff 100%
+  );
 }
 
 .iphone-frame-img {
@@ -32,4 +34,10 @@
   position: relative;
   background: rgb(240 240 240);
   border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+
+@media (max-width: 768px) {
+  .pb-90 {
+    padding-bottom: 90px !important;
+  }
 }

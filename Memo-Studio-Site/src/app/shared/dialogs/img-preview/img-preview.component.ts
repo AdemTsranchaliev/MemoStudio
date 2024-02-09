@@ -24,7 +24,7 @@ export class ImgPreviewComponent implements OnInit {
     private snackBar: MatSnackBar,
     private accountService: AccountService,
     private http: HttpClient // Inject HttpClient
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.changeStr = this.data.size == "small" ? "Смяна" : "Смяна на снимка";
@@ -71,12 +71,20 @@ export class ImgPreviewComponent implements OnInit {
       formData.append("file", file);
 
       // Now, you can send formData to your server using HTTP
-      this.http.post(`${BASE_URL_DEV}/account/profile-picture`, formData).subscribe((response) => {
-        this.dialogRef.close(this.croppedImage);
-        this.snackBar.open("Файла бе запазен успешно!", "Затвори", {
-          duration: 8000,
-          panelClass: ["custom-snackbar"],
-        });
+      this.http.post(`${BASE_URL_DEV}/account/profile-picture`, formData).subscribe({
+        next: () => {
+          this.dialogRef.close(this.croppedImage);
+          this.snackBar.open("Файла бе запазен успешно!", "Затвори", {
+            duration: 8000,
+            panelClass: ["custom-snackbar"],
+          });
+        },
+        error: (err) => {
+          this.snackBar.open(err, "Затвори", {
+            duration: 8000,
+            panelClass: ["custom-snackbar"],
+          });
+        },
       });
     }
   }

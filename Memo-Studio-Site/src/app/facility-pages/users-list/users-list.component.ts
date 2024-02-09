@@ -14,6 +14,7 @@ import {
 } from "@angular/cdk/layout";
 import { Observable } from "rxjs";
 import { FacilityService } from "../../shared/services/facility.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-users-list",
@@ -44,20 +45,29 @@ export class UsersListComponent implements OnInit, AfterViewInit {
     private userService: UserService,
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
-    private facilityService: FacilityService
-  ) {}
+    private facilityService: FacilityService,
+    private snackBar: MatSnackBar,
+  ) { }
 
   ngOnInit(): void {
     this.facilityService.getFacilityUsers().subscribe((x) => {
       this.subscribedUsers = x;
     });
-    this.userService.getAllUsers().subscribe((x) => {
-      // If 404/Error -> show to the user that thre is no data
-      this.users = x;
 
-      this.dataSource = new MatTableDataSource(this.users);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+    this.userService.getAllUsers().subscribe({
+      next: (x) => {
+        this.users = x;
+
+        this.dataSource = new MatTableDataSource(this.users);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error: (err) => {
+        this.snackBar.open(err, "Затвори", {
+          duration: 8000,
+          panelClass: ["custom-snackbar"],
+        });
+      },
     });
   }
 
@@ -82,7 +92,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   public applyFilter(event: Event) {

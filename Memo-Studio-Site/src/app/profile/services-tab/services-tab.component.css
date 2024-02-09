@@ -7,6 +7,11 @@
   box-shadow: 0px 0px 4px 0px;
 }
 
+.mat-icon-button {
+  width: 26px;
+  border-radius: 0%;
+}
+
 .fs-12 {
   font-size: 12px;
 }

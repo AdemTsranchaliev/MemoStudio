@@ -16,6 +16,7 @@ import { CalendarEditDayComponent } from "src/app/shared/dialogs/calendar-edit-d
 import { CalendarOverviewComponent } from "./calendar-overview/calendar-overview.component";
 import { Moment } from "moment";
 import * as moment from "moment";
+import { MatSnackBar } from "@angular/material/snack-bar";
 declare const $: any;
 
 @Component({
@@ -49,8 +50,9 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
     private facilityService: FacilityService,
     public dateTimeService: DateTimeService,
     public dialog: MatDialog,
-    private breakpointObserver: BreakpointObserver
-  ) {}
+    private breakpointObserver: BreakpointObserver,
+    private snackBar: MatSnackBar,
+  ) { }
 
   ngOnInit(): void {
     this.facilityService.getFacilitySettings().subscribe((x) => {
@@ -73,11 +75,19 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
     this.date = $event.date;
     this.isPastDate = $event.isPastDate;
     this.bookingsOrigin = [];
-    this.bookingService.getBookingListByDate(this.date).subscribe((x) => {
-      
-      this.bookingsOrigin = x.bookings;
-      this.isOpen = x.isOpen;
-    });
+    this.bookingService.getBookingListByDate(this.date).subscribe({
+      next: (x) => {
+        this.bookingsOrigin = x.bookings;
+        this.isOpen = x.isOpen;
+      },
+      error: (err) => {
+        this.snackBar.open(err, "Затвори", {
+          duration: 8000,
+          panelClass: ["custom-snackbar"],
+        });
+      },
+    }
+    );
   }
 
   public editDay() {
@@ -99,7 +109,7 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
     });
     this.subscriptions.push(smallDialogSubscription);
     dialogRef.afterClosed().subscribe((refresh) => {
-      if(refresh){
+      if (refresh) {
         this.childComponent.getBookingsByMonthStatistics();
       }
     });

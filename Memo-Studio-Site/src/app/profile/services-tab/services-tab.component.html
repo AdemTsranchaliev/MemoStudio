@@ -47,7 +47,9 @@
       <!-- Start Services -->
       <div class="d-flex flex-column my-2 services-box-shadow rounded mx-1" *ngFor="let service of category.services">
         <div class="d-flex justify-content-between align-items-center px-1 ps-14">
-          <span> {{ service.name }} </span>
+          <span matTooltip="{{(service.name.length >= 40) ? service.name : ''}}">
+            {{ service.name|truncate: truncationLength }}
+          </span>
           <span>
             <span> {{ service.price }} лв. </span>
 
