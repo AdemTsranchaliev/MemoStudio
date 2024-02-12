@@ -21,7 +21,7 @@ export class SelectionListComponent implements OnInit {
 
   ngOnInit(): void {
     this.workingDays?.valueChanges.subscribe(() => {
-      console.log(this.workingDays);
+      // console.log('>>>', this.workingDays);
     });
   }
 

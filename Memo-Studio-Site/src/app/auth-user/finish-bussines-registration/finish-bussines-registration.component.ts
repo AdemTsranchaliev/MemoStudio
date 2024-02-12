@@ -1,8 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, HostListener, OnInit } from "@angular/core";
 import {
   FormGroup,
   FormControl,
   FormArray,
+  FormBuilder,
+  Validators,
 } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { FacilitySettingsViewModel } from "src/app/shared/models/facility/facility-setting-model";
@@ -19,6 +21,7 @@ import {
 import { MatDialog } from "@angular/material/dialog";
 import * as moment from "moment";
 import { Moment } from "moment";
+import { UtilityService } from "src/app/shared/services/utility.service";
 
 @Component({
   selector: "app-finish-bussines-registration",
@@ -26,14 +29,7 @@ import { Moment } from "moment";
   styleUrls: ["./finish-bussines-registration.component.css"],
 })
 export class FinishBussinesRegistrationComponent implements OnInit {
-  public bookingForm: FormGroup = new FormGroup({
-    startPeriod: new FormControl(null), // Initialize with an empty string or the default value
-    endPeriod: new FormControl(null),
-    interval: new FormControl(""),
-    workingDays: new FormArray([]),
-    allowUserBooking: new FormControl(false), // Initialize with a default value
-  });
-
+  public bookingForm: FormGroup;
   public isExtraSmall: Observable<BreakpointState> =
     this.breakpointObserver.observe(Breakpoints.XSmall);
 
@@ -46,15 +42,34 @@ export class FinishBussinesRegistrationComponent implements OnInit {
   private newProfileImg: string;
   private currentSize: string;
 
+  public truncationLength: number;
+  public mobileLength: number = 14;
+  public desktopLength: number = 55;
+
   constructor(
+    private formBuilder: FormBuilder,
     private facilityService: FacilityService,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
-    public dateTimeService: DateTimeService
-  ) { }
+    public dateTimeService: DateTimeService,
+    public utilityService: UtilityService,
+  ) {
+    // Set initial truncation length based on the window width
+    this.truncationLength = window.innerWidth < 768 ? this.mobileLength : this.desktopLength;
+  }
+
+  @HostListener("window:resize", ["$event"])
+  onResize(event: Event): void {
+    // Adjust truncation length based on window width
+    this.truncationLength = window.innerWidth < 768 ? this.mobileLength : this.desktopLength;
+  }
 
   ngOnInit(): void {
+    this.initForm();
+
+    this.workingDaysFormArray = this.formBuilder.array([]);
+
     this.facilityService.getFacilitySettings().subscribe({
       next: (x) => {
         this.bookingForm.patchValue(x);
@@ -76,9 +91,6 @@ export class FinishBussinesRegistrationComponent implements OnInit {
         );
 
         const workingDaysArray = JSON.parse(x.workingDaysJson);
-        this.workingDaysFormArray = this.bookingForm.get(
-          "workingDays"
-        ) as FormArray;
         workingDaysArray.forEach((workingDay) => {
           this.workingDaysFormArray.push(
             this.createWorkingDayFormGroup(workingDay)
@@ -93,6 +105,20 @@ export class FinishBussinesRegistrationComponent implements OnInit {
       },
     });
   }
+
+  public initForm() {
+    this.bookingForm = this.formBuilder.group({
+      businessName: [null, Validators.required],
+      startPeriod: [null, Validators.required],
+      endPeriod: [null, Validators.required],
+      interval: ['', Validators.required],
+      workingDays: [[], Validators.required],
+      allowUserBooking: [false, Validators.required],
+      socialInstagram: [null],
+      socialFacebook: [null],
+    });
+  }
+
   public openDialog() {
     const dialogRef = this.dialog.open(ImgPreviewComponent, {
       width: "100vw",
@@ -118,6 +144,7 @@ export class FinishBussinesRegistrationComponent implements OnInit {
     if (this.bookingForm.valid) {
       const formData = this.bookingForm;
       let resultToSend: FacilitySettingsViewModel = <FacilitySettingsViewModel>{
+        name: formData.get("businessName").value,
         startPeriod: formData.get("startPeriod").value,
         endPeriod: formData.get("endPeriod").value,
         interval: formData.get("interval").value,

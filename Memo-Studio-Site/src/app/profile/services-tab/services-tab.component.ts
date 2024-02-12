@@ -26,6 +26,8 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 export class ServicesTabComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   @Input() hasHeader: boolean;
+  @Input() mobileLength: number = 16;
+  @Input() desktopLength: number = 70;
 
   private currentSize: string;
   public isExtraSmall: Observable<BreakpointState> =
@@ -41,19 +43,19 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
     private breakpointObserver: BreakpointObserver,
     private facilityService: FacilityService,
     private snackBar: MatSnackBar,
-  ) {
-    // Set initial truncation length based on the window width
-    this.truncationLength = window.innerWidth < 768 ? 16 : 70;
-  }
+  ) { }
 
   @HostListener("window:resize", ["$event"])
   onResize(event: Event): void {
     // Adjust truncation length based on window width
-    this.truncationLength = window.innerWidth < 768 ? 16 : 70;
+    this.truncationLength = window.innerWidth < 768 ? this.mobileLength : this.desktopLength;
     this.isDesktopView = window.innerWidth < 768;
   }
 
   ngOnInit(): void {
+    // Set initial truncation length based on the window width
+    this.truncationLength = window.innerWidth < 768 ? this.mobileLength : this.desktopLength;
+
     this.facilityService.getFacilityServices().subscribe(
       (response) => {
         this.serviceCategories = response;

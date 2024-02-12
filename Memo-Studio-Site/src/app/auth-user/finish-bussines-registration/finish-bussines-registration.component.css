@@ -32,6 +32,14 @@
   margin: 0 230px;
 }
 
+.fs-11 {
+  font-size: 11px;
+}
+
+.mt-min-4 {
+  margin-top: -4px;
+}
+
 /* Responsive adjustments using media queries */
 @media (max-width: 1200px) {
   .mx-230 {

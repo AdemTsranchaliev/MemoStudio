@@ -24,10 +24,19 @@
                 </article>
               </div>
 
-              <label class="custom-field w-100">
-                <input class="w-100" placeholder=" " formControlName="interval" />
-                <span class="placeholder cursor-text">Име на бизнес</span>
-              </label>
+              <div>
+                <label class="custom-field w-100" [ngClass]="{'invalid-field': utilityService.HasError(bookingForm, 'businessName', 'required') &&
+                utilityService.IsTouched(bookingForm, 'businessName')}">
+                  <input class="w-100" placeholder=" " formControlName="businessName" />
+                  <span class="placeholder cursor-text">Име на бизнес</span>
+                </label>
+
+                <mat-error class="fs-11" *ngIf="utilityService.HasError(bookingForm, 'businessName', 'required') &&
+                utilityService.IsTouched(bookingForm, 'businessName')">
+                  Това поле е задължително.
+                </mat-error>
+              </div>
+
               <div class="row">
                 <div class="col-sm-6">
                   <label class="custom-field-select w-100">
@@ -37,7 +46,7 @@
                         {{ time | utcToLocal:'HH:mm' }} ч.
                       </option>
                     </select>
-                    <span class="placeholder-select cursor-text">Начален час</span>
+                    <span class="placeholder-select cursor-text">Работен ден - Начало</span>
                   </label>
                 </div>
 
@@ -49,8 +58,46 @@
                         {{ time | utcToLocal:'HH:mm' }} ч.
                       </option>
                     </select>
-                    <span class="placeholder-select cursor-text">Краен час</span>
+                    <span class="placeholder-select cursor-text">Работен ден - Край</span>
                   </label>
+                </div>
+              </div>
+              <label class="custom-field-select w-100">
+                <select class="w-100" placeholder=" " formControlName="interval">
+                  <option *ngFor="let duration of durations" [value]="duration">
+                    {{ duration }}
+                  </option>
+                </select>
+                <span class="placeholder-select cursor-text">Интервал на часовете</span>
+              </label>
+
+              <div class="separator mt-2">Добавете социални мрежи</div>
+
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="w-100">
+                    <label class="custom-field w-100">
+                      <input type="password" class="w-100" placeholder=" " name="socialInstagram"
+                        formControlName="socialInstagram" />
+                      <span class="placeholder cursor-text">Instagram</span>
+                    </label>
+                  </div>
+                  <div class="fs-11 mt-min-4">
+                    <mat-hint>*Това поле НЕ е задължително</mat-hint>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="w-100">
+                    <label class="custom-field w-100">
+                      <input type="password" class="w-100" placeholder=" " name="socialFacebook"
+                        formControlName="socialFacebook" />
+                      <span class="placeholder cursor-text">Facebook</span>
+                    </label>
+                  </div>
+                  <div class="fs-11 mt-min-4">
+                    <mat-hint>*Това поле НЕ е задължително</mat-hint>
+                  </div>
                 </div>
               </div>
 
@@ -69,7 +116,8 @@
             </mat-step>
 
             <mat-step>
-              <app-services-tab [hasHeader]="false"></app-services-tab>
+              <app-services-tab [mobileLength]="mobileLength" [desktopLength]="desktopLength" [hasHeader]="false">
+              </app-services-tab>
 
               <div class="d-flex justify-content-between mt-4">
                 <button matStepperPrevious mat-raised-button>
