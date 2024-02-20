@@ -17,7 +17,7 @@ function passwordMatchValidator(control: AbstractControl) {
   const confirmPassword = control.get("confirmPassword").value;
 
   if (password !== confirmPassword) {
-    control.get("confirmPassword").setErrors({ passwordMismatch: true });
+    return { passwordMismatch: true }; // Return an object with the error key
   } else {
     return null;
   }

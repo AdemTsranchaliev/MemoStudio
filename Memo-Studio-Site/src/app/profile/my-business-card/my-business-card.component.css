@@ -3,3 +3,118 @@
   background-color: #f6f6f6;
   padding: 10px;
 }
+
+.rounded-qr-code {
+  padding: 10px 0;
+  border-radius: 20%;
+  margin: 0 15rem;
+}
+
+/* Borders Up */
+.qr-style-up {
+  position: relative;
+  padding: 10px 40px;
+  color: white;
+  /* color: black; */
+}
+
+.qr-style-up:before {
+  display: block;
+  content: '';
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 4px;
+  left: 24px;
+  border-top: 3px solid white;
+  border-left: 3px solid white;
+  /* border-top: 3px solid black; */
+  /* border-left: 3px solid black; */
+}
+
+.qr-style-up:after {
+  display: block;
+  content: '';
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 4px;
+  right: 24px;
+  border-top: 3px solid white;
+  border-right: 3px solid white;
+  /* border-top: 3px solid black; */
+  /* border-right: 3px solid black; */
+}
+
+/* Borders Down */
+.qr-style-down {
+  position: relative;
+  padding: 10px 40px;
+  color: #ffffff;
+  /* color: black; */
+}
+
+.qr-style-down:before {
+  display: block;
+  content: '';
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  bottom: 4px;
+  left: 24px;
+  border-bottom: 3px solid white;
+  border-left: 3px solid white;
+  /* border-bottom: 3px solid black;
+  border-left: 3px solid black; */
+}
+
+.qr-style-down:after {
+  display: block;
+  content: '';
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  bottom: 4px;
+  right: 24px;
+  border-bottom: 3px solid white;
+  border-right: 3px solid white;
+  /* border-bottom: 3px solid black;
+  border-right: 3px solid black; */
+}
+
+.company-logo {
+  position: relative;
+  color: white;
+  margin-top: -24px;
+  z-index: 999;
+}
+
+.mt-min-24 {
+  margin-top: -24px;
+}
+
+.fs-22 {
+  font-size: 22px;
+}
+
+.text-pink-instagram {
+  color: #e22f6a;
+}
+
+.text-blue-facebook {
+  color: #4267b3;
+}
+
+.text-black {
+  color: black;
+}
+
+.bg-black {
+  background-color: black;
+}
+
+@media (max-width: 768px) {
+  .rounded-qr-code {
+    margin: 0 1rem;
+  }
+}

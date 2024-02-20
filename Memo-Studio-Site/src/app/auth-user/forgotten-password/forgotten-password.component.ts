@@ -4,6 +4,7 @@ import { Subscription } from "rxjs";
 import { AuthenticatinService } from "src/app/shared/services/authenticatin.service";
 import { Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { UtilityService } from "src/app/shared/services/utility.service";
 
 @Component({
   selector: "app-forgotten-password",
@@ -22,7 +23,8 @@ export class ForgottenPasswordComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthenticatinService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    public utilityService: UtilityService,
   ) {}
 
   ngOnInit(): void {}

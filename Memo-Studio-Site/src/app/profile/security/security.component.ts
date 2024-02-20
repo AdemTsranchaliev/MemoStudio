@@ -7,6 +7,7 @@ import {
 } from "@angular/forms";
 import { AuthenticatinService } from "src/app/shared/services/authenticatin.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { UtilityService } from "src/app/shared/services/utility.service";
 
 @Component({
   selector: "app-security",
@@ -20,7 +21,8 @@ export class SecurityComponent implements OnDestroy {
 
   constructor(
     private authenticatinService: AuthenticatinService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public utilityService: UtilityService,
   ) {
     this.initForm();
   }

@@ -12,7 +12,8 @@
 
   <form [formGroup]="loginForm">
     <div>
-      <label class="custom-field w-100 mt-4">
+      <label class="custom-field w-100 mt-4" [ngClass]="{'invalid-field': utilityService.HasError(loginForm, 'email', 'required') &&
+      utilityService.IsTouched(loginForm, 'email')}">
         <input type="email" id="email" class="w-100" placeholder=" " formControlName="email" />
         <span class="placeholder cursor-text">Имейл</span>
       </label>
@@ -31,7 +32,8 @@
     </div>
 
     <div>
-      <label class="custom-field w-100 mt-4">
+      <label class="custom-field w-100 mt-4" [ngClass]="{'invalid-field': utilityService.HasError(loginForm, 'password', 'required') &&
+      utilityService.IsTouched(loginForm, 'password')}">
         <input type="password" id="password" class="w-100" placeholder=" " formControlName="password" />
         <span class="placeholder cursor-text">Парола</span>
       </label>

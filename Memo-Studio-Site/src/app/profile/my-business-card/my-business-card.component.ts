@@ -1,8 +1,10 @@
 import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { AuthenticatinService } from 'src/app/shared/services/authenticatin.service';
+import html2canvas from "html2canvas";
+import QRCode from 'qrcode';
 
 @Component({
   selector: 'app-my-business-card',
@@ -11,6 +13,7 @@ import { AuthenticatinService } from 'src/app/shared/services/authenticatin.serv
 })
 export class MyBusinessCardComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
+  @ViewChild('qrContainer') qrContainer!: ElementRef;
 
   public businessCardForm: FormGroup;
   public facilityLink: string;
@@ -18,6 +21,9 @@ export class MyBusinessCardComponent implements OnInit, OnDestroy {
     this.breakpointObserver.observe(Breakpoints.XSmall);
   public currentSize: string;
   public viewSize: number = 180;
+
+  facebookLink = "John Doe Studious";
+  instagramLink = "john.doe.studious";
 
   constructor(
     private formBuilder: FormBuilder,
@@ -42,8 +48,27 @@ export class MyBusinessCardComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onSubmit() {
+  public async downloadQRCode(): Promise<void> {
+    try {
+      // Capture the content of qrContainer
+      const qrContainer = this.qrContainer.nativeElement;
+      const canvas = await html2canvas(qrContainer, {
+        backgroundColor: 'black' // Set background color to black
+      });
 
+      // Convert canvas to image data URL with PNG format
+      const imageDataUrl = canvas.toDataURL('image/png');
+
+      // Create a link element for download
+      const link = document.createElement('a');
+      link.download = 'qrcode.png';
+      link.href = imageDataUrl;
+
+      // Trigger download
+      link.click();
+    } catch (error) {
+      console.error('Error generating QR code:', error);
+    }
   }
 
   public manageQRCodeSize(): void {
@@ -57,9 +82,5 @@ export class MyBusinessCardComponent implements OnInit, OnDestroy {
       }
     });
     this.subscriptions.push(isViewSmallSubscription);
-  }
-
-  public showExample() {
-    // load modal, with IMG example
   }
 }

@@ -12,8 +12,8 @@
     <div mat-dialog-content class="top-box">
         <article class="row justify-content-center">
             <article class="col-10 text-center qr-img">
-                <app-qr-code [currentQrCode]="facilityLink" [qrCodeColor]="'black'"
-                    [customWidth]="viewSize"></app-qr-code>
+                <app-qr-code [currentQrCode]="facilityLink" [qrCodeColor]="'black'" [customWidth]="viewSize">
+                </app-qr-code>
             </article>
         </article>
         <div class="separator">Или копирайте линка</div>
@@ -71,12 +71,6 @@
                 <i class="fab fa-whatsapp text-green fs-22"></i>
                 <span>
                     WhatsApp
-                </span>
-            </button>
-            <button mat-menu-item>
-                <i class="fas fa-file-download text-muted fs-22"></i>
-                <span>
-                    Свали QR кода
                 </span>
             </button>
         </mat-menu>

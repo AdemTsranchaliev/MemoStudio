@@ -8,7 +8,8 @@
       <span class="placeholder cursor-text">Стара парола</span>
     </label>
 
-    <label class="custom-field w-100">
+    <label class="custom-field w-100" [ngClass]="{'invalid-field': utilityService.HasError(passwordChangeForm, 'newPassword', 'required') &&
+    utilityService.IsTouched(passwordChangeForm, 'newPassword')}">
       <input type="password" class="w-100" placeholder=" " name="newPassword" formControlName="newPassword" />
       <span class="placeholder cursor-text">Нова парола</span>
     </label>
@@ -16,7 +17,8 @@
       Новата парола трябва да бъде поне 6 символа.
     </mat-error>
 
-    <label class="custom-field w-100">
+    <label class="custom-field w-100" [ngClass]="{'invalid-field': utilityService.HasError(passwordChangeForm, 'confirmNewPassword', 'required') &&
+    utilityService.IsTouched(passwordChangeForm, 'confirmNewPassword')}">
       <input type="password" class="w-100" placeholder=" " name="confirmNewPassword"
         formControlName="confirmNewPassword" />
       <span class="placeholder cursor-text">Повторете новата парола</span>

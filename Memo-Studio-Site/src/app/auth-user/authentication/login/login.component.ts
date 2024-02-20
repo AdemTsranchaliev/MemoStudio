@@ -29,10 +29,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
     private authService: AuthenticatinService,
     public utilityService: UtilityService,
     private snackBar: MatSnackBar,
-  ) {}
+  ) { }
 
   ngAfterViewInit(): void {
-    this.showPage = true;
+    setTimeout(() => {
+      this.showPage = true;
+    }, 1)
   }
 
   ngOnInit(): void {

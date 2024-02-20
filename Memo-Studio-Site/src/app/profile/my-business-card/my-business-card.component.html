@@ -1,43 +1,27 @@
 <div class="card-body pb-2">
     <h4>Моята визитка</h4>
     <mat-divider class="py-2"></mat-divider>
-
-    <form [formGroup]="businessCardForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="businessCardForm" (ngSubmit)="downloadQRCode()">
         <div class="business-card-info">
             <p>Имате възможност да създадете и свалите файл с QR код + социалните Ви мрежи.</p>
-            <u>
-                <p class="text-primary cursor-pointer" (click)="showExample()">Натиснете тук, за да видите примера.</p>
-            </u>
-            <p>Чрез този файл ще имате възможност да го споделите в социалните Ви мрежи, както и да го разпечатате и
+            <p>
+                Чрез този файл ще имате възможност да го споделите в социалните Ви мрежи, както и да го разпечатате и
                 залепите на витрината на вашето предприятие.
             </p>
         </div>
 
-        <article class="row justify-content-center">
-            <article class="col-10 text-center qr-img">
-                <app-qr-code [currentQrCode]="facilityLink" [qrCodeColor]="'black'"
-                    [customWidth]="viewSize"></app-qr-code>
+        <div #qrContainer class="bg-black rounded-qr-code my-3">
+            <article class="row justify-content-center">
+                <article class="col-10 text-center">
+                    <app-qr-code [currentQrCode]="facilityLink" [qrCodeColor]="'white'">
+                    </app-qr-code>
+                    <h6 class="company-logo">BOOKIE.</h6>
+                </article>
             </article>
-        </article>
-
-        <div class="w-100">
-            <label class="custom-field w-100">
-                <input type="password" class="w-100" placeholder=" " name="socialInstagram"
-                    formControlName="socialInstagram" />
-                <span class="placeholder cursor-text">Instagram</span>
-            </label>
-        </div>
-
-        <div class="w-100">
-            <label class="custom-field w-100">
-                <input type="password" class="w-100" placeholder=" " name="socialFacebook"
-                    formControlName="socialFacebook" />
-                <span class="placeholder cursor-text">Facebook</span>
-            </label>
         </div>
 
         <div class="text-right m-4">
-            <button type="submit" mat-raised-button color="primary" [disabled]="!businessCardForm.valid">
+            <button type="submit" mat-raised-button color="primary">
                 Свали файла
             </button>
             &nbsp;

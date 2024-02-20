@@ -12,7 +12,8 @@
 
   <form [formGroup]="registerForm">
     <div>
-      <label class="custom-field w-100 mt-2">
+      <label class="custom-field w-100 mt-2" [ngClass]="{'invalid-field': utilityService.HasError(registerForm, 'name', 'required') &&
+      utilityService.IsTouched(registerForm, 'name')}">
         <input type="text" id="name" class="w-100" placeholder=" " formControlName="name" />
         <span class="placeholder cursor-text">Име</span>
       </label>
@@ -25,7 +26,8 @@
     </div>
 
     <div>
-      <label class="custom-field w-100 mt-2">
+      <label class="custom-field w-100 mt-2" [ngClass]="{'invalid-field': utilityService.HasError(registerForm, 'surname', 'required') &&
+      utilityService.IsTouched(registerForm, 'surname')}">
         <input type="text" id="surname" class="w-100" placeholder=" " formControlName="surname" />
         <span class="placeholder cursor-text">Фамилия</span>
       </label>
@@ -38,7 +40,8 @@
     </div>
 
     <div>
-      <label class="custom-field w-100 mt-2">
+      <label class="custom-field w-100 mt-2" [ngClass]="{'invalid-field': utilityService.HasError(registerForm, 'email', 'required') &&
+      utilityService.IsTouched(registerForm, 'email')}">
         <input type="email" id="email" class="w-100" placeholder=" " formControlName="email" />
         <span class="placeholder cursor-text">Имейл</span>
       </label>
@@ -57,7 +60,8 @@
     </div>
 
     <div>
-      <label class="custom-field w-100 mt-2">
+      <label class="custom-field w-100 mt-2" [ngClass]="{'invalid-field': utilityService.HasError(registerForm, 'phone', 'required') &&
+      utilityService.IsTouched(registerForm, 'phone')}">
         <input type="phone" id="phone" class="w-100" placeholder=" " formControlName="phone" />
         <span class="placeholder cursor-text">Телефон</span>
       </label>
@@ -76,36 +80,44 @@
     </div>
 
     <div>
-      <label class="custom-field w-100 mt-2">
+      <label class="custom-field w-100 mt-2" [ngClass]="{'invalid-field': utilityService.HasError(registerForm, 'password', 'required') &&
+      utilityService.IsTouched(registerForm, 'password')}">
         <input type="password" id="password" class="w-100" placeholder=" " formControlName="password" />
         <span class="placeholder cursor-text">Парола</span>
       </label>
       <mat-error *ngIf="
           utilityService.HasError(registerForm, 'password', 'required') &&
           utilityService.IsTouched(registerForm, 'password')
-        ">
+          ">
         Това поле е задължително.
       </mat-error>
       <mat-error *ngIf="
-          utilityService.HasError(registerForm, 'password', 'minLength') &&
-          utilityService.IsTouched(registerForm, 'password')
+        utilityService.HasError(registerForm, 'password', 'minlength') && 
+        utilityService.IsTouched(registerForm, 'password')
         ">
-        Паролата, трябва да бъде поне 3 символа.
+        Паролата, трябва да бъде поне 6 символа.
       </mat-error>
     </div>
 
     <div>
-      <label class="custom-field w-100 mt-2">
+      <label class="custom-field w-100 mt-2" [ngClass]="{'invalid-field': utilityService.HasError(registerForm, 'confirmPassword', 'required') &&
+      utilityService.IsTouched(registerForm, 'confirmPassword')}">
         <input type="password" id="confirmPassword" class="w-100" placeholder=" " formControlName="confirmPassword" />
         <span class="placeholder cursor-text">Повтори паролата</span>
       </label>
       <mat-error *ngIf="
-          registerForm.get('password').hasError('required') &&
-          registerForm.get('password').touched
+          registerForm.get('confirmPassword').hasError('required') &&
+          registerForm.get('confirmPassword').touched
         ">
         Това поле е задължително.
       </mat-error>
-      <mat-error> Паролите не съвпадат </mat-error>
+      <mat-error *ngIf="
+          registerForm.errors?.passwordMismatch &&
+          registerForm.get('confirmPassword').touched &&
+          !registerForm.get('confirmPassword').hasError('required')
+        ">
+        Паролите не съвпадат
+      </mat-error>
     </div>
 
     <div class="d-flex mb-1 mt-3 align-items-center">
