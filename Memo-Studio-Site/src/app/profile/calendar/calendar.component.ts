@@ -3,6 +3,7 @@ import { FormGroup, FormControl, FormArray } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import * as moment from "moment";
 import { Moment } from "moment";
+import { Booking } from "src/app/shared/models/booking.model";
 import { FacilitySettingsViewModel } from "src/app/shared/models/facility/facility-setting-model";
 import { DateTimeService } from "src/app/shared/services/date-time.service";
 import { FacilityService } from "src/app/shared/services/facility.service";
@@ -13,6 +14,10 @@ import { FacilityService } from "src/app/shared/services/facility.service";
   styleUrls: ["./calendar.component.css"],
 })
 export class CalendarComponent implements OnInit {
+  bookings: any[] = [];
+  additionalSettings: boolean = false;
+  selectedIndices: number[] = [];
+
   public bookingForm: FormGroup = new FormGroup({
     startPeriod: new FormControl(null), // Initialize with an empty string or the default value
     endPeriod: new FormControl(null),
@@ -31,7 +36,7 @@ export class CalendarComponent implements OnInit {
     private facilityService: FacilityService,
     private snackBar: MatSnackBar,
     public dateTimeService: DateTimeService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.facilityService.getFacilitySettings().subscribe((x) => {
@@ -60,6 +65,8 @@ export class CalendarComponent implements OnInit {
           this.createWorkingDayFormGroup(workingDay)
         );
       });
+
+      this.generateHoursArray();
     });
   }
 
@@ -97,16 +104,18 @@ export class CalendarComponent implements OnInit {
     return this.dateTimeService.generateTimeSlots(start, end, 30);
   }
 
-  public dateChange(isStartPeriod: boolean) {
-    if (isStartPeriod) {
+  public dateChange(isStartPeriod: string) {
+    if (isStartPeriod == 'start') {
       this.bookingForm
         .get("startPeriod")
         .setValue(this.timeSlots[this.startPeriodIndex]);
-    } else {
+    } else if (isStartPeriod == 'end') {
       this.bookingForm
         .get("endPeriod")
         .setValue(this.timeSlots[this.endPeriodIndex]);
     }
+
+    this.generateHoursArray();
   }
 
   private createWorkingDayFormGroup(workingDay: any) {
@@ -130,5 +139,49 @@ export class CalendarComponent implements OnInit {
       control.get("closingTime").setValue(endPeriodValue);
       control.get("interval").setValue(interval);
     });
+  }
+
+  public toggleAdditionalSettings() {
+    this.additionalSettings = !this.additionalSettings;
+  }
+
+  // Method to generate the array of hours based on the interval
+  public generateHoursArray() {
+    const startHour = moment.utc(this.bookingForm.get('startPeriod').value);
+    const endHour = moment.utc(this.bookingForm.get('endPeriod').value);
+    const interval = this.bookingForm.get('interval').value;
+
+    // Initialize the result array
+    const hoursArray: string[] = [];
+
+    // Set the start hour's minutes and seconds to 0
+    startHour.minutes(0);
+    startHour.seconds(0);
+
+    // Loop from start hour to end hour, incrementing by the interval
+    let currentHour = startHour.clone();
+    while (currentHour.isSameOrBefore(endHour)) {
+      // Add the current hour to the result array
+      hoursArray.push(currentHour.format('HH:mm'));
+
+      // Increment the current hour by the interval
+      currentHour.add(interval, 'minutes');
+    }
+
+    // Set the generated array to the timeSlots variable
+    this.bookings = hoursArray.map(hour => moment.utc(hour, 'HH:mm'));
+  }
+
+  toggleSelection(index: number) {
+    const selectedIndex = this.selectedIndices.indexOf(index);
+    if (selectedIndex === -1) {
+      this.selectedIndices.push(index);
+    } else {
+      this.selectedIndices.splice(selectedIndex, 1);
+    }
+  }
+  
+  isSelected(index: number): boolean {
+    return this.selectedIndices.includes(index);
   }
 }

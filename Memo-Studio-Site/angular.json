@@ -28,7 +28,8 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.css"
+              "src/styles.css",
+              "src/app/shared/directives/mat-table-responsive/mat-table-responsive.directive.css"
             ],
             "scripts": [
             ]
@@ -97,7 +98,8 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.css"
+              "src/styles.css",
+              "src/app/shared/directives/mat-table-responsive/mat-table-responsive.directive.css"
             ],
             "scripts": []
           }

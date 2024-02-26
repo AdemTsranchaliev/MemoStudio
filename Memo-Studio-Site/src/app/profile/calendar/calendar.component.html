@@ -11,7 +11,7 @@
       <div class="col-sm-6">
         <label class="custom-field-select w-100">
           <select placeholder=" " [(ngModel)]="startPeriodIndex" class="w-100" [ngModelOptions]="{standalone: true}"
-            (change)="dateChange(true)">
+            (change)="dateChange('start')">
             <option *ngFor="let time of timeSlots; let i=index" value="{{i}}">
               {{time| utcToLocal:'HH:mm'}} ч.
 
@@ -24,7 +24,7 @@
       <div class="col-sm-6">
         <label class="custom-field-select w-100">
           <select placeholder=" " [(ngModel)]="endPeriodIndex" class="w-100" [ngModelOptions]="{standalone: true}"
-            (change)="dateChange(false)">
+            (change)="dateChange('end')">
             <option *ngFor="let time of timeSlots; let i=index" value="{{i}}">
               {{time| utcToLocal:'HH:mm'}} ч.
             </option>
@@ -35,13 +35,40 @@
     </div>
 
     <label class="custom-field-select w-100">
-      <select class="w-100" placeholder=" " formControlName="interval">
+      <select class="w-100" placeholder=" " formControlName="interval" (change)="dateChange('interval')">
         <option *ngFor="let duration of durations" [value]="duration">
           {{ duration }}
         </option>
       </select>
       <span class="placeholder-select cursor-text">Интервал на часовете</span>
     </label>
+
+    <div (change)="toggleAdditionalSettings()">
+      <mat-checkbox [(ngModel)]="additionalSettings" [ngModelOptions]="{standalone: true}">Допълнителни
+        настройки</mat-checkbox>
+    </div>
+
+    <h6 class="text-dark" *ngIf="additionalSettings">Селектирайте в кои часове ще работите</h6>
+    <div class="hours-container" *ngIf="additionalSettings">
+      <div class="calendar-event-card cursor-pointer" *ngFor="let booking of bookings; let i = index"
+        (click)="toggleSelection(i)">
+
+        <div class="border rounded shadow p-2 text-dark" [class.border-primary]="!isSelected(i)"
+          [class.border-danger]="isSelected(i)">
+          <div class="d-flex justify-content-between px-2">
+            <span [class.text-danger]="isSelected(i)">
+              {{booking | utcToLocal:'HH:mm'}}ч.
+            </span>
+
+            <span>
+              <i *ngIf="!isSelected(i)" class="fas fa-check text-primary fs-22"></i>
+              <i *ngIf="isSelected(i)" class="fas fa-times text-danger fs-22"></i>
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
 
     <app-selection-list [workingDays]="workingDaysFormArray" [title]="'Работни дни'"></app-selection-list>
 

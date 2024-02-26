@@ -35,7 +35,6 @@ export class UsersListComponent implements OnInit, AfterViewInit {
     "name",
     "phone",
     "email",
-    "registeredUser",
     "operation",
   ];
   public dataSource: MatTableDataSource<User>;
@@ -58,7 +57,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
       next: (x) => {
         this.users = x;
 
-        this.dataSource = new MatTableDataSource(this.users);
+        this.dataSource = new MatTableDataSource(x);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       },
@@ -72,8 +71,10 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // this.dataSource.paginator = this.paginator;
-    // this.dataSource.sort = this.sort;
+    if (this.dataSource) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
   }
 
   public openDialog(userId: string) {
@@ -88,7 +89,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
       if (size.matches) {
         dialogRef.updateSize("100%");
       } else {
-        dialogRef.updateSize("50%");
+        dialogRef.updateSize("100%");
       }
     });
 

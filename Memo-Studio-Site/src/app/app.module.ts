@@ -44,6 +44,7 @@ import { ImageCropperModule } from "ngx-image-cropper";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTableResponsiveModule } from '../app/shared/directives/mat-table-responsive/mat-table-responsive.module';
 
 // Import BG Language - Use from Pipe
 import localeBg from "@angular/common/locales/bg";
@@ -225,6 +226,7 @@ registerLocaleData(localeBg, "bg");
     MatTooltipModule,
     MatMenuModule,
     QRCodeModule,
+    MatTableResponsiveModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

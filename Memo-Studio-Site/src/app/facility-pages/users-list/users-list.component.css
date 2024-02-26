@@ -47,3 +47,32 @@
 ::ng-deep .mat-paginator-container {
   padding: 0 !important;
 }
+
+.card {
+  background-color: transparent;
+  border: none;
+}
+
+.card-header {
+  background-color: white;
+}
+
+.list-container {
+  padding: 0 24px;
+  cursor: pointer;
+}
+
+.fs-22 {
+  font-size: 22px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .list-container {
+    padding: 0 10px;
+  }
+
+  .pb-90 {
+    padding-bottom: 90px !important;
+  }
+}
