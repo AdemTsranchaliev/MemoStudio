@@ -67,6 +67,13 @@
           <div class="col-12 fs-12 mt-min-14">
             <i class="far fa-clock"></i>
             {{service.duration}} мин.
+            <ng-container *ngIf="false">
+              &#124;
+              <i class="far fa-comments"></i>
+              <span matTooltip="{{(service.description.length >= 40) ? service.description : ''}}">
+                {{ service.description|truncate: truncationLength - 6 }}
+              </span>
+            </ng-container>
           </div>
         </div>
       </div>

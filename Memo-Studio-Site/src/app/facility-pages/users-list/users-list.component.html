@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <div class="row" *ngIf="false">
+  <div class="row" *ngIf="true">
     <div class="col-md-4 card mb-3">
       <div class="card border border-primary shadow">
         <div class="card-header text-primary">Регистриран: 01.02.2024г.</div>
@@ -144,89 +144,6 @@
               </button>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row" *ngIf="false">
-    <div class="col-12 border border-primary py-2 rounded shadow mb-2 list-container">
-      <div class="row text-center">
-        <div class="col-sm-12 col-md-3" matTooltip="Иван Иванов">{{'Иван Иванов' | truncate : 10 }}</div>
-        <div class="col-sm-12 col-md-3" matTooltip="0899999999">{{'0899999999' | truncate : 10 }}</div>
-        <div class="col-sm-12 col-md-3" matTooltip="demo@meil.com">{{'demo@meil.com' | truncate : 10 }}</div>
-
-        <div class="col-sm-12 col-md-3">
-          <span *ngIf="false" class="mx-1" style="color: green" matTooltip="Регистриран потребител">
-            <mat-icon>check_circle</mat-icon>
-          </span>
-          <span *ngIf="true" class="mx-1" style="color: red;" matTooltip="Нерегистриран потребител">
-            <mat-icon>remove_circle</mat-icon>
-          </span>
-
-          <span class="mx-1" matTooltip="Информация">
-            <mat-icon>info</mat-icon>
-          </span>
-        </div>
-      </div>
-    </div>
-    <div class="col-12 border border-primary py-2 rounded shadow mb-2 list-container">
-      <div class="row text-center">
-        <div class="col-sm-12 col-md-3" matTooltip="Иван Иванов">{{'Иван Иванов' | truncate : 10 }}</div>
-        <div class="col-sm-12 col-md-3" matTooltip="0899999999">{{'0899999999' | truncate : 10 }}</div>
-        <div class="col-sm-12 col-md-3" matTooltip="demo@meil.com">{{'demo@meil.com' | truncate : 10 }}</div>
-
-        <div class="col-sm-12 col-md-3">
-          <span *ngIf="false" class="mx-1" style="color: green" matTooltip="Регистриран потребител">
-            <mat-icon>check_circle</mat-icon>
-          </span>
-          <span *ngIf="true" class="mx-1" style="color: red;" matTooltip="Нерегистриран потребител">
-            <mat-icon>remove_circle</mat-icon>
-          </span>
-
-          <span class="mx-1" matTooltip="Информация">
-            <mat-icon>info</mat-icon>
-          </span>
-        </div>
-      </div>
-    </div>
-    <div class="col-12 border border-primary py-2 rounded shadow mb-2 list-container">
-      <div class="row text-center">
-        <div class="col-sm-12 col-md-3" matTooltip="Иван Иванов">{{'Иван Иванов' | truncate : 10 }}</div>
-        <div class="col-sm-12 col-md-3" matTooltip="0899999999">{{'0899999999' | truncate : 10 }}</div>
-        <div class="col-sm-12 col-md-3" matTooltip="demo@meil.com">{{'demo@meil.com' | truncate : 10 }}</div>
-
-        <div class="col-sm-12 col-md-3">
-          <span *ngIf="false" class="mx-1" style="color: green" matTooltip="Регистриран потребител">
-            <mat-icon>check_circle</mat-icon>
-          </span>
-          <span *ngIf="true" class="mx-1" style="color: red;" matTooltip="Нерегистриран потребител">
-            <mat-icon>remove_circle</mat-icon>
-          </span>
-
-          <span class="mx-1" matTooltip="Информация">
-            <mat-icon>info</mat-icon>
-          </span>
-        </div>
-      </div>
-    </div>
-    <div class="col-12 border border-primary py-2 rounded shadow mb-2 list-container">
-      <div class="row text-center">
-        <div class="col-sm-12 col-md-3" matTooltip="Иван Иванов">{{'Иван Иванов' | truncate : 10 }}</div>
-        <div class="col-sm-12 col-md-3" matTooltip="0899999999">{{'0899999999' | truncate : 10 }}</div>
-        <div class="col-sm-12 col-md-3" matTooltip="demo@meil.com">{{'demo@meil.com' | truncate : 10 }}</div>
-
-        <div class="col-sm-12 col-md-3">
-          <span *ngIf="false" class="mx-1" style="color: green" matTooltip="Регистриран потребител">
-            <mat-icon>check_circle</mat-icon>
-          </span>
-          <span *ngIf="true" class="mx-1" style="color: red;" matTooltip="Нерегистриран потребител">
-            <mat-icon>remove_circle</mat-icon>
-          </span>
-
-          <span class="mx-1" matTooltip="Информация">
-            <mat-icon>info</mat-icon>
-          </span>
         </div>
       </div>
     </div>
@@ -273,7 +190,8 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="columndefs"></tr>
-        <tr mat-row *matRowDef="let row; columns: columndefs" class="cursor-pointer" (click)="openDialog(row.userId)">
+        <tr mat-row *matRowDef="let row; columns: columndefs" class="cursor-pointer"
+          [ngClass]="{'gray-background': isOdd(row.id)}" (click)="openDialog(row.userId)">
         </tr>
       </table>
 

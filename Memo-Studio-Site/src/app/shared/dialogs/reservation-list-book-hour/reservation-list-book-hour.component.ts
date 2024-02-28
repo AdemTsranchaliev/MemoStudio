@@ -23,7 +23,7 @@ export class ReservationListBookHourComponent implements OnInit {
   ngOnInit(): void {
     this.InitDropdownFilters();
 
-    this.facilityService.getService().subscribe((response) => {
+    this.facilityService.getFacilityServices().subscribe((response) => {
       this.serviceCategories = response;
     });
 

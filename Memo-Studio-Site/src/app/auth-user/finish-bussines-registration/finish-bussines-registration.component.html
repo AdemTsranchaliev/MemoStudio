@@ -37,6 +37,17 @@
                 </mat-error>
               </div>
 
+              <div>
+                <label class="custom-field-select w-100">
+                  <select class="w-100" placeholder=" " formControlName="facilityCategory">
+                    <option *ngFor="let currentCategory of businessCategories" [value]="currentCategory">
+                      {{ currentCategory }}
+                    </option>
+                  </select>
+                  <span class="placeholder-select cursor-text">Вид бизнес</span>
+                </label>
+              </div>
+
               <div class="row">
                 <div class="col-sm-6">
                   <label class="custom-field-select w-100">

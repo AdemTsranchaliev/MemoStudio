@@ -35,6 +35,11 @@ export class FinishBussinesRegistrationComponent implements OnInit {
 
   public workingDaysFormArray: FormArray;
   public durations: number[] = [5, 15, 30, 60, 90, 120];
+  public businessCategories = [
+    'Салон за красота',
+    'Фризьорски салон',
+    'Козметичен салон',
+  ];
   public startPeriodIndex: number;
   public endPeriodIndex: number;
   public timeSlots: Moment[] = [];
@@ -109,6 +114,7 @@ export class FinishBussinesRegistrationComponent implements OnInit {
   public initForm() {
     this.bookingForm = this.formBuilder.group({
       businessName: [null, Validators.required],
+      facilityCategory: [this.businessCategories[0], Validators.required],
       startPeriod: [null, Validators.required],
       endPeriod: [null, Validators.required],
       interval: ['', Validators.required],
@@ -145,6 +151,7 @@ export class FinishBussinesRegistrationComponent implements OnInit {
       const formData = this.bookingForm;
       let resultToSend: FacilitySettingsViewModel = <FacilitySettingsViewModel>{
         name: formData.get("businessName").value,
+        facilityCategory: formData.get("facilityCategory").value,
         startPeriod: formData.get("startPeriod").value,
         endPeriod: formData.get("endPeriod").value,
         interval: formData.get("interval").value,

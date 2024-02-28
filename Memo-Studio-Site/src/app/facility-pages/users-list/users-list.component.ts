@@ -104,4 +104,8 @@ export class UsersListComponent implements OnInit, AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
+  public isOdd(index: number): boolean {
+    return index % 2 != 0;
+  }
 }

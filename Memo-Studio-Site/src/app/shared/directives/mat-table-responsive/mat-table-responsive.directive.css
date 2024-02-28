@@ -30,14 +30,14 @@
   }
 
   /* Add needed Height, beside for the last ROW! */
-  .mat-table[matTableResponsive] .mat-row:not(:last-child) {
-    height: 25vh;
+  .mat-table[matTableResponsive] .mat-row {
+    height: 0;
   }
 
   .mat-table[matTableResponsive] td.mat-cell {
     display: grid;
     grid-template-columns: 50% 50%;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
     text-align: right;
     word-break: break-word;
   }
