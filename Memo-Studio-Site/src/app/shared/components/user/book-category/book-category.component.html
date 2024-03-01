@@ -8,21 +8,20 @@
       *ngFor="let category of serviceCategories">
       <div class="d-flex justify-content-between cursor-pointer position-relative"
         (click)="categorySelect(category.id)">
-        <!-- <span class="text-dark fw-400 service-name">{{category.name | truncate: truncationLength}}</span> -->
-        <span class="text-dark fw-400 service-name">{{demoName | truncate: truncationLength}}</span>
+        <span class="text-dark fw-400 service-name">{{category.name | truncate: truncationLength}}</span>
         <span class="fw-500">от 10 лв.</span>
 
-        <!-- <span class="expand-collapse" *ngIf="category.name.length >= 25" (click)="toggleServiceDetails($event, category)"> -->
-        <span class="expand-collapse" *ngIf="demoName.length >= 25" (click)="toggleServiceDetails($event, category)">
+        <span class="expand-collapse" *ngIf="category.name.length >= 25"
+          (click)="toggleServiceDetails($event, category)">
           <i class="text-light-blue fas"
             [ngClass]="{'fa-chevron-down': categoryStates[category.id] === 'collapsed', 'fa-chevron-up': categoryStates[category.id] === 'expanded'}">
           </i>
         </span>
       </div>
 
-      <div class="text-dark fw-400 lh-18 mb-1" *ngIf="demoName.length >= 25"
+      <div class="text-dark fw-400 lh-18 mb-1" *ngIf="category.name.length >= 25"
         [@expandCollapse]="categoryStates[category.id]">
-        Пълно наименование: {{demoName}}
+        Пълно наименование: {{category.name}}
       </div>
     </article>
     <!-- End Category -->

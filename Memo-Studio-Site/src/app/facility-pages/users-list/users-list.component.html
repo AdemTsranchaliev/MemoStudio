@@ -10,146 +10,54 @@
     </div>
   </div>
 
-  <div class="row" *ngIf="true">
-    <div class="col-md-4 card mb-3">
-      <div class="card border border-primary shadow">
-        <div class="card-header text-primary">Регистриран: 01.02.2024г.</div>
-        <div class="card-body">
-          <h5 class="card-title" matTooltip="Иван Иванов">
-            <i class="fas fa-user-circle"></i>
-            {{'Иван Иванов' | truncate : 10 }}
-          </h5>
-          <div class="card-text">
-            <div class="mb-2" matTooltip="0899999999">
-              <i class="fas fa-mobile-alt text-dark fs-22"></i>
-              {{'0899999999' | truncate : 10 }}
-            </div>
-            <div class="mb-2" matTooltip="demo@meil.com">
-              <i class="far fa-envelope text-dark fs-22"></i>
-              {{'demo@meil.com' | truncate : 10 }}
-            </div>
+  <!-- User List (Mobile) -->
+  <div class="row d-md-none">
+    <div class="col-12 mb-2">
+      <label class="custom-field w-100">
+        <input #input (keyup)="applyMobileFilter($event)" class="w-100" placeholder=" " />
+        <span class="placeholder cursor-text">Филтрирай</span>
+      </label>
+    </div>
 
-            <div class="mb-2" *ngIf="false">
-              <i class="fas fa-check-circle text-success fs-22"></i> Регистриран потребител
-            </div>
-            <div class="mb-2" *ngIf="true">
-              <i class="fas fa-minus-circle text-danger fs-22"></i> Нерегистриран потребител
-            </div>
-
-            <div class="text-center">
-              <button mat-stroked-button class="rounded-pill light-blue" color="primary">
-                Подробна информация
-              </button>
-            </div>
+    <div class="col-12 mb-3" *ngFor="let row of obs | async | objectFilter: searchText"
+      (click)="openDialog(row.userId)">
+      <div class="py-2 px-3 text-dark border border-primary shadow br-8">
+        <div class="py-1 d-flex justify-content-between align-items-center border-bottom border-secondary">
+          <span>Име</span>
+          <span>{{ row.name }}</span>
+        </div>
+        <div class="py-1 d-flex justify-content-between align-items-center border-bottom border-secondary">
+          <span>Телефон</span>
+          <span>{{ row.phoneNumber }}</span>
+        </div>
+        <div class="py-1 d-flex justify-content-between align-items-center border-bottom border-secondary">
+          <span>Имейл</span>
+          <span>{{ row.email }}</span>
+        </div>
+        <div class="py-1 d-flex justify-content-between align-items-center">
+          <span>Информация</span>
+          <div class="d-flex align-items-center">
+            <span class="text-success mx-2" *ngIf="row.registeredUser" matTooltip="Регистриран потребител">
+              <i class="fas fa-check-circle fs-20 align-middle"></i>
+            </span>
+            <span class="text-danger mx-2" *ngIf="!row.registeredUser" matTooltip="Нерегистриран потребител">
+              <i class="fas fa-minus-circle fs-20 align-middle"></i>
+            </span>
+            <span class="text-info ms-2">
+              <i class="fas fa-info-circle fs-20 align-middle"></i>
+            </span>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-md-4 card mb-3">
-      <div class="card border border-primary shadow">
-        <div class="card-header text-primary">Регистриран: 01.02.2024г.</div>
-        <div class="card-body">
-          <h5 class="card-title" matTooltip="Иван Иванов">
-            <i class="fas fa-user-circle"></i>
-            {{'Иван Иванов' | truncate : 10 }}
-          </h5>
-          <div class="card-text">
-            <div class="mb-2" matTooltip="0899999999">
-              <i class="fas fa-mobile-alt text-dark fs-22"></i>
-              {{'0899999999' | truncate : 10 }}
-            </div>
-            <div class="mb-2" matTooltip="demo@meil.com">
-              <i class="far fa-envelope text-dark fs-22"></i>
-              {{'demo@meil.com' | truncate : 10 }}
-            </div>
 
-            <div class="mb-2" *ngIf="false">
-              <i class="fas fa-check-circle text-success fs-22"></i> Регистриран потребител
-            </div>
-            <div class="mb-2" *ngIf="true">
-              <i class="fas fa-minus-circle text-danger fs-22"></i> Нерегистриран потребител
-            </div>
-
-            <div class="text-center">
-              <button mat-stroked-button class="rounded-pill light-blue" color="primary">
-                Подробна информация
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 card mb-3">
-      <div class="card border border-primary shadow">
-        <div class="card-header text-primary">Регистриран: 01.02.2024г.</div>
-        <div class="card-body">
-          <h5 class="card-title" matTooltip="Иван Иванов">
-            <i class="fas fa-user-circle"></i>
-            {{'Иван Иванов' | truncate : 10 }}
-          </h5>
-          <div class="card-text">
-            <div class="mb-2" matTooltip="0899999999">
-              <i class="fas fa-mobile-alt text-dark fs-22"></i>
-              {{'0899999999' | truncate : 10 }}
-            </div>
-            <div class="mb-2" matTooltip="demo@meil.com">
-              <i class="far fa-envelope text-dark fs-22"></i>
-              {{'demo@meil.com' | truncate : 10 }}
-            </div>
-
-            <div class="mb-2" *ngIf="false">
-              <i class="fas fa-check-circle text-success fs-22"></i> Регистриран потребител
-            </div>
-            <div class="mb-2" *ngIf="true">
-              <i class="fas fa-minus-circle text-danger fs-22"></i> Нерегистриран потребител
-            </div>
-
-            <div class="text-center">
-              <button mat-stroked-button class="rounded-pill light-blue" color="primary">
-                Подробна информация
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 card mb-3">
-      <div class="card border border-primary shadow">
-        <div class="card-header text-primary">Регистриран: 01.02.2024г.</div>
-        <div class="card-body">
-          <h5 class="card-title" matTooltip="Иван Иванов">
-            <i class="fas fa-user-circle"></i>
-            {{'Иван Иванов' | truncate : 10 }}
-          </h5>
-          <div class="card-text">
-            <div class="mb-2" matTooltip="0899999999">
-              <i class="fas fa-mobile-alt text-dark fs-22"></i>
-              {{'0899999999' | truncate : 10 }}
-            </div>
-            <div class="mb-2" matTooltip="demo@meil.com">
-              <i class="far fa-envelope text-dark fs-22"></i>
-              {{'demo@meil.com' | truncate : 10 }}
-            </div>
-
-            <div class="mb-2" *ngIf="false">
-              <i class="fas fa-check-circle text-success fs-22"></i> Регистриран потребител
-            </div>
-            <div class="mb-2" *ngIf="true">
-              <i class="fas fa-minus-circle text-danger fs-22"></i> Нерегистриран потребител
-            </div>
-
-            <div class="text-center">
-              <button mat-stroked-button class="rounded-pill light-blue" color="primary">
-                Подробна информация
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="mx-auto custom-shadow">
+      <mat-paginator #mobilePaginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Потребители"></mat-paginator>
     </div>
   </div>
 
-  <div class="row">
+  <!-- User List (Desktop) -->
+  <div class="row d-none d-md-block">
     <label class="custom-field w-100">
       <input #input (keyup)="applyFilter($event)" class="w-100" placeholder=" " />
       <span class="placeholder cursor-text">Филтрирай</span>
@@ -195,7 +103,7 @@
         </tr>
       </table>
 
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Потребители"></mat-paginator>
+      <mat-paginator #paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Потребители"></mat-paginator>
     </div>
   </div>
 </div>

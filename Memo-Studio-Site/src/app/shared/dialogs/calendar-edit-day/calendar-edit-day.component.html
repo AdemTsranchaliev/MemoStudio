@@ -40,7 +40,7 @@
                         }">
                             <select placeholder=" " class="w-100" formControlName="periodStart">
                                 <option *ngFor="let hour of timeSlots; let i = index" value="{{i}}">
-                                    {{hour| utcToLocal:'HH:mm'}}
+                                    {{hour| utcToLocal:'HH:mm'}} ч.
                                 </option>
                             </select>
                             <span class="placeholder-select cursor-text">Работен ден - Начало</span>
@@ -76,7 +76,7 @@
                         }">
                             <select placeholder=" " class="w-100" formControlName="periodEnd">
                                 <option *ngFor="let hour of timeSlots; let i = index" value="{{i}}">
-                                    {{hour| utcToLocal:'HH:mm'}}ч.
+                                    {{hour| utcToLocal:'HH:mm'}} ч.
                                 </option>
                             </select>
                             <span class="placeholder-select cursor-text">Работен ден - Край</span>
@@ -105,11 +105,11 @@
                                 utilityService.IsTouched(customDayConfigurationForm, 'interval')
                         }">
                             <select formControlName="interval" placeholder=" " class="w-100">
-                                <option *ngFor="let time of durationArr; let i = index" value="{{ time.value }}">
-                                    {{ time.duration }} - продължителност
+                                <option *ngFor="let time of durationArr; let i = index" value="{{ time }}">
+                                    {{ time }} - продължителност
                                 </option>
                             </select>
-                            <span class="placeholder-select cursor-text">Времеви интервали</span>
+                            <span class="placeholder-select cursor-text">Интервал на часовете</span>
                         </label>
 
                         <mat-error class="fs-11 m-bot-min-10" *ngIf="

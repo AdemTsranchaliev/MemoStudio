@@ -11,5 +11,9 @@
 }
 
 .service-category {
-  font-size: 16px;
+  font-size: 18px;
+}
+
+.service {
+  color: #545252;
 }

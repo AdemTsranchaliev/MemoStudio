@@ -22,6 +22,7 @@ export class ReservationListBookHourComponent implements OnInit {
 
   ngOnInit(): void {
     this.InitDropdownFilters();
+    this.data.durationArr = this.data.durationArr.filter(d => d >= this.data.bookingForm.get('duration').value);
 
     this.facilityService.getFacilityServices().subscribe((response) => {
       this.serviceCategories = response;

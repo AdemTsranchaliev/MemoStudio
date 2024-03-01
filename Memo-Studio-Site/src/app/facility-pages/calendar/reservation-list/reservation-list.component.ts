@@ -36,6 +36,7 @@ import * as moment from "moment";
 import { Moment } from "moment";
 import { CancelMessageDialogComponent } from "src/app/shared/dialogs/cancel-message/cancel-message.component";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { FacilitySettingsViewModel } from "src/app/shared/models/facility/facility-setting-model";
 declare const $: any;
 
 @Component({
@@ -57,20 +58,20 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
   public selectedFilter: number = FilterTypes.All;
   public timeSlots: Moment[] = [];
   options: any[] = [];
-
+  public GLOBAL_CALENDAR_SETTINGS: FacilitySettingsViewModel;
   durationArr: any[] = [
-    { duration: "30", value: 30 },
-    { duration: "1", value: 60 },
-    { duration: "1:30", value: 90 },
-    { duration: "2", value: 120 },
-    { duration: "2:20", value: 150 },
-    { duration: "3", value: 180 },
+    30,
+    60,
+    90,
+    120,
+    150,
+    180,
   ];
 
   public bookingForm: FormGroup = this.formBuilder.group({
     name: ["", Validators.required],
     phone: ["", Validators.required],
-    duration: [30, Validators.required],
+    duration: ["", Validators.required],
     email: ["", [, Validators.email, Validators.required]],
     timestamp: [null, Validators.required],
     serviceCategory: ["", Validators.required],
@@ -126,6 +127,8 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.GLOBAL_CALENDAR_SETTINGS = JSON.parse(localStorage.getItem("GLOBAL_CALENDAR_SETTINGS"));
+    this.bookingForm.get('duration').setValue(this.GLOBAL_CALENDAR_SETTINGS.interval);
     this.showBookings(FilterTypes.All);
 
     this.userService.getAllUsers().subscribe((x) => {
@@ -154,7 +157,6 @@ export class ReservationListComponent implements OnInit, OnChanges, OnDestroy {
       this.bookingForm.patchValue({
         timestamp: formattedTimestamp,
         facilityId: this.authService.getFacilityId(),
-        duration: 30,
       });
     }
 

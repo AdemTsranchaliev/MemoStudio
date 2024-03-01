@@ -67,6 +67,10 @@
   cursor: pointer;
 }
 
+.fs-20 {
+  font-size: 20px;
+}
+
 .fs-22 {
   font-size: 22px;
 }
@@ -77,6 +81,10 @@
 
 .gray-background {
   background-color: #f3efef;
+}
+
+.br-8 {
+  border-radius: 8px;
 }
 
 /* Media Queries */

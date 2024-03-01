@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from "@angular/core";
-import { MatPaginator } from "@angular/material/paginator";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { UserService } from "../../shared/services/user.service";
@@ -21,13 +21,17 @@ import { MatSnackBar } from "@angular/material/snack-bar";
   templateUrl: "./users-list.component.html",
   styleUrls: ["./users-list.component.css"],
 })
-export class UsersListComponent implements OnInit, AfterViewInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+export class UsersListComponent implements OnInit {
+  @ViewChild('mobilePaginator') mobilePaginator: MatPaginator;
+  @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  private currentSize: string;
-  private users: User[] = [];
+  public users: User[] = [];
+  public filteredUsers: MatTableDataSource<User> = new MatTableDataSource<User>();
+  public searchText: string = '';
+  public obs: Observable<any>;
 
+  private currentSize: string;
   public isExtraSmall: Observable<BreakpointState> =
     this.breakpointObserver.observe(Breakpoints.XSmall);
 
@@ -57,6 +61,10 @@ export class UsersListComponent implements OnInit, AfterViewInit {
       next: (x) => {
         this.users = x;
 
+        this.filteredUsers = new MatTableDataSource(x);
+        this.filteredUsers.paginator = this.mobilePaginator;
+        this.obs = this.filteredUsers.connect();
+
         this.dataSource = new MatTableDataSource(x);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -68,13 +76,6 @@ export class UsersListComponent implements OnInit, AfterViewInit {
         });
       },
     });
-  }
-
-  ngAfterViewInit() {
-    if (this.dataSource) {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    }
   }
 
   public openDialog(userId: string) {
@@ -92,8 +93,6 @@ export class UsersListComponent implements OnInit, AfterViewInit {
         dialogRef.updateSize("100%");
       }
     });
-
-    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   public applyFilter(event: Event) {
@@ -102,6 +101,18 @@ export class UsersListComponent implements OnInit, AfterViewInit {
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
+    }
+  }
+
+  public applyMobileFilter(event: any): void {
+    this.searchText = event.target.value.toLowerCase();
+
+    // Filter the data directly from the dataSource
+    this.filteredUsers.filter = this.searchText;
+
+    // Reset paginator to first page when applying a filter
+    if (this.mobilePaginator) {
+      this.mobilePaginator.firstPage();
     }
   }
 
