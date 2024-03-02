@@ -40,6 +40,7 @@ CREATE TABLE Facility (
     StartPeriod DATETIME2 NOT NULL,
     EndPeriod DATETIME2 NOT NULL,
     Interval INT NOT NULL,
+    FirstLogin BIT NOT NULL,
     WorkingDays NVARCHAR(max) NULL,
     AllowUserBooking BIT NOT NULL DEFAULT 0
 );
@@ -134,3 +135,8 @@ CREATE TABLE Service (
     CONSTRAINT FK_Service_ServiceCategory FOREIGN KEY (ServiceCategoryId) REFERENCES ServiceCategory (Id)
 );
 
+
+
+
+ALTER TABLE [dbo].[Facility]
+ADD FirstLogin BIT NULL;

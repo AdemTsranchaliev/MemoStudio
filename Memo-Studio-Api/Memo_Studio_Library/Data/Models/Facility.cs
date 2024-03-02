@@ -39,6 +39,8 @@ namespace Memo_Studio_Library.Data.Models
 
         public bool AllowUserBooking { get; set; }
 
+        public bool FirstLogin { get; set; }
+
         public List<Notification> Notifications { get; set; }
 
 		public List<UserFalicity> UserFalicities { get; set; }

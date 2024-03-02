@@ -56,10 +56,14 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
     let model = Object.assign({}, this.loginForm.value);
     const loginSubscription = this.authService.login(model).subscribe({
-      next: (x: string) => {
-        this.authService.setToken(x);
+      next: (x: any) => {
+        this.authService.setToken(x.token);
         this.isLoading = false;
-        this.router.navigate(["/"]);
+        if(x.isFirstBussinesLogin){
+          this.router.navigate(["/finish-registration"])
+        }else{
+          this.router.navigate(["/"]);
+        }
       },
       error: (err) => {
         this.isLoginError = true;

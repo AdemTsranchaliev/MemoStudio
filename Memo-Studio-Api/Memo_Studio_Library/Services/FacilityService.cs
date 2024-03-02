@@ -309,10 +309,10 @@ namespace Memo_Studio_Library.Services
                     .Include(x => x.Services)
                     .FirstOrDefaultAsync(x => x.FacilityId == facilityId);
 
-            if (facility!=null && facility.Services.Any(x=>x.Id==serviceId))
+            if (facility != null && facility.Services.Any(x => x.Id == serviceId))
             {
                 var modelToDelete = facility.Services.FirstOrDefault(x => x.Id == serviceId);
-                if (modelToDelete!=null)
+                if (modelToDelete != null)
                 {
                     modelToDelete.DeletedDate = DateTime.UtcNow;
                     modelToDelete.Deleted = true;
@@ -320,7 +320,7 @@ namespace Memo_Studio_Library.Services
                     await context.SaveChangesAsync();
                 }
 
-            }                  
+            }
         }
         public async Task DeleteServiceCategory(int categoryId, Guid facilityId)
         {
@@ -328,13 +328,13 @@ namespace Memo_Studio_Library.Services
             {
                 var facility = await context.Facilities
                    .Include(x => x.ServiceCategories)
-                   .ThenInclude(x=>x.Services)
+                   .ThenInclude(x => x.Services)
                    .FirstOrDefaultAsync(x => x.FacilityId == facilityId);
 
                 if (facility != null && facility.ServiceCategories.Any(x => x.Id == categoryId))
                 {
                     var modelToDelete = facility.ServiceCategories.FirstOrDefault(x => x.Id == categoryId);
-                    if (modelToDelete!=null)
+                    if (modelToDelete != null)
                     {
                         foreach (var service in modelToDelete.Services)
                         {
@@ -349,11 +349,11 @@ namespace Memo_Studio_Library.Services
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Нещо се обърка, моля свържете се с поддръжката.");
             }
-            
+
         }
 
         public async Task<List<ServiceCategoryResponse>> GetServices(Guid facilityId)
@@ -415,15 +415,15 @@ namespace Memo_Studio_Library.Services
         {
             var facility = await context
                 .Facilities
-                .Include(x=>x.UserFalicities)
-                .ThenInclude(x=>x.User)
+                .Include(x => x.UserFalicities)
+                .ThenInclude(x => x.User)
                 .FirstOrDefaultAsync(x => x.FacilityId == facilityId);
 
-            if (facility==null)
+            if (facility == null)
             {
                 return null;
             }
-            var facilityOwner = facility.UserFalicities.FirstOrDefault(x => x.FacilityRoleId==1)?.User;
+            var facilityOwner = facility.UserFalicities.FirstOrDefault(x => x.FacilityRoleId == 1)?.User;
 
             var result = new FacilityInformationViewModel
             {
@@ -437,6 +437,18 @@ namespace Memo_Studio_Library.Services
             };
 
             return result;
+        }
+
+        public async Task SetFirstLogin(Facility facility)
+        {
+            if (facility==null)
+            {
+                return;
+            }
+
+            facility.FirstLogin = true;
+            context.Facilities.Update(facility);
+            await context.SaveChangesAsync();
         }
     }
 }

@@ -39,7 +39,7 @@ export class FinishBussinesRegistrationComponent implements OnInit {
   public endPeriodIndex: number;
   public timeSlots: Moment[] = [];
   public user: AccountViewModel;
-  private newProfileImg: string;
+  public newProfileImg: string;
   private currentSize: string;
 
   public truncationLength: number;
@@ -53,56 +53,51 @@ export class FinishBussinesRegistrationComponent implements OnInit {
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
     public dateTimeService: DateTimeService,
-    public utilityService: UtilityService,
+    public utilityService: UtilityService
   ) {
     // Set initial truncation length based on the window width
-    this.truncationLength = window.innerWidth < 768 ? this.mobileLength : this.desktopLength;
+    this.truncationLength =
+      window.innerWidth < 768 ? this.mobileLength : this.desktopLength;
   }
 
   @HostListener("window:resize", ["$event"])
   onResize(event: Event): void {
     // Adjust truncation length based on window width
-    this.truncationLength = window.innerWidth < 768 ? this.mobileLength : this.desktopLength;
+    this.truncationLength =
+      window.innerWidth < 768 ? this.mobileLength : this.desktopLength;
   }
 
   ngOnInit(): void {
     this.initForm();
 
-    this.workingDaysFormArray = this.formBuilder.array([]);
+    //this.workingDaysFormArray = this.formBuilder.array([]);
 
-    this.facilityService.getFacilitySettings().subscribe({
-      next: (x) => {
-        this.bookingForm.patchValue(x);
+    this.facilityService.getFacilitySettings().subscribe((x) => {
+      this.bookingForm.patchValue(x);
+      
+      this.timeSlots = this.generateHours(x.startPeriod, x.endPeriod);
+      this.startPeriodIndex = this.timeSlots.findIndex(
+        (y) =>
+          this.dateTimeService.compareHoursAndMinutes(
+            moment.utc(y),
+            moment.utc(x.startPeriod)
+          ) == 0
+      );
+      this.endPeriodIndex = this.timeSlots.findIndex(
+        (y) =>
+          this.dateTimeService.compareHoursAndMinutes(moment.utc(y), moment.utc(x.endPeriod)) ==
+          0
+      );
 
-        this.timeSlots = this.generateHours(x.startPeriod, x.endPeriod);
-        this.startPeriodIndex = this.timeSlots.findIndex(
-          (y) =>
-            this.dateTimeService.compareHoursAndMinutes(
-              moment.utc(y),
-              moment.utc(x.startPeriod)
-            ) == 0
+      const workingDaysArray = JSON.parse(x.workingDaysJson);
+      this.workingDaysFormArray = this.bookingForm.get(
+        "workingDays"
+      ) as FormArray;
+      workingDaysArray.forEach((workingDay) => {
+        this.workingDaysFormArray.push(
+          this.createWorkingDayFormGroup(workingDay)
         );
-        this.endPeriodIndex = this.timeSlots.findIndex(
-          (y) =>
-            this.dateTimeService.compareHoursAndMinutes(
-              moment.utc(y),
-              moment.utc(x.endPeriod)
-            ) == 0
-        );
-
-        const workingDaysArray = JSON.parse(x.workingDaysJson);
-        workingDaysArray.forEach((workingDay) => {
-          this.workingDaysFormArray.push(
-            this.createWorkingDayFormGroup(workingDay)
-          );
-        });
-      },
-      error: (err) => {
-        this.snackBar.open(err, "Затвори", {
-          duration: 8000,
-          panelClass: ["custom-snackbar"],
-        });
-      },
+      });
     });
   }
 
@@ -111,7 +106,7 @@ export class FinishBussinesRegistrationComponent implements OnInit {
       businessName: [null, Validators.required],
       startPeriod: [null, Validators.required],
       endPeriod: [null, Validators.required],
-      interval: ['', Validators.required],
+      interval: ["", Validators.required],
       workingDays: [[], Validators.required],
       allowUserBooking: [false, Validators.required],
       socialInstagram: [null],
@@ -136,12 +131,13 @@ export class FinishBussinesRegistrationComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.newProfileImg = result?.changingThisBreaksApplicationSecurity;
+      console.log(result);
+      this.newProfileImg = result;
     });
   }
   public submitForm() {
     this.setStartAndEndPeriodForAllItems();
-    if (this.bookingForm.valid) {
+    if (true) {
       const formData = this.bookingForm;
       let resultToSend: FacilitySettingsViewModel = <FacilitySettingsViewModel>{
         name: formData.get("businessName").value,
@@ -151,15 +147,15 @@ export class FinishBussinesRegistrationComponent implements OnInit {
         workingDaysJson: JSON.stringify(this.workingDaysFormArray.value),
         allowUserBooking: formData.get("allowUserBooking").value,
       };
-
-      this.facilityService
-        .updateFacilitySettings(resultToSend)
-        .subscribe((x) => {
-          this.snackBar.open("Данните бяха успешно запазени!", "Затвори", {
-            duration: 8000,
-            panelClass: ["custom-snackbar"],
-          });
-        });
+      console.log(formData);
+      // this.facilityService
+      //   .updateFacilitySettings(resultToSend)
+      //   .subscribe((x) => {
+      //     this.snackBar.open("Данните бяха успешно запазени!", "Затвори", {
+      //       duration: 8000,
+      //       panelClass: ["custom-snackbar"],
+      //     });
+      //   });
     }
   }
 

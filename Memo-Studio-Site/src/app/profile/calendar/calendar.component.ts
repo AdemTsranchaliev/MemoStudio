@@ -47,8 +47,10 @@ export class CalendarComponent implements OnInit {
       );
       this.endPeriodIndex = this.timeSlots.findIndex(
         (y) =>
-          this.dateTimeService.compareHoursAndMinutes(moment.utc(y), moment.utc(x.endPeriod)) ==
-          0
+          this.dateTimeService.compareHoursAndMinutes(
+            moment.utc(y),
+            moment.utc(x.endPeriod)
+          ) == 0
       );
 
       const workingDaysArray = JSON.parse(x.workingDaysJson);

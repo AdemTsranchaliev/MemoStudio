@@ -20,7 +20,7 @@ namespace Memo_Studio_Library.Services.Interfaces
         public Task<Service?> AddService(ServiceViewModel model, Guid facilityId);
         public Task<List<BookingUsersAutocompleteViewModel>> GetFacilityUsers(Guid facilityId);
         public Task<FacilityInformationViewModel> GetFacilityInformation(Guid facilityId);
-
+        public Task SetFirstLogin(Facility facility);
     }
 }
 
