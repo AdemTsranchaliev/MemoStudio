@@ -8,7 +8,7 @@
   <mat-dialog-content class="mat-typography" style="min-width: 100% !important">
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" (selectedIndexChange)="_setDataSource($event)">
       <mat-tab label="Резервации">
-        <table mat-table class="w-100" [dataSource]="reservationsDataSource" #sort2="matSort" matSort
+        <table mat-table class="w-100" matTableResponsive [dataSource]="reservationsDataSource" #sort2="matSort" matSort
           matSortDirection="desc">
           <ng-container matColumnDef="reservationData">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Дата и час</th>
@@ -54,7 +54,7 @@
       </mat-tab>
       <mat-tab label="Изпратени напомяния">
         <div class="w-100">
-          <table mat-table class="w-100" [dataSource]="dataSource" #sort1="matSort" matSort matSortDirection="desc">
+          <table mat-table class="w-100" matTableResponsive [dataSource]="dataSource" #sort1="matSort" matSort matSortDirection="desc">
             <!-- ID Column -->
             <ng-container matColumnDef="sentOn">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>

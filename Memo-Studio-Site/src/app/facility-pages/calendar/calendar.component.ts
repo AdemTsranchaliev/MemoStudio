@@ -17,6 +17,7 @@ import { CalendarOverviewComponent } from "./calendar-overview/calendar-overview
 import { Moment } from "moment";
 import * as moment from "moment";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { FacilitySettingsViewModel } from "src/app/shared/models/facility/facility-setting-model";
 declare const $: any;
 
 @Component({
@@ -36,7 +37,7 @@ export class ReservationCalendarComponent implements OnInit, OnDestroy {
   bookingsOrigin: Booking[] = [];
   public currentDay: Day;
   public date: Moment = moment.utc();
-  public facilityConfiguration: any;
+  public facilityConfiguration: FacilitySettingsViewModel;
   public autocompleteNames: [] = [];
 
   bookings: Booking[] = [];

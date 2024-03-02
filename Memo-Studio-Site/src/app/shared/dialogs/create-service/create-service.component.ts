@@ -82,9 +82,7 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.http
-      .post(`${BASE_URL_DEV}/facility/service`, this.createServiceForm.value)
-      .subscribe(
+    this.facilityService.createService(this.createServiceForm.value).subscribe(
         (success: any) => {
           let indexToInclude = this.categories.findIndex(
             (x) => x.id == success.serviceCategoryId
@@ -111,10 +109,6 @@ export class CreateServiceComponent implements OnInit, OnDestroy {
     });
 
     this.createServiceForm.reset();
-  }
-
-  private removeCategory(categoryId: number) {
-
   }
 
   private addNewCategory() {

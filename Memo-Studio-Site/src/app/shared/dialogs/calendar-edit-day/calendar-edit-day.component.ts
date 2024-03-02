@@ -27,15 +27,14 @@ import { Moment } from "moment";
 export class CalendarEditDayComponent implements OnInit {
   public workingDayAddError: number = -1;
   public isOpen: boolean = false;
-
   public timeSlots: Moment[] = [];
-  public durationArr: any[] = [
-    { duration: "30 минути", value: 30 },
-    { duration: "60 минути", value: 60 },
-    { duration: "90 минути", value: 90 },
-    { duration: "120 минути", value: 120 },
-    { duration: "150 минути", value: 150 },
-    { duration: "180 минути", value: 180 },
+  durationArr: any[] = [
+    30,
+    60,
+    90,
+    120,
+    150,
+    180,
   ];
 
   public customDayConfigurationForm: FormGroup = this.formBuilder.group({

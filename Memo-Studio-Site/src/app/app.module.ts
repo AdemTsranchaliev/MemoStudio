@@ -44,6 +44,7 @@ import { ImageCropperModule } from "ngx-image-cropper";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTableResponsiveModule } from '../app/shared/directives/mat-table-responsive/mat-table-responsive.module';
 
 // Import BG Language - Use from Pipe
 import localeBg from "@angular/common/locales/bg";
@@ -117,6 +118,7 @@ import { StaticAlertMessageComponent } from './shared/components/static-alert-me
 import { MobileMenuComponent } from './shared/components/mobile-menu/mobile-menu.component';
 import { PromotionsComponent } from './profile/promotions/promotions.component';
 import { MyBusinessCardComponent } from './profile/my-business-card/my-business-card.component';
+import { ObjectFilterPipe } from "./shared/pipes/object-filter.pipe";
 registerLocaleData(localeBg, "bg");
 
 @NgModule({
@@ -157,7 +159,7 @@ registerLocaleData(localeBg, "bg");
     TruncatePipe,
     UtcToLocalPipe,
     BulgarianDatePipe,
-    
+    ObjectFilterPipe,
     CheckboxSelectComponent,
     AdminDashboardComponent,
     NewlyRegisteredListComponent,
@@ -225,6 +227,7 @@ registerLocaleData(localeBg, "bg");
     MatTooltipModule,
     MatMenuModule,
     QRCodeModule,
+    MatTableResponsiveModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -234,6 +237,8 @@ registerLocaleData(localeBg, "bg");
     AccountService,
     { provide: LOCALE_ID, useValue: "bg" }, // Set the locale to 'bg'
     DatePipe,
+    ObjectFilterPipe,
+    UtcToLocalPipe,
     UtilityService,
     ViberService,
     FacilityService,

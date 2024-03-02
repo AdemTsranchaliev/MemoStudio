@@ -2,6 +2,11 @@
   padding: 20px;
 }
 
+.row {
+  margin-right: 0;
+  margin-left: 0;
+}
+
 .custom-dialog {
   max-width: 80%;
 }
@@ -46,4 +51,54 @@
 
 ::ng-deep .mat-paginator-container {
   padding: 0 !important;
+}
+
+.card {
+  background-color: transparent;
+  border: none;
+}
+
+.card-header {
+  background-color: white;
+}
+
+.list-container {
+  padding: 0 24px;
+  cursor: pointer;
+}
+
+.fs-20 {
+  font-size: 20px;
+}
+
+.fs-22 {
+  font-size: 22px;
+}
+
+.mat-tab-body-content {
+  overflow: hidden;
+}
+
+.gray-background {
+  background-color: #f3efef;
+}
+
+.br-8 {
+  border-radius: 8px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .list-container {
+    padding: 0 10px;
+  }
+
+  .pb-90 {
+    padding-bottom: 90px !important;
+  }
+
+  .mat-table {
+    border-collapse: separate !important;
+    border-spacing: 0 14px !important;
+  }
 }

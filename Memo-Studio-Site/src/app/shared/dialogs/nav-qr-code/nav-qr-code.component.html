@@ -10,7 +10,7 @@
         <p class="text-muted">За да запазите час</p>
     </article>
     <div mat-dialog-content class="top-box">
-        <article class="row justify-content-center">
+        <article #qrContainer class="row justify-content-center">
             <article class="col-10 text-center qr-img">
                 <app-qr-code [currentQrCode]="facilityLink" [qrCodeColor]="'black'" [customWidth]="viewSize">
                 </app-qr-code>
@@ -32,7 +32,7 @@
         </article>
         <div class="separator my-2">Свалете QR кода оттук</div>
         <div class="w-100 mb-1">
-            <button mat-raised-button class="w-100">
+            <button mat-raised-button class="w-100" (click)="downloadQRCode()">
                 <i class="fas fa-file-download text-muted fs-22"></i>
                 Свали QR кода
             </button>

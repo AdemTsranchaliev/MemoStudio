@@ -38,7 +38,7 @@ export class FacilityService {
     );
   }
 
-  public getFacilityServicesUser(id:string) {
+  public getFacilityServicesUser(id: string) {
     return this.http.get<ServiceForUserResponse>(
       `${BASE_URL_DEV}/Facility/service/${id}`
     );
@@ -48,23 +48,23 @@ export class FacilityService {
     return this.http.post(`${BASE_URL_DEV}/Facility/facility-settings`, params);
   }
 
-  public getService() {
-    return this.http.get(`${BASE_URL_DEV}/Facility/service`);
-  }
-
   public upsertServiceCategory(params: UpsertServiceCategory) {
     return this.http.post<UpsertServiceCategory>(`${BASE_URL_DEV}/Facility/service-category`, params);
   }
 
-  public removeCategory(categoryId: number){
+  public createService(params: ServiceResponse) {
+    return this.http.post<ServiceResponse>(`${BASE_URL_DEV}/Facility/service`, params);
+  }
+
+  public removeCategory(categoryId: number) {
     return this.http.delete(`${BASE_URL_DEV}/Facility/service-category/${categoryId}`);
   }
 
-  public removeService(serviceId: number){
+  public removeService(serviceId: number) {
     return this.http.delete(`${BASE_URL_DEV}/Facility/service/${serviceId}`);
   }
 
-  public getFacilityInformation(facilityId: string){
+  public getFacilityInformation(facilityId: string) {
     return this.http.get<FacilityInformationViewModel>(`${BASE_URL_DEV}/Facility/information/${facilityId}`);
   }
 }

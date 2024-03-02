@@ -31,15 +31,32 @@
         </mat-error>
       </div>
 
-      <div class="w-100 mb-1" [ngClass]="{'invalid-field': utilityService.HasError(addServiceForm, 'newDuration', 'required') &&
+      <div class="w-100 mb-1">
+        <label class="custom-field-select w-100" [ngClass]="{'invalid-select': utilityService.HasError(addServiceForm, 'newDuration', 'required') &&
         utilityService.IsTouched(addServiceForm, 'newDuration')}">
-        <label class="custom-field w-100">
-          <input type="number" min="0" class="w-100" placeholder=" " name="newDuration" formControlName="newDuration" />
-          <span class="placeholder cursor-text">Редактиране на продължителност</span>
+          <select formControlName="newDuration" placeholder=" " class="w-100">
+            <option *ngFor="let time of durationArr; let i = index" value="{{ time.value }}">
+              {{ time.value }} минути - продължителност
+            </option>
+          </select>
+          <span class="placeholder-select cursor-text">Продължителност</span>
         </label>
 
         <mat-error class="fs-11 m-bot-min-10" *ngIf="utilityService.HasError(addServiceForm, 'newDuration', 'required') &&
         utilityService.IsTouched(addServiceForm, 'newDuration')">
+          Това поле е задължително.
+        </mat-error>
+      </div>
+
+      <div class="w-100 mb-1" *ngIf="false">
+        <label class="custom-field w-100" [ngClass]="{'invalid-field': utilityService.HasError(addServiceForm, 'newDescription', 'required') &&
+        utilityService.IsTouched(addServiceForm, 'newDescription')}">
+          <input type="text" class="w-100" placeholder=" " name="newDescription" formControlName="newDescription" />
+          <span class="placeholder cursor-text">Описание на услугата</span>
+        </label>
+
+        <mat-error class="fs-11 m-bot-min-10" *ngIf="utilityService.HasError(addServiceForm, 'newDescription', 'required') &&
+        utilityService.IsTouched(addServiceForm, 'newDescription')">
           Това поле е задължително.
         </mat-error>
       </div>

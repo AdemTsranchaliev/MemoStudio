@@ -1,7 +1,7 @@
 .mobile-navbar {
   overflow: hidden !important;
   position: fixed !important; /* Set the navbar to fixed position */
-  bottom: 0 !important; /* Position the navbar at the bottom of the page */
+  bottom: -2px !important; /* Position the navbar at the bottom of the page */
   width: 100% !important;
   background-color: white !important;
   border: 1px solid #f1f1f1 !important;

@@ -5,5 +5,6 @@ export interface User {
     userId: string;
     email: string;
     imageBase64Code: string;
+    registeredUser: boolean;
   }
   

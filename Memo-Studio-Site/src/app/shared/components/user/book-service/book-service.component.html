@@ -8,20 +8,32 @@
       <article *ngFor="let service of services"
         class="col-md-12 bg-white rounded my-1 border border-primary custom-shadow cursor-pointer" (click)="nextStep()">
         <div class="d-flex flex-column">
-          <div class="d-flex justify-content-between service-alignment" [ngClass]="{'mb-min-8': !isDesktopView}">
-            <span class="text-dark fw-400 lh-18 service-name"
-              matTooltip="{{(service.name.length >= 40 && !isDesktopView) ? service.name : ''}}">
+          <div class="d-flex justify-content-between service-alignment position-relative"
+            [ngClass]="{'mb-min-8': !isDesktopView}">
+            <span class="text-dark fw-400 service-name">
               {{service.name | truncate: truncationLength}}
             </span>
-            <span class="price fw-500">{{service.price}} лв.</span>
+            <span class="price fw-500">
+              {{service.price}} лв.
+            </span>
+            <span class="expand-collapse" *ngIf="service.name.length >= 25"
+              (click)="toggleServiceDetails($event, service)">
+              <i class="text-light-blue fas"
+                [ngClass]="{'fa-chevron-down': serviceStates[service.id] === 'collapsed', 'fa-chevron-up': serviceStates[service.id] === 'expanded'}">
+              </i>
+            </span>
           </div>
 
-          <!-- mt-min-8 -->
-          <div class="fs-12" [ngClass]="{'mt-min-8': (isDesktopView && service.name.length < 40)}">
+          <div class="fs-12" [ngClass]="{'mt-min-8': isDesktopView}">
             <div>
               <i class="far fa-clock"></i>
               {{service.duration}} мин.
             </div>
+          </div>
+
+          <div class="text-dark fw-400 lh-18 mb-1" *ngIf="service.name.length >= 25"
+            [@expandCollapse]="serviceStates[service.id]">
+            Пълно наименование: {{service.name}}
           </div>
         </div>
       </article>

@@ -93,8 +93,8 @@
                             utilityService.IsTouched(data.bookingForm, 'timestamp')}">
                             <select formControlName="timestamp" placeholder=" " class="w-100">
                                 <option [disabled]="booking.bookingId" *ngFor="let booking of data.bookings"
-                                    [value]="booking.timestamp | utcToLocal:'HH:mm'">{{ booking.timestamp | utcToLocal:'HH:mm'
-                                    }} ч.
+                                    [value]="booking.timestamp | utcToLocal:'HH:mm'">
+                                    {{ booking.timestamp | utcToLocal:'HH:mm' }} ч.
                                 </option>
                             </select>
                             <span class="placeholder-select cursor-text">Час</span>
@@ -111,8 +111,8 @@
                         <label class="custom-field-select w-100" [ngClass]="{'invalid-select': utilityService.HasError(data.bookingForm, 'duration', 'required') &&
                             utilityService.IsTouched(data.bookingForm, 'duration')}">
                             <select formControlName="duration" placeholder=" " class="w-100">
-                                <option *ngFor="let time of data.durationArr; let i = index" value="{{ time.value }}">
-                                    {{ time.value }} минути - продължителност
+                                <option *ngFor="let time of data.durationArr; let i = index" value="{{ time }}">
+                                    {{ time }} минути - продължителност
                                 </option>
                             </select>
                             <span class="placeholder-select cursor-text">Продължителност</span>
@@ -139,11 +139,11 @@
                                 utilityService.IsTouched(data.bookingForm, 'serviceCategory')}">
                                 <ng-container *ngFor="let category of serviceCategories; let i = index">
                                     <option selected hidden value="">Моля иберете услуга</option>
-                                    <option class="service-category" disabled value="{{ i }}">
+                                    <option class="service-category text-dark" disabled value="{{ i }}">
                                         {{ category.name }}
                                     </option>
                                     <ng-container *ngFor="let service of category.services; let j = index">
-                                        <option value="{{ service.id }}">
+                                        <option class="service" value="{{ service.id }}">
                                             {{ service.name }}
                                         </option>
                                     </ng-container>

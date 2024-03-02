@@ -235,13 +235,13 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
         id: service.id,
         name: result.newService,
         price: result.newPrice,
-        description: '',
-        duration: result.newDuration,
+        description: result.newDescription,
+        duration: Number(result.newDuration),
         facilityId: category.facilityId,
         serviceCategoryId: service.serviceCategoryId,
       };
 
-      // this.facilityService.upsertServiceCategory(modelToSend).subscribe(
+      // this.facilityService.upsertService(modelToSend).subscribe(
       //   (success) => {
       //     let index = this.serviceCategories.findIndex(
       //       (x) => x.services.id == service.id
@@ -250,17 +250,17 @@ export class ServicesTabComponent implements OnInit, OnDestroy {
       //       this.serviceCategories.services[index].name = result.newService;
       //       this.serviceCategories.services[index].price = result.newPrice;
       //       this.serviceCategories.services[index].duration = result.newDuration;
-      // this.snackBar.open("Услугата беше редактирана.", "Затвори", {
-      //   duration: 8000,
-      //   panelClass: ["custom-snackbar"],
-      // });
+      //       this.snackBar.open("Услугата беше редактирана.", "Затвори", {
+      //         duration: 8000,
+      //         panelClass: ["custom-snackbar"],
+      //       });
       //     }
       //   },
       //   (err) => {
-      // this.snackBar.open(err, "Затвори", {
-      //   duration: 8000,
-      //   panelClass: ["custom-snackbar"],
-      // });
+      //     this.snackBar.open(err, "Затвори", {
+      //       duration: 8000,
+      //       panelClass: ["custom-snackbar"],
+      //     });
       //   }
       // );
     });

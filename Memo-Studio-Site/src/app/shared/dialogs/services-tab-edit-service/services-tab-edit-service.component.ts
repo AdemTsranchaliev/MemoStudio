@@ -13,7 +13,17 @@ export class ServicesTabEditServiceComponent implements OnInit {
     newService: ["", [Validators.required]],
     newPrice: ["", [Validators.required]],
     newDuration: ["", [Validators.required]],
+    newDescription: [""],
   });
+
+  durationArr: any[] = [
+    { duration: "30", value: 30 },
+    { duration: "1", value: 60 },
+    { duration: "1:30", value: 90 },
+    { duration: "2", value: 120 },
+    { duration: "2:20", value: 150 },
+    { duration: "3", value: 180 },
+  ];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -27,6 +37,7 @@ export class ServicesTabEditServiceComponent implements OnInit {
       this.addServiceForm.get('newService').setValue(this.data.service.name);
       this.addServiceForm.get('newPrice').setValue(this.data.service.price);
       this.addServiceForm.get('newDuration').setValue(this.data.service.duration);
+      this.addServiceForm.get('newDescription').setValue(this.data.service.description);
     }
   }
 
@@ -35,10 +46,10 @@ export class ServicesTabEditServiceComponent implements OnInit {
       return;
     }
 
-    const { newService, newPrice, newDuration } = this.addServiceForm.value;
+    const { newService, newPrice, newDuration, newDescription } = this.addServiceForm.value;
 
     if (newService != '' && newPrice != null) {
-      this.dialogRef.close({ newService, newPrice, newDuration });
+      this.dialogRef.close({ newService, newPrice, newDuration, newDescription });
     } else {
       // User clicked the Save button without entering content
       this.dialogRef.close(null);

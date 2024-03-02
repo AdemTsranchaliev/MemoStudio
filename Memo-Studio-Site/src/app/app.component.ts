@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { LoaderService } from "./shared/services/loader.service";
+import { FacilityService } from "./shared/services/facility.service";
 
 @Component({
   selector: "app-root",
@@ -11,8 +12,9 @@ export class AppComponent implements OnInit {
 
   constructor(
     private globalLoaderService: LoaderService,
+    private facilityService: FacilityService,
     private cdRef: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Subscribe to the loader state
@@ -28,6 +30,11 @@ export class AppComponent implements OnInit {
     setTimeout(() => {
       this.globalLoaderService.hideLoader();
     }, 1000);
+
+    this.facilityService.getFacilitySettings().subscribe((x) => {
+      const jsonString = JSON.stringify(x);
+      localStorage.setItem("GLOBAL_CALENDAR_SETTINGS", jsonString);
+    });
   }
 
   public getNameEmployee() {

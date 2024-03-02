@@ -4,14 +4,24 @@ import { MatStepper } from "@angular/material/stepper";
 import { ServiceCategoryResponse, ServiceResponse } from "src/app/shared/models/facility/facility-service.model";
 import { BookDataSharingService } from "../book-category/book-data-sharing.service";
 import { Subscription } from "rxjs";
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: "app-book-service",
   templateUrl: "./book-service.component.html",
   styleUrls: ["./book-service.component.css"],
+  animations: [
+    trigger('expandCollapse', [
+      state('collapsed', style({ height: '0', opacity: '0', overflow: 'hidden' })),
+      state('expanded', style({ height: '*', opacity: '1', overflow: 'visible' })),
+      transition('collapsed => expanded', animate('300ms ease-in')),
+      transition('expanded => collapsed', animate('300ms ease-out'))
+    ])
+  ]
 })
 export class BookServiceComponent implements OnInit, OnChanges, OnDestroy {
   private subscriptions: Subscription[] = [];
+  serviceStates: { [key: string]: string } = {};
 
   @ViewChild(MatAccordion) accordion: MatAccordion;
   @Input() serviceCategories: ServiceCategoryResponse[] = [];
@@ -25,13 +35,13 @@ export class BookServiceComponent implements OnInit, OnChanges, OnDestroy {
     private bookDataSharingService: BookDataSharingService,
   ) {
     // Set initial truncation length based on the window width
-    this.truncationLength = window.innerWidth < 768 ? 9999 : 40;
+    this.truncationLength = window.innerWidth < 768 ? 25 : 25;
   }
 
   @HostListener("window:resize", ["$event"])
   onResize(event: Event): void {
     // Adjust truncation length based on window width
-    this.truncationLength = window.innerWidth < 768 ? 9999 : 40;
+    this.truncationLength = window.innerWidth < 768 ? 25 : 25;
     this.isDesktopView = window.innerWidth < 768;
   }
 
@@ -61,8 +71,18 @@ export class BookServiceComponent implements OnInit, OnChanges, OnDestroy {
 
       if (index !== -1) {
         this.services = this.serviceCategories[index].services;
+
+        // Initialize serviceStates after loading the services
+        this.services.forEach(service => this.serviceStates[service.id] = 'collapsed');
       }
     }
+  }
+
+  toggleServiceDetails(event: Event, service): void {
+    event.stopPropagation();
+
+    // Toggle the state of service's details between expanded and collapsed
+    this.serviceStates[service.id] = this.serviceStates[service.id] === 'expanded' ? 'collapsed' : 'expanded';
   }
 
   nextStep() {

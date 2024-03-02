@@ -1,9 +1,11 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { AuthenticatinService } from "../../services/authenticatin.service";
 import { Observable, Subscription } from "rxjs";
 import { BreakpointObserver, BreakpointState, Breakpoints } from "@angular/cdk/layout";
 import { MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import html2canvas from "html2canvas";
+import QRCode from 'qrcode';
 
 @Component({
   selector: "app-nav-qr-code",
@@ -12,6 +14,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 })
 export class NavQrCodeComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
+  @ViewChild('qrContainer') qrContainer!: ElementRef;
 
   public facilityLink: string;
   public isExtraSmall: Observable<BreakpointState> =
@@ -64,5 +67,31 @@ export class NavQrCodeComponent implements OnInit, OnDestroy {
       }
     });
     this.subscriptions.push(isViewSmallSubscription);
+  }
+
+  public async downloadQRCode(): Promise<void> {
+    try {
+      if (!this.qrContainer) {
+        console.error('QR container not found.');
+        return;
+      }
+
+      // Capture the content of qrContainer
+      const qrContainer = this.qrContainer.nativeElement;
+      const canvas = await html2canvas(qrContainer);
+
+      // Convert canvas to image data URL with PNG format
+      const imageDataUrl = canvas.toDataURL('image/png');
+
+      // Create a link element for download
+      const link = document.createElement('a');
+      link.download = 'qrcode.png';
+      link.href = imageDataUrl;
+
+      // Trigger download
+      link.click();
+    } catch (error) {
+      console.error('Error generating QR code:', error);
+    }
   }
 }
