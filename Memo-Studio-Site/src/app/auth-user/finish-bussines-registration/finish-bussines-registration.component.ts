@@ -22,6 +22,7 @@ import { MatDialog } from "@angular/material/dialog";
 import * as moment from "moment";
 import { Moment } from "moment";
 import { UtilityService } from "src/app/shared/services/utility.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-finish-bussines-registration",
@@ -49,7 +50,7 @@ export class FinishBussinesRegistrationComponent implements OnInit {
 
   public truncationLength: number;
   public mobileLength: number = 14;
-  public desktopLength: number = 55;
+  public desktopLength: number = 40;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -58,7 +59,8 @@ export class FinishBussinesRegistrationComponent implements OnInit {
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
     public dateTimeService: DateTimeService,
-    public utilityService: UtilityService
+    public utilityService: UtilityService,
+    private router: Router,
   ) {
     // Set initial truncation length based on the window width
     this.truncationLength =
@@ -75,11 +77,9 @@ export class FinishBussinesRegistrationComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
 
-    //this.workingDaysFormArray = this.formBuilder.array([]);
-
     this.facilityService.getFacilitySettings().subscribe((x) => {
       this.bookingForm.patchValue(x);
-      
+
       this.timeSlots = this.generateHours(x.startPeriod, x.endPeriod);
       this.startPeriodIndex = this.timeSlots.findIndex(
         (y) =>
@@ -113,7 +113,7 @@ export class FinishBussinesRegistrationComponent implements OnInit {
       startPeriod: [null, Validators.required],
       endPeriod: [null, Validators.required],
       interval: ["", Validators.required],
-      workingDays: [[], Validators.required],
+      workingDays: this.formBuilder.array([]),
       allowUserBooking: [false, Validators.required],
       socialInstagram: [null],
       socialFacebook: [null],
@@ -137,10 +137,10 @@ export class FinishBussinesRegistrationComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
       this.newProfileImg = result;
     });
   }
+
   public submitForm() {
     this.setStartAndEndPeriodForAllItems();
     if (true) {
@@ -154,15 +154,15 @@ export class FinishBussinesRegistrationComponent implements OnInit {
         workingDaysJson: JSON.stringify(this.workingDaysFormArray.value),
         allowUserBooking: formData.get("allowUserBooking").value,
       };
-      console.log(formData);
-      // this.facilityService
-      //   .updateFacilitySettings(resultToSend)
-      //   .subscribe((x) => {
-      //     this.snackBar.open("Данните бяха успешно запазени!", "Затвори", {
-      //       duration: 8000,
-      //       panelClass: ["custom-snackbar"],
-      //     });
-      //   });
+      this.facilityService
+        .updateFacilitySettings(resultToSend)
+        .subscribe((x) => {
+          this.router.navigate(["/calendar"]);
+          this.snackBar.open("Данните бяха успешно запазени!", "Затвори", {
+            duration: 8000,
+            panelClass: ["custom-snackbar"],
+          });
+        });
     }
   }
 
