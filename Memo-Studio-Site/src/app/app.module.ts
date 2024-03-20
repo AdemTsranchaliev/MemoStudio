@@ -18,7 +18,6 @@ import { LoginComponent } from "./login/login.component";
 import { UsersListComponent } from "./users-list/users-list.component";
 import { MatListModule } from "@angular/material/list";
 import { MatPaginatorModule } from "@angular/material/paginator";
-import { Ng2PaginationModule } from "ng2-pagination";
 import { UserDetailsComponent } from "./user-details/user-details.component";
 import { UserService } from "./shared/services/user.service";
 import { DayService } from "./shared/services/day.service";
@@ -54,9 +53,8 @@ import {MatTableModule} from '@angular/material/table';
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     BookingService,
     UserService,
-    DayService,
-    Ng2PaginationModule,
-  ],
+    DayService
+    ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
